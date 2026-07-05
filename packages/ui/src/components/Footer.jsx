@@ -10,12 +10,18 @@ const DEFAULT_FAMILY_LINKS = [
   { label: 'AI Checklist', href: 'https://checklist.bittobyte.qzz.io' },
 ];
 
+// Default "personal" socials. Pass a `socials` prop to override — e.g. the landing
+// page passes professional profiles (GitHub / LinkedIn). Each item: { label, href, Icon }.
+const DEFAULT_SOCIALS = [
+  { label: 'Instagram', href: 'https://www.instagram.com/alexmtzrmz/', Icon: InstagramIcon },
+  { label: 'Facebook', href: 'https://www.facebook.com/Alejandro.Martinez.1997', Icon: FacebookIcon },
+  { label: 'X', href: 'https://x.com/Alex_MtzRmz', Icon: XIcon },
+];
+
 const Footer = ({
   logoText = 'BitToByte',
   tagline = 'A network of automated systems, AI applications, and data visualizations.',
-  instagramUrl = 'https://www.instagram.com/alexmtzrmz/',
-  facebookUrl = 'https://www.facebook.com/Alejandro.Martinez.1997',
-  xUrl = 'https://x.com/Alex_MtzRmz',
+  socials = DEFAULT_SOCIALS,
   copyrightName = 'BitToByte Network',
   familyLinks = DEFAULT_FAMILY_LINKS,
 }) => (
@@ -52,33 +58,18 @@ const Footer = ({
           </nav>
 
           <div className="mt-1 flex items-center justify-center gap-4">
-            <a
-              href={instagramUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-              className="text-gray-600 transition-colors hover:text-gray-300"
-            >
-              <InstagramIcon className="h-4 w-4" />
-            </a>
-            <a
-              href={facebookUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Facebook"
-              className="text-gray-600 transition-colors hover:text-gray-300"
-            >
-              <FacebookIcon className="h-4 w-4" />
-            </a>
-            <a
-              href={xUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="X"
-              className="text-gray-600 transition-colors hover:text-gray-300"
-            >
-              <XIcon className="h-4 w-4" />
-            </a>
+            {socials.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={label}
+                className="text-gray-600 transition-colors hover:text-gray-300"
+              >
+                <Icon className="h-4 w-4" />
+              </a>
+            ))}
           </div>
         </div>
       </div>

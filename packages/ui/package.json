@@ -1,6 +1,6 @@
 {
   "name": "@alex_mtz/bittobyte-ui",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "Shared UI component library for the BitToByte ecosystem",
   "type": "module",
   "main": "./dist/bittobyte-ui.cjs.js",

@@ -61,24 +61,25 @@ npm publish --access public
 
 ## 5. Connect Express Entry + Daily-Checklist to the brand (separate repos)
 
-These stay as their own repos. In **each**:
+> ⚠️ **Important finding (2026-07-05):** the shared `ui` components CANNOT be dropped into these two apps.
+> `ui` ships **Tailwind 4**-compiled CSS, but both EE and Checklist are **Tailwind 3** apps. Their PostCSS
+> pipeline re-processes any imported CSS and errors on the v4 syntax:
+> `@layer base is used but no matching @tailwind base directive is present`. Theme also clashes (EE is
+> light `#f1efe9`, the `ui` styles force a dark `body`).
 
-```bash
-npm install @alex_mtz/bittobyte-ui@latest lucide-react
-```
+**What was actually done:** each app got a small **self-contained cross-link footer written in plain inline
+styles** (no `ui` import, no Tailwind dependency), matching its own theme:
+- Checklist (dark): a `BrandFooter` component in `task-sorter/src/App.jsx`.
+- EE (light): a links row added to its existing `<footer>` in `src/App.jsx`.
 
-Then import the brand styles once and drop in the shared chrome:
+Both link the four subdomains (BitToByte · Portfolio · Express Entry · AI Checklist). The unused
+`@alex_mtz/bittobyte-ui` + `lucide-react` packages can be uninstalled from both apps.
 
-```jsx
-import '@alex_mtz/bittobyte-ui/styles';
-import { Navbar, Footer } from '@alex_mtz/bittobyte-ui';
-```
-
-- `ui` peer-deps `react >=18`, so **no React upgrade** is needed (EE is on 18, Checklist on 19).
-- The shipped `bittobyte-ui.css` carries the components' styles, so a **Tailwind-3** app renders them without
-  a Tailwind upgrade. Verify visually; if any utility is missing, prefer a slim brand bar over the full nav
-  (these are dense dashboards — a thin top bar + the family footer is the recommended footprint).
-- The `Footer` already cross-links all four subdomains via its default `familyLinks`.
+**If you later want the *real* shared component in these apps**, pick one:
+- **(A)** Upgrade EE + Checklist to Tailwind 4 (breaking migration per app), then import the `ui` chrome; or
+- **(B)** Refactor `ui` to also ship a **plain-CSS `chrome.css`** (scoped class names, no `@layer`/`@tailwind`,
+  no global `body` override) so any app — Tailwind 3, 4, or none — can import it safely. This is the proper
+  long-term fix for the shared chrome.
 
 ---
 

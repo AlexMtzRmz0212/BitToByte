@@ -1,0 +1,101 @@
+/* src/index.css */
+@import "tailwindcss";
+
+@theme {
+  --animate-aurora: aurora 20s ease-in-out infinite;
+  --animate-gradient-x: gradient-x 6s ease infinite;
+  --animate-spin-slow: spin-slow 6s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-grid-fade: grid-fade 12s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-shimmer: shimmer 2.5s linear infinite;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #030712;
+  color: #f9fafb;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #030712; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#1e293b, #0f172a);
+  border-radius: 9999px;
+  border: 2px solid #030712;
+}
+::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+/* ---------- Keyframes ---------- */
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes aurora {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(5%, -4%, 0) scale(1.12); }
+  66% { transform: translate3d(-4%, 5%, 0) scale(0.92); }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes grid-fade {
+  0%, 100% { opacity: 0.22; }
+  50% { opacity: 0.45; }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* ---------- Reusable helpers ---------- */
+
+/* Rotating conic gradient used for glowing card borders */
+.conic-border {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--glow, #3b82f6) 70deg,
+    transparent 140deg,
+    transparent 220deg,
+    var(--glow, #3b82f6) 290deg,
+    transparent 360deg
+  );
+}
+
+/* Scroll-reveal: starts hidden, .is-visible fades + lifts into place */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  * { animation-duration: 0.001ms !important; }
+}

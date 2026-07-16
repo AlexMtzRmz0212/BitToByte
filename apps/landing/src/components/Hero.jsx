@@ -1,37 +1,14 @@
-import { useRef, useState } from 'react';
 import { Sparkles, ArrowRight, ArrowDown } from 'lucide-react';
 import { stats } from '../data/content';
 import { useReveal } from '../hooks/useReveal';
 import { useCountUp } from '../hooks/useCountUp';
 
 const Hero = () => {
-  const spotlightRef = useRef(null);
-  const [coords, setCoords] = useState({ x: 50, y: 30 });
-
-  const handleMouseMove = (e) => {
-    const rect = spotlightRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    setCoords({
-      x: ((e.clientX - rect.left) / rect.width) * 100,
-      y: ((e.clientY - rect.top) / rect.height) * 100,
-    });
-  };
-
   return (
     <header
       id="top"
-      ref={spotlightRef}
-      onMouseMove={handleMouseMove}
       className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 pt-24 text-center"
     >
-      {/* mouse-following spotlight */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-0 opacity-60 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(600px circle at ${coords.x}% ${coords.y}%, rgba(59,130,246,0.10), transparent 60%)`,
-        }}
-      />
-
       <div className="relative flex flex-col items-center">
         <div className="reveal is-visible mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-300 backdrop-blur">
           <span className="relative flex h-2 w-2">

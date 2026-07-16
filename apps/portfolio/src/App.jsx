@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { Background, Navbar, Footer } from '@alex_mtz/bittobyte-ui';
-import { Terminal, Activity, Database, Map, CalendarDays, BarChart3, Boxes } from 'lucide-react';
+import { Terminal, Activity, Database, Map, CalendarDays, BarChart3, Zap, Boxes } from 'lucide-react';
 import { projects } from '@bittobyte/content';
 
 const PROFILE_LINKS = [
@@ -20,6 +20,22 @@ const ICONS = {
   map: Map,
   calendar: CalendarDays,
   chart: BarChart3,
+  zap: Zap,
+};
+
+// Bento mosaic: per-project tile spans (lg only — cards stack cleanly below that).
+// Sizes are chosen so each section tiles with no gaps: the featured block fills a
+// 3×2 grid (East Coast EV is the 2×2 hero), and "more" fills two 3-wide rows.
+const SPANS = {
+  // Featured work
+  'eastcoast-ev': 'lg:col-span-2 lg:row-span-2',
+  'express-entry': 'lg:col-span-1',
+  'daily-checklist': 'lg:col-span-1',
+  // More projects
+  'sports-hub': 'lg:col-span-1',
+  'sports-maps': 'lg:col-span-2',
+  'mcu-timeline': 'lg:col-span-1',
+  'habits-analysis': 'lg:col-span-2',
 };
 
 const linkBtn =
@@ -27,18 +43,28 @@ const linkBtn =
 
 const CardShell = ({ project, children }) => {
   const Icon = ICONS[project.icon] ?? Boxes;
+  const span = SPANS[project.id] ?? 'lg:col-span-1';
+  const isHero = span.includes('row-span-2');
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-white/10 bg-white/5 p-6">
+    <div
+      className={`flex h-full flex-col gap-4 rounded-xl border border-white/10 bg-white/5 p-6 transition-colors hover:border-white/20 ${span}`}
+    >
       <div className="flex items-center gap-3">
         <span
-          className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5"
+          className={`flex items-center justify-center rounded-lg border border-white/10 bg-white/5 ${
+            isHero ? 'h-12 w-12' : 'h-10 w-10'
+          }`}
           style={{ color: project.accent }}
         >
-          <Icon className="h-5 w-5" />
+          <Icon className={isHero ? 'h-6 w-6' : 'h-5 w-5'} />
         </span>
-        <h3 className="text-lg font-semibold">{project.name}</h3>
+        <h3 className={`font-semibold ${isHero ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
+          {project.name}
+        </h3>
       </div>
-      <p className="flex-grow text-sm text-gray-400">{project.description}</p>
+      <p className={`flex-grow text-gray-400 ${isHero ? 'text-base md:max-w-md' : 'text-sm'}`}>
+        {project.description}
+      </p>
       <div className="flex flex-wrap gap-2">
         {project.tags.map((tag) => (
           <span
@@ -161,14 +187,14 @@ const Projects = () => {
       <h3 className="mb-6 text-sm font-semibold uppercase tracking-widest text-gray-500">
         Featured work
       </h3>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid auto-rows-[minmax(200px,1fr)] grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {featured.map(renderCard)}
       </div>
 
       <h3 className="mb-6 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-500">
         More projects
       </h3>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid auto-rows-[minmax(200px,1fr)] grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {more.map(renderCard)}
       </div>
     </section>
@@ -192,7 +218,9 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-gray-950 font-sans text-gray-100">
-      <Background />
+      {/* lime cursor glow to match the portfolio accent (#b5f53c) — lower
+          strength because lime is high-luminance and reads hot at full alpha */}
+      <Background glow="181, 245, 60" strength={0.22} />
       <Navbar
         links={PROFILE_LINKS}
         logoText="Alex"

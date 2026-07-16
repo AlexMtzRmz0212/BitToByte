@@ -1,7 +1,10 @@
 import { ArrowUpRight, Sparkles } from 'lucide-react';
 
 const ProjectCard = ({ project }) => {
-  const { title, description, url, icon, tags, accent, featured, meta } = project;
+  const { title, description, url, icon, tags, accent, featured, meta, className } = project;
+  // Only the 2×2 hero tile gets the oversized title/description; the compact
+  // tiles beside it stay small so the mosaic reads cleanly (matches the portfolio).
+  const isHero = className?.includes('row-span-2');
 
   return (
     <a
@@ -52,7 +55,7 @@ const ProjectCard = ({ project }) => {
         <div className="relative mt-5 flex flex-1 flex-col">
           <h3
             className={`flex items-center gap-2 font-semibold tracking-tight ${
-              featured ? 'text-2xl md:text-3xl' : 'text-xl'
+              isHero ? 'text-2xl md:text-3xl' : 'text-xl'
             }`}
           >
             {title}
@@ -61,7 +64,7 @@ const ProjectCard = ({ project }) => {
 
           <p
             className={`mt-2 leading-relaxed text-gray-400 ${
-              featured ? 'text-base md:max-w-md' : 'text-sm'
+              isHero ? 'text-base md:max-w-md' : 'text-sm'
             }`}
           >
             {description}

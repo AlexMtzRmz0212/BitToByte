@@ -1,4 +1,4 @@
-import { Terminal, Database, Activity, Boxes } from 'lucide-react';
+import { Terminal, Database, Activity, Zap, Boxes } from 'lucide-react';
 import { featuredProjects } from '@bittobyte/content';
 
 // The landing page is the studio storefront: it shows only FEATURED projects
@@ -10,14 +10,15 @@ const ICONS = {
   terminal: Terminal,
   database: Database,
   activity: Activity,
+  zap: Zap,
   boxes: Boxes,
 };
 
 // Landing-only presentation (bento sizing + label), keyed by shared project id.
 const PRESENTATION = {
-  'express-entry': { className: 'lg:col-span-2 lg:row-span-2', meta: 'Live' },
-  'daily-checklist': { className: 'lg:col-span-2', meta: 'Live' },
-  'sports-hub': { className: 'lg:col-span-2', meta: 'Live' },
+  'eastcoast-ev': { className: 'lg:col-span-2 lg:row-span-2', meta: 'Client Work' },
+  'express-entry': { className: 'lg:col-span-1', meta: 'Live' },
+  'daily-checklist': { className: 'lg:col-span-1', meta: 'Live' },
 };
 
 export const projects = featuredProjects.map((p) => {

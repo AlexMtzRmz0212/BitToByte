@@ -14,7 +14,8 @@ const PROFESSIONAL_SOCIALS = [
 
 const App = () => (
   <div className="relative min-h-screen bg-gray-950 font-sans text-gray-100 selection:bg-blue-500/30">
-    <Background />
+    {/* blue cursor glow to match the BitToByte brand */}
+    <Background glow="96, 162, 255" />
     <Navbar />
     <main>
       <Hero />

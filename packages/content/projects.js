@@ -14,6 +14,19 @@
 
 export const projects = [
   {
+    id: 'eastcoast-ev',
+    name: 'East Coast EV',
+    tagline: 'E-commerce catalog & reservations for an electric-rides retailer',
+    description:
+      'Full-stack storefront for an electric-rides retailer (e-bikes, e-scooters, e-dirt-bikes, e-trikes). React 19 + TypeScript SPA with a Supabase-backed product catalog (brands, categories, colors, images), a secure reservation flow, and Vercel serverless functions that email the shop on new reservations and contact requests.',
+    liveUrl: 'https://eastcoastev.ca',
+    repoUrl: null,
+    tags: ['React', 'TypeScript', 'Supabase', 'Client Work'],
+    icon: 'zap',
+    accent: '#b5f53c',
+    featured: true,
+  },
+  {
     id: 'express-entry',
     name: 'Express Entry Draws Intelligence',
     tagline: 'Live analytics for Canadian Express Entry draws',
@@ -50,7 +63,7 @@ export const projects = [
     tags: ['Data Viz', 'Analytics', 'Plotly'],
     icon: 'database',
     accent: '#f97316',
-    featured: true,
+    featured: false,
   },
   {
     id: 'sports-maps',
@@ -89,19 +102,6 @@ export const projects = [
     tags: ['Data Analysis', 'Python'],
     icon: 'chart',
     accent: '#eab308',
-    featured: false,
-  },
-  {
-    id: 'tikitaka',
-    name: 'Tikitaka',
-    tagline: 'Reservation & tournament management for soccer facilities',
-    description:
-      'Web-based reservation and tournament management system for soccer facilities, with realtime scheduling.',
-    liveUrl: null,
-    repoUrl: 'https://github.com/AlexMtzRmz0212/TikiTaka',
-    tags: ['Full-Stack', 'SaaS', 'Realtime'],
-    icon: 'activity',
-    accent: '#3b82f6',
     featured: false,
   },
 ];

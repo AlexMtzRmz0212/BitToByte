@@ -14,8 +14,13 @@ import { useEffect, useRef } from 'react';
  *                           Defaults to the BitToByte blue; pass the site accent to match.
  * @param {number} strength  Core opacity of the spotlight (0–1). Lower it for
  *                           high-luminance accents (e.g. lime) that read too hot.
+ * @param {number} spread    Spotlight size, 0–1. 0 keeps the default compact 600px
+ *                           circle; as it rises the radius grows AND the falloff
+ *                           flattens, so at 1 the whole viewport sits at one uniform
+ *                           brightness — the glow has become the page's light and
+ *                           moving the pointer no longer changes anything.
  */
-const Background = ({ glow = '96, 162, 255', strength = 0.4 }) => {
+const Background = ({ glow = '96, 162, 255', strength = 0.4, spread = 0 }) => {
   const glowRef = useRef(null);
 
   useEffect(() => {
@@ -27,24 +32,39 @@ const Background = ({ glow = '96, 162, 255', strength = 0.4 }) => {
       raf = 0;
       const el = glowRef.current;
       if (el) {
-        const mid = (strength * 0.35).toFixed(3);
-        el.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(${glow}, ${strength}), rgba(${glow}, ${mid}) 40%, transparent 64%)`;
+        // Grow the radius from the compact 600px spotlight (spread 0) toward 2.8x the
+        // viewport diagonal, so at full spread the flat inner plateau (0–40% of the
+        // radius) alone spans more than a full diagonal — i.e. covers every pixel no
+        // matter where the pointer sits.
+        const diag = Math.hypot(window.innerWidth, window.innerHeight);
+        const radius = Math.round(600 + spread * (diag * 2.8 - 600));
+        // Flatten the falloff as spread -> 1: the plateau opacity (mid) rises from a
+        // spotlighty 0.35x up to the full strength, so the page reaches one uniform
+        // brightness and pointer movement stops making any visible difference.
+        const mid = (strength * (0.35 + spread * 0.65)).toFixed(3);
+        el.style.background = `radial-gradient(${radius}px circle at ${x}px ${y}px, rgba(${glow}, ${strength}), rgba(${glow}, ${mid}) 40%, transparent 64%)`;
       }
+    };
+
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(paint);
     };
 
     const onMove = (e) => {
       x = e.clientX;
       y = e.clientY;
-      if (!raf) raf = requestAnimationFrame(paint);
+      schedule();
     };
 
     paint(); // initial position
     window.addEventListener('mousemove', onMove);
+    window.addEventListener('resize', schedule); // keep full-page coverage on resize
     return () => {
       window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('resize', schedule);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [glow, strength]);
+  }, [glow, strength, spread]);
 
   return (
     <>

@@ -15,7 +15,7 @@ const Capabilities = () => (
         <Reveal key={cap.title} delay={i * 90}>
           <article
             style={{ '--glow': cap.accent }}
-            className="group relative h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-gray-900/50 p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-white/15"
+            className="group relative h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-gray-900/50 p-6 backdrop-blur-xl transition-colors duration-300"
           >
             <div
               className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -23,8 +23,14 @@ const Capabilities = () => (
                 background: `radial-gradient(400px circle at 50% 0%, ${cap.accent}1a, transparent 70%)`,
               }}
             />
+            {/* accent line drawing in from the left: an editorial "reveal" cue,
+                not a button-press lift */}
             <div
-              className="relative flex w-fit items-center justify-center rounded-xl border border-white/10 bg-white/5 p-3 transition-transform duration-300 group-hover:scale-110"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"
+              style={{ background: `linear-gradient(to right, ${cap.accent}, transparent)` }}
+            />
+            <div
+              className="relative flex w-fit items-center justify-center rounded-xl border border-white/10 bg-white/5 p-3 transition-transform duration-500 ease-out group-hover:-rotate-6"
               style={{ color: cap.accent }}
             >
               {cap.icon}

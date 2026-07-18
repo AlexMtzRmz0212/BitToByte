@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import {
   Background,
@@ -22,6 +22,8 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { projects } from '@bittobyte/content';
+import ThemeSlider from './components/ThemeSlider';
+import { getStoredThemeLevel, storeThemeLevel, levelToStrength, levelToSpread, DEFAULT_LEVEL } from './lib/theme';
 
 const PROFILE_LINKS = [
   { label: 'Home', href: '#home' },
@@ -338,11 +340,20 @@ export default function App() {
     () => getStoredConsent() === 'accepted',
   );
 
+  // The page stays dark; one 0-100 level controls only the lime pointer glow: it maps
+  // to the Background spotlight's strength and size, which grow together until near
+  // 100 the glow floods the whole page at a uniform brightness.
+  const [level, setLevel] = useState(() => getStoredThemeLevel() ?? DEFAULT_LEVEL);
+
+  useEffect(() => {
+    storeThemeLevel(level);
+  }, [level]);
+
   return (
     <div className="relative min-h-screen bg-gray-950 font-sans text-gray-100">
-      {/* lime cursor glow to match the portfolio accent (#b5f53c); lower
-          strength because lime is high-luminance and reads hot at full alpha */}
-      <Background glow="181, 245, 60" strength={0.22} />
+      {/* lime cursor glow to match the portfolio accent (#b5f53c); strength + size
+          track the slider, capped lower than landing since lime reads hot */}
+      <Background glow="181, 245, 60" strength={levelToStrength(level)} spread={levelToSpread(level)} />
       <Navbar
         links={PROFILE_LINKS}
         logoText="Alex"
@@ -431,6 +442,7 @@ export default function App() {
         privacyHref="https://bittobyte.qzz.io/privacy.html"
         acceptClassName="bg-[#b5f53c] text-gray-950 hover:brightness-105"
       />
+      <ThemeSlider level={level} onChange={setLevel} />
     </div>
   );
 }

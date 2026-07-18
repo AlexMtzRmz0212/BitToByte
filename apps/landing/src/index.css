@@ -10,3 +10,43 @@
   }
 }
 
+/* Slider control track/thumb. The track is a fixed dark -> blue -> light legend of
+   the mapping; the thumb carries a blue glow that grows with --v (the 0..100 level),
+   echoing the pointer-glow strength it controls. */
+.theme-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #0b1220 0%, #60a2ff 55%, #eef2f8 100%);
+  cursor: pointer;
+}
+.theme-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 9999px;
+  background: #eaf1ff;
+  border: 2px solid #60a2ff;
+  box-shadow: 0 0 calc(2px + (var(--v, 0) / 100) * 14px)
+    rgba(96, 162, 255, calc(0.25 + (var(--v, 0) / 100) * 0.6));
+}
+.theme-range::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 9999px;
+  background: #eaf1ff;
+  border: 2px solid #60a2ff;
+  box-shadow: 0 0 calc(2px + (var(--v, 0) / 100) * 14px)
+    rgba(96, 162, 255, calc(0.25 + (var(--v, 0) / 100) * 0.6));
+}
+.theme-range:focus-visible {
+  outline: 2px solid #60a2ff;
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .theme-range::-webkit-slider-thumb { transition: box-shadow .15s ease; }
+  .theme-range::-moz-range-thumb { transition: box-shadow .15s ease; }
+}
+

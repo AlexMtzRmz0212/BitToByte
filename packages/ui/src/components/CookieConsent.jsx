@@ -1,18 +1,5 @@
-import { useEffect, useState } from 'react';
-
-// Opt-in analytics consent. Tracking must NOT run until the user actively
-// chooses "Accept", so the consuming app gates its analytics on the stored value.
-const STORAGE_KEY = 'bittobyte-analytics-consent';
-
-// Read the persisted choice ('accepted' | 'declined' | null). Safe on any host.
-export const getStoredConsent = () => {
-  if (typeof window === 'undefined') return null;
-  try {
-    return window.localStorage.getItem(STORAGE_KEY);
-  } catch {
-    return null;
-  }
-};
+import { useState } from 'react';
+import { STORAGE_KEY, getStoredConsent } from './consent';
 
 /**
  * Interactive cookie/analytics consent banner. Renders only until the visitor
@@ -28,12 +15,9 @@ const CookieConsent = ({
   privacyHref = 'https://bittobyte.qzz.io/privacy.html',
   acceptClassName = 'bg-blue-600 text-white hover:brightness-110',
 }) => {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    // Only prompt visitors who haven't decided yet (avoids a flash for the rest).
-    if (getStoredConsent() === null) setVisible(true);
-  }, []);
+  // Only prompt visitors who haven't decided yet. Computed lazily on mount so the
+  // banner never flashes for those who already chose (no post-render toggle).
+  const [visible, setVisible] = useState(() => getStoredConsent() === null);
 
   const choose = (value) => {
     try {

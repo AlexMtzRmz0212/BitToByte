@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react';
 import Hero from './components/Hero';
 import Capabilities from './components/Capabilities';
 import Projects from './components/Projects';
 import TechMarquee from './components/TechMarquee';
 import PortfolioCallout from './components/PortfolioCallout';
 import CTA from './components/CTA';
+import ThemeSlider from './components/ThemeSlider';
+import { getStoredThemeLevel, storeThemeLevel, levelToStrength, levelToSpread, DEFAULT_LEVEL } from './lib/theme';
 import { Background, Navbar, Footer, GithubIcon, LinkedinIcon, BitToByteMark } from '@alex_mtz/bittobyte-ui'
 
 // The landing page is the professional storefront: show professional profiles
@@ -21,21 +24,33 @@ const NAV_LINKS = [
   { label: 'Portfolio', href: '#portfolio' },
 ];
 
-const App = () => (
-  <div className="relative min-h-screen bg-gray-950 font-sans text-gray-100 selection:bg-blue-500/30">
-    {/* blue cursor glow to match the BitToByte brand */}
-    <Background glow="96, 162, 255" />
-    <Navbar links={NAV_LINKS} logoIcon={<BitToByteMark />} />
-    <main>
-      <Hero />
-      <Capabilities />
-      <Projects />
-      <TechMarquee />
-      <PortfolioCallout />
-      <CTA />
-    </main>
-    <Footer socials={PROFESSIONAL_SOCIALS} />
-  </div>
-);
+const App = () => {
+  // The page stays dark; one 0-100 level controls only the pointer glow: it maps to
+  // the Background spotlight's strength and size, which grow together until near 100
+  // the glow floods the whole page.
+  const [level, setLevel] = useState(() => getStoredThemeLevel() ?? DEFAULT_LEVEL);
+
+  useEffect(() => {
+    storeThemeLevel(level);
+  }, [level]);
+
+  return (
+    <div className="relative min-h-screen bg-gray-950 font-sans text-gray-100 selection:bg-blue-500/30">
+      {/* blue cursor glow to match the BitToByte brand; strength + size track the slider */}
+      <Background glow="96, 162, 255" strength={levelToStrength(level)} spread={levelToSpread(level)} />
+      <Navbar links={NAV_LINKS} logoIcon={<BitToByteMark />} />
+      <main>
+        <Hero />
+        <Capabilities />
+        <Projects />
+        <TechMarquee />
+        <PortfolioCallout />
+        <CTA />
+      </main>
+      <Footer socials={PROFESSIONAL_SOCIALS} />
+      <ThemeSlider level={level} onChange={setLevel} />
+    </div>
+  );
+};
 
 export default App;

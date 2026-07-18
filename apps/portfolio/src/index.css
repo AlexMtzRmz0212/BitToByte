@@ -1,1 +1,41 @@
 @import "tailwindcss";
+
+/* Slider control track/thumb (lime accent to match the portfolio). The track is a
+   fixed dark -> lime -> light legend of the mapping; the thumb carries a lime glow
+   that grows with --v (the 0..100 level), echoing the pointer-glow it controls. */
+.theme-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #0b1220 0%, #b5f53c 55%, #f3fbdd 100%);
+  cursor: pointer;
+}
+.theme-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 9999px;
+  background: #f7fce4;
+  border: 2px solid #b5f53c;
+  box-shadow: 0 0 calc(2px + (var(--v, 0) / 100) * 14px)
+    rgba(181, 245, 60, calc(0.25 + (var(--v, 0) / 100) * 0.6));
+}
+.theme-range::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 9999px;
+  background: #f7fce4;
+  border: 2px solid #b5f53c;
+  box-shadow: 0 0 calc(2px + (var(--v, 0) / 100) * 14px)
+    rgba(181, 245, 60, calc(0.25 + (var(--v, 0) / 100) * 0.6));
+}
+.theme-range:focus-visible {
+  outline: 2px solid #b5f53c;
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .theme-range::-webkit-slider-thumb { transition: box-shadow .15s ease; }
+  .theme-range::-moz-range-thumb { transition: box-shadow .15s ease; }
+}

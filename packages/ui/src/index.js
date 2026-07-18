@@ -1,4 +1,4 @@
-// src/index.js  — public API of the bittobyte-ui package
+// src/index.js: public API of the bittobyte-ui package
 
 // Stylesheet (consumers will import this once in their app)
 import './index.css'
@@ -9,4 +9,6 @@ export { default as Navbar } from './components/Navbar'
 export { default as Footer } from './components/Footer'
 export { default as SectionHeading } from './components/SectionHeading'
 export { default as Reveal } from './components/Reveal'
+export { default as CookieConsent, getStoredConsent } from './components/CookieConsent'
 export { LinkedinIcon, GithubIcon, InstagramIcon, FacebookIcon, XIcon } from './components/BrandIcons'
+export { AlexMark, BitToByteMark } from './components/BrandMark'

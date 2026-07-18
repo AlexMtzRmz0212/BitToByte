@@ -19,18 +19,18 @@ const CTA = () => (
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-gray-900 to-gray-950 px-8 py-16 text-center md:px-16 md:py-20">
         {/* glow accents */}
         <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-blue-600/20 blur-[100px]" />
-        <div className="pointer-events-none absolute -bottom-24 right-1/4 h-56 w-80 rounded-full bg-purple-600/20 blur-[100px]" />
+        <div className="pointer-events-none absolute -bottom-24 right-1/4 h-56 w-80 rounded-full bg-blue-600/20 blur-[100px]" />
 
         <div className="relative">
           <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight md:text-5xl">
             Have an idea worth{' '}
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="text-blue-400">
               building
             </span>
             ?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-gray-400 md:text-lg">
-            From automation pipelines to AI-driven products — let's turn the
+            From automation pipelines to AI-driven products, let's turn the
             concept into a system that ships.
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">

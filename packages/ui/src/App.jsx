@@ -20,7 +20,7 @@ function App() {
           </div>
           <h1 className="mt-8 text-5xl font-extrabold tracking-tight sm:text-7xl">
             Building Blocks for <br />
-            <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-blue-500">
               Modern Interfaces
             </span>
           </h1>
@@ -45,7 +45,7 @@ function App() {
                 GitHub link.
               </p>
               <div className="relative h-48 overflow-hidden rounded-xl border border-white/10 bg-gray-900">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20" />
+                <div className="absolute inset-0 bg-blue-900/20" />
                 <div className="absolute top-0 w-full">
                   {/* Inline demo version of Navbar for display purposes */}
                   <Navbar />

@@ -27,12 +27,12 @@ export const capabilities = [
     icon: <Cpu className="w-6 h-6" />,
     title: 'Mechatronics',
     description:
-      'Bridging hardware and software — embedded systems, control, and the physical world made programmable.',
+      'Bridging hardware and software: embedded systems, control, and the physical world made programmable.',
     accent: '#a855f7',
   },
 ];
 
-// Tech marquee — pure text pills (this lucide build ships no brand icons).
+// Tech marquee: pure text pills (this lucide build ships no brand icons).
 export const techStack = [
   'React', 'Vite', 'Tailwind CSS', 'Python', 'FastAPI', 'Node.js',
   'PostgreSQL', 'Docker', 'TensorFlow', 'Pandas', 'AWS', 'TypeScript',

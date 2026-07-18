@@ -1,4 +1,4 @@
-import { Sparkles, ArrowRight, ArrowDown } from 'lucide-react';
+import { ArrowRight, ArrowDown } from 'lucide-react';
 import { stats } from '../data/content';
 import { useReveal } from '../hooks/useReveal';
 import { useCountUp } from '../hooks/useCountUp';
@@ -10,19 +10,10 @@ const Hero = () => {
       className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 pt-24 text-center"
     >
       <div className="relative flex flex-col items-center">
-        <div className="reveal is-visible mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-300 backdrop-blur">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-          </span>
-          <Sparkles className="h-3.5 w-3.5 text-blue-400" />
-          Mechatronics · AI · Data Automation
-        </div>
-
         <h1 className="max-w-4xl text-5xl font-extrabold leading-[1.04] tracking-tight md:text-7xl lg:text-8xl">
           Building complexity
           <br />
-          <span className="bg-[length:200%_auto] bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent animate-gradient-x">
+          <span className="bg-[length:200%_auto] bg-gradient-to-r from-blue-300 via-blue-500 to-blue-300 bg-clip-text text-transparent animate-gradient-x">
             one piece at a time.
           </span>
         </h1>
@@ -35,7 +26,7 @@ const Hero = () => {
         <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row">
           <a
             href="#projects"
-            className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/30 hover:brightness-110"
+            className="group inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/30 hover:brightness-110"
           >
             Explore Projects
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -56,7 +47,7 @@ const Hero = () => {
       <a
         href="#capabilities"
         aria-label="Scroll to content"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-600 transition-colors hover:text-gray-300"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-400 transition-colors hover:text-gray-200"
       >
         <ArrowDown className="h-5 w-5 animate-float" />
       </a>
@@ -86,7 +77,7 @@ const Stat = ({ value, suffix, label, active }) => {
         {count}
         {suffix}
       </span>
-      <span className="mt-1 text-xs uppercase tracking-widest text-gray-500">
+      <span className="mt-1 text-xs uppercase tracking-widest text-gray-400">
         {label}
       </span>
     </div>

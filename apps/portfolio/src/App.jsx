@@ -1,8 +1,26 @@
 // src/App.jsx
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
-import { Background, Navbar, Footer } from '@alex_mtz/bittobyte-ui';
-import { Terminal, Activity, Database, Map, CalendarDays, BarChart3, Zap, Boxes } from 'lucide-react';
+import {
+  Background,
+  Navbar,
+  Footer,
+  CookieConsent,
+  getStoredConsent,
+  Reveal,
+  AlexMark,
+} from '@alex_mtz/bittobyte-ui';
+import {
+  Terminal,
+  Activity,
+  Database,
+  Map,
+  CalendarDays,
+  BarChart3,
+  Zap,
+  Boxes,
+  ChevronDown,
+} from 'lucide-react';
 import { projects } from '@bittobyte/content';
 
 const PROFILE_LINKS = [
@@ -23,7 +41,7 @@ const ICONS = {
   zap: Zap,
 };
 
-// Bento mosaic: per-project tile spans (lg only — cards stack cleanly below that).
+// Bento mosaic: per-project tile spans (lg only; cards stack cleanly below that).
 // Sizes are chosen so each section tiles with no gaps: the featured block fills a
 // 3×2 grid (East Coast EV is the 2×2 hero), and "more" fills two 3-wide rows.
 const SPANS = {
@@ -97,7 +115,7 @@ const ProjectCard = ({ project }) => (
   </CardShell>
 );
 
-// Special interactive card for the "Divisions & Leagues Maps" project — pick a
+// Special interactive card for the "Divisions & Leagues Maps" project: pick a
 // sport and jump to that league's live map + repo.
 const SportsMapsCard = ({ project }) => {
   const [sport, setSport] = useState('mlb');
@@ -127,8 +145,11 @@ const SportsMapsCard = ({ project }) => {
   return (
     <CardShell project={project}>
       <div className="flex items-center gap-3">
-        <label className="text-sm text-gray-400">Sport:</label>
+        <label htmlFor="sports-maps-sport" className="text-sm text-gray-400">
+          Sport:
+        </label>
         <select
+          id="sports-maps-sport"
           value={sport}
           onChange={(e) => setSport(e.target.value)}
           className="rounded-md border border-white/10 bg-gray-900 px-3 py-1.5 text-sm text-gray-300"
@@ -172,6 +193,116 @@ const renderCard = (project) =>
     <ProjectCard key={project.id} project={project} />
   );
 
+// ---------- About Me showcase ----------
+
+// Looping ribbon of the stack; duplicated inline for a seamless marquee.
+const TECH = [
+  'Python', 'SQL', 'TensorFlow', 'PyTorch', 'PLCs', 'SCADA',
+  'React', 'Node.js', 'Docker', 'Pandas', 'Git', 'Linux',
+];
+
+// Headline capabilities shown as chips.
+const SKILLS = [
+  'SCADA Systems', 'Machine Learning', 'Industrial Automation',
+  'Data Pipelines', 'Full-Stack Apps',
+];
+
+// Engineer-flavored "about" card styled like a code editor.
+const TerminalCard = () => (
+  <div className="overflow-hidden rounded-xl border border-white/10 bg-gray-900/70 shadow-2xl shadow-black/40 backdrop-blur">
+    <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+      <span className="h-3 w-3 rounded-full bg-red-400/80" />
+      <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
+      <span className="h-3 w-3 rounded-full bg-green-400/80" />
+      <span className="ml-3 font-mono text-xs text-gray-500">alex@bittobyte: ~/whoami</span>
+    </div>
+    <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-relaxed text-gray-300">
+<span className="text-purple-400">const</span> <span className="text-[#b5f53c]">alex</span> <span className="text-gray-500">=</span> {'{'}
+{'\n'}  <span className="text-sky-300">role</span>: <span className="text-amber-300">&quot;AI &amp; Automation Engineer&quot;</span>,
+{'\n'}  <span className="text-sky-300">stack</span>: [<span className="text-amber-300">&quot;Python&quot;</span>, <span className="text-amber-300">&quot;SQL&quot;</span>, <span className="text-amber-300">&quot;TensorFlow&quot;</span>, <span className="text-amber-300">&quot;PLCs&quot;</span>],
+{'\n'}  <span className="text-sky-300">languages</span>: [<span className="text-amber-300">&quot;EN&quot;</span>, <span className="text-amber-300">&quot;ES&quot;</span>, <span className="text-amber-300">&quot;FR*&quot;</span>, <span className="text-amber-300">&quot;DE*&quot;</span>], <span className="text-gray-500">// *in progress</span>
+{'\n'}  <span className="text-sky-300">superpower</span>: <span className="text-amber-300">&quot;efficiency&quot;</span>,
+{'\n'}  <span className="text-sky-300">fuel</span>: <span className="text-amber-300">&quot;coffee&quot;</span>,
+{'\n'}{'}'};
+{'\n'}<span className="text-gray-500">{'>'}</span> <span className="inline-block h-4 w-2 translate-y-0.5 animate-pulse bg-[#b5f53c]" />
+    </pre>
+  </div>
+);
+
+const AboutMe = () => (
+  <section id="about" className="mx-auto max-w-6xl px-6 pt-10 pb-24 md:pt-16">
+    <Reveal>
+      <h2 className="mb-3 text-center text-3xl font-bold">About Me</h2>
+    </Reveal>
+    <Reveal delay={80}>
+      <p className="mx-auto mb-12 max-w-xl text-center text-gray-400">
+        The short version: an engineer who turns &quot;this takes forever&quot; into &quot;done
+        already?&quot;
+      </p>
+    </Reveal>
+
+    <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-4 leading-relaxed text-gray-400">
+        <Reveal as="p">
+          I&apos;m Alex. Engineer, coder, and genius (still working on the billionaire, playboy,
+          philanthropist part). Basically the guy you call when your automation stops automating. I
+          build <span className="text-[#b5f53c]">SCADA systems</span>, train my AIs like they&apos;re
+          my pets, and design tools that make slow work fast. Python, SQL, TensorFlow, PLCs. Yeah, I
+          speak fluent machine.
+        </Reveal>
+        <Reveal as="p" delay={80}>
+          Human languages? English and Spanish are a given. French and German are the bonus DLC
+          I&apos;m currently unlocking.
+        </Reveal>
+        <Reveal as="p" delay={160}>
+          When I&apos;m not making machines smarter, I&apos;m automating my own life, playing
+          baseball, or taking things apart just to prove I can put them back together better.
+          Efficiency is my superpower, coffee just keeps it running at max RPM.
+        </Reveal>
+        <Reveal as="p" delay={240}>
+          I also run{' '}
+          <a href="https://bittobyte.qzz.io" className="text-[#b5f53c] hover:text-[#c9fa6b]">
+            BitToByte
+          </a>
+          , the studio where my products live. Check out the projects below, and if you like what you
+          see, hit me up in the contact section.
+        </Reveal>
+
+        <Reveal delay={120}>
+          <div className="flex flex-wrap gap-3 pt-2">
+            {SKILLS.map((skill) => (
+              <span
+                key={skill}
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-300 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#b5f53c]/40 hover:text-white"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+
+      <Reveal delay={120}>
+        <TerminalCard />
+      </Reveal>
+    </div>
+
+    {/* Seamless stack marquee (content duplicated so -50% loops cleanly) */}
+    <div className="relative mt-14 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+      <div className="flex w-max animate-marquee gap-3">
+        {[...TECH, ...TECH].map((tech, i) => (
+          <span
+            key={`${tech}-${i}`}
+            className="whitespace-nowrap rounded-md border border-white/10 bg-white/[0.04] px-4 py-2 font-mono text-sm text-gray-400"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 const Projects = () => {
   const featured = projects.filter((p) => p.featured);
   const more = projects.filter((p) => !p.featured);
@@ -180,18 +311,18 @@ const Projects = () => {
     <section id="projects" className="mx-auto max-w-6xl px-6 py-24">
       <h2 className="mb-3 text-center text-3xl font-bold">Projects</h2>
       <p className="mx-auto mb-12 max-w-xl text-center text-gray-400">
-        The full catalog — from live full-stack products to data experiments. The polished ones also
-        power the <a href="https://bittobyte.qzz.io" className="text-blue-400 hover:text-blue-300">BitToByte</a> studio.
+        The full catalog: from live full-stack products to data experiments. The polished ones also
+        power the <a href="https://bittobyte.qzz.io" className="text-[#b5f53c] hover:text-[#c9fa6b]">BitToByte</a> studio.
       </p>
 
-      <h3 className="mb-6 text-sm font-semibold uppercase tracking-widest text-gray-500">
+      <h3 className="mb-6 text-sm font-semibold uppercase tracking-widest text-gray-400">
         Featured work
       </h3>
       <div className="grid auto-rows-[minmax(200px,1fr)] grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {featured.map(renderCard)}
       </div>
 
-      <h3 className="mb-6 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-500">
+      <h3 className="mb-6 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-400">
         More projects
       </h3>
       <div className="grid auto-rows-[minmax(200px,1fr)] grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -202,39 +333,37 @@ const Projects = () => {
 };
 
 export default function App() {
-  useEffect(() => {
-    const handleScroll = () => {
-      const triggerBottom = window.innerHeight * 0.85;
-      document.querySelectorAll('.reveal').forEach((el) => {
-        if (el.getBoundingClientRect().top < triggerBottom) {
-          el.classList.add('visible');
-        }
-      });
-    };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Vercel Analytics stays off until the visitor opts in via the consent banner.
+  const [analyticsAllowed, setAnalyticsAllowed] = useState(
+    () => getStoredConsent() === 'accepted',
+  );
 
   return (
     <div className="relative min-h-screen bg-gray-950 font-sans text-gray-100">
-      {/* lime cursor glow to match the portfolio accent (#b5f53c) — lower
+      {/* lime cursor glow to match the portfolio accent (#b5f53c); lower
           strength because lime is high-luminance and reads hot at full alpha */}
       <Background glow="181, 245, 60" strength={0.22} />
       <Navbar
         links={PROFILE_LINKS}
         logoText="Alex"
+        logoTextTop="Alejandro"
+        logoIcon={<AlexMark />}
         logoHref="#home"
         contactHref="#contact"
         contactLabel="Contact"
+        markClassName="bg-[#b5f53c] shadow-lg shadow-[#b5f53c]/30"
+        markIconClassName="text-gray-950"
       />
 
       <main className="pt-16">
-        <section id="home" className="flex min-h-screen items-center justify-center px-6 text-center">
+        <section
+          id="home"
+          className="relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center px-6 text-center"
+        >
           <div className="flex flex-col items-center gap-6">
             <h1 className="text-5xl font-bold tracking-tight md:text-6xl">
               Hola, my name is{' '}
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="text-[#b5f53c]">
                 Alejandro.
               </span>
             </h1>
@@ -244,40 +373,22 @@ export default function App() {
             </p>
             <a
               href="#projects"
-              className="rounded-full bg-gradient-to-r from-blue-500 to-purple-600 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition-transform hover:scale-105"
+              className="rounded-full bg-[#b5f53c] px-8 py-3 text-sm font-semibold text-gray-950 shadow-lg shadow-[#b5f53c]/25 transition-transform hover:scale-105"
             >
               View My Work
             </a>
           </div>
+
+          <a
+            href="#about"
+            aria-label="Scroll to About Me"
+            className="absolute bottom-8 animate-float text-gray-500 transition-colors hover:text-[#b5f53c]"
+          >
+            <ChevronDown className="h-6 w-6" />
+          </a>
         </section>
 
-        <section id="about" className="mx-auto max-w-3xl px-6 py-24">
-          <h2 className="mb-10 text-center text-3xl font-bold">About Me</h2>
-          <div className="space-y-4 leading-relaxed text-gray-400">
-            <p>
-              I&apos;m Alex. Engineer, Coder, and Genius (working on the billionaire, playboy,
-              philanthropist part). Basically, the guy you call when your automation stops automating. I
-              build SCADA systems, train my AIs as they are my pets, and design software tools that turn
-              &quot;this takes forever&quot; into &quot;done already?&quot; Python, SQL, TensorFlow, PLCs.
-              Yeah, I speak fluent machine, you name it.
-            </p>
-            <p>
-              Human Languages? English and Spanish are a given. French and German are current bonus DLC
-              I&apos;m unlocking.
-            </p>
-            <p>
-              When I&apos;m not busy making machines smarter, I&apos;m automating my own life, playing
-              baseball, or taking things apart just to prove I can put them back together better than
-              before. Efficiency is my superpower, coffee just keeps it running at max RPM.
-            </p>
-            <p>
-              I also run <a href="https://bittobyte.qzz.io" className="text-blue-400 hover:text-blue-300">BitToByte</a>,
-              the studio where my products live. Go ahead and check out my projects below — if you like
-              what you see or just want to chat about tech, sports, or life, hit me up in the contact
-              section!
-            </p>
-          </div>
-        </section>
+        <AboutMe />
 
         <Projects />
 
@@ -310,9 +421,16 @@ export default function App() {
         logoText="Alex"
         tagline="AI &amp; Automation Engineer. Building things that work so you don't have to."
         copyrightName="Alejandro Martinez"
+        markClassName="bg-[#b5f53c]"
+        markIconClassName="text-gray-950"
       />
 
-      <Analytics />
+      {analyticsAllowed && <Analytics />}
+      <CookieConsent
+        onConsentChange={(value) => setAnalyticsAllowed(value === 'accepted')}
+        privacyHref="https://bittobyte.qzz.io/privacy.html"
+        acceptClassName="bg-[#b5f53c] text-gray-950 hover:brightness-105"
+      />
     </div>
   );
 }

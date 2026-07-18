@@ -3,7 +3,7 @@ import { featuredProjects } from '@bittobyte/content';
 
 // The landing page is the studio storefront: it shows only FEATURED projects
 // (the polished, live "products") from the shared source of truth. The full
-// catalog lives on the portfolio. Add/flag projects in @bittobyte/content —
+// catalog lives on the portfolio. Add/flag projects in @bittobyte/content;
 // this file only adds the landing page's bento presentation on top.
 
 const ICONS = {

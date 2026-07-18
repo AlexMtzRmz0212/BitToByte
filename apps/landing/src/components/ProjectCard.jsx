@@ -59,7 +59,7 @@ const ProjectCard = ({ project }) => {
             }`}
           >
             {title}
-            <ArrowUpRight className="h-5 w-5 shrink-0 text-gray-600 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
+            <ArrowUpRight className="h-5 w-5 shrink-0 text-gray-400 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
           </h3>
 
           <p

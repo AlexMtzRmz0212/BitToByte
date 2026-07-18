@@ -6,10 +6,10 @@
 //
 // So `featured: true` = "this is a polished, live product a stranger could use" and it
 // appears on BOTH sites; everything else lives only on the portfolio. Add a project here
-// once and it shows up in the right place automatically — no detail is ever lost, because
+// once and it shows up in the right place automatically; no detail is ever lost, because
 // the portfolio always shows the full list.
 //
-// `icon` is a plain string key — each app maps it to its own icon component so this
+// `icon` is a plain string key; each app maps it to its own icon component so this
 // package stays framework-agnostic (no React import here).
 
 export const projects = [
@@ -57,7 +57,7 @@ export const projects = [
     name: 'Sports Analytics Hub',
     tagline: 'Dashboards across professional sports leagues',
     description:
-      'A dynamic dashboard for exploring sports data across leagues — interactive season timeline, quick stats, and a curated list of analytics ideas, powered by Plotly visualizations.',
+      'A dynamic dashboard for exploring sports data across leagues, with an interactive season timeline, quick stats, and a curated list of analytics ideas, powered by Plotly visualizations.',
     liveUrl: 'https://alexmtzrmz0212.github.io/Sports/',
     repoUrl: 'https://github.com/AlexMtzRmz0212/Sports',
     tags: ['Data Viz', 'Analytics', 'Plotly'],
@@ -70,7 +70,7 @@ export const projects = [
     name: 'Divisions & Leagues Maps',
     tagline: 'Interactive league maps with smart marker separation',
     description:
-      'Interactive sports-league maps visualizing every team per league with smart marker separation, division path connections, and team logos — a single interactive page per sport (MLB, NFL, and more).',
+      'Interactive sports-league maps visualizing every team per league with smart marker separation, division path connections, and team logos: a single interactive page per sport (MLB, NFL, and more).',
     liveUrl: 'https://alexmtzrmz0212.github.io/MLB/',
     repoUrl: 'https://github.com/AlexMtzRmz0212/MLB',
     tags: ['Interactive', 'Maps', 'Data Viz'],

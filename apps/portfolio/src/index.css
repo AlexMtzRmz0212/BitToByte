@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@theme {
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
 /* Slider control track/thumb (lime accent to match the portfolio). The track is a
    fixed dark -> lime -> light legend of the mapping; the thumb carries a lime glow
    that grows with --v (the 0..100 level), echoing the pointer-glow it controls. */

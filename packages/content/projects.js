@@ -84,12 +84,12 @@ export const projects = [
     tagline: 'Chronological map of the Marvel Cinematic Universe',
     description:
       'Interactive chronological visualization of Marvel Cinematic Universe releases and in-universe order.',
-    liveUrl: 'https://alexmtzrmz0212.github.io/MARVEL/',
+    liveUrl: 'https://marvel.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/MARVEL',
     tags: ['Interactive', 'Data Viz'],
     icon: 'calendar',
     accent: '#ef4444',
-    featured: false,
+    featured: true,
   },
   {
     id: 'habits-analysis',

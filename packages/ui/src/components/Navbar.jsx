@@ -1,5 +1,5 @@
 import { cloneElement, useEffect, useState } from 'react';
-import { Code2, Mail } from 'lucide-react';
+import { Code2, Mail, Menu, X } from 'lucide-react';
 
 const DEFAULT_LINKS = [
   { label: 'Work', href: '#projects' },
@@ -31,6 +31,7 @@ const Navbar = ({
   markIconClassName = 'text-white',
 }) => {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -38,6 +39,25 @@ const Navbar = ({
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Close the mobile menu once the viewport is wide enough to show the inline
+  // links, so the panel can't stay stuck open behind them after a rotate/resize.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const mq = window.matchMedia('(min-width: 768px)');
+    const close = () => mq.matches && setMenuOpen(false);
+    close();
+    mq.addEventListener('change', close);
+    return () => mq.removeEventListener('change', close);
+  }, [menuOpen]);
+
+  // Escape closes it, matching the expectation set by aria-expanded.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e) => e.key === 'Escape' && setMenuOpen(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
 
   const iconEl = logoIcon
     ? cloneElement(logoIcon, {
@@ -92,7 +112,7 @@ const Navbar = ({
   return (
     <nav
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
+        scrolled || menuOpen
           ? 'border-b border-white/5 bg-gray-950/70 backdrop-blur-xl'
           : 'border-b border-transparent bg-transparent'
       }`}
@@ -117,13 +137,54 @@ const Navbar = ({
           ))}
         </div>
 
-        <a
-          href={contactHref}
-          className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-300 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:text-white"
-        >
-          <Mail className="h-4 w-4 transition-transform duration-300 group-hover:rotate-12" />
-          {contactLabel}
-        </a>
+        <div className="flex items-center gap-2">
+          <a
+            href={contactHref}
+            className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-300 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:text-white"
+          >
+            <Mail className="h-4 w-4 transition-transform duration-300 group-hover:rotate-12" />
+            {contactLabel}
+          </a>
+
+          {/* Below md the inline links are hidden, so this is the only way to reach them. */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-300 transition-colors hover:bg-white/10 hover:text-white md:hidden"
+          >
+            {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile link panel. Collapsed height animates, then visibility flips so the
+          links leave the tab order once it has finished closing. */}
+      <div
+        id="mobile-nav"
+        className={`overflow-hidden border-t border-white/5 bg-gray-950/95 backdrop-blur-xl md:hidden ${
+          menuOpen ? 'visible max-h-96 opacity-100' : 'invisible max-h-0 opacity-0'
+        }`}
+        style={{
+          transition: `max-height 300ms ease-out, opacity 300ms ease-out, visibility 0s linear ${
+            menuOpen ? '0s' : '300ms'
+          }`,
+        }}
+      >
+        <div className="space-y-1 px-6 pb-4 pt-2">
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className="block rounded-lg px-3 py-2.5 text-base text-gray-300 transition-colors hover:bg-white/5 hover:text-white"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
       </div>
     </nav>
   );

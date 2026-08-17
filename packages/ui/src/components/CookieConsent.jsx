@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import { STORAGE_KEY, getStoredConsent } from './consent';
+import { useEffect, useRef, useState } from 'react';
+import { STORAGE_KEY, getStoredConsent, CONSENT_REOPEN_EVENT } from './consent';
 
 /**
  * Interactive cookie/analytics consent banner. Renders only until the visitor
  * makes a choice, then persists it. Call `onConsentChange` so the app can mount
  * or skip its analytics accordingly.
  *
- * @param {(value: 'accepted' | 'declined') => void} onConsentChange
+ * @param {(value: 'accepted' | 'declined' | null) => void} onConsentChange
+ *        Called with the new choice, or `null` when the visitor withdraws a
+ *        previous one via "Cookie settings" (treat that as "not accepted").
  * @param {string} privacyHref                URL of the privacy policy.
  * @param {string} acceptClassName            Theme classes for the Accept button.
  */
@@ -19,6 +21,25 @@ const CookieConsent = ({
   // banner never flashes for those who already chose (no post-render toggle).
   const [visible, setVisible] = useState(() => getStoredConsent() === null);
 
+  // Callers usually pass an inline arrow, so keep the latest one in a ref and
+  // subscribe once instead of resubscribing on every parent render.
+  const onChangeRef = useRef(onConsentChange);
+  useEffect(() => {
+    onChangeRef.current = onConsentChange;
+  });
+
+  // Reopen when the visitor withdraws consent from elsewhere (footer link). The
+  // stored key is already cleared by then, so tell the app to stop tracking now
+  // rather than waiting for the new answer.
+  useEffect(() => {
+    const onReopen = () => {
+      setVisible(true);
+      onChangeRef.current?.(null);
+    };
+    window.addEventListener(CONSENT_REOPEN_EVENT, onReopen);
+    return () => window.removeEventListener(CONSENT_REOPEN_EVENT, onReopen);
+  }, []);
+
   const choose = (value) => {
     try {
       window.localStorage.setItem(STORAGE_KEY, value);
@@ -26,7 +47,7 @@ const CookieConsent = ({
       // Storage may be blocked; still hide the banner for this session.
     }
     setVisible(false);
-    onConsentChange?.(value);
+    onChangeRef.current?.(value);
   };
 
   if (!visible) return null;

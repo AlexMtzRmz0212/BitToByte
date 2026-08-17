@@ -78,9 +78,10 @@ const CardShell = ({ project, children }) => {
         >
           <Icon className={isHero ? 'h-6 w-6' : 'h-5 w-5'} />
         </span>
-        <h3 className={`font-semibold ${isHero ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
+        {/* h4: these sit under the "Featured work" / "More projects" h3 group labels */}
+        <h4 className={`font-semibold ${isHero ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
           {project.name}
-        </h3>
+        </h4>
       </div>
       <p className={`flex-grow text-gray-400 ${isHero ? 'text-base md:max-w-md' : 'text-sm'}`}>
         {project.description}
@@ -146,7 +147,7 @@ const SportsMapsCard = ({ project }) => {
 
   return (
     <CardShell project={project}>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <label htmlFor="sports-maps-sport" className="text-sm text-gray-400">
           Sport:
         </label>
@@ -161,15 +162,19 @@ const SportsMapsCard = ({ project }) => {
           <option value="nba">NBA</option>
           <option value="nhl">NHL</option>
         </select>
-        <img src={current.icon} alt={`${sport} logo`} className="h-8 w-auto" />
+        <img
+          src={current.icon}
+          alt={`${sport.toUpperCase()} league logo`}
+          className="h-8 w-auto max-w-[7rem] object-contain"
+        />
       </div>
       <div className="mt-auto flex gap-3">
         {current.disabled ? (
           <>
-            <span className="rounded-full border border-white/10 px-4 py-1.5 text-sm text-gray-500">
+            <span className="rounded-full border border-white/10 px-4 py-1.5 text-sm text-gray-400">
               Demo (Soon)
             </span>
-            <span className="rounded-full border border-white/10 px-4 py-1.5 text-sm text-gray-500">
+            <span className="rounded-full border border-white/10 px-4 py-1.5 text-sm text-gray-400">
               GitHub (Soon)
             </span>
           </>
@@ -216,17 +221,17 @@ const TerminalCard = () => (
       <span className="h-3 w-3 rounded-full bg-red-400/80" />
       <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
       <span className="h-3 w-3 rounded-full bg-green-400/80" />
-      <span className="ml-3 font-mono text-xs text-gray-500">alex@bittobyte: ~/whoami</span>
+      <span className="ml-3 font-mono text-xs text-gray-400">alex@bittobyte: ~/whoami</span>
     </div>
     <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-relaxed text-gray-300">
-<span className="text-purple-400">const</span> <span className="text-[#b5f53c]">alex</span> <span className="text-gray-500">=</span> {'{'}
+<span className="text-purple-400">const</span> <span className="text-[#b5f53c]">alex</span> <span className="text-gray-400">=</span> {'{'}
 {'\n'}  <span className="text-sky-300">role</span>: <span className="text-amber-300">&quot;AI &amp; Automation Engineer&quot;</span>,
 {'\n'}  <span className="text-sky-300">stack</span>: [<span className="text-amber-300">&quot;Python&quot;</span>, <span className="text-amber-300">&quot;SQL&quot;</span>, <span className="text-amber-300">&quot;TensorFlow&quot;</span>, <span className="text-amber-300">&quot;PLCs&quot;</span>],
-{'\n'}  <span className="text-sky-300">languages</span>: [<span className="text-amber-300">&quot;EN&quot;</span>, <span className="text-amber-300">&quot;ES&quot;</span>, <span className="text-amber-300">&quot;FR*&quot;</span>, <span className="text-amber-300">&quot;DE*&quot;</span>], <span className="text-gray-500">// *in progress</span>
+{'\n'}  <span className="text-sky-300">languages</span>: [<span className="text-amber-300">&quot;EN&quot;</span>, <span className="text-amber-300">&quot;ES&quot;</span>, <span className="text-amber-300">&quot;FR*&quot;</span>, <span className="text-amber-300">&quot;DE*&quot;</span>], <span className="text-gray-400">// *in progress</span>
 {'\n'}  <span className="text-sky-300">superpower</span>: <span className="text-amber-300">&quot;efficiency&quot;</span>,
 {'\n'}  <span className="text-sky-300">fuel</span>: <span className="text-amber-300">&quot;coffee&quot;</span>,
 {'\n'}{'}'};
-{'\n'}<span className="text-gray-500">{'>'}</span> <span className="inline-block h-4 w-2 translate-y-0.5 animate-pulse bg-[#b5f53c]" />
+{'\n'}<span className="text-gray-400">{'>'}</span> <span className="inline-block h-4 w-2 translate-y-0.5 animate-pulse bg-[#b5f53c]" />
     </pre>
   </div>
 );
@@ -393,7 +398,7 @@ export default function App() {
           <a
             href="#about"
             aria-label="Scroll to About Me"
-            className="absolute bottom-8 animate-float text-gray-500 transition-colors hover:text-[#b5f53c]"
+            className="absolute bottom-8 animate-float text-gray-400 transition-colors hover:text-[#b5f53c]"
           >
             <ChevronDown className="h-6 w-6" />
           </a>
@@ -432,6 +437,7 @@ export default function App() {
         logoText="Alex"
         tagline="AI &amp; Automation Engineer. Building things that work so you don't have to."
         copyrightName="Alejandro Martinez"
+        showCookieSettings
         markClassName="bg-[#b5f53c]"
         markIconClassName="text-gray-950"
       />

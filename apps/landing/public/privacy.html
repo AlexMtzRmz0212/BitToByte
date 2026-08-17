@@ -23,6 +23,14 @@
       h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 0.5rem; }
       h2 { font-size: 1.15rem; font-weight: 700; margin: 2.5rem 0 0.75rem; color: #f9fafb; }
       p, li { color: #9ca3af; }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.9em;
+        color: #e5e7eb;
+        background: rgba(255,255,255,0.06);
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
       .meta { color: #6b7280; font-size: 0.875rem; margin-bottom: 3rem; }
       .back { display: inline-block; margin-bottom: 2.5rem; font-size: 0.875rem; }
       hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 3rem 0; }
@@ -33,7 +41,7 @@
     <div class="wrap">
       <a class="back" href="/">&larr; Back to BitToByte</a>
       <h1>Privacy Policy</h1>
-      <p class="meta">Last updated: July 17, 2026</p>
+      <p class="meta">Last updated: August 17, 2026</p>
 
       <p>
         This Privacy Policy explains how the BitToByte network of websites and applications
@@ -53,13 +61,27 @@
       <p>
         We may use privacy-respecting analytics (such as Vercel Analytics) to understand
         aggregate traffic. This data is used in aggregate and is not used to personally
-        identify you.
+        identify you. Analytics are off by default: the script is not loaded at all unless
+        you choose "Accept" on the consent banner shown on your first visit.
       </p>
 
-      <h2>3. Cookies</h2>
+      <h2>3. Cookies and local storage</h2>
       <p>
         The Services aim to minimize the use of cookies. Any cookies used are limited to
-        those necessary for basic functionality or aggregate analytics.
+        those necessary for basic functionality or, with your consent, aggregate analytics.
+      </p>
+      <p>
+        To remember your analytics choice we store a single value in your browser's local
+        storage under the key <code>bittobyte-analytics-consent</code>, set to either
+        "accepted" or "declined". It stays on your device, is never transmitted to us, and
+        exists only so we do not ask you again on every page load. Some sites also store a
+        display preference (for example a brightness level) the same way.
+      </p>
+      <p>
+        You can change or withdraw your choice at any time using the "Cookie settings" link
+        in the site footer, which clears the stored value and shows the banner again. Any
+        analytics stop immediately when you withdraw consent. Clearing your browser's site
+        data has the same effect.
       </p>
 
       <h2>4. How we use information</h2>

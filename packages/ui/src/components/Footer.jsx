@@ -1,5 +1,6 @@
 import { Code2, Cpu } from 'lucide-react';
 import { InstagramIcon, FacebookIcon, XIcon } from './BrandIcons';
+import { openConsentSettings } from './consent';
 
 // The BitToByte family, rendered on every property so all four subdomains
 // cross-link to one another. Override via the `familyLinks` prop if needed.
@@ -31,6 +32,10 @@ const Footer = ({
   copyrightName = 'BitToByte Network',
   familyLinks = DEFAULT_FAMILY_LINKS,
   legalLinks = DEFAULT_LEGAL_LINKS,
+  // Opt-in: only sites that actually render <CookieConsent /> should offer this,
+  // otherwise the link would clear a key nothing listens to. Withdrawing consent
+  // has to be as easy as giving it, so any site with analytics should set it.
+  showCookieSettings = false,
   // Logo-mark styling, so each property can match its own brand hue.
   markClassName = 'bg-blue-600',
   markIconClassName = 'text-white',
@@ -99,6 +104,15 @@ const Footer = ({
               {link.label}
             </a>
           ))}
+          {showCookieSettings && (
+            <button
+              type="button"
+              onClick={openConsentSettings}
+              className="transition-colors hover:text-white"
+            >
+              Cookie settings
+            </button>
+          )}
         </nav>
         <span className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">

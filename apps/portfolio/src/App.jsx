@@ -248,8 +248,12 @@ const AboutMe = () => (
       </p>
     </Reveal>
 
+    {/* min-w-0 on both columns: a grid item's `min-width: auto` is its content-based
+        minimum, and the terminal card's <pre> (white-space: pre) reports its longest
+        line as that minimum. Without this the track is forced past the viewport on
+        mobile and the whole page scrolls sideways; with it the <pre> scrolls itself. */}
     <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
-      <div className="space-y-4 leading-relaxed text-gray-400">
+      <div className="min-w-0 space-y-4 leading-relaxed text-gray-400">
         <Reveal as="p">
           I&apos;m Alex. Engineer, coder, and genius (still working on the billionaire, playboy,
           philanthropist part). Basically the guy you call when your automation stops automating. I
@@ -289,7 +293,7 @@ const AboutMe = () => (
         </Reveal>
       </div>
 
-      <Reveal delay={120}>
+      <Reveal delay={120} className="min-w-0">
         <TerminalCard />
       </Reveal>
     </div>

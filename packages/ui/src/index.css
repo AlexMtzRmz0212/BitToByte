@@ -13,6 +13,12 @@
 
 html {
   scroll-behavior: smooth;
+  /* Safety net, not a fix: keeps a stray wide element from making the whole page
+     scroll sideways on mobile (which also exposes strips the fixed backdrop can't
+     paint). `clip` rather than `hidden` so this never becomes a scroll container
+     and position: sticky keeps working. Real overflows should still be fixed at
+     the source, usually with min-w-0 on the flex/grid item that contains them. */
+  overflow-x: clip;
 }
 
 body {

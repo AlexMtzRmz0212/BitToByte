@@ -19,8 +19,8 @@ const Hero = () => {
         </h1>
 
         <p className="mt-7 max-w-2xl text-lg text-gray-400 md:text-xl">
-          The central hub for automated systems, AI-driven applications, and
-          interactive data visualization: engineered, deployed, and online.
+          The central hub for automated systems, AI-driven applications, and interactive data
+          visualization: engineered, deployed, and online.
         </p>
 
         <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row">
@@ -77,9 +77,7 @@ const Stat = ({ value, suffix, label, active }) => {
         {count}
         {suffix}
       </span>
-      <span className="mt-1 text-xs uppercase tracking-widest text-gray-400">
-        {label}
-      </span>
+      <span className="mt-1 text-xs uppercase tracking-widest text-gray-400">{label}</span>
     </div>
   );
 };

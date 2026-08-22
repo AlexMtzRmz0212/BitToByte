@@ -20,14 +20,12 @@ function App() {
           </div>
           <h1 className="mt-8 text-5xl font-extrabold tracking-tight sm:text-7xl">
             Building Blocks for <br />
-            <span className="text-blue-500">
-              Modern Interfaces
-            </span>
+            <span className="text-blue-500">Modern Interfaces</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gray-400">
             A showcase of the reusable React components exported by the
-            <code> bittobyte-ui </code> package. Scroll down to see the Navbar's
-            glassmorphism effect and explore the components.
+            <code> bittobyte-ui </code> package. Scroll down to see the Navbar's glassmorphism
+            effect and explore the components.
           </p>
         </section>
 
@@ -35,14 +33,11 @@ function App() {
         <div className="space-y-32">
           {/* Navbar Demo */}
           <section id="capabilities">
-            <h2 className="text-3xl font-bold tracking-tight text-white mb-8">
-              Navbar
-            </h2>
+            <h2 className="text-3xl font-bold tracking-tight text-white mb-8">Navbar</h2>
             <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
               <p className="text-gray-400 mb-6">
-                A responsive navigation bar with a glassmorphic blur effect that
-                activates on scroll. It includes a logo, navigation links, and a
-                GitHub link.
+                A responsive navigation bar with a glassmorphic blur effect that activates on
+                scroll. It includes a logo, navigation links, and a GitHub link.
               </p>
               <div className="relative h-48 overflow-hidden rounded-xl border border-white/10 bg-gray-900">
                 <div className="absolute inset-0 bg-blue-900/20" />
@@ -61,14 +56,12 @@ function App() {
 
           {/* Background Demo */}
           <section id="projects">
-            <h2 className="text-3xl font-bold tracking-tight text-white mb-8">
-              Background
-            </h2>
+            <h2 className="text-3xl font-bold tracking-tight text-white mb-8">Background</h2>
             <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
               <p className="text-gray-400 mb-6">
-                An ambient, animated background featuring drifting colored auroras
-                and a masking grid to provide depth without distracting from content.
-                It's currently active behind this page.
+                An ambient, animated background featuring drifting colored auroras and a masking
+                grid to provide depth without distracting from content. It's currently active behind
+                this page.
               </p>
               <div className="relative h-64 overflow-hidden rounded-xl border border-white/10">
                 <Background />
@@ -83,13 +76,11 @@ function App() {
 
           {/* Footer Demo */}
           <section id="stack">
-            <h2 className="text-3xl font-bold tracking-tight text-white mb-8">
-              Footer
-            </h2>
+            <h2 className="text-3xl font-bold tracking-tight text-white mb-8">Footer</h2>
             <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
               <p className="text-gray-400 mb-6">
-                A standard application footer with logo, tagline, GitHub integration,
-                copyright information, and a pulsing status indicator.
+                A standard application footer with logo, tagline, GitHub integration, copyright
+                information, and a pulsing status indicator.
               </p>
               <div className="overflow-hidden rounded-xl border border-white/10 bg-[#030712]">
                 <Footer />

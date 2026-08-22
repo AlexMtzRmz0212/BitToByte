@@ -60,8 +60,8 @@ const CookieConsent = ({
     >
       <div className="mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-white/10 bg-gray-900/95 p-5 shadow-2xl backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-gray-300">
-          We use privacy-friendly analytics to understand site traffic. You choose
-          whether to allow it. See our{' '}
+          We use privacy-friendly analytics to understand site traffic. You choose whether to allow
+          it. See our{' '}
           <a
             href={privacyHref}
             className="font-medium text-white underline underline-offset-2 hover:text-gray-200"

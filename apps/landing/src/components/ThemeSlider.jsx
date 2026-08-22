@@ -40,9 +40,7 @@ const ThemeSlider = ({ level, onChange }) => {
 
         <div
           className={`overflow-hidden transition-all duration-300 ease-out motion-reduce:transition-none ${
-            open
-              ? 'ml-1 max-w-[min(16rem,calc(100vw-8rem))] opacity-100'
-              : 'max-w-0 opacity-0'
+            open ? 'ml-1 max-w-[min(16rem,calc(100vw-8rem))] opacity-100' : 'max-w-0 opacity-0'
           }`}
         >
           <div className="flex w-64 max-w-[calc(100vw-8rem)] items-center gap-2 pr-1">

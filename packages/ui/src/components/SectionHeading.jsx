@@ -11,14 +11,8 @@ const SectionHeading = ({ eyebrow, title, subtitle, align = 'center' }) => (
         {eyebrow}
       </span>
     )}
-    <h2 className="max-w-2xl text-3xl font-bold tracking-tight md:text-5xl">
-      {title}
-    </h2>
-    {subtitle && (
-      <p className="mt-4 max-w-2xl text-base text-gray-400 md:text-lg">
-        {subtitle}
-      </p>
-    )}
+    <h2 className="max-w-2xl text-3xl font-bold tracking-tight md:text-5xl">{title}</h2>
+    {subtitle && <p className="mt-4 max-w-2xl text-base text-gray-400 md:text-lg">{subtitle}</p>}
   </Reveal>
 );
 

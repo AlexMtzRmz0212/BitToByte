@@ -1,1 +1,7 @@
-export { projects, featuredProjects, liveProjects } from './projects.js';
+export {
+  projects,
+  featuredProjects,
+  liveProjects,
+  projectsByGroup,
+  projectBySlug,
+} from './projects.js';

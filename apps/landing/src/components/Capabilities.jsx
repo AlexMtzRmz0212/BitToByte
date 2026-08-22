@@ -35,12 +35,8 @@ const Capabilities = () => (
             >
               {cap.icon}
             </div>
-            <h3 className="relative mt-5 text-lg font-semibold tracking-tight">
-              {cap.title}
-            </h3>
-            <p className="relative mt-2 text-sm leading-relaxed text-gray-400">
-              {cap.description}
-            </p>
+            <h3 className="relative mt-5 text-lg font-semibold tracking-tight">{cap.title}</h3>
+            <p className="relative mt-2 text-sm leading-relaxed text-gray-400">{cap.description}</p>
           </article>
         </Reveal>
       ))}

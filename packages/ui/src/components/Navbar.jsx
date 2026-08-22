@@ -59,11 +59,13 @@ const Navbar = ({
     return () => window.removeEventListener('keydown', onKey);
   }, [menuOpen]);
 
-  const iconEl = logoIcon
-    ? cloneElement(logoIcon, {
-        className: `h-5 w-5 ${markIconClassName} ${logoIcon.props.className ?? ''}`.trim(),
-      })
-    : <Code2 className={`h-5 w-5 ${markIconClassName}`} />;
+  const iconEl = logoIcon ? (
+    cloneElement(logoIcon, {
+      className: `h-5 w-5 ${markIconClassName} ${logoIcon.props.className ?? ''}`.trim(),
+    })
+  ) : (
+    <Code2 className={`h-5 w-5 ${markIconClassName}`} />
+  );
 
   const renderLogoText = () => {
     // Scroll-driven name morph: keep the shared prefix static and crossfade the
@@ -119,7 +121,9 @@ const Navbar = ({
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <a href={logoHref} className="group flex items-center gap-2.5">
-          <span className={`relative flex h-9 w-9 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 ${markClassName}`}>
+          <span
+            className={`relative flex h-9 w-9 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 ${markClassName}`}
+          >
             {iconEl}
           </span>
           <span className="text-xl font-bold tracking-tight">{renderLogoText()}</span>
@@ -160,30 +164,39 @@ const Navbar = ({
         </div>
       </div>
 
-      {/* Mobile link panel. Collapsed height animates, then visibility flips so the
-          links leave the tab order once it has finished closing. */}
+      {/* Mobile link panel. Animated with grid-template-rows 0fr <-> 1fr rather than
+          max-height, because max-height has to guess a number larger than the content:
+          the panel is ~220px tall but the cap was 24rem, so on close the first ~40% of
+          the transition moved the cap through empty space and nothing appeared to
+          happen for over a tenth of a second. A fr row animates the real content
+          height, so both directions respond on the first frame. `overflow-hidden` on
+          the inner element is what lets the 0fr row collapse (it drops the automatic
+          minimum size to zero). Visibility still flips last so the links leave the tab
+          order only once the panel has finished closing. */}
       <div
         id="mobile-nav"
-        className={`overflow-hidden border-t border-white/5 bg-gray-950/95 backdrop-blur-xl md:hidden ${
-          menuOpen ? 'visible max-h-96 opacity-100' : 'invisible max-h-0 opacity-0'
+        className={`grid border-t border-white/5 bg-gray-950/95 backdrop-blur-xl md:hidden ${
+          menuOpen ? 'visible grid-rows-[1fr] opacity-100' : 'invisible grid-rows-[0fr] opacity-0'
         }`}
         style={{
-          transition: `max-height 300ms ease-out, opacity 300ms ease-out, visibility 0s linear ${
-            menuOpen ? '0s' : '300ms'
+          transition: `grid-template-rows 260ms ease-out, opacity 200ms ease-out, visibility 0s linear ${
+            menuOpen ? '0s' : '260ms'
           }`,
         }}
       >
-        <div className="space-y-1 px-6 pb-4 pt-2">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="block rounded-lg px-3 py-2.5 text-base text-gray-300 transition-colors hover:bg-white/5 hover:text-white"
-            >
-              {link.label}
-            </a>
-          ))}
+        <div className="overflow-hidden">
+          <div className="space-y-1 px-6 pb-4 pt-2">
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="block rounded-lg px-3 py-2.5 text-base text-gray-300 transition-colors hover:bg-white/5 hover:text-white"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </nav>

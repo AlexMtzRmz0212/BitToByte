@@ -34,9 +34,22 @@ export const capabilities = [
 
 // Tech marquee: pure text pills (this lucide build ships no brand icons).
 export const techStack = [
-  'React', 'Vite', 'Tailwind CSS', 'Python', 'FastAPI', 'Node.js',
-  'PostgreSQL', 'Docker', 'TensorFlow', 'Pandas', 'AWS', 'TypeScript',
-  'Arduino', 'ROS', 'D3.js', 'Git',
+  'React',
+  'Vite',
+  'Tailwind CSS',
+  'Python',
+  'FastAPI',
+  'Node.js',
+  'PostgreSQL',
+  'Docker',
+  'TensorFlow',
+  'Pandas',
+  'AWS',
+  'TypeScript',
+  'Arduino',
+  'ROS',
+  'D3.js',
+  'Git',
 ];
 
 // Animated headline stats.

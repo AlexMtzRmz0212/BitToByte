@@ -21,7 +21,11 @@ const DEFAULT_LEGAL_LINKS = [
 // page passes professional profiles (GitHub / LinkedIn). Each item: { label, href, Icon }.
 const DEFAULT_SOCIALS = [
   { label: 'Instagram', href: 'https://www.instagram.com/alexmtzrmz/', Icon: InstagramIcon },
-  { label: 'Facebook', href: 'https://www.facebook.com/Alejandro.Martinez.1997', Icon: FacebookIcon },
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/Alejandro.Martinez.1997',
+    Icon: FacebookIcon,
+  },
   { label: 'X', href: 'https://x.com/Alex_MtzRmz', Icon: XIcon },
 ];
 
@@ -45,20 +49,18 @@ const Footer = ({
       <div className="flex flex-col items-center justify-between gap-8 md:flex-row md:items-start">
         <div className="flex flex-col items-center md:items-start">
           <div className="flex items-center gap-2.5">
-            <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${markClassName}`}>
+            <span
+              className={`flex h-8 w-8 items-center justify-center rounded-lg ${markClassName}`}
+            >
               <Code2 className={`h-4 w-4 ${markIconClassName}`} />
             </span>
             <span className="text-lg font-bold tracking-tight">{logoText}</span>
           </div>
-          <p className="mt-3 max-w-xs text-center text-sm text-gray-400 md:text-left">
-            {tagline}
-          </p>
+          <p className="mt-3 max-w-xs text-center text-sm text-gray-400 md:text-left">{tagline}</p>
         </div>
 
         <div className="flex flex-col items-center gap-3 md:items-end">
-          <p className="text-xs uppercase tracking-widest text-gray-400">
-            The Network
-          </p>
+          <p className="text-xs uppercase tracking-widest text-gray-400">The Network</p>
 
           <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 md:justify-end">
             {familyLinks.map((link) => (
@@ -96,11 +98,7 @@ const Footer = ({
         </p>
         <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
           {legalLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="transition-colors hover:text-white"
-            >
+            <a key={link.href} href={link.href} className="transition-colors hover:text-white">
               {link.label}
             </a>
           ))}

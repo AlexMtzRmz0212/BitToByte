@@ -6,8 +6,21 @@ import TechMarquee from './components/TechMarquee';
 import PortfolioCallout from './components/PortfolioCallout';
 import CTA from './components/CTA';
 import ThemeSlider from './components/ThemeSlider';
-import { getStoredThemeLevel, storeThemeLevel, levelToStrength, levelToSpread, DEFAULT_LEVEL } from './lib/theme';
-import { Background, Navbar, Footer, GithubIcon, LinkedinIcon, BitToByteMark } from '@alex_mtz/bittobyte-ui'
+import {
+  getStoredThemeLevel,
+  storeThemeLevel,
+  levelToStrength,
+  levelToSpread,
+  DEFAULT_LEVEL,
+} from './lib/theme';
+import {
+  Background,
+  Navbar,
+  Footer,
+  GithubIcon,
+  LinkedinIcon,
+  BitToByteMark,
+} from '@alex_mtz/bittobyte-ui';
 
 // The landing page is the professional storefront: show professional profiles
 // in the footer (GitHub / LinkedIn), not the personal socials.
@@ -37,7 +50,11 @@ const App = () => {
   return (
     <div className="relative min-h-screen bg-gray-950 font-sans text-gray-100 selection:bg-blue-500/30">
       {/* blue cursor glow to match the BitToByte brand; strength + size track the slider */}
-      <Background glow="96, 162, 255" strength={levelToStrength(level)} spread={levelToSpread(level)} />
+      <Background
+        glow="96, 162, 255"
+        strength={levelToStrength(level)}
+        spread={levelToSpread(level)}
+      />
       <Navbar links={NAV_LINKS} logoIcon={<BitToByteMark />} />
       <main>
         <Hero />

@@ -13,11 +13,7 @@ const Projects = () => (
 
     <div className="mt-14 grid auto-rows-[minmax(190px,1fr)] grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
       {projects.map((project, i) => (
-        <Reveal
-          key={project.id}
-          delay={i * 80}
-          className={project.className}
-        >
+        <Reveal key={project.id} delay={i * 80} className={project.className}>
           <ProjectCard project={project} />
         </Reveal>
       ))}

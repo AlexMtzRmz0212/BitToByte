@@ -19,8 +19,8 @@ const PortfolioCallout = () => (
               Meet the engineer building it all
             </h2>
             <p className="mt-4 max-w-xl text-base text-gray-400 md:text-lg">
-              BitToByte is one engineer's studio. Head to the portfolio for the full story,
-              the complete project catalog, and the fastest way to get in touch.
+              BitToByte is one engineer's studio. Head to the portfolio for the full story, the
+              complete project catalog, and the fastest way to get in touch.
             </p>
             <a
               href={PORTFOLIO_URL}

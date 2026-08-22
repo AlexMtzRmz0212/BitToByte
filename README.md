@@ -21,7 +21,7 @@ properties render the same slim brand bar and cross-link to one another.
 bittobyte/
 ├── apps/
 │   ├── landing/          → bittobyte.qzz.io       (company / studio persona)
-│   └── portfolio/        → alex.bittobyte.qzz.io  (personal / founder persona)
+│   └── portfolio/        → alex.bittobyte.qzz.io  (personal CV + project case studies)
 └── packages/
     ├── ui/               @alex_mtz/bittobyte-ui   (shared components + brand, published to NPM)
     ├── content/          @bittobyte/content       (single source of truth for the projects list)
@@ -31,6 +31,8 @@ bittobyte/
 ## Tech stack
 
 React 19 · Vite · Tailwind CSS 4 · pnpm workspaces · Turborepo · deployed on Vercel.
+The portfolio also uses React Router; its `vercel.json` rewrites every path to `index.html`
+so case-study deep links resolve.
 
 ## Getting started
 

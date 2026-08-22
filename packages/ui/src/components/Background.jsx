@@ -80,8 +80,7 @@ const Background = ({ glow = '96, 162, 255', strength = 0.4, spread = 0 }) => {
             backgroundImage:
               'linear-gradient(to right, rgba(148,163,184,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(148,163,184,0.06) 1px, transparent 1px)',
             backgroundSize: '52px 52px',
-            maskImage:
-              'radial-gradient(ellipse 90% 70% at 50% 0%, #000 35%, transparent 100%)',
+            maskImage: 'radial-gradient(ellipse 90% 70% at 50% 0%, #000 35%, transparent 100%)',
             WebkitMaskImage:
               'radial-gradient(ellipse 90% 70% at 50% 0%, #000 35%, transparent 100%)',
           }}

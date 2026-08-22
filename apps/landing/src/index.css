@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+/* Generate utilities for the shared UI components too.
+ *
+ * Without this, the only source of their classes is the pre-compiled
+ * `@alex_mtz/bittobyte-ui/styles` sheet, which the bundler concatenates BEFORE this
+ * app's own generated sheet. Tailwind only orders base utilities before their
+ * responsive variants within a single generated sheet, so a plain `.flex` emitted
+ * here landed after `.md\:hidden` emitted there. Same specificity, later wins, and
+ * the navbar burger button (`flex ... md:hidden`) stayed visible at every width.
+ *
+ * Scanning the components here puts both rules in this sheet, correctly ordered,
+ * and this sheet wins over the pre-compiled one either way. */
+@source "../../../packages/ui/src";
+
 @theme {
   --animate-marquee: marquee 30s linear infinite;
 

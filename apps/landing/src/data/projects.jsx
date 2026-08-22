@@ -16,11 +16,14 @@ const ICONS = {
 };
 
 // Landing-only presentation (bento sizing + label), keyed by shared project id.
+// Spans must sum to a multiple of 3 (the grid is 3 columns), or the last card is
+// stranded alone on its own row. Four featured products means 2+1 / 1+2; a 2×2
+// hero would take 4 of the 6 cells and leave exactly that gap.
 const PRESENTATION = {
-  'eastcoast-ev': { className: 'lg:col-span-2 lg:row-span-2', meta: 'Client Work' },
+  'eastcoast-ev': { className: 'lg:col-span-2', meta: 'Client Work' },
   'express-entry': { className: 'lg:col-span-1', meta: 'Live' },
   'daily-checklist': { className: 'lg:col-span-1', meta: 'Live' },
-  'mcu-timeline': { className: 'lg:col-span-1', meta: 'Live' },
+  'mcu-timeline': { className: 'lg:col-span-2', meta: 'Live' },
 };
 
 export const projects = featuredProjects.map((p) => {

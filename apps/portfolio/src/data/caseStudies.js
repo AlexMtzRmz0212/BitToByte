@@ -216,6 +216,10 @@ export const caseStudies = {
         title: 'A demo built around one moment',
         body: 'The React frontend has an Issue tab where a supplier signs a record and a Verify tab where a buyer scans a QR code and gets a verdict. The demo tampers with one Canadian supplier attestation, re-verifies the same product, and the verdict flips to FLAGGED with the broken signature named. That flip is the whole argument.',
       },
+      {
+        title: 'Bilingual by requirement, not afterthought',
+        body: 'I built the demo’s English/French localization layer, a 350+ line locale module, along with country-flag indicators and UI refinements across the supplier-attestation, purchaser-verification, and live-ledger screens, plus the worked-example seed data used to drive the event demo. A federal-procurement use case that only spoke English wasn’t a serious entry.',
+      },
     ],
     stack: [
       { group: 'Backend', items: ['Python', 'FastAPI', 'Pydantic'] },
@@ -228,9 +232,10 @@ export const caseStudies = {
     ],
     outcome: [
       'A working end-to-end system inside the hackathon window: supplier issuance, purchaser verification, cross-tier linking, anomaly classification, and a Canadian-content figure.',
+      'The verifier scored 97 percent overall against a 1,000-row labeled evaluation corpus: 100 percent on clean submissions and on every deterministic tamper category, with a statistically fitted anomaly model (robust z-scores per supplier and action type) layered on top of the deterministic signature and structural checks.',
       'Sample chains covering each failure mode the challenge named: tampered, unknown signer, quantity inconsistency, missing reference, cycle, and both designation outcomes.',
       'Bilingual interface, matching the procurement context it was built for.',
-      'ACRA is listed as a participating team for the Ottawa event. No placement.',
+      'ACRA was one of 10 teams accepted nationally into the challenge, listed as a participating team for the Ottawa event. No placement.',
     ],
     diagram: 'provenance',
     links: [],

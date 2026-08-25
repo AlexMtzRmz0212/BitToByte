@@ -28,19 +28,49 @@ export const profile = {
 export const experience = [
   {
     id: 'fedethics',
-    role: 'Data Analyst Team Lead',
-    note: 'Volunteer',
+    role: 'Data Analytics Team Lead',
+    note: 'Volunteer / Pro Bono',
     org: 'FedEthics Inc.',
     location: 'Ottawa, ON',
     start: 'Feb 2026',
     end: 'Present',
     current: true,
     bullets: [
-      'Lead a cross-functional technical team building automation and data-tracking for a growing web platform, working with each team to understand what they actually need measured.',
-      'Design analytics pipelines in GA4 and GTM to track conversion funnels and engagement, feeding continuous process improvement.',
-      'Document what gets deployed and hand the knowledge over to the internal teams rather than leaving it in one head.',
+      'Lead a cross-functional technical team building and maintaining the analytics and content architecture behind FedEthics Inc.’s web platform and newsletter.',
+      'Architected the GA4/GTM implementation: a shared gtag/dataLayer layer across 10+ pages with a custom event taxonomy tracking CTA clicks, downloads, and form submissions through two book conversion funnels.',
+      'Implemented Google Consent Mode v2 with default-denied analytics storage and a custom cookie-consent banner, so no tracking data is collected before opt-in.',
+      'Designed an AI editorial pipeline that writes and sends the biweekly newsletter end to end, with no manual writing step, from ingestion to send.',
     ],
-    detail: null,
+    detail: {
+      intro:
+        'I own the analytics and content architecture for FedEthics Inc.’s web platform: the tracking layer that measures it, and an AI editorial pipeline that runs its newsletter without anyone writing a word by hand.',
+      sections: [
+        {
+          title: 'Analytics architecture',
+          body: 'A shared gtag/dataLayer layer runs across 10+ pages with a custom event taxonomy (event_category/event_label) tracking CTA clicks, downloads, and form submissions through two book conversion funnels: nav to hero CTA to offer to Stripe checkout.',
+        },
+        {
+          title: 'Consent-first tracking',
+          body: 'Google Consent Mode v2 ships with analytics storage default-denied, paired with a custom cookie-consent banner, so nothing is tracked before a visitor opts in, in line with the site’s Privacy Policy.',
+        },
+        {
+          title: 'Ingestion and scoring',
+          body: 'A daily GitHub Actions job scrapes and ingests articles from pluggable RSS/web-scraper connectors, scores them against a weighted keyword taxonomy, deduplicates near-identical stories by title similarity and URL matching, and buffers the top candidates over a rolling 14-day window.',
+        },
+        {
+          title: 'AI-written issue generation',
+          body: 'On a biweekly cadence the pipeline hands the buffered articles to the Claude API (Claude Sonnet), which selects the 4-6 most editorially valuable stories, writes analytical copy (headline, body, key takeaways, "hot take") for each in a defined editorial voice, and assembles the full issue as structured JSON, with retry/backoff logic for rate limits and malformed output.',
+        },
+        {
+          title: 'Rendering and delivery',
+          body: 'The structured output renders to branded HTML through a Jinja2 template and goes out through the Resend API, fully automated via scheduled GitHub Actions workflows. No human touches an edition from ingestion to send.',
+        },
+        {
+          title: 'Full-stack integration',
+          body: 'I oversee the integration connecting the site’s newsletter signup form to the backend subscriber and analytics logs, and direct iterative refactors of the tracking and pipeline codebases across the team’s commit history.',
+        },
+      ],
+    },
   },
   {
     id: 'epic-cycles',
@@ -84,12 +114,49 @@ export const experience = [
     },
   },
   {
+    id: 'symoda',
+    role: 'IT Infrastructure & Data Migration Consultant',
+    note: 'Independent Contractor',
+    org: 'Symoda (Client: AN Design Communications)',
+    location: 'Remote contract',
+    start: 'May 2026',
+    end: 'May 2026',
+    bullets: [
+      'Diagnosed silent data-drop failures caused by legacy Mac Mini/Rclone incompatibilities and a 10 Mbps office bandwidth bottleneck, then relocated 4-drive RAID hardware onto a 500 Mbps network to bypass the legacy setup.',
+      'Wrote custom Bash automation to migrate roughly 3.6 TB of multi-terabyte RAID data into Google Workspace, filtering out system artifacts (.DS_Store, .Trashes, .fseventsd) and redundant local archives.',
+      'Split the destination across 3 Google Shared Drives to work around Google’s 500,000 file/folder structural limit, managing overnight transfers around daily API upload throttling.',
+      'Built validated transfer loops (rclone copy followed by rclone check across 16 threads) with central master logging to guarantee zero data corruption, and documented the new directory structure and permission mappings.',
+    ],
+    detail: {
+      intro:
+        'A client’s multi-terabyte RAID backup was silently dropping data. I diagnosed the cause, moved the hardware onto infrastructure that could actually carry the transfer, and rebuilt the migration to Google Workspace end to end with automated validation.',
+      sections: [
+        {
+          title: 'Diagnosis and network fix',
+          body: 'The failures traced to legacy Mac Mini/Rclone incompatibilities compounding a 10 Mbps office connection. I relocated the 4-drive RAID hardware to a 500 Mbps symmetric network environment, direct-attaching it to modern hardware and bypassing the legacy infrastructure entirely.',
+        },
+        {
+          title: 'Migration automation',
+          body: 'I engineered custom Bash scripts to migrate roughly 3.6 TB of RAID data to Google Workspace, with filtering logic that excluded system artifacts (.DS_Store, .Trashes, .fseventsd) and redundant local archives so nothing extraneous rode along.',
+        },
+        {
+          title: 'Working around Google’s structural limits',
+          body: 'Google enforces a 500,000 file/folder limit per Shared Drive. I identified the constraint and architected the destination by strategically splitting the massive source directories across 3 distinct Shared Drives, managing overnight transfers and actively throttling around daily Google API upload limits.',
+        },
+        {
+          title: 'Validation and handover',
+          body: 'Every transfer ran through automated validation loops (rclone copy followed by rclone check across 16 threads) with internal master logging to guarantee zero data corruption, and I delivered documentation of the new directory structures and user permission mappings.',
+        },
+      ],
+    },
+  },
+  {
     id: 'transom',
     role: 'Automation Engineer',
     org: 'Transom Group',
     location: 'Ottawa, ON',
     start: 'Jan 2023',
-    end: 'Jun 2023',
+    end: 'Mar 2024',
     bullets: [
       'Designed and implemented SCADA systems: custom graphic displays, alarms, events, data logging, and reporting, plus troubleshooting of the automation systems behind them.',
       'Built automation solutions for manufacturing and automotive clients in Python, C#, JavaScript, XML, SQL, and C++.',

@@ -118,9 +118,9 @@ export const experience = [
     role: 'IT Infrastructure & Data Migration Consultant',
     note: 'Independent Contractor',
     org: 'Symoda (Client: AN Design Communications)',
-    location: 'Remote contract',
-    start: 'May 2026',
-    end: 'May 2026',
+    location: 'Ottawa, ON',
+    start: 'May',
+    end: '2026',
     bullets: [
       'Diagnosed silent data-drop failures caused by legacy Mac Mini/Rclone incompatibilities and a 10 Mbps office bandwidth bottleneck, then relocated 4-drive RAID hardware onto a 500 Mbps network to bypass the legacy setup.',
       'Wrote custom Bash automation to migrate roughly 3.6 TB of multi-terabyte RAID data into Google Workspace, filtering out system artifacts (.DS_Store, .Trashes, .fseventsd) and redundant local archives.',
@@ -154,7 +154,7 @@ export const experience = [
     id: 'transom',
     role: 'Automation Engineer',
     org: 'Transom Group',
-    location: 'Ottawa, ON',
+    location: 'San Luis Potosi, Mexico',
     start: 'Jan 2023',
     end: 'Mar 2024',
     bullets: [
@@ -194,7 +194,7 @@ export const experience = [
     id: 'daikin',
     role: 'Design Engineer',
     org: 'Daikin Applied',
-    location: 'San Luis Potosí, México',
+    location: 'San Luis Potosi, Mexico',
     start: 'Mar 2021',
     end: 'May 2022',
     bullets: [

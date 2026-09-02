@@ -22,7 +22,7 @@ const ExperienceStrip = () => (
 
     <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
       <div className="min-w-0">
-        <h3 className="mb-6 flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+        <h3 className="mb-6 flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-gray-200">
           <Briefcase className="h-4 w-4" aria-hidden="true" />
           Roles
         </h3>
@@ -54,7 +54,7 @@ const ExperienceStrip = () => (
       </div>
 
       <div className="min-w-0">
-        <h3 className="mb-6 flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+        <h3 className="mb-6 flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-gray-200">
           <GraduationCap className="h-4 w-4" aria-hidden="true" />
           Education
         </h3>

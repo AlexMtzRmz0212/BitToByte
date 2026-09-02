@@ -191,16 +191,7 @@ export default function Resume() {
               </div>
               <p className="mt-0.5 text-sm text-gray-400">{item.org}</p>
               <p className="mt-2 text-sm leading-relaxed text-gray-400">{item.summary}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {item.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-0.5 text-xs text-gray-400"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              <p className="mt-2 text-xs text-gray-400">{item.tags.join(', ')}</p>
             </Reveal>
           ))}
         </ul>

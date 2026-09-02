@@ -142,12 +142,16 @@ const Navbar = ({
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Label collapses to the icon below sm: at 360px the logo, this pill and the
+              burger together overran the viewport and the label wrapped inside the pill.
+              aria-label carries the wording through for the icon-only state. */}
           <a
             href={contactHref}
-            className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-gray-300 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:text-white"
+            aria-label={contactLabel}
+            className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm whitespace-nowrap text-gray-300 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:text-white sm:px-4"
           >
             <Mail className="h-4 w-4 transition-transform duration-300 group-hover:rotate-12" />
-            {contactLabel}
+            <span className="hidden sm:inline">{contactLabel}</span>
           </a>
 
           {/* Below md the inline links are hidden, so this is the only way to reach them. */}

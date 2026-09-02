@@ -6,16 +6,12 @@ const TechMarquee = () => {
   const row = [...techStack, ...techStack];
 
   return (
-    <section id="stack" className="relative py-24">
+    <section id="stack" className="relative py-16">
       <div className="mx-auto max-w-7xl px-6">
-        <SectionHeading
-          eyebrow="Toolbox"
-          title="Built with a modern stack"
-          subtitle="The languages, frameworks, and platforms behind the network."
-        />
+        <SectionHeading align="left" title="Built with a modern stack" />
       </div>
 
-      <div className="relative mt-14 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]">
+      <div className="relative mt-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]">
         <div className="flex w-max animate-marquee gap-4 hover:[animation-play-state:paused]">
           {row.map((tech, i) => (
             <span

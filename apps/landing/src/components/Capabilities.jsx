@@ -3,9 +3,8 @@ import Reveal from './Reveal';
 import SectionHeading from './SectionHeading';
 
 const Capabilities = () => (
-  <section id="capabilities" className="relative mx-auto max-w-7xl px-6 py-24">
+  <section id="capabilities" className="relative mx-auto max-w-7xl px-6 pb-24 pt-16">
     <SectionHeading
-      eyebrow="What I build"
       title="Engineering across the stack"
       subtitle="From embedded hardware to AI models to the dashboards that make data make sense."
     />

@@ -160,17 +160,17 @@ const Projects = () => {
         studio.
       </p>
 
-      <h3 className="mb-6 text-sm font-semibold uppercase tracking-widest text-gray-400">
+      <h3 className="mb-6 text-sm font-semibold uppercase tracking-widest text-gray-200">
         Featured work
       </h3>
       <ProjectGrid projects={featured} />
 
-      <h3 className="mb-6 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-400">
+      <h3 className="mb-6 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-200">
         More projects
       </h3>
       <ProjectGrid projects={more} />
 
-      <h3 className="mb-3 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-400">
+      <h3 className="mb-3 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-200">
         Case studies
       </h3>
       <p className="mb-6 max-w-2xl text-sm text-gray-400">
@@ -196,7 +196,7 @@ export default function Home() {
       >
         <div className="flex flex-col items-center gap-6">
           <h1 className="text-5xl font-bold tracking-tight md:text-6xl">
-            Hola, my name is <span className="text-[#b5f53c]">Alejandro.</span>
+            Hola, my name is Alejandro.
           </h1>
           <p className="text-xl italic text-gray-400">(but you can call me Alex)</p>
           <p className="max-w-xl text-gray-400">

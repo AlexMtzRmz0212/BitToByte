@@ -70,16 +70,12 @@ const ProjectCard = ({ project }) => {
             {description}
           </p>
 
-          <div className="mt-auto flex flex-wrap gap-2 pt-5">
-            {tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-gray-400 transition-colors duration-300 group-hover:border-white/20 group-hover:text-gray-200"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          {/* Plain text, not a row of rounded chips. A tag cluster under every card body is
+              the single most repeated shape on generated sites, and the stack reads fine
+              as a line. Structured chip lists (skills, stack-by-group) keep their pills. */}
+          <p className="mt-auto pt-5 text-xs text-gray-400 transition-colors duration-300 group-hover:text-gray-300">
+            {tags.slice(0, 3).join(', ')}
+          </p>
         </div>
       </div>
     </a>

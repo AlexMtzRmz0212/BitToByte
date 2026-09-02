@@ -88,16 +88,10 @@ const CardShell = ({ project, children, titleAs: Title = 'h4' }) => {
       <p className={`flex-grow text-gray-400 ${isWide ? 'text-sm md:text-base' : 'text-sm'}`}>
         {project.description}
       </p>
-      <div className="flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <span
-            key={tag}
-            className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-0.5 text-xs text-gray-400"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
+      {/* Plain text, not a row of rounded chips. A tag cluster under every card body is
+          the single most repeated shape on generated sites, and the stack reads fine
+          as a line. Structured chip lists (skills, stack-by-group) keep their pills. */}
+      <p className="text-xs text-gray-400">{project.tags.slice(0, 3).join(', ')}</p>
       {children}
     </div>
   );
@@ -245,16 +239,7 @@ export const ArchiveList = ({ projects: items, titleAs: Title = 'h4' }) => (
                 {project.name}
               </Title>
               <p className="mt-1 text-sm text-gray-400">{project.tagline}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-0.5 text-xs text-gray-400"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              <p className="mt-2 text-xs text-gray-400">{project.tags.slice(0, 3).join(', ')}</p>
             </div>
 
             <ArrowRight

@@ -3,7 +3,6 @@
 
 @theme {
   --animate-aurora: aurora 20s ease-in-out infinite;
-  --animate-gradient-x: gradient-x 6s ease infinite;
   --animate-spin-slow: spin-slow 6s linear infinite;
   --animate-float: float 7s ease-in-out infinite;
   --animate-grid-fade: grid-fade 12s ease-in-out infinite;
@@ -38,11 +37,6 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: #334155; }
 
 /* ---------- Keyframes ---------- */
-@keyframes gradient-x {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
 @keyframes aurora {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
   33% { transform: translate3d(5%, -4%, 0) scale(1.12); }

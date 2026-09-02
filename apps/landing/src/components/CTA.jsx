@@ -23,7 +23,7 @@ const CTA = () => (
 
         <div className="relative">
           <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight md:text-5xl">
-            Have an idea worth <span className="text-blue-400">building</span>?
+            Have an idea worth building?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-gray-400 md:text-lg">
             From automation pipelines to AI-driven products, let's turn the concept into a system

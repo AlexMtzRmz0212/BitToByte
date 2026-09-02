@@ -51,11 +51,3 @@ export const techStack = [
   'D3.js',
   'Git',
 ];
-
-// Animated headline stats.
-export const stats = [
-  { value: 5, suffix: '', label: 'Live Projects' },
-  { value: 100, suffix: '%', label: 'Uptime' },
-  { value: 4, suffix: '', label: 'Domains' },
-  { value: 24, suffix: '/7', label: 'Always On' },
-];

@@ -22,17 +22,17 @@ export default function Work() {
         </p>
       </Reveal>
 
-      <h2 className="mb-6 mt-14 text-sm font-semibold uppercase tracking-widest text-gray-400">
+      <h2 className="mb-6 mt-14 text-sm font-semibold uppercase tracking-widest text-gray-200">
         Live products
       </h2>
       <ProjectGrid projects={featured} titleAs="h3" />
 
-      <h2 className="mb-6 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-400">
+      <h2 className="mb-6 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-200">
         Tools & experiments
       </h2>
       <ProjectGrid projects={more} titleAs="h3" />
 
-      <h2 className="mb-3 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-400">
+      <h2 className="mb-3 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-200">
         Case studies
       </h2>
       <p className="mb-6 max-w-2xl text-sm text-gray-400">
@@ -41,7 +41,7 @@ export default function Work() {
       </p>
       <ArchiveList projects={archive} titleAs="h3" />
 
-      <h2 className="mb-3 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-400">
+      <h2 className="mb-3 mt-16 text-sm font-semibold uppercase tracking-widest text-gray-200">
         Academic projects
       </h2>
       <p className="mb-6 max-w-2xl text-sm text-gray-400">
@@ -57,20 +57,11 @@ export default function Work() {
             className="rounded-xl border border-white/10 bg-white/[0.02] p-5"
           >
             <h3 className="font-semibold text-gray-100">{item.title}</h3>
-            <p className="mt-1 font-mono text-xs text-gray-400">
+            <p className="mt-1 text-xs text-gray-400">
               {item.org} · {item.dates}
             </p>
             <p className="mt-3 text-sm leading-relaxed text-gray-400">{item.summary}</p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {item.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-0.5 text-xs text-gray-400"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            <p className="mt-2 text-xs text-gray-400">{item.tags.join(', ')}</p>
           </Reveal>
         ))}
       </ul>

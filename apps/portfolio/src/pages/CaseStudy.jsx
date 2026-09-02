@@ -7,9 +7,14 @@ import PipelineDiagram from '../components/PipelineDiagram';
 import { usePageMeta } from '../hooks/usePageMeta';
 import NotFound from './NotFound';
 
+// Small-caps kicker, deliberately: this is the heading itself, not an eyebrow floating
+// above a larger one, which is the shape that reads as generated. It is gray-200 rather
+// than gray-400 so the heading is brighter than the body copy it introduces; at gray-400
+// it was the same colour as its own paragraphs and a size smaller, which left the
+// hierarchy inverted for sighted readers.
 const Block = ({ title, children }) => (
   <section className="mt-14">
-    <h2 className="mb-5 text-sm font-semibold uppercase tracking-widest text-gray-400">{title}</h2>
+    <h2 className="mb-5 text-sm font-semibold uppercase tracking-widest text-gray-200">{title}</h2>
     {children}
   </section>
 );

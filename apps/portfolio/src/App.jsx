@@ -42,6 +42,12 @@ export default function App() {
   // Vercel Analytics stays off until the visitor opts in via the consent banner.
   const [analyticsAllowed, setAnalyticsAllowed] = useState(() => getStoredConsent() === 'accepted');
 
+  // Whether the consent banner is currently up. It occupies the same bottom-right corner
+  // as the theme slider at one z-index higher, so the slider stands down until the
+  // visitor has answered. CookieConsent passes null when consent is withdrawn and the
+  // banner reopens, which is exactly when this has to flip back to true.
+  const [consentPending, setConsentPending] = useState(() => getStoredConsent() === null);
+
   // The page stays dark; one 0-100 level controls only the lime pointer glow: it maps
   // to the Background spotlight's strength and size, which grow together until near
   // 100 the glow floods the whole page at a uniform brightness.
@@ -95,11 +101,14 @@ export default function App() {
 
       {analyticsAllowed && <Analytics />}
       <CookieConsent
-        onConsentChange={(value) => setAnalyticsAllowed(value === 'accepted')}
+        onConsentChange={(value) => {
+          setAnalyticsAllowed(value === 'accepted');
+          setConsentPending(value === null);
+        }}
         privacyHref="https://bittobyte.qzz.io/privacy.html"
         acceptClassName="bg-[#b5f53c] text-gray-950 hover:brightness-105"
       />
-      <ThemeSlider level={level} onChange={setLevel} />
+      {!consentPending && <ThemeSlider level={level} onChange={setLevel} />}
     </div>
   );
 }

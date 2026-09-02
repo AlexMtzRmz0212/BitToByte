@@ -1,7 +1,4 @@
 import { ArrowRight, ArrowDown } from 'lucide-react';
-import { stats } from '../data/content';
-import { useReveal } from '../hooks/useReveal';
-import { useCountUp } from '../hooks/useCountUp';
 
 const Hero = () => {
   return (
@@ -10,10 +7,15 @@ const Hero = () => {
       className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 pt-24 text-center"
     >
       <div className="relative flex flex-col items-center">
-        <h1 className="max-w-4xl text-5xl font-extrabold leading-[1.04] tracking-tight md:text-7xl lg:text-8xl">
-          Building complexity
-          <br />
-          <span className="bg-[length:200%_auto] bg-gradient-to-r from-blue-300 via-blue-500 to-blue-300 bg-clip-text text-transparent animate-gradient-x">
+        {/* One color, two sizes. The emphasis between the two lines is typographic,
+            not a colored or gradient-filled tail on the closing phrase: that reads as
+            decoration, and it is the first thing that makes a headline look generated.
+            Accent color on this page belongs to things you can click. */}
+        <h1 className="max-w-4xl font-extrabold leading-[1.04] tracking-tight text-gray-50">
+          <span className="block text-2xl font-semibold text-gray-400 md:text-3xl lg:text-4xl">
+            Building complexity
+          </span>
+          <span className="mt-2 block text-5xl md:text-7xl lg:text-8xl">
             one piece at a time.
           </span>
         </h1>
@@ -40,8 +42,6 @@ const Hero = () => {
             View GitHub
           </a>
         </div>
-
-        <StatsRow />
       </div>
 
       <a
@@ -52,33 +52,6 @@ const Hero = () => {
         <ArrowDown className="h-5 w-5 animate-float" />
       </a>
     </header>
-  );
-};
-
-const StatsRow = () => {
-  const [ref, visible] = useReveal({ threshold: 0.4 });
-  return (
-    <div
-      ref={ref}
-      className="mt-14 grid w-full max-w-2xl grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4"
-    >
-      {stats.map((s) => (
-        <Stat key={s.label} {...s} active={visible} />
-      ))}
-    </div>
-  );
-};
-
-const Stat = ({ value, suffix, label, active }) => {
-  const count = useCountUp(value, active);
-  return (
-    <div className="flex flex-col items-center">
-      <span className="bg-gradient-to-b from-white to-gray-400 bg-clip-text text-3xl font-bold text-transparent md:text-4xl">
-        {count}
-        {suffix}
-      </span>
-      <span className="mt-1 text-xs uppercase tracking-widest text-gray-400">{label}</span>
-    </div>
   );
 };
 

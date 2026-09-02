@@ -5,16 +5,13 @@ import Reveal from './Reveal';
 const PORTFOLIO_URL = 'https://alex.bittobyte.qzz.io';
 
 const PortfolioCallout = () => (
-  <section id="portfolio" className="relative mx-auto max-w-7xl px-6 py-24">
+  <section id="portfolio" className="relative mx-auto max-w-7xl px-6 pb-28 pt-12">
     <Reveal>
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gray-900/50 p-8 backdrop-blur-xl md:p-14">
         <div className="pointer-events-none absolute -top-24 -right-16 h-64 w-64 rounded-full bg-blue-600/20 blur-[100px]" />
 
         <div className="relative grid items-center gap-10 md:grid-cols-[1.15fr_1fr]">
           <div>
-            <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-widest text-blue-300">
-              The person behind the network
-            </span>
             <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
               Meet the engineer building it all
             </h2>
@@ -46,16 +43,7 @@ const PortfolioCallout = () => (
               </div>
             </div>
 
-            <div className="mt-5 flex flex-wrap gap-2">
-              {['AI', 'Automation', 'Data Viz', 'Mechatronics'].map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-md border border-white/10 bg-white/[0.04] px-2 py-0.5 text-xs text-gray-400"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            <p className="mt-5 text-xs text-gray-400">AI, Automation, Data Viz, Mechatronics</p>
 
             <div className="mt-5 flex items-center justify-between border-t border-white/5 pt-4 text-sm text-gray-400">
               <span className="flex items-center gap-1.5">

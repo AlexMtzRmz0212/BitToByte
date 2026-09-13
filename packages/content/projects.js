@@ -23,6 +23,21 @@
 
 export const projects = [
   {
+    id: 'fedethics',
+    slug: 'fedethics',
+    name: 'FedEthics Platform',
+    tagline: 'Owning the site an advisory firm runs on, and the pipeline that feeds it',
+    description:
+      'Technical ownership of an AI-governance firm’s web platform. The founder hand-built the first version as vanilla HTML living in Google Drive; I put it under version control, migrated it to Astro, and wired the repo to production so a push to main builds and ships to Namecheap on its own. On top of that sit the backend subscriber endpoint, a consent-gated GA4 layer, and a Python pipeline that writes and sends the biweekly newsletter without a human touching an edition.',
+    liveUrl: 'https://fedethics.ca',
+    repoUrl: null,
+    tags: ['Astro', 'Python', 'CI/CD', 'Claude API', 'GA4'],
+    icon: 'globe',
+    accent: '#d4a84b',
+    featured: true,
+    group: 'product',
+  },
+  {
     id: 'eastcoast-ev',
     slug: 'eastcoast-ev',
     name: 'East Coast EV',

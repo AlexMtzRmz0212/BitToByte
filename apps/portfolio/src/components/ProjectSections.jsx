@@ -9,6 +9,7 @@ import {
   CalendarDays,
   Database,
   FileText,
+  Globe,
   Map,
   ShieldCheck,
   Terminal,
@@ -24,6 +25,7 @@ const ICONS = {
   activity: Activity,
   database: Database,
   map: Map,
+  globe: Globe,
   calendar: CalendarDays,
   chart: BarChart3,
   zap: Zap,
@@ -35,22 +37,27 @@ const ICONS = {
   workflow: Workflow,
 };
 
-// Bento mosaic: per-project tile spans (lg only; cards stack cleanly below that).
+// Bento mosaic: per-project tile spans (md and lg; cards stack cleanly below that).
 //
-// The grid is 3 columns, so a section only tiles flush when its spans sum to a
-// multiple of 3. Both sections hold 4 cards, which means the rhythm has to be
-// 2+1 / 1+2 — a 2×2 tile would cost 4 of the 6 cells and strand the fourth card
-// alone on a row of its own. Width here is editorial, not a size ranking: it
-// goes to the cards that need the room (a picker, a longer description).
+// The grid is 3 columns at lg, so a section only tiles flush when its spans sum
+// to a multiple of 3. Featured work holds 5 cards, which tiles as 2+1 / 1+1+1;
+// more projects holds 4, which has to be 2+1 / 2+1. Either way a 2×2 tile is out,
+// because it would cost 4 of the 6 cells and strand a card alone on its own row.
+// Width here is editorial, not a size ranking: it goes to the cards that need the
+// room (a picker, a longer description).
+//
+// The one md span exists for the same arithmetic one breakpoint down: 5 cards in
+// a 2-column grid leaves an orphan unless exactly one of them is double-width.
 //
 // Archive projects are deliberately absent: they render as list rows, not tiles,
 // so adding a case study never has to be paid for in mosaic arithmetic.
 const SPANS = {
-  // Featured work: 2+1 / 1+2
-  'eastcoast-ev': 'lg:col-span-2',
+  // Featured work: 2+1 / 1+1+1
+  fedethics: 'md:col-span-2 lg:col-span-2',
+  'eastcoast-ev': 'lg:col-span-1',
   'express-entry': 'lg:col-span-1',
   'daily-checklist': 'lg:col-span-1',
-  'mcu-timeline': 'lg:col-span-2',
+  'mcu-timeline': 'lg:col-span-1',
   // More projects: 2+1 / 2+1
   'bittobyte-hub': 'lg:col-span-2',
   'sports-hub': 'lg:col-span-1',

@@ -9,6 +9,82 @@
 
 export const caseStudies = {
   // ---------------------------------------------------------------- live work
+  fedethics: {
+    headline: 'Inheriting one hand-written HTML file and leaving a platform that deploys itself',
+    meta: {
+      role: 'Data Analytics Team Lead, platform owner',
+      team: 'Volunteer / pro bono, leading a multidisciplinary team',
+      org: 'FedEthics Inc., Ottawa',
+      dates: 'Feb 2026 to present',
+      status: 'Live and maintained',
+    },
+    context:
+      'FedEthics Inc. is an AI governance advisory firm: ethical leadership frameworks, executive education, and two books by its founder, who also designed and hand-wrote the first version of the site as vanilla HTML. That original front end is his, and the visual identity still is. What it did not have was a home outside Google Drive, a route to production that was not a manual upload, or any structure that survived being copied into a second page. I took the platform over from there and have owned it since: the site, the server it runs on, the backend behind its forms, and the content pipeline that feeds it.',
+    problem:
+      'A site written as standalone pages has no shared anything. Every page carried its own nav, its own footer, and its own copy of the stylesheet, so a change to the footer tagline was a ten-file edit and a change missed in one file was a bug nobody noticed for a week. Deployment was somebody moving files onto a server by hand, which meant nobody could say with confidence what was actually live. And the two things the firm most needed, measurable book funnels and a newsletter that kept arriving, could not be built on top of a site with no build step, no history, and no backend.',
+    approach: [
+      {
+        title: 'Version control before anything else',
+        body: 'The first move was getting the site off Google Drive and into a repository, because every later decision depends on being able to see what changed and revert it. That one commit is the boundary between a folder of files and a project with a history.',
+      },
+      {
+        title: 'Collapse the duplication before reframing it',
+        body: 'Rewriting a mess into a framework just gives you a well-organized mess. So the shared styles came out of every page into one stylesheet first, then an accessibility pass fixed what the audit found: contrast ratios failing AA, focus states that did not exist for keyboard users, an email input with a placeholder and no label, and score controls built from div elements with click handlers that no screen reader could reach.',
+      },
+      {
+        title: 'Wire the repository to production',
+        body: 'The site runs on Namecheap shared hosting, which offers FTP and not much else, so the deploy is a GitHub Actions workflow: push to main, install, build, then sync the built output to /public_html over FTP with the credentials held as repository secrets. That replaced manual uploads entirely. What is on main is what is live, which is the property everything after this depends on.',
+      },
+      {
+        title: 'Migrate the vanilla site to a framework',
+        body: 'With history, a clean stylesheet, and a working deploy in place, the move to Astro went in as one pass: 55 files, roughly 8,000 lines added against 4,700 removed. Nav, footer, newsletter band, and cookie banner became components; two layouts took over the head and the page chrome; the stylesheet kept ownership of the design tokens. Eleven routes, ten of which ship under a kilobyte of JavaScript, with a single React island for the newsletter form because four languages and a submit state machine genuinely warrant one.',
+      },
+      {
+        title: 'Do not break the URLs that are printed in books',
+        body: 'Restructuring the routes would have broken links that exist on paper. The server config forces HTTPS, then carries sixteen rewrite rules: every legacy /pages/*.html path 301s to its new location, and a /Book/ shortcut backs a printed QR code. Hashed build assets get a year of immutable caching while HTML must revalidate, so a deploy is visible immediately and the assets are never refetched.',
+      },
+      {
+        title: 'The backend behind the signup form',
+        body: 'The newsletter signup posts to a Python application mounted at /subscribe through Passenger on the host, which is why the newsletter page deliberately lives at a different path: the two would otherwise collide. That mount is excluded from the FTP sync so no deploy can delete the running backend, and the subscriber writes land in the audience the pipeline later sends to.',
+      },
+      {
+        title: 'Analytics that wait for permission',
+        body: 'One layout owns the tag manager container and the GA4 property, replacing a setup previously split across two containers. Consent Mode v2 defaults run inline and synchronously ahead of both tags with ad and analytics storage denied; a stored grant upgrades them on the next load, and a browser that refuses local storage stays denied rather than failing open. A single track helper emits a category and label, and around seventy namespaced labels follow both book funnels from nav through hero CTA and offer to Stripe checkout, so the two books can be compared step for step instead of pooled into one number.',
+      },
+      {
+        title: 'A newsletter that writes itself',
+        body: 'A second repository runs the content side. Daily, a job pulls twenty sources through connectors keyed on source type, scores them against a weighted keyword taxonomy, drops anything scoring zero, collapses near-duplicates at 85 percent title similarity, and appends the top thirty to a buffer committed to git. Biweekly, Claude Sonnet selects four to six stories against explicit editorial criteria, writes each one in a defined voice, and assembles the issue as structured JSON with retry and backoff for rate limits and unparseable responses. Jinja2 renders it, Resend sends it, the buffer clears.',
+      },
+      {
+        title: 'Leading it rather than only building it',
+        body: 'Two contributors added tag manager snippets page by page; I reviewed and merged that work, then refactored it into the single taxonomy the site uses now. Across the site repository I authored roughly two thirds of the commits and reviewed the rest, which is the actual shape of the role: owning the platform while other people contribute to it.',
+      },
+    ],
+    stack: [
+      { group: 'Site', items: ['Astro', 'static build', 'one React island', 'Lucide'] },
+      { group: 'Analytics', items: ['GA4', 'Google Tag Manager', 'Consent Mode v2'] },
+      {
+        group: 'Pipeline',
+        items: ['Python 3.12', 'feedparser', 'BeautifulSoup', 'Jinja2', 'Anthropic SDK'],
+      },
+      {
+        group: 'Infrastructure',
+        items: ['GitHub Actions', 'Namecheap shared hosting', 'Passenger', 'Apache', 'Resend'],
+      },
+    ],
+    outcome: [
+      'Live at fedethics.ca, deploying from main on every push instead of by hand.',
+      'Eleven routes, ten of them shipping under a kilobyte of JavaScript, from a site that previously repeated its own chrome on every page.',
+      'Every legacy URL still resolves, including the ones printed inside the books.',
+      'Analytics behind a consent gate that starts denied, with both book funnels instrumented step for step.',
+      '15 newsletter editions shipped since March 2026, selected, written, rendered, and sent with no manual writing step.',
+      'Roughly two thirds of the site repository authored directly, with the rest reviewed and merged.',
+    ],
+    diagram: 'fedethics',
+    links: [{ label: 'Live site', href: 'https://fedethics.ca' }],
+    note: 'The original front end and the visual identity are the founder’s work; my ownership starts at version control and covers the platform from there. Both current codebases live in the client’s private organization repositories, so no repo link is published here.',
+  },
+
   'express-entry': {
     headline: 'Turning an IRCC JSON feed into an answer people can act on',
     meta: { role: 'Solo build', dates: '2025 to present', status: 'Live and self-updating' },

@@ -25,6 +25,10 @@ export const profile = {
 
 // Engineering and technical employment, newest first. `detail` is the long-form
 // account of the role, shown when the entry is expanded.
+//
+// `caseStudy` is an optional /work/<slug> segment, set when the work of a role is
+// also written up as a project. It exists so the CV and the portfolio point at
+// each other instead of telling the same story twice in isolation.
 export const experience = [
   {
     id: 'fedethics',
@@ -35,39 +39,50 @@ export const experience = [
     start: 'Feb 2026',
     end: 'Present',
     current: true,
+    caseStudy: 'fedethics',
     bullets: [
-      'Lead a cross-functional technical team building and maintaining the analytics and content architecture behind FedEthics Inc.’s web platform and newsletter.',
+      'Own and maintain FedEthics Inc.’s web platform end to end: the site, its hosting and deploy path, the backend behind its forms, and the analytics and content architecture on top, while leading a multidisciplinary technical team.',
+      'Took the site from loose HTML files in Google Drive into version control, then migrated it from vanilla HTML to an Astro component architecture (55 files, ~8,000 lines added) without breaking the legacy URLs printed inside the company’s books.',
+      'Connected the repository to production on Namecheap shared hosting with a GitHub Actions build-and-FTP deploy, replacing manual uploads so that what is on main is what is live, and kept the Passenger-mounted Python subscriber backend safe from every deploy.',
       'Architected the GA4/GTM implementation: a shared gtag/dataLayer layer across 10+ pages with a custom event taxonomy tracking CTA clicks, downloads, and form submissions through two book conversion funnels.',
       'Implemented Google Consent Mode v2 with default-denied analytics storage and a custom cookie-consent banner, so no tracking data is collected before opt-in.',
-      'Designed an AI editorial pipeline that writes and sends the biweekly newsletter end to end, with no manual writing step, from ingestion to send.',
+      'Designed an AI editorial pipeline that writes and sends the biweekly newsletter end to end, with no manual writing step: 15 editions shipped since March 2026, from ingestion to send.',
     ],
     detail: {
       intro:
-        'I own the analytics and content architecture for FedEthics Inc.’s web platform: the tracking layer that measures it, and an AI editorial pipeline that runs its newsletter without anyone writing a word by hand.',
+        'I am the technical owner of FedEthics Inc.’s web platform. The founder designed and hand-wrote the original vanilla site; I took it over from there and have run it since, covering the front-end architecture, the hosting and deploy pipeline, the backend behind the forms, the analytics layer, and an AI editorial pipeline that runs the newsletter without anyone writing a word by hand.',
       sections: [
         {
+          title: 'Version control and migration',
+          body: 'I moved the site out of Google Drive into a Git repository, consolidated the per-page stylesheets into one shared sheet, ran an accessibility pass against WCAG AA (contrast, focus states, form labels, keyboard-reachable controls), and then migrated the whole thing from vanilla HTML to Astro: components for the nav, footer, newsletter band, and cookie banner, two layouts owning the head and page chrome, 11 routes, and a single React island where the interaction actually warranted one.',
+        },
+        {
+          title: 'Production deployment',
+          body: 'The site runs on Namecheap shared hosting. I wired the repository to it with a GitHub Actions workflow that installs, builds, and FTP-syncs the built output to /public_html on every push to main, with credentials held as repository secrets. Manual uploads are gone, and the deploy deliberately excludes the /subscribe mount so it can never delete the running backend.',
+        },
+        {
+          title: 'Server configuration and URL continuity',
+          body: 'I maintain the Apache configuration: forced HTTPS, 16 rewrite rules that 301 every legacy /pages/*.html path to its new location, a /Book/ shortcut backing a printed QR code, and a caching policy giving hashed build assets a year of immutable caching while HTML must revalidate. Links printed inside the books still resolve.',
+        },
+        {
+          title: 'Backend and integrations',
+          body: 'The newsletter signup posts to a Python application mounted at /subscribe through Passenger on the host. I own that integration, connecting the site form to the backend subscriber and analytics logs, and the audience the newsletter pipeline later sends to.',
+        },
+        {
           title: 'Analytics architecture',
-          body: 'A shared gtag/dataLayer layer runs across 10+ pages with a custom event taxonomy (event_category/event_label) tracking CTA clicks, downloads, and form submissions through two book conversion funnels: nav to hero CTA to offer to Stripe checkout.',
+          body: 'A shared gtag/dataLayer layer runs across 10+ pages with a custom event taxonomy (event_category/event_label) tracking CTA clicks, downloads, and form submissions through two book conversion funnels: nav to hero CTA to offer to Stripe checkout. I consolidated a setup previously split across two GTM containers into one, and refactored contributors’ page-by-page tag work into a single taxonomy.',
         },
         {
           title: 'Consent-first tracking',
           body: 'Google Consent Mode v2 ships with analytics storage default-denied, paired with a custom cookie-consent banner, so nothing is tracked before a visitor opts in, in line with the site’s Privacy Policy.',
         },
         {
-          title: 'Ingestion and scoring',
-          body: 'A daily GitHub Actions job scrapes and ingests articles from pluggable RSS/web-scraper connectors, scores them against a weighted keyword taxonomy, deduplicates near-identical stories by title similarity and URL matching, and buffers the top candidates over a rolling 14-day window.',
+          title: 'AI editorial pipeline',
+          body: 'A daily GitHub Actions job ingests articles from pluggable RSS/web-scraper connectors, scores them against a weighted keyword taxonomy, deduplicates near-identical stories by title similarity and URL matching, and buffers the top candidates over a rolling 14-day window. Biweekly, the buffer goes to the Claude API (Claude Sonnet), which selects the 4-6 most editorially valuable stories, writes analytical copy (headline, body, key takeaways, "hot take") for each in a defined editorial voice, and assembles the full issue as structured JSON, with retry/backoff for rate limits and malformed output. Jinja2 renders it to branded HTML and the Resend API sends it. No human touches an edition from ingestion to send.',
         },
         {
-          title: 'AI-written issue generation',
-          body: 'On a biweekly cadence the pipeline hands the buffered articles to the Claude API (Claude Sonnet), which selects the 4-6 most editorially valuable stories, writes analytical copy (headline, body, key takeaways, "hot take") for each in a defined editorial voice, and assembles the full issue as structured JSON, with retry/backoff logic for rate limits and malformed output.',
-        },
-        {
-          title: 'Rendering and delivery',
-          body: 'The structured output renders to branded HTML through a Jinja2 template and goes out through the Resend API, fully automated via scheduled GitHub Actions workflows. No human touches an edition from ingestion to send.',
-        },
-        {
-          title: 'Full-stack integration',
-          body: 'I oversee the integration connecting the site’s newsletter signup form to the backend subscriber and analytics logs, and direct iterative refactors of the tracking and pipeline codebases across the team’s commit history.',
+          title: 'Team leadership',
+          body: 'I direct a multidisciplinary technical team across both codebases, reviewing and merging contributors’ work and running the iterative refactors of the tracking and pipeline code. I authored roughly two thirds of the site repository’s commits and reviewed the rest.',
         },
       ],
     },

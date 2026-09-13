@@ -9,6 +9,33 @@ import { ChevronRight } from 'lucide-react';
 // pipeline instead of an alt-text summary, and stages reflow to a vertical
 // stack on a phone instead of forcing a horizontal scroll.
 const PIPELINES = {
+  fedethics: {
+    caption:
+      'The path a commit takes to production, and the separate repository that feeds the audience it collects.',
+    stages: [
+      { label: 'Repo', items: ['Astro source', '11 routes, shared layouts'] },
+      { label: 'CI', items: ['GitHub Actions on push to main', 'install, build'] },
+      { label: 'Host', items: ['FTP sync to /public_html', 'Namecheap shared hosting'] },
+      {
+        label: 'Server rules',
+        items: ['forced HTTPS', '16 legacy 301s', 'immutable asset caching'],
+      },
+      {
+        label: 'Backend',
+        items: ['Passenger Python app at /subscribe', 'never touched by a deploy'],
+      },
+    ],
+    branch: {
+      label: 'Content pipeline, separate repo and cadence',
+      items: [
+        'daily fetch + keyword scoring',
+        '14-day buffer',
+        'Claude Sonnet writes the issue',
+        'Jinja2 + Resend',
+      ],
+    },
+  },
+
   expressEntry: {
     caption: 'Daily sync path, from the government feed to a notified subscriber.',
     stages: [

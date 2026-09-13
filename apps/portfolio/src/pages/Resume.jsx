@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import { Reveal } from '@alex_mtz/bittobyte-ui';
-import { ChevronDown, GraduationCap, Languages, Wrench } from 'lucide-react';
+import { ArrowRight, ChevronDown, GraduationCap, Languages, Wrench } from 'lucide-react';
 import {
   additionalExperience,
   coursework,
@@ -52,6 +53,22 @@ const Role = ({ role }) => (
         </li>
       ))}
     </ul>
+
+    {/* A role whose work is also written up as a project links across, so the CV
+        entry and the case study are reachable from each other. */}
+    {role.caseStudy && (
+      <Link
+        to={`/work/${role.caseStudy}`}
+        className="group mt-4 inline-flex items-center gap-2 text-sm transition-colors hover:text-white"
+        style={{ color: ACCENT }}
+      >
+        Read the case study
+        <ArrowRight
+          className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+          aria-hidden="true"
+        />
+      </Link>
+    )}
 
     {/* <details> rather than a state toggle: it opens without JS, is keyboard
         operable by default, and browser find-in-page can reach the closed text. */}

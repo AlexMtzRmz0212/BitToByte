@@ -254,6 +254,59 @@ export const caseStudies = {
   },
 
   // ------------------------------------------------------------------ archive
+  fixtheflow: {
+    headline: 'One queue for every utility request, from the first call to the closed ticket',
+    meta: {
+      role: 'Backend, data analysis, and pitch, in a team of four',
+      team: 'Hack the Hill III, CGI CRM challenge',
+      org: 'Ottawa University',
+      dates: 'September 2026',
+      status: 'Hackathon build, live as a self-contained demo',
+    },
+    context:
+      'CGI’s challenge at Hack the Hill III was a CRM for Northwind Utilities, a fictional regulated energy and water provider serving 1.8 million customers. It came with seven datasets: complaints, the systems they pass through, monthly KPIs, meter reads, an AI pilot, unit costs, and contact-centre staffing. Four of us had the weekend to turn that into something a utility could run on.',
+    problem:
+      'Northwind’s complaints lived across four systems, and the data showed what that costs. 35 percent of complaints bounced between systems, and those reopened three times as often. 51 percent were about billing, yet the customer portal could not break a bill down. 77 percent of service-level targets were breached. Missed appointments were the clearest failure: 71 percent of those complaints breached their SLA.',
+    approach: [
+      {
+        title: 'The data decided the features',
+        body: 'Before any UI, I worked through the seven datasets in a pandas notebook to find where the process actually broke. Every feature in the portal answers one of those findings: the billing share became an inline bill breakdown, the transfer rate became a single shared queue, and the staffing data became a manager view of understaffed regions such as Calderfield, at 41 percent attrition.',
+      },
+      {
+        title: 'Roles and Row Level Security first',
+        body: 'The data model is a requests table and a profiles table carrying each user’s role: customer, employee, or manager. The policies are what enforce it: customers read and create only their own requests, staff read and close all of them, and only a manager can change another account’s role. A policy that looked up the caller’s role from inside a profiles policy recursed infinitely, so the role check moved into a security-definer function that every policy calls instead.',
+      },
+      {
+        title: 'One portal, three views of the same record',
+        body: 'Customers file a complaint against the real complaint taxonomy from the data, see their bill broken down as soon as they pick a billing complaint, book appointments, and track requests as open or closed. Employees work one queue and open any customer’s profile and history from it. Managers get request stats, the staffing dashboard, and account roles.',
+      },
+      {
+        title: 'A pitch deck that runs inside the app',
+        body: 'The presentation is a route of the app itself rather than a slide file: a vertical descent from the sky, past the street, down through the pipes to the reservoir, one band per part of the story. Its product slides embed the real components with sample data, so the demo shown on stage is the code that ships.',
+      },
+      {
+        title: 'Hosted without a shared database',
+        body: 'A public demo on one Supabase project would let any visitor logged in as manager change roles or close every request for everyone else. After the event I put the app behind a small backend interface with two implementations: Supabase for the real build, and an in-browser store that follows the same rules as the RLS policies. The demo runs on the second, saving each visitor’s changes in their own browser, with three sample accounts and a reset.',
+      },
+    ],
+    stack: [
+      { group: 'Frontend', items: ['React 19', 'TypeScript', 'Vite'] },
+      { group: 'Backend', items: ['Supabase Auth', 'Postgres', 'Row Level Security'] },
+      { group: 'Data', items: ['Python', 'pandas', 'Jupyter'] },
+      { group: 'Delivery', items: ['Vercel'] },
+    ],
+    outcome: [
+      'The full submit, track, and resolve loop working end to end across all three roles by the demo.',
+      '33 commits from four people across the hackathon weekend, merged into one app from parallel branches.',
+      'A live demo with customer, employee, and manager accounts that needs no backend to run.',
+    ],
+    links: [
+      { label: 'Live demo', href: 'https://hack-the-hill-iii.bittobyte.qzz.io' },
+      { label: 'Devpost', href: 'https://devpost.com/software/fixtheflow' },
+      { label: 'GitHub', href: 'https://github.com/jasonwong7770/CGI-Hack-the-Hill' },
+    ],
+  },
+
   'acra-provenance': {
     headline: 'Making "Made in Canada" something a buyer can check',
     meta: {

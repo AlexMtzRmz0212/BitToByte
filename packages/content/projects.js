@@ -159,10 +159,26 @@ export const projects = [
   },
 
   // ---------------------------------------------------------------------------
-  // Archive: finished work that is deliberately NOT hosted. Hackathon and school
-  // builds depend on local GPUs, self-hosted LLMs, or a corporate tenant, so they
-  // ship as case studies instead of live demos.
+  // Archive: finished work, written up as case studies. Most of it is deliberately
+  // NOT hosted: hackathon and school builds that depend on local GPUs, self-hosted
+  // LLMs, or a corporate tenant. When one can run on its own (FixTheFlow's demo
+  // mode needs no backend), it keeps a liveUrl and the case study links the demo.
   // ---------------------------------------------------------------------------
+  {
+    id: 'hackthehilliii',
+    slug: 'hackthehilliii',
+    name: 'Hack the Hill III',
+    tagline: 'One queue for a utility’s complaints, from first call to closed ticket',
+    description:
+      'Hackathon build for the CGI CRM challenge: a role-aware request portal for a fictional energy and water utility whose complaints were split across four systems. Customers file and track requests, employees work one shared queue, and managers see request stats and staffing hot spots, with Supabase Row Level Security deciding what each role can read.',
+    liveUrl: 'https://hack-the-hill-iii.bittobyte.qzz.io',
+    repoUrl: 'https://github.com/jasonwong7770/CGI-Hack-the-Hill',
+    tags: ['React', 'Supabase', 'Hackathon', 'Data Analysis'],
+    icon: 'workflow',
+    accent: '#80bbcf',
+    featured: false,
+    group: 'archive',
+  },
   {
     id: 'acra-provenance',
     slug: 'acra-provenance',

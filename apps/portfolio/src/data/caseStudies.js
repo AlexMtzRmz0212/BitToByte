@@ -254,7 +254,7 @@ export const caseStudies = {
   },
 
   // ------------------------------------------------------------------ archive
-  fixtheflow: {
+  hackthehilliii: {
     headline: 'One queue for every utility request, from the first call to the closed ticket',
     meta: {
       role: 'Backend, data analysis, and pitch, in a team of four',

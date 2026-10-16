@@ -39,13 +39,23 @@ export function startProgressSync(): void {
   const progress = loadProgress();
   app.set({ progress, ready: true });
   let last = progress;
+  let dirty = false;
+  const flush = () => {
+    clearTimeout(saveTimer);
+    if (dirty) saveProgress(last);
+    dirty = false;
+  };
   app.subscribe(() => {
     const next = app.get().progress;
     if (next === last) return;
     last = next;
+    dirty = true;
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => saveProgress(next), 250);
+    saveTimer = setTimeout(flush, 250);
   });
+  // Leaving or reloading straight after a change must not lose it.
+  window.addEventListener('pagehide', flush);
+  document.addEventListener('visibilitychange', () => document.hidden && flush());
 }
 
 export type NavMode = 'push' | 'replace';
@@ -84,6 +94,10 @@ export function discover(world: WorldId, slug: string): boolean {
 
 export function saveFog(world: WorldId, encoded: string): void {
   updateProgress((p) => (p.fog[world] === encoded ? null : { ...p, fog: { ...p.fog, [world]: encoded } }));
+}
+
+export function markIntroSeen(): void {
+  updateProgress((p) => (p.introSeen ? null : { ...p, introSeen: true }));
 }
 
 /** Record an easter egg. Returns true the first time. */

@@ -15,8 +15,10 @@ export interface Progress {
   fog: Partial<Record<WorldId, string>>;
   /** Easter-egg ids found anywhere. */
   secrets: string[];
-  /** Where "Explore the map" goes next time. */
+  /** The last world visited. */
   lastWorld: WorldId | null;
+  /** The intro card has been dismissed once; returning visitors land on the map. */
+  introSeen: boolean;
 }
 
 export const emptyProgress = (): Progress => ({
@@ -24,6 +26,7 @@ export const emptyProgress = (): Progress => ({
   fog: {},
   secrets: [],
   lastWorld: null,
+  introSeen: false,
 });
 
 type StorageLike = Pick<Storage, 'getItem' | 'setItem'>;
@@ -47,12 +50,13 @@ export function sanitizeProgress(value: unknown): Progress {
   const discovered = (data.discovered ?? {}) as Record<string, unknown>;
   const fog = (data.fog ?? {}) as Record<string, unknown>;
   for (const id of WORLD_IDS) {
-    const slugs = [...new Set(stringList(discovered[id]))].filter((s) => projectBySlug(s));
+    const slugs = [...new Set(stringList(discovered[id]))].filter((s) => projectBySlug(s)?.world === id);
     if (slugs.length) out.discovered[id] = slugs;
     if (typeof fog[id] === 'string') out.fog[id] = fog[id];
   }
   out.secrets = [...new Set(stringList(data.secrets))];
   out.lastWorld = isWorldId(data.lastWorld) ? data.lastWorld : null;
+  out.introSeen = data.introSeen === true;
   return out;
 }
 

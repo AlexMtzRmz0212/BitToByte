@@ -17,6 +17,10 @@ const routes = (process.env.ROUTES ?? '/,/?view=list,/?world=manuscript&view=lis
   .filter(Boolean);
 const fullPage = process.env.FULL === '1';
 const reduced = process.env.REDUCED === '1';
+const noJs = process.env.NOJS === '1';
+// Optional: accessible names of buttons/links to click (in order) before the shot, separated by "|".
+const clicks = (process.env.CLICK ?? '').split('|').filter(Boolean);
+const suffix = process.env.SUFFIX ? `-${process.env.SUFFIX}` : '';
 
 const sizes = [
   { name: 'mobile', viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
@@ -31,7 +35,11 @@ const browser = await chromium.launch();
 const errors = [];
 try {
   for (const size of sizes) {
-    const context = await browser.newContext({ ...size, reducedMotion: reduced ? 'reduce' : 'no-preference' });
+    const context = await browser.newContext({
+      ...size,
+      reducedMotion: reduced ? 'reduce' : 'no-preference',
+      javaScriptEnabled: !noJs,
+    });
     const page = await context.newPage();
     page.on('pageerror', (err) => errors.push(`${size.name} ${page.url()}: ${err.message}`));
     page.on('console', (msg) => {
@@ -39,9 +47,13 @@ try {
     });
     for (const route of routes) {
       await page.goto(base + route, { waitUntil: 'networkidle' });
-      await page.evaluate(() => document.fonts.ready);
+      if (!noJs) await page.evaluate(() => document.fonts.ready);
+      for (const name of clicks) {
+        await page.getByRole('button', { name, exact: true }).or(page.getByRole('link', { name, exact: true })).first().click();
+        await page.waitForTimeout(400);
+      }
       await page.waitForTimeout(Number(process.env.WAIT ?? 900));
-      const file = `${outDir}/${slug(route)}-${size.name}.png`;
+      const file = `${outDir}/${slug(route)}${suffix}-${size.name}.png`;
       await page.screenshot({ path: file, fullPage });
       console.log(file);
     }

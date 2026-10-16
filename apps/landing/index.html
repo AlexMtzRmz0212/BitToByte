@@ -26,6 +26,14 @@
       name="twitter:description"
       content="The studio of Alejandro Martínez, AI and automation engineer. Eleven live projects across four map-worlds."
     />
+    <script>
+      // Before first paint: JS is on, and returning visitors skip the intro card.
+      document.documentElement.classList.add('js');
+      try {
+        var saved = JSON.parse(localStorage.getItem('bittobyte-multiverse-v1') || '{}');
+        if (saved.introSeen === true && !location.search) document.documentElement.classList.add('intro-seen');
+      } catch (e) {}
+    </script>
     <!--head-extra-->
     <!--world-tokens-->
   </head>

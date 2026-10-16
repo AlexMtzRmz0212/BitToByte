@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { isArchetypeId, isSceneId } from '../districts/archetypes';
 import { KINDS, projects } from './projects';
+import { isWorldId } from './worlds';
 
 // Guards the promise that adding a project is a data-only change: anything a
 // component relies on is checked here instead.
@@ -12,6 +13,7 @@ describe('projects data', () => {
   });
 
   it.each(projects.map((p) => [p.slug, p] as const))('%s is complete', (_, p) => {
+    expect(isWorldId(p.world)).toBe(true);
     expect(p.name.trim()).not.toBe('');
     expect(p.oneLiner.length).toBeGreaterThan(20);
     expect(p.oneLiner.length).toBeLessThanOrEqual(90);

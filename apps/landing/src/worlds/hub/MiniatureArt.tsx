@@ -1,11 +1,12 @@
 import type { WorldId } from '../../data/worlds';
 
-// Live miniatures inside the Nexus portal rings. Each ring scopes its world's
-// tokens onto itself (see PortalRing), so these draw with that world's palette
-// through the usual theme classes. Motion is one small loop each, transform and
-// opacity only, and stops under reduced motion (nexus.css).
+// Live miniatures of each world, seen through the hub's portals. They draw on a
+// 200x200 grid with the usual theme classes; the portal scopes the destination
+// world's tokens onto them, so each renders in its own palette. Motion is one
+// small loop each, transform and opacity only, stopped under reduced motion
+// (hub.css).
 
-export default function Miniature({ id }: { id: WorldId }) {
+export default function MiniatureArt({ id }: { id: WorldId }) {
   switch (id) {
     case 'manuscript':
       return <ManuscriptMini />;
@@ -17,13 +18,6 @@ export default function Miniature({ id }: { id: WorldId }) {
       return <PopMini />;
   }
 }
-
-const svgProps = {
-  viewBox: '0 0 200 200',
-  className: 'mini h-full w-full',
-  'aria-hidden': true,
-  focusable: false,
-} as const;
 
 /* ------------------------------------------------------------- Manuscript */
 
@@ -49,7 +43,7 @@ const HATCH = HILLS.flatMap(([a, c, b]) =>
 
 function ManuscriptMini() {
   return (
-    <svg {...svgProps}>
+    <g className="mini">
       <defs>
         <radialGradient id="mm-age" cx="50%" cy="46%" r="72%">
           <stop offset="58%" className="[stop-color:var(--w-ink)]" stopOpacity="0" />
@@ -105,7 +99,7 @@ function ManuscriptMini() {
       {/* river */}
       <path d="M0 176C38 160 62 192 102 176S162 158 200 170" fill="none" className="stroke-deco-2" strokeWidth="4" />
       <path d="M0 171C38 155 62 187 102 171S162 153 200 165" fill="none" className="stroke-ink" strokeWidth="0.7" opacity="0.6" />
-    </svg>
+    </g>
   );
 }
 
@@ -143,7 +137,7 @@ const cubeFaces = (cx: number, cy: number) => ({
 
 function VoxelMini() {
   return (
-    <svg {...svgProps}>
+    <g className="mini">
       <rect width="200" height="200" className="fill-bg" />
       <rect width="200" height="200" className="mini-dusk" fill="#F2A65A" />
       <rect width="200" height="200" className="mini-night" fill="#14213D" />
@@ -176,7 +170,7 @@ function VoxelMini() {
           <path d="M7-3L0 1V9L7 5Z" className="fill-accent" opacity="0.8" />
         </g>
       </g>
-    </svg>
+    </g>
   );
 }
 
@@ -191,7 +185,7 @@ const WINDOWS: Pt[] = [
 
 function NoirMini() {
   return (
-    <svg {...svgProps}>
+    <g className="mini">
       <defs>
         <linearGradient id="nm-sky" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" className="[stop-color:var(--w-bg)]" />
@@ -225,7 +219,7 @@ function NoirMini() {
           <path key={n} d={`M${(n * 37) % 200} ${(n * 53) % 200}l-3 10M${(n * 37) % 200} ${((n * 53) % 200) - 200}l-3 10`} />
         ))}
       </g>
-    </svg>
+    </g>
   );
 }
 
@@ -239,7 +233,7 @@ const BURST = Array.from({ length: 20 }, (_, n) => {
 
 function PopMini() {
   return (
-    <svg {...svgProps}>
+    <g className="mini">
       <defs>
         <pattern id="pm-dots" width="8" height="8" patternUnits="userSpaceOnUse">
           <circle cx="4" cy="4" r="1.7" className="fill-deco-1" />
@@ -284,6 +278,6 @@ function PopMini() {
       <g className="mini-fly">
         <path d="M60 98l26-10-10 22-4-8z" className="fill-surface stroke-ink" strokeWidth="2" strokeLinejoin="round" />
       </g>
-    </svg>
+    </g>
   );
 }

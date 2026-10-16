@@ -1,0 +1,763 @@
+/* The map screen: surface, labels, route, HUD, travel panel, cards.
+ * Colors, type, radii and shadows come from the world tokens; per-world chrome
+ * (bevels, ribbons, balloons) lives in theme/chrome.css. */
+
+@layer components {
+.map-screen {
+  position: fixed;
+  inset: 0;
+  /* clip, not hidden: a hidden box can still be scrolled by focus or script. */
+  overflow: clip;
+  color: var(--w-ink);
+}
+
+/* ------------------------------------------------------------------- surface */
+
+.map-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.map-viewport[data-dragging] {
+  cursor: grabbing;
+}
+.map-viewport:focus-visible {
+  box-shadow: inset 0 0 0 3px var(--w-focus);
+}
+
+/* Before the controller takes over (and without JS): centred at a fixed zoom. */
+.map-world {
+  --z0: 0.38;
+  --inv-z: 2.632;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(var(--z0));
+  transform-origin: 50% 50%;
+}
+@media (min-width: 768px) {
+  .map-world { --z0: 0.55; --inv-z: 1.818; }
+}
+@media (min-width: 1280px) {
+  .map-world { --z0: 0.68; --inv-z: 1.471; }
+}
+.map-world[data-moving='true'] {
+  will-change: transform;
+}
+
+.map-art,
+.map-route {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+.map-route {
+  pointer-events: none;
+}
+.map-art [data-target] {
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------- route */
+
+.route {
+  fill: none;
+  stroke: var(--w-route);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.route-reveal {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 60;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+}
+.map-route[data-state='done'] .route {
+  opacity: 0.45;
+  transition: opacity 1.4s ease 0.6s;
+}
+.map-route[data-state='idle'] .route {
+  opacity: 0;
+}
+
+/* Nexus: a dotted flight path. Other worlds add their own in their CSS. */
+.route-flight {
+  stroke-width: 4;
+  stroke-dasharray: 0.5 12;
+  filter: drop-shadow(0 0 4px color-mix(in oklab, var(--w-route) 70%, transparent));
+}
+
+/* ----------------------------------------------------------------- markers */
+
+.map-marker {
+  position: absolute;
+  transform-origin: 0 0;
+  transform: scale(var(--inv-z)) translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 0.3rem 0.75rem 0.35rem;
+  border: var(--w-bw) solid var(--w-line);
+  border-radius: var(--w-r-control);
+  background: color-mix(in oklab, var(--w-raised) 88%, transparent);
+  color: var(--w-ink);
+  box-shadow: var(--w-shadow-card);
+  font-family: var(--w-font-body);
+  font-size: 0.875rem;
+  line-height: 1.15;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--w-dur-fast) var(--w-ease);
+}
+/* A 44px touch target around a smaller-looking label. */
+.map-marker::before {
+  content: '';
+  position: absolute;
+  inset: -8px -4px;
+}
+.marker-gate,
+.marker-home {
+  transform: scale(var(--inv-z)) translate(-50%, 0);
+}
+.map-marker:hover {
+  background: var(--w-raised);
+}
+.map-marker:focus-visible {
+  outline: 3px solid var(--w-focus);
+  outline-offset: 2px;
+}
+.marker-label {
+  font-weight: 650;
+}
+/* Zoomed far out (phones, overviews): smaller labels, no subtitles. */
+.map-world[data-zoom='far'] .map-marker {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+}
+.map-world[data-zoom='far'] .marker-sub {
+  display: none;
+}
+.marker-sub {
+  font-size: 0.75rem;
+  color: var(--w-muted);
+}
+.map-marker[data-state='here'] {
+  border-color: var(--w-accent);
+  box-shadow: var(--w-shadow-pop);
+}
+
+/* ---------------------------------------------------------------- traveler */
+
+.traveler {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* --------------------------------------------------------------------- HUD */
+
+.chrome {
+  background: color-mix(in oklab, var(--w-raised) 96%, transparent);
+  border: var(--w-bw) solid var(--w-line);
+  border-radius: var(--w-r-card);
+  box-shadow: var(--w-shadow-card);
+  color: var(--w-ink);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.chrome-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  background: color-mix(in oklab, var(--w-raised) 90%, transparent);
+  border: var(--w-bw) solid var(--w-line);
+  border-radius: var(--w-r-control);
+  box-shadow: var(--w-shadow-card);
+  color: var(--w-ink);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.hud-top {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: max(0.75rem, env(safe-area-inset-top)) 0.75rem 0;
+  pointer-events: none;
+}
+.hud-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  pointer-events: auto;
+}
+.hud-group.chrome-pill {
+  gap: 0.25rem;
+  padding: 0 0.85rem 0 0.2rem;
+}
+.hud-title {
+  font-size: 1.05rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+.hud-button {
+  gap: 0.4rem;
+  padding: 0 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.hud-button:hover {
+  background: var(--w-raised);
+}
+@media (max-width: 380px) {
+  .hud-title {
+    font-size: 0.95rem;
+  }
+}
+
+.found-counter {
+  gap: 0.5rem;
+  padding: 0 0.85rem;
+  font-size: 0.875rem;
+  color: var(--w-muted);
+}
+.found-bar {
+  display: none;
+}
+
+/* Compass + zoom, bottom-left on desktop, under the HUD on phones. */
+.map-tools {
+  position: absolute;
+  z-index: 20;
+  left: 0.75rem;
+  top: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+  pointer-events: none;
+}
+.map-tools > * {
+  pointer-events: auto;
+}
+@media (min-width: 1024px) {
+  .map-tools {
+    top: auto;
+    bottom: 1rem;
+    left: 1rem;
+  }
+}
+.compass {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding: 0;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+.compass-face {
+  fill: color-mix(in oklab, var(--w-surface) 80%, transparent);
+  stroke: var(--w-line);
+  stroke-width: 1.5;
+}
+.compass-north {
+  fill: var(--w-accent);
+}
+.compass-south {
+  fill: var(--w-muted);
+  opacity: 0.6;
+}
+.compass-pin {
+  fill: var(--w-ink);
+}
+.compass g {
+  transition: transform 160ms linear;
+}
+.zoom-tools {
+  flex-direction: column;
+  padding: 0.15rem;
+  border-radius: var(--w-r-card);
+}
+@media (max-width: 1023px) {
+  .zoom-tools {
+    display: none;
+  }
+}
+.zoom-tools button {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--w-r-control);
+  color: var(--w-ink);
+}
+.zoom-tools button:hover {
+  background: color-mix(in oklab, var(--w-ink) 10%, transparent);
+}
+
+.edge-chip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 15;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.25rem;
+  padding: 0 0.75rem 0 0.55rem;
+  border-radius: var(--w-r-control);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+.edge-chip[data-visible='true'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+.edge-arrow {
+  color: var(--w-accent-text);
+  transform: rotate(var(--angle, 0deg));
+}
+
+/* ------------------------------------------------------------ world dock */
+
+.dock-slot {
+  position: absolute;
+  z-index: 21;
+  left: 0;
+  right: 0;
+  bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  padding: 0 0.75rem;
+  pointer-events: none;
+}
+@media (min-width: 1024px) {
+  .dock-slot {
+    bottom: 1rem;
+    right: 380px;
+  }
+}
+
+/* ----------------------------------------------------------- travel panel */
+
+.travel-panel {
+  position: absolute;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.travel-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.75rem 0.75rem 1.1rem;
+  border-bottom: 1px solid var(--w-line);
+}
+.travel-toggle {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-left: auto;
+  border-radius: var(--w-r-control);
+  color: var(--w-ink);
+  transition: transform var(--w-dur-fast) var(--w-ease);
+}
+.travel-panel[data-open='true'] .travel-toggle {
+  transform: rotate(180deg);
+}
+.travel-body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.5rem 0.5rem 1rem;
+}
+.travel-group + .travel-group {
+  margin-top: 0.5rem;
+}
+.travel-group-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.6rem 0.35rem;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  color: var(--w-muted);
+}
+.travel-item {
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+  border-radius: var(--w-r-card);
+}
+.travel-item:hover {
+  background: color-mix(in oklab, var(--w-ink) 6%, transparent);
+}
+.travel-go {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: var(--w-r-card);
+  color: var(--w-ink);
+  text-decoration: none;
+}
+.travel-name {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 650;
+}
+.travel-item[data-found='true'] .travel-name svg {
+  color: var(--w-accent-text);
+}
+.travel-line {
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--w-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.travel-launch {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.75rem;
+  border-radius: var(--w-r-card);
+  color: var(--w-muted);
+}
+.travel-launch:hover {
+  color: var(--w-accent-text);
+}
+
+/* Phones: a bottom sheet that peeks. */
+@media (max-width: 1023px) {
+  .travel-panel {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 74dvh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-width: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    transform: translateY(calc(100% - 4rem - env(safe-area-inset-bottom)));
+    transition: transform var(--w-dur-slow) var(--w-ease);
+  }
+  .travel-panel[data-open='true'] {
+    transform: none;
+  }
+  /* Folded away: the list leaves the tab order until the sheet opens. */
+  .travel-panel[data-open='false'] .travel-body {
+    visibility: hidden;
+    transition: visibility 0s linear var(--w-dur-slow);
+  }
+  .travel-head {
+    min-height: 4rem;
+  }
+}
+/* Desktop: docked on the right. */
+@media (min-width: 1024px) {
+  .travel-panel {
+    top: 4.5rem;
+    right: 1rem;
+    bottom: 1rem;
+    width: 22rem;
+  }
+  .travel-toggle {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ cards */
+
+.intro-card,
+.project-card {
+  position: absolute;
+  z-index: 30;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.5rem;
+}
+@media (max-width: 1023px) {
+  .intro-card,
+  .project-card {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 78dvh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+    animation: card-rise var(--w-dur-slow) var(--w-ease) both;
+  }
+}
+@media (min-width: 1024px) {
+  .intro-card {
+    top: 4.5rem;
+    left: 1rem;
+    width: 28rem;
+    max-height: calc(100dvh - 6rem);
+    padding: 1.75rem;
+  }
+  .project-card {
+    top: 4.5rem;
+    left: 5.25rem;
+    width: 26rem;
+    max-height: calc(100dvh - 10rem);
+  }
+}
+@media (max-width: 639px) {
+  .intro-card {
+    padding: 1.25rem 1.1rem;
+  }
+  .intro-card .wordmark {
+    font-size: 2.6rem;
+    margin-top: 0.9rem;
+  }
+  .intro-card .intro-tagline {
+    font-size: 1.05rem;
+  }
+  .intro-card .intro-blurb {
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .intro-how {
+    font-size: 0.9rem;
+  }
+  .intro-card .availability {
+    display: block;
+    margin-right: 2.75rem;
+    padding: 0;
+    border: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .intro-card .availability-dot {
+    display: inline-block;
+    margin-right: 0.5rem;
+    vertical-align: 1px;
+  }
+  .intro-card .availability-link {
+    display: inline;
+    padding: 0 0 0 0.35rem;
+    text-decoration: underline;
+  }
+  .intro-card .intro-how {
+    display: none;
+  }
+}
+@keyframes card-rise {
+  from { transform: translateY(24px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-card,
+  .project-card {
+    animation: none;
+  }
+}
+
+.card-close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--w-r-control);
+  color: var(--w-muted);
+}
+.card-close:hover {
+  color: var(--w-ink);
+  background: color-mix(in oklab, var(--w-ink) 8%, transparent);
+}
+
+.card-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-right: 2.5rem;
+  font-size: 0.8125rem;
+  color: var(--w-muted);
+}
+.card-title {
+  margin-top: 0.35rem;
+  font-size: 1.85rem;
+  line-height: 1.05;
+  outline: none;
+}
+.card-preview {
+  margin-top: 1rem;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+  border: var(--w-bw) solid var(--w-line);
+  border-radius: calc(var(--w-r-card) * 0.6);
+}
+.card-oneliner {
+  margin-top: 1rem;
+  font-size: 1.125rem;
+  line-height: 1.35;
+}
+.card-summary {
+  margin-top: 0.6rem;
+  line-height: 1.55;
+  color: var(--w-muted);
+}
+
+/* The intro: who, what, how. */
+.availability {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.6rem;
+  padding: 0.3rem 0.35rem 0.3rem 0.85rem;
+  margin-right: 2.5rem;
+  border: 1px solid var(--w-line);
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+}
+.availability-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #34d399;
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.2);
+}
+.availability-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 0.6rem;
+  border-radius: 9999px;
+  font-weight: 650;
+  color: var(--w-accent-text);
+}
+.availability-link:hover {
+  text-decoration: underline;
+}
+
+/* "BitToByte" grows from a light bit to a heavy byte on one variable axis. */
+.wordmark {
+  margin-top: 1.1rem;
+  font-family: var(--w-font-display);
+  font-size: clamp(2.9rem, 12vw, 3.9rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-variation-settings: 'opsz' 96;
+}
+.wordmark .w-bit { font-weight: 300; }
+.wordmark .w-to { font-weight: 500; color: var(--w-muted); }
+.wordmark .w-byte { font-weight: 800; }
+.intro-tagline {
+  margin-top: 0.4rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--w-muted);
+}
+.intro-blurb {
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+.intro-how {
+  margin-top: 0.75rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid var(--w-accent);
+  line-height: 1.5;
+  color: var(--w-muted);
+}
+.intro-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--w-line);
+}
+
+/* Returning visitors: hidden before hydration by a pre-paint class. */
+html.intro-seen .intro-card {
+  display: none;
+}
+
+.map-loading {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--w-muted);
+}
+
+/* ---------------------------------------------------------------- no JS */
+/* Without JavaScript the map can't move, so the page becomes a normal
+ * document: the art as a banner, then the intro and the full travel list. */
+html:not(.js) .map-screen {
+  position: static;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+html:not(.js) .map-viewport {
+  position: relative;
+  height: 55vh;
+  border-radius: var(--w-r-card);
+}
+html:not(.js) .hud-top {
+  position: static;
+  order: -2;
+  padding: 0;
+}
+html:not(.js) .map-marker,
+html:not(.js) .map-tools,
+html:not(.js) .dock-slot,
+html:not(.js) .travel-toggle,
+html:not(.js) .card-close {
+  display: none;
+}
+html:not(.js) .travel-panel,
+html:not(.js) .intro-card {
+  position: static;
+  transform: none;
+  width: auto;
+  max-height: none;
+  order: -1;
+}
+html:not(.js) .travel-panel {
+  order: 1;
+}
+html:not(.js) .travel-panel .travel-body {
+  visibility: visible;
+}
+}

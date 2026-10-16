@@ -1,7 +1,7 @@
 // The one place project copy lives.
 //
-// Every surface on bittobyte.qzz.io reads from this list: the Nexus index, the
-// prerendered HTML crawlers see, the list view, every map's districts and every
+// Every surface on bittobyte.qzz.io reads from this list: the travel panel, the
+// prerendered HTML crawlers see, the list view, each world's landmarks and every
 // info card. To add a project, append an object. To change copy, edit it here.
 // No component needs to change either way.
 //
@@ -14,12 +14,13 @@
 //   liveUrl     Where "Launch live project" goes. Confirmed live on 2026-10-15.
 //   repoUrl     GitHub link, or null to hide the button.
 //   preview     Screenshot under /public/previews, or null until one exists.
-//   kind        Which group it sits in on the list view.
-//   district    Building concept on the maps (src/districts/archetypes.ts).
+//   world       Which map it lives on (src/data/worlds.ts).
+//   kind        A small label: client work, product, tool...
+//   district    Its landmark on the map (src/districts/archetypes.ts). If the
+//               world has no art for that id, it gets the world's generic hall.
 //   scene       Arrival mini-scene id (same file).
-//   lot         Optional: pin to a specific lot index in a world. By default,
-//               projects fill each world's lots in the order of this array, and
-//               the first lots sit nearest the spawn point.
+//   lot         Optional: pin to a lot index on its world's map. By default a
+//               world's projects fill its lots in the order of this array.
 //
 // Anything marked TODO(alex) is a draft or an open question for Alex.
 
@@ -37,17 +38,18 @@ export interface Project {
   liveUrl: string;
   repoUrl: string | null;
   preview: { src: string; alt: string; width: number; height: number } | null;
+  world: WorldId;
   kind: ProjectKind;
   district: ArchetypeId;
   scene: SceneId;
-  lot?: Partial<Record<WorldId, number>>;
+  lot?: number;
 }
 
 export const KINDS: { id: ProjectKind; label: string }[] = [
   { id: 'client', label: 'Client work' },
-  { id: 'product', label: 'Live products' },
-  { id: 'tool', label: 'Personal tools' },
-  { id: 'data', label: 'Data stories' },
+  { id: 'product', label: 'Live product' },
+  { id: 'tool', label: 'Personal tool' },
+  { id: 'data', label: 'Data story' },
   { id: 'hackathon', label: 'Hackathon' },
 ];
 
@@ -63,6 +65,7 @@ export const projects: Project[] = [
     // TODO(alex): the repo (github.com/FedEthics/fedethics.ca) is public. Show it?
     repoUrl: null,
     preview: null,
+    world: 'manuscript',
     kind: 'client',
     district: 'courthouse',
     scene: 'scales',
@@ -78,6 +81,7 @@ export const projects: Project[] = [
     // TODO(alex): the repo (github.com/AlexMtzRmz0212/EastCoastEV.ca) is public. Show it?
     repoUrl: null,
     preview: null,
+    world: 'noir',
     kind: 'client',
     district: 'lighthouse',
     scene: 'charge',
@@ -95,6 +99,7 @@ export const projects: Project[] = [
     liveUrl: 'https://ee.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/ExpressEntryDrawsAnalysis',
     preview: null,
+    world: 'manuscript',
     kind: 'product',
     district: 'gate',
     scene: 'flipboard',
@@ -109,6 +114,7 @@ export const projects: Project[] = [
     liveUrl: 'https://checklist.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/Daily-Checklist',
     preview: null,
+    world: 'voxel',
     kind: 'product',
     district: 'clocktower',
     scene: 'sort',
@@ -123,6 +129,7 @@ export const projects: Project[] = [
     liveUrl: 'https://hell-o-fame.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/Hell-o-Fame',
     preview: null,
+    world: 'pop',
     kind: 'tool',
     district: 'monument',
     scene: 'ranking',
@@ -137,6 +144,7 @@ export const projects: Project[] = [
     liveUrl: 'https://cinetech.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/cinetech',
     preview: null,
+    world: 'noir',
     kind: 'tool',
     district: 'cinema',
     scene: 'projector',
@@ -151,6 +159,7 @@ export const projects: Project[] = [
     liveUrl: 'https://projects.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/ProjectsTracker',
     preview: null,
+    world: 'voxel',
     kind: 'tool',
     district: 'tower',
     scene: 'timer',
@@ -166,6 +175,7 @@ export const projects: Project[] = [
     liveUrl: 'https://habits.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/Habits-Tracking',
     preview: null,
+    world: 'manuscript',
     kind: 'data',
     district: 'garden',
     scene: 'sundial',
@@ -181,6 +191,7 @@ export const projects: Project[] = [
     liveUrl: 'https://sports.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/Sports',
     preview: null,
+    world: 'pop',
     kind: 'data',
     district: 'stadium',
     scene: 'ball',
@@ -196,6 +207,7 @@ export const projects: Project[] = [
     liveUrl: 'https://marvel.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/MARVEL',
     preview: null,
+    world: 'pop',
     kind: 'data',
     district: 'library',
     scene: 'shelf',
@@ -212,6 +224,7 @@ export const projects: Project[] = [
     // TODO(alex): this is a teammate's repo (jasonwong7770). Keep the link?
     repoUrl: 'https://github.com/jasonwong7770/CGI-Hack-the-Hill',
     preview: null,
+    world: 'voxel',
     kind: 'hackathon',
     district: 'arena',
     scene: 'queue',
@@ -223,5 +236,8 @@ const bySlug = new Map(projects.map((p) => [p.slug, p]));
 export const projectBySlug = (slug: string | null | undefined): Project | undefined =>
   slug ? bySlug.get(slug) : undefined;
 
-export const projectsByKind = (kind: ProjectKind): Project[] =>
-  projects.filter((p) => p.kind === kind);
+export const projectsInWorld = (world: WorldId): Project[] =>
+  projects.filter((p) => p.world === world);
+
+export const kindLabel = (kind: ProjectKind): string =>
+  KINDS.find((k) => k.id === kind)?.label ?? kind;

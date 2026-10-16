@@ -99,7 +99,7 @@ export default function Starfield() {
   }, []);
 
   return (
-    <div className="starfield-fallback pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+    <div className="starfield-fallback pointer-events-none absolute inset-0" aria-hidden="true">
       <canvas ref={ref} className="starfield h-full w-full" />
     </div>
   );

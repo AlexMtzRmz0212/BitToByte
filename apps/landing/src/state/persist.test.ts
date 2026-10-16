@@ -24,7 +24,8 @@ describe('progress persistence', () => {
     const store = memory();
     const progress = {
       ...emptyProgress(),
-      discovered: { manuscript: ['cinetech', 'habits'] },
+      discovered: { manuscript: ['fedethics', 'habits'], noir: ['cinetech'] },
+      introSeen: true,
       secrets: ['noir:rooftop-line'],
       lastWorld: 'noir' as const,
     };
@@ -45,15 +46,15 @@ describe('progress persistence', () => {
     expect(loadProgress(store)).toEqual(emptyProgress());
   });
 
-  it('drops unknown worlds, projects and types', () => {
+  it('drops unknown worlds, projects, misplaced projects and bad types', () => {
     const clean = sanitizeProgress({
-      discovered: { manuscript: ['cinetech', 'cinetech', 'gone', 7], atlantis: ['habits'] },
+      discovered: { manuscript: ['habits', 'habits', 'gone', 7, 'cinetech'], atlantis: ['habits'] },
       secrets: ['a', 'a', 3],
       lastWorld: 'atlantis',
     });
     expect(clean).toEqual({
       ...emptyProgress(),
-      discovered: { manuscript: ['cinetech'] },
+      discovered: { manuscript: ['habits'] },
       secrets: ['a'],
     });
   });

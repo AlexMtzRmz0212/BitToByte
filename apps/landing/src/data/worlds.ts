@@ -66,27 +66,49 @@ export interface World extends Place {
   id: WorldId;
 }
 
+/**
+ * A place's map, in world units (the art is drawn on the same grid).
+ * Landmarks sit on `lots`: a world's projects fill them in the order they
+ * appear in projects.ts, so list the lots nearest the arrival gates first and
+ * keep a few spare for future projects.
+ */
+export interface MapLayout {
+  size: { w: number; h: number };
+  /** Where the traveler starts when arriving without a gate (a deep link). */
+  spawn: Point;
+  lots: Point[];
+  /** Portal gates, keyed by the place they lead to. */
+  gates: Partial<Record<PlaceId, Point>>;
+  /** The hub's studio building (hub only). */
+  home?: Point;
+  /** A region to fit on screen when the map opens (instead of zooming in on the traveler). */
+  overview?: { x: number; y: number; w: number; h: number };
+  /** Where this world's secret hides. */
+  secret?: Point;
+  fog?: { kind: 'ink' | 'chunks' | 'mist' | 'halftone'; cell: number; radius: number };
+}
+
 export const NEXUS: Place = {
   id: 'nexus',
   name: 'The Nexus',
   short: 'Nexus',
-  tagline: 'The hub between worlds',
+  tagline: 'A hub drifting between dimensions',
   tokens: {
     bg: '#030712',
-    surface: '#0B1220',
-    raised: '#111A2E',
-    ink: '#F3F4F6',
-    muted: '#9CA3AF',
-    accent: '#2563EB',
-    'accent-ink': '#F8FAFF',
-    'accent-text': '#60A5FA',
-    line: 'rgba(148, 163, 184, 0.16)',
-    focus: '#93C5FD',
-    route: '#60A5FA',
+    surface: '#0A1122',
+    raised: '#111B33',
+    ink: '#F1F5F9',
+    muted: '#A3AEC4',
+    accent: '#8EE04B',
+    'accent-ink': '#08160A',
+    'accent-text': '#9EE65F',
+    line: 'rgba(158, 230, 95, 0.18)',
+    focus: '#C3F59A',
+    route: '#8EE04B',
     fog: '#030712',
-    'deco-1': '#60A5FA',
-    'deco-2': '#A5B4FC',
-    'deco-3': '#34D399',
+    'deco-1': '#8EE04B',
+    'deco-2': '#5EEAD4',
+    'deco-3': '#C084FC',
     'font-display': "'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif",
     'font-body': "'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, sans-serif",
     'display-weight': '700',
@@ -96,7 +118,7 @@ export const NEXUS: Place = {
     'r-control': '9999px',
     bw: '1px',
     'shadow-card': '0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 48px -24px rgba(2, 6, 23, 0.8)',
-    'shadow-pop': '0 12px 32px -12px rgba(37, 99, 235, 0.55)',
+    'shadow-pop': '0 10px 32px -10px rgba(142, 224, 75, 0.55)',
     'dur-fast': '200ms',
     'dur-slow': '600ms',
     ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
@@ -109,7 +131,7 @@ export const WORLDS: Record<WorldId, World> = {
     id: 'manuscript',
     name: 'Manuscript Realm',
     short: 'Manuscript',
-    tagline: 'Ink, parchment and tiny towers',
+    tagline: 'Inked corridors that draw themselves',
     tokens: {
       bg: '#E6D5B0',
       surface: '#F0E4C8',
@@ -146,23 +168,23 @@ export const WORLDS: Record<WorldId, World> = {
     id: 'voxel',
     name: 'Voxel Overworld',
     short: 'Voxel',
-    tagline: 'Blocks, drones and a sky that keeps time',
+    tagline: 'Blocks, rails and a sky that keeps time',
     tokens: {
-      bg: '#9BD7F0',
-      surface: '#FDFBF4',
-      raised: '#FFFDF8',
-      ink: '#1B2A41',
-      muted: '#36506B',
-      accent: '#B83F26',
-      'accent-ink': '#FFFDF8',
-      'accent-text': '#8C2F1A',
-      line: '#1B2A41',
-      focus: '#1B2A41',
-      route: '#B83F26',
-      fog: '#E4EEF4',
-      'deco-1': '#7FD8BE',
-      'deco-2': '#F4D58D',
-      'deco-3': '#3A86FF',
+      bg: '#8FCBEA',
+      surface: '#C9C9C4',
+      raised: '#DCDCD7',
+      ink: '#1F2226',
+      muted: '#40454C',
+      accent: '#2F7A1F',
+      'accent-ink': '#FBFFF5',
+      'accent-text': '#1F5514',
+      line: '#1E1E1E',
+      focus: '#1F2226',
+      route: '#5A4632',
+      fog: '#EEF2F4',
+      'deco-1': '#6DBB3B',
+      'deco-2': '#8B5E3C',
+      'deco-3': '#3A7BD5',
       'font-display': "'Pixelify Sans Variable', 'Pixelify Sans', 'Atkinson Hyperlegible', monospace",
       'font-body': "'Atkinson Hyperlegible', ui-sans-serif, sans-serif",
       'display-weight': '600',
@@ -170,9 +192,11 @@ export const WORLDS: Record<WorldId, World> = {
       'display-tracking': '0.01em',
       'r-card': '0px',
       'r-control': '0px',
-      bw: '3px',
-      'shadow-card': '4px 4px 0 #1B2A41',
-      'shadow-pop': '6px 6px 0 #1B2A41',
+      bw: '2px',
+      'shadow-card':
+        'inset -3px -3px 0 rgba(0, 0, 0, 0.28), inset 3px 3px 0 rgba(255, 255, 255, 0.6), 0 0 0 2px #1E1E1E',
+      'shadow-pop':
+        'inset -3px -3px 0 rgba(0, 0, 0, 0.3), inset 3px 3px 0 rgba(255, 255, 255, 0.35), 0 0 0 2px #1E1E1E',
       'dur-fast': '160ms',
       'dur-slow': '420ms',
       ease: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
@@ -183,7 +207,7 @@ export const WORLDS: Record<WorldId, World> = {
     id: 'noir',
     name: 'Noir Metropolis',
     short: 'Noir',
-    tagline: 'Rain, rooftops and one amber light',
+    tagline: 'Rain, gargoyles and a signal in the sky',
     tokens: {
       bg: '#070B14',
       surface: '#0E1626',
@@ -220,23 +244,23 @@ export const WORLDS: Record<WorldId, World> = {
     id: 'pop',
     name: 'Pop-Panel City',
     short: 'Pop',
-    tagline: 'Halftone streets and loud little panels',
+    tagline: 'Red, blue and loud on every page',
     tokens: {
       bg: '#F2EFE6',
       surface: '#FFFEFA',
       raised: '#FFF3B0',
       ink: '#161616',
       muted: '#3D3D3D',
-      accent: '#C80F68',
+      accent: '#C8102E',
       'accent-ink': '#FFFEFA',
-      'accent-text': '#B80D5E',
+      'accent-text': '#A80D26',
       line: '#161616',
       focus: '#161616',
-      route: '#161616',
-      fog: '#00A6D6',
-      'deco-1': '#00A6D6',
+      route: '#F4F1E8',
+      fog: '#1B4FD8',
+      'deco-1': '#1B4FD8',
       'deco-2': '#FFD400',
-      'deco-3': '#FF6FB0',
+      'deco-3': '#E8414A',
       'font-display': "'Bangers', Impact, sans-serif",
       'font-body': "'Comic Neue', 'Comic Sans MS', sans-serif",
       'display-weight': '400',
@@ -270,3 +294,110 @@ export const SECRET_IDS: Record<WorldId, string> = {
   noir: 'noir:rooftop-line',
   pop: 'pop:bonus-panel',
 };
+
+/** Map layouts. Gates are keyed by destination; worlds form a ring of
+ *  neighbours (Manuscript, Voxel, Pop, Noir) and each has a gate home. */
+export const MAPS: Record<PlaceId, MapLayout> = {
+  nexus: {
+    size: { w: 1600, h: 1200 },
+    home: { x: 800, y: 590 },
+    spawn: { x: 990, y: 566 },
+    overview: { x: 262, y: 110, w: 1076, h: 1010 },
+    lots: [],
+    gates: {
+      manuscript: { x: 800, y: 228 },
+      voxel: { x: 1222, y: 600 },
+      pop: { x: 800, y: 972 },
+      noir: { x: 378, y: 600 },
+    },
+  },
+  manuscript: {
+    size: { w: 2200, h: 1500 },
+    spawn: { x: 430, y: 1150 },
+    lots: [
+      { x: 980, y: 760 },
+      { x: 1560, y: 1060 },
+      { x: 1430, y: 470 },
+      { x: 720, y: 1110 },
+      { x: 1080, y: 320 },
+      { x: 1850, y: 820 },
+    ],
+    gates: {
+      nexus: { x: 330, y: 1250 },
+      voxel: { x: 1930, y: 360 },
+      noir: { x: 300, y: 330 },
+    },
+    secret: { x: 2120, y: 1420 },
+    fog: { kind: 'ink', cell: 40, radius: 260 },
+  },
+  voxel: {
+    size: { w: 2200, h: 1500 },
+    spawn: { x: 1100, y: 1240 },
+    lots: [
+      { x: 700, y: 820 },
+      { x: 1100, y: 560 },
+      { x: 1520, y: 860 },
+      { x: 520, y: 1200 },
+      { x: 1700, y: 1220 },
+      { x: 1100, y: 980 },
+    ],
+    gates: {
+      nexus: { x: 1100, y: 1330 },
+      manuscript: { x: 280, y: 380 },
+      pop: { x: 1930, y: 400 },
+    },
+    secret: { x: 1880, y: 1300 },
+    fog: { kind: 'chunks', cell: 50, radius: 240 },
+  },
+  noir: {
+    size: { w: 2200, h: 1500 },
+    spawn: { x: 1860, y: 1180 },
+    lots: [
+      { x: 1000, y: 720 },
+      { x: 1560, y: 640 },
+      { x: 760, y: 1050 },
+      { x: 1300, y: 1100 },
+      { x: 1800, y: 380 },
+      { x: 560, y: 520 },
+    ],
+    gates: {
+      nexus: { x: 1960, y: 1240 },
+      pop: { x: 300, y: 1220 },
+      manuscript: { x: 300, y: 320 },
+    },
+    secret: { x: 1250, y: 330 },
+    fog: { kind: 'mist', cell: 40, radius: 260 },
+  },
+  pop: {
+    size: { w: 2200, h: 1500 },
+    spawn: { x: 1100, y: 300 },
+    lots: [
+      { x: 620, y: 600 },
+      { x: 1100, y: 780 },
+      { x: 1580, y: 600 },
+      { x: 800, y: 1150 },
+      { x: 1400, y: 1150 },
+      { x: 1100, y: 1300 },
+    ],
+    gates: {
+      nexus: { x: 1100, y: 190 },
+      voxel: { x: 1940, y: 1220 },
+      noir: { x: 260, y: 1220 },
+    },
+    secret: { x: 2080, y: 130 },
+    fog: { kind: 'halftone', cell: 36, radius: 250 },
+  },
+};
+
+/** Where you step out when travelling from `from` to `to`. */
+export function arrivalPoint(to: PlaceId, from: PlaceId | null): Point {
+  const map = MAPS[to];
+  const gate = (from && map.gates[from]) ?? map.gates.nexus;
+  return gate ?? map.spawn;
+}
+
+/** The gate to walk to when leaving `from` for `to`: a direct gate if there is one, else the way home. */
+export function departureGate(from: PlaceId, to: PlaceId): Point | null {
+  const gates = MAPS[from].gates;
+  return gates[to] ?? gates.nexus ?? null;
+}

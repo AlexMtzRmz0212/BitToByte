@@ -1,0 +1,218 @@
+/* Noir Metropolis: near-black blues, one amber light. */
+@layer components {
+  .nr-ground { fill: #080D18; }
+  .nr-street { fill: #0E1626; }
+  .nr-lane { stroke: #F2A93B; stroke-opacity: 0.18; stroke-width: 2; stroke-dasharray: 22 18; fill: none; }
+  .nr-crosswalk { stroke: #D7DEEA; stroke-opacity: 0.16; stroke-width: 5; }
+  .nr-streak { stroke: #5B7BA8; stroke-opacity: 0.25; stroke-width: 3; stroke-linecap: round; }
+  .nr-streak-amber { stroke: #F2A93B; stroke-opacity: 0.22; }
+  .nr-lamp { fill: #FFD89A; }
+  .nr-wave { stroke: #5B7BA8; stroke-opacity: 0.22; stroke-width: 2; fill: none; stroke-linecap: round; }
+  .nr-pier { fill: #1A2236; stroke: #2B3754; stroke-width: 2; }
+  .nr-jetty { fill: #1C2538; stroke: #2B3754; stroke-width: 2; }
+
+  .nr-front { fill: #111A2D; stroke: #1E2A44; stroke-width: 1.5; }
+  .nr-deco { fill: #131D33; }
+  .nr-gothic { fill: #0F1729; }
+  .nr-slab { fill: #121B2F; }
+  .nr-side { fill: #0A1120; }
+  .nr-top { fill: #1A2540; }
+  .nr-win { fill: #0A1222; }
+  .nr-lit { fill: #FFD89A; opacity: 0.82; }
+  .nr-crown { fill: none; stroke: #2B3A5C; stroke-width: 3; stroke-linejoin: round; }
+  .nr-pilaster { fill: none; stroke: #23314F; stroke-width: 3; }
+  .nr-gargoyle { fill: #04070F; }
+  .nr-antenna { stroke: #2B3A5C; stroke-width: 3; }
+  .nr-aviation { fill: #E55A4E; }
+  .nr-neon { fill: none; stroke: #F2A93B; stroke-width: 3; filter: drop-shadow(0 0 6px #F2A93B); }
+
+  .nr-steam circle { fill: #9FB3D1; opacity: 0.12; }
+
+  /* landmarks */
+  .nr-landmark, .nr-gate { cursor: pointer; }
+  .nr-rock { fill: #151D2E; stroke: #232E46; stroke-width: 2; }
+  .nr-tower { fill: #22304E; stroke: #2E3D60; stroke-width: 2; }
+  .nr-band { stroke: #F2A93B; stroke-opacity: 0.55; stroke-width: 5; }
+  .nr-gallery { fill: #1A2540; stroke: #2E3D60; stroke-width: 2; }
+  .nr-lantern { fill: #3A3220; stroke: #2E3D60; stroke-width: 2; }
+  .nr-lamp-core { fill: #FFE7B0; filter: drop-shadow(0 0 10px #F2A93B); }
+  .nr-cap { fill: #1A2540; stroke: #2E3D60; stroke-width: 2; }
+  .nr-light-beam { fill: #FFD89A; opacity: 0.16; mix-blend-mode: screen; }
+  .nr-projector { opacity: 0.1; }
+  .nr-kiosk { fill: #1A2540; stroke: #2E3D60; stroke-width: 2; }
+  .nr-bolt { fill: #F2A93B; }
+  .nr-cable { fill: none; stroke: #2E3D60; stroke-width: 3; }
+  .nr-bike { fill: none; stroke: #9FB3D1; stroke-width: 3.5; stroke-linejoin: round; }
+  .nr-cinema { fill: #172240; }
+  .nr-poster { fill: #2A2238; stroke: #F2A93B; stroke-opacity: 0.6; stroke-width: 2; }
+  .nr-marquee { fill: #1F2A45; stroke: #F2A93B; stroke-width: 2; }
+  .nr-bulb { fill: #FFE7B0; }
+  .nr-door { fill: #05080F; }
+  .nr-blade { fill: #0B1222; stroke: #F2A93B; stroke-width: 3; filter: drop-shadow(0 0 6px rgba(242, 169, 59, 0.6)); }
+  .nr-blade-text { font-family: 'Antonio Variable', 'Antonio', sans-serif; font-weight: 700; font-size: 20px; fill: #FFD89A; }
+
+  /* gate */
+  .nr-gate-glow { fill: #F2A93B; opacity: 0.12; }
+  .nr-arch-void { fill: #05080F; }
+  .nr-vortex-arm { fill: none; stroke: #9FB3D1; stroke-opacity: 0.6; stroke-width: 3; stroke-linecap: round; }
+  .nr-arch { fill: #1A2540; stroke: #2E3D60; stroke-width: 2.5; }
+  .nr-sunburst { fill: none; stroke: #F2A93B; stroke-width: 3; stroke-linecap: round; opacity: 0.8; }
+  .nr-arch-step { stroke: #2E3D60; stroke-width: 5; }
+
+  /* route: an amber light trail */
+  .route-trail {
+    stroke-width: 4;
+    opacity: 0.95;
+    filter: drop-shadow(0 0 6px #F2A93B);
+  }
+
+  /* traffic and blimp */
+  .nr-headlight { fill: #FFF3D6; }
+  .nr-beam { fill: #FFF3D6; opacity: 0.12; }
+  .nr-taillight { fill: #E55A4E; }
+  .nr-blimp-body { fill: #0B1222; stroke: #23314F; stroke-width: 2; }
+  .nr-car, .nr-blimp { opacity: 0; }
+
+  /* the traveler: an amber beacon */
+  .nr-beacon {
+    position: relative;
+    width: 0;
+    height: 0;
+  }
+  .nr-orb {
+    position: absolute;
+    left: -9px;
+    top: -9px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFF3D6 0 30%, #F2A93B 60%, rgba(242, 169, 59, 0) 72%);
+    box-shadow: 0 0 22px 6px rgba(242, 169, 59, 0.45);
+  }
+  .nr-cone-turn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: rotate(var(--heading, 0deg));
+  }
+  .nr-cone {
+    position: absolute;
+    left: 0;
+    top: -36px;
+    width: 120px;
+    height: 72px;
+    background: linear-gradient(90deg, rgba(255, 216, 154, 0.55), rgba(255, 216, 154, 0));
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+    transform-origin: 0 50%;
+    mix-blend-mode: screen;
+  }
+
+  .nr-fog { filter: blur(1.5px); }
+
+  /* screen-space sky effects */
+  .nr-backdrop {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(#04070F, #0B1428 70%, #131F3A);
+  }
+  .nr-fx {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .nr-fx .map-particles { z-index: 2; }
+  .nr-clouds {
+    position: absolute;
+    left: -20%;
+    right: -20%;
+    top: -6%;
+    height: 34%;
+    background:
+      radial-gradient(28% 50% at 20% 40%, rgba(27, 38, 64, 0.85), transparent 70%),
+      radial-gradient(30% 55% at 50% 30%, rgba(30, 42, 70, 0.8), transparent 70%),
+      radial-gradient(26% 50% at 80% 45%, rgba(27, 38, 64, 0.85), transparent 70%);
+  }
+  .nr-searchlight {
+    position: absolute;
+    bottom: -10%;
+    width: 140px;
+    height: 120%;
+    background: linear-gradient(0deg, rgba(200, 215, 240, 0.16), rgba(200, 215, 240, 0));
+    clip-path: polygon(46% 100%, 54% 100%, 100% 0, 0 0);
+    transform-origin: 50% 100%;
+    mix-blend-mode: screen;
+  }
+  .nr-searchlight-a { left: 12%; transform: rotate(-18deg); }
+  .nr-searchlight-b { right: 18%; transform: rotate(14deg); }
+  .nr-signal-beam {
+    position: absolute;
+    left: 4%;
+    bottom: -8%;
+    width: 220px;
+    height: 112%;
+    background: linear-gradient(0deg, rgba(255, 228, 170, 0.18), rgba(255, 228, 170, 0.04));
+    clip-path: polygon(48% 100%, 52% 100%, 100% 0, 40% 0);
+    transform: rotate(18deg);
+    transform-origin: 50% 100%;
+    mix-blend-mode: screen;
+  }
+  .nr-signal {
+    position: absolute;
+    left: calc(4% + 230px);
+    top: 4%;
+    width: 150px;
+    height: 96px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(255, 236, 190, 0.55), rgba(255, 228, 170, 0.32) 65%, rgba(255, 228, 170, 0) 100%);
+    mix-blend-mode: screen;
+  }
+  .nr-signal-mark {
+    width: 54px;
+    height: 54px;
+    color: #0B1222;
+    stroke-width: 3.2;
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+  }
+  @media (max-width: 767px) {
+    .nr-signal { left: 46%; width: 110px; height: 72px; }
+    .nr-signal-mark { width: 40px; height: 40px; }
+    .nr-signal-beam { left: 8%; transform: rotate(24deg); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nr-flicker { animation: nr-flicker 6s steps(1) infinite; }
+    .nr-neon { animation: nr-flicker 7.4s steps(1) infinite; }
+    .nr-aviation { animation: nr-blink 1.6s steps(1) infinite; }
+    .nr-bulb { animation: nr-chase 0.75s steps(1) infinite; }
+    .nr-sweep { animation: nr-sweep 9s ease-in-out infinite alternate; }
+    .nr-vortex { animation: nr-turn 10s linear infinite; }
+    .nr-steam { animation: nr-steam 4.5s ease-out infinite; }
+    .nr-car { opacity: 1; animation-name: nr-drive; animation-timing-function: linear; animation-iteration-count: infinite; }
+    .nr-car-west { animation-name: nr-drive-west; }
+    .nr-blimp { opacity: 1; animation: nr-blimp 90s linear infinite; }
+    .nr-searchlight-a { animation: nr-search-a 11s ease-in-out infinite alternate; }
+    .nr-searchlight-b { animation: nr-search-b 13s ease-in-out infinite alternate; }
+    .nr-clouds { animation: nr-clouds 60s ease-in-out infinite alternate; }
+    .nr-signal { animation: nr-signal 9s ease-in-out infinite alternate; }
+    .nr-cone { animation: nr-cone 2.8s ease-in-out infinite alternate; }
+  }
+  @keyframes nr-flicker { 0%, 100% { opacity: 0.85; } 44% { opacity: 0.15; } 46% { opacity: 0.85; } 48% { opacity: 0.25; } 51% { opacity: 0.85; } }
+  @keyframes nr-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
+  @keyframes nr-chase { 0%, 100% { opacity: 1; } 33% { opacity: 0.25; } }
+  @keyframes nr-sweep { from { transform: rotate(-30deg); } to { transform: rotate(32deg); } }
+  @keyframes nr-turn { to { transform: rotate(-360deg); } }
+  @keyframes nr-steam { from { transform: translateY(10px) scale(0.6); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(-40px) scale(1.4); opacity: 0; } }
+  @keyframes nr-drive { from { transform: translateX(-120px); } to { transform: translateX(2320px); } }
+  @keyframes nr-drive-west { from { transform: translateX(120px); } to { transform: translateX(-2320px); } }
+  @keyframes nr-blimp { from { transform: translateX(-300px); } to { transform: translateX(2500px); } }
+  @keyframes nr-search-a { from { transform: rotate(-30deg); } to { transform: rotate(12deg); } }
+  @keyframes nr-search-b { from { transform: rotate(22deg); } to { transform: rotate(-16deg); } }
+  @keyframes nr-clouds { from { transform: translateX(-4%); } to { transform: translateX(4%); } }
+  @keyframes nr-signal { from { transform: translate(-6px, 2px) rotate(-2deg); } to { transform: translate(8px, -3px) rotate(2deg); } }
+  @keyframes nr-cone { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
+}

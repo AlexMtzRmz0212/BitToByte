@@ -1,0 +1,47 @@
+/* Pop-Panel City: ink, flat colour, Ben-Day dots. */
+@layer components {
+  .pp-masthead { font-family: 'Bangers', Impact, sans-serif; font-size: 118px; fill: #C8102E; stroke: #161616; stroke-width: 6px; paint-order: stroke; letter-spacing: 3px; }
+  .pp-masthead-2 { fill: #1B4FD8; }
+  .pp-caption { font-family: 'Comic Neue', sans-serif; font-weight: 700; font-style: italic; font-size: 26px; fill: #161616; }
+  .pp-balloon-text { font-family: 'Comic Neue', sans-serif; font-weight: 700; font-size: 28px; fill: #161616; }
+  .pp-sfx { font-family: 'Bangers', Impact, sans-serif; font-size: 52px; fill: #161616; letter-spacing: 2px; }
+  .pp-paper-title { font-family: 'Bangers', Impact, sans-serif; font-size: 46px; fill: #161616; letter-spacing: 2px; }
+  .pp-paper-headline { font-family: 'Comic Neue', sans-serif; font-weight: 700; font-size: 30px; fill: #161616; }
+  .pp-score { font-family: 'Bangers', Impact, sans-serif; font-size: 40px; fill: #FFD400; }
+  .pp-sign { font-family: 'Bangers', Impact, sans-serif; font-size: 24px; fill: #161616; letter-spacing: 3px; }
+  .pp-landmark, .pp-gate { cursor: pointer; }
+  .pp-spider { transform: translate(-50%, -78%); }
+  .pp-spider svg { display: block; overflow: visible; }
+  .pp-spider-body { fill: var(--w-accent); stroke: #161616; stroke-width: 3; }
+  .route-silk { stroke-width: 2.5; }
+  .pp-sfx-layer { position: absolute; inset: 0; z-index: 5; overflow: hidden; pointer-events: none; }
+  .pp-pop {
+    position: absolute;
+    padding: 6px 14px 4px;
+    font-family: 'Bangers', Impact, sans-serif;
+    font-size: 34px;
+    letter-spacing: 2px;
+    color: #161616;
+    border: 4px solid #161616;
+    box-shadow: 5px 5px 0 #161616;
+    animation: pp-pop 1.6s cubic-bezier(0.3, 1.8, 0.5, 1) both;
+  }
+  .pp-plane { display: none; }
+  @media (prefers-reduced-motion: no-preference) {
+    .pp-eye { animation: pp-spin 6s linear infinite; }
+    .pp-gate:hover .pp-eye { animation-duration: 2s; }
+    .pp-swing { transform-origin: 0 -70px; animation: pp-swing 2.2s ease-in-out infinite alternate; }
+    .pp-sparkle { transform-box: fill-box; transform-origin: center; animation: pp-twinkle 1.8s ease-in-out infinite alternate; }
+    .pp-ball { animation: pp-bounce 1.4s ease-in-out infinite alternate; }
+  }
+  @keyframes pp-spin { to { transform: rotate(360deg); } }
+  @keyframes pp-swing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
+  @keyframes pp-twinkle { from { transform: scale(0.8) rotate(0deg); } to { transform: scale(1.15) rotate(20deg); } }
+  @keyframes pp-bounce { from { transform: translateY(0); } to { transform: translateY(-40px); } }
+  @keyframes pp-pop {
+    0% { transform: scale(0); opacity: 0; }
+    15% { transform: scale(1.15); opacity: 1; }
+    25%, 80% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0; }
+  }
+}

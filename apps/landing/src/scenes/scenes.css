@@ -71,4 +71,82 @@
     from { transform: scale(0); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
   }
+
+  /* ---- shared scene pieces (block, noir and comic scenes) ---- */
+  .sc-board { fill: var(--w-surface); stroke: var(--w-ink); stroke-width: 2.5; }
+  .sc-grid { fill: none; stroke: var(--w-ink); stroke-width: 2; opacity: 0.6; }
+  .sc-note { stroke: var(--w-ink); stroke-width: 2; }
+  .sc-note-a { fill: var(--w-accent); }
+  .sc-note-b { fill: var(--w-deco-1); }
+  .sc-note-c { fill: var(--w-deco-2); }
+  .sc-note-d { fill: var(--w-deco-3); }
+  .sc-scribble { fill: none; stroke: var(--w-ink); stroke-width: 2; opacity: 0.55; }
+  .sc-source { fill: var(--w-surface); stroke: var(--w-ink); stroke-width: 2; }
+  .sc-ring-back { fill: none; stroke: var(--w-line); stroke-width: 10; opacity: 0.6; }
+  .sc-ring { fill: none; stroke: var(--w-accent); stroke-width: 10; stroke-dasharray: 1 1; stroke-dashoffset: 0.25; }
+  .sc-hand { fill: var(--w-ink); transform-box: view-box; transform-origin: 60px 55px; transform: rotate(270deg); }
+  .sc-heat { stroke: var(--w-ink); stroke-width: 1.5; }
+  .sc-heat-0 { fill: var(--w-surface); }
+  .sc-heat-1 { fill: color-mix(in oklab, var(--w-accent) 35%, var(--w-surface)); }
+  .sc-heat-2 { fill: color-mix(in oklab, var(--w-accent) 65%, var(--w-surface)); }
+  .sc-heat-3 { fill: var(--w-accent); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sc-sort, .sc-ticket { animation: sc-from 900ms steps(6, end) both; }
+    .sc-ring { animation: sc-ring 2.4s linear both; }
+    .sc-hand { animation: sc-hand 2.4s steps(12, end) both; }
+    .sc-heat { animation: sc-pop 280ms steps(3, end) both; }
+  }
+  @keyframes sc-from { from { transform: translate(var(--fx), var(--fy)); } }
+  @keyframes sc-ring { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0.25; } }
+  @keyframes sc-hand { from { transform: rotate(0deg); } to { transform: rotate(270deg); } }
+  @keyframes sc-pop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+  .sc-heat { transform-box: fill-box; transform-origin: center; }
+
+  /* ---- noir scenes ---- */
+  .sc-line { fill: none; stroke: var(--w-ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .sc-body { fill: var(--w-surface); }
+  .sc-beam { fill: var(--w-accent); opacity: 0.22; }
+  .sc-lamp { fill: var(--w-accent); stroke: none; }
+  .sc-poster { fill: var(--w-raised); stroke: var(--w-accent); stroke-width: 2; transform-box: fill-box; transform-origin: center; }
+  .sc-star { fill: none; stroke: var(--w-accent); stroke-width: 1.5; }
+  .sc-star-on { fill: var(--w-accent); }
+  .sc-cell { fill: var(--w-accent); }
+  .sc-reel { transform-box: view-box; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sc-beam { animation: sc-flicker 2.2s steps(1) both; }
+    .sc-reel { animation: sc-spin 1.2s linear 2; }
+    .sc-poster { animation: sc-flip 420ms ease-out both; }
+    .sc-star-on { animation: sc-fade 240ms ease-out both; }
+    .sc-sweep { transform-box: view-box; animation: sc-sweep 2.6s ease-in-out both; }
+    .sc-cell { animation: sc-fade 220ms ease-out both; }
+  }
+  @keyframes sc-flicker { 0% { opacity: 0; } 10% { opacity: 0.3; } 14% { opacity: 0.05; } 20%, 100% { opacity: 0.22; } }
+  @keyframes sc-spin { to { transform: rotate(360deg); } }
+  @keyframes sc-flip { from { transform: scaleX(0); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes sc-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes sc-sweep { from { transform: rotate(-40deg); } to { transform: rotate(8deg); } }
+
+  /* ---- comic scenes ---- */
+  .sc-burst { fill: var(--w-deco-2); stroke: var(--w-ink); stroke-width: 2.5; transform-box: fill-box; transform-origin: center; }
+  .sc-hole { fill: var(--w-ink); }
+  .sc-pitch { fill: #6DBB3B; stroke: var(--w-ink); stroke-width: 2.5; }
+  .sc-chalk { stroke: #FFFEFA; stroke-width: 2; }
+  .sc-score { font-family: var(--w-font-display); font-size: 26px; fill: var(--w-ink); }
+  .sc-ball { fill: #FFFEFA; stroke: var(--w-ink); stroke-width: 2.5; }
+  .sc-arc { transform: translate(250px, 64px); }
+  @media (prefers-reduced-motion: no-preference) {
+    .sc-slide { animation: sc-from 520ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+    .sc-burst { animation: sc-pop 360ms cubic-bezier(0.3, 1.6, 0.5, 1) 900ms both; }
+    .sc-arc { animation: sc-arc 1.6s linear both; }
+    .sc-score-b { animation: sc-fade 200ms ease-out 1.5s both; }
+  }
+  @keyframes sc-arc {
+    0% { transform: translate(30px, 70px); }
+    25% { transform: translate(85px, 22px); }
+    50% { transform: translate(140px, 8px); }
+    75% { transform: translate(195px, 22px); }
+    100% { transform: translate(250px, 64px); }
+  }
 }

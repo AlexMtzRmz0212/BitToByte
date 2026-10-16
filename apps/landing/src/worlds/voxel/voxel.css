@@ -1,0 +1,223 @@
+/* Voxel Overworld: block materials, the day/night sky, and moving parts.
+ * Light comes from the upper left: tops brightest, left faces mid, right darkest. */
+@layer components {
+  /* terrain */
+  .vx-grass-top { fill: #6DBB3B; }
+  .vx-grass-speck { fill: #5CA22F; }
+  .vx-grass-left, .vx-dirt-left { fill: #8B5E3C; }
+  .vx-grass-right, .vx-dirt-right { fill: #6E472B; }
+  .vx-dirt-speck { fill: #5A3A22; opacity: 0.55; }
+  .vx-fringe-left { fill: #5CA22F; }
+  .vx-fringe-right { fill: #4A8826; }
+  .vx-sand-top { fill: #E3CF8E; }
+  .vx-sand-speck { fill: #CDB874; }
+  .vx-sand-left { fill: #CDB874; }
+  .vx-sand-right { fill: #B39E5C; }
+  .vx-stone-top { fill: #9A9C9E; }
+  .vx-stone-left { fill: #7D8083; }
+  .vx-stone-right { fill: #63666A; }
+  .vx-stone-speck { fill: #55585C; opacity: 0.6; }
+  .vx-water-top { fill: #3A7BD5; opacity: 0.92; }
+  .vx-water-left { fill: #2E63AD; }
+  .vx-water-right { fill: #244F8C; }
+  .vx-ripple { fill: none; stroke: #CFE4FF; stroke-width: 2.5; opacity: 0.6; }
+  .vx-flower-red { fill: #E2483D; }
+  .vx-flower-yellow { fill: #F7D234; }
+  .vx-trunk-left { fill: #7A5534; }
+  .vx-trunk-right { fill: #5E4026; }
+  .vx-leaf-top { fill: #4E9A2C; }
+  .vx-leaf-left { fill: #3F8124; }
+  .vx-leaf-right { fill: #33691D; }
+
+  /* landmark materials */
+  .vx-cobble-top { fill: #A6A8AA; }
+  .vx-cobble-left { fill: #8A8C8F; }
+  .vx-cobble-right { fill: #6E7174; }
+  .vx-brick-top { fill: #B9B9B4; }
+  .vx-brick-left { fill: #A3A39D; }
+  .vx-brick-right { fill: #84847F; }
+  .vx-quartz-top { fill: #F2EFE8; }
+  .vx-quartz-left { fill: #DCD8CF; }
+  .vx-quartz-right { fill: #BDB8AE; }
+  .vx-plank-top { fill: #C4955A; }
+  .vx-plank-left { fill: #A97C45; }
+  .vx-plank-right { fill: #8A6336; }
+  .vx-roof-left { fill: #9C3A2A; }
+  .vx-roof-right { fill: #7A2D21; }
+  .vx-hill-top { fill: #6DBB3B; }
+  .vx-hill-left { fill: #8B5E3C; }
+  .vx-hill-right { fill: #6E472B; }
+  .vx-seat-top { fill: #D8D3C4; }
+  .vx-seat-left { fill: #B9B3A2; }
+  .vx-seat-right { fill: #9A9483; }
+  .vx-beacon-top { fill: #A5F3FC; }
+  .vx-beacon-left { fill: #3FB9C8; }
+  .vx-beacon-right { fill: #2A8C99; }
+  .vx-window { fill: #2B3A52; }
+  .vx-door { fill: #5A3E22; }
+  .vx-banner { fill: var(--w-accent); }
+  .vx-clock { fill: #F6F2E6; stroke: #2B2B2B; stroke-width: 2; }
+  .vx-clock-dark { fill: #D6D1C1; }
+  .vx-hand { fill: none; stroke: #2B2B2B; stroke-width: 3; stroke-linecap: square; }
+  .vx-note-a { fill: #E2483D; }
+  .vx-note-b { fill: #F7D234; }
+  .vx-note-c { fill: #6DBB3B; }
+  .vx-note-d { fill: #3A7BD5; }
+  .vx-heat { stroke: #8F8A80; stroke-width: 1; }
+  .vx-heat-0 { fill: #E6E2D8; }
+  .vx-heat-1 { fill: #A9D98C; }
+  .vx-heat-2 { fill: #6DBB3B; }
+  .vx-heat-3 { fill: #2F7A1F; }
+  .vx-ring-back { fill: none; stroke: #2B3A52; stroke-width: 8; }
+  .vx-ring { fill: none; stroke: #8EE04B; stroke-width: 8; stroke-dasharray: 1 1; stroke-dashoffset: 0.3; }
+  .vx-antenna { stroke: #3B3F45; stroke-width: 4; }
+  .vx-beacon-light { fill: #F2443A; }
+  .vx-beam {
+    fill: #BFF7FF;
+    opacity: 0.45;
+    mix-blend-mode: screen;
+  }
+
+  /* gates */
+  .vx-gate, .vx-landmark { cursor: pointer; }
+  .vx-gate-shadow { fill: #1B2A41; opacity: 0.18; }
+  .vx-frame-top { fill: #5E6266; }
+  .vx-frame-left { fill: #474A4E; }
+  .vx-frame-right { fill: #3A3D41; }
+  .vx-pane { opacity: 0.85; }
+  .vx-pane-pixel { fill: #ffffff; opacity: 0; }
+
+  /* the cart */
+  .vx-cart { transform: translate(-50%, -66%); }
+  .vx-cart svg { display: block; overflow: visible; }
+  .vx-cart-left { fill: #8E9AA6; stroke: #3B4048; stroke-width: 1.5; }
+  .vx-cart-right { fill: #6B7682; stroke: #3B4048; stroke-width: 1.5; }
+  .vx-cart-inside { fill: #3B4048; }
+  .vx-cargo-top { fill: #8EE04B; }
+  .vx-cargo-left { fill: #6DBB3B; }
+  .vx-cargo-right { fill: #4E9A2C; }
+  .vx-wheel { fill: #2F3540; }
+
+  /* route: rail ties */
+  .route-rails {
+    stroke-width: 10;
+    stroke-dasharray: 4 9;
+    stroke-linecap: butt;
+    opacity: 0.9;
+  }
+
+  /* clouds */
+  .vx-cloud-top { fill: #FFFFFF; }
+  .vx-cloud-side { fill: #EEF2F6; }
+  .vx-cloud-side2 { fill: #DCE4EC; }
+  .vx-clouds { opacity: 0.94; }
+
+  /* fog: pixel-sharp cloud chunks */
+  .vx-fog { image-rendering: pixelated; }
+
+  /* sky */
+  .vx-sky {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(#8FCBEA, #C9ECF8 70%);
+    overflow: hidden;
+  }
+  .vx-sky > div { position: absolute; }
+  .vx-sky-dusk {
+    inset: 0;
+    background: linear-gradient(#5B5FA8, #F2A65A 75%, #F7C77A);
+    opacity: 0;
+  }
+  .vx-sky-night {
+    inset: 0;
+    background: linear-gradient(#0B1330, #1B2A55);
+    opacity: 0;
+  }
+  .vx-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(#fff, #fff), linear-gradient(#fff, #fff), linear-gradient(#fff, #fff),
+      linear-gradient(#fff, #fff), linear-gradient(#fff, #fff), linear-gradient(#fff, #fff),
+      linear-gradient(#fff, #fff), linear-gradient(#fff, #fff);
+    background-size: 3px 3px;
+    background-repeat: no-repeat;
+    background-position: 12% 14%, 28% 32%, 47% 9%, 63% 22%, 81% 12%, 91% 38%, 7% 44%, 38% 46%;
+    opacity: 0.8;
+  }
+  .vx-sun,
+  .vx-moon {
+    top: 8%;
+    width: 64px;
+    height: 64px;
+  }
+  .vx-sun { right: 12%; background: #FFE680; box-shadow: 0 0 0 10px rgba(255, 230, 128, 0.25); }
+  .vx-moon { left: 14%; background: #E4E8F2; box-shadow: inset -12px -8px 0 #C4CAD8; opacity: 0; }
+
+  .vx-ambient {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .vx-nightfall {
+    position: absolute;
+    inset: 0;
+    background: #1B2547;
+    mix-blend-mode: multiply;
+    opacity: 0;
+  }
+  .vx-fireflies {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .vx-sky-dusk, .vx-sky-night, .vx-sun, .vx-moon, .vx-nightfall, .vx-fireflies {
+      animation-duration: var(--vx-cycle, 180s);
+      animation-delay: var(--vx-cycle-delay, 0s);
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+    .vx-sky-dusk { animation-name: vx-dusk; }
+    .vx-sky-night { animation-name: vx-night; }
+    .vx-sun { animation-name: vx-sun; }
+    .vx-moon { animation-name: vx-moon; }
+    .vx-nightfall { animation-name: vx-nightfall; }
+    .vx-fireflies { animation-name: vx-night; }
+
+    .vx-cloud { animation: vx-drift 38s ease-in-out infinite alternate; }
+    .vx-ripple { animation: vx-shimmer 2.8s ease-in-out infinite alternate; }
+    .vx-pane-pixel { animation: vx-pixel 2.4s steps(1) infinite; }
+    .vx-beam { animation: vx-beam 3.2s ease-in-out infinite alternate; }
+    .vx-ring { animation: vx-timer 6s steps(24, end) infinite; }
+    .vx-beacon-light { animation: vx-blink 1.4s steps(1) infinite; }
+    .vx-hands { animation: vx-tick 12s steps(12, end) infinite; }
+  }
+
+  /* Day 07:00-18:00, dusk to 20:00, night to 05:00, dawn to 07:00. */
+  @keyframes vx-dusk { 0%, 40%, 58%, 86%, 100% { opacity: 0; } 47% { opacity: 1; } 93% { opacity: 0.7; } }
+  @keyframes vx-night { 0%, 47%, 96%, 100% { opacity: 0; } 55%, 88% { opacity: 1; } }
+  @keyframes vx-nightfall { 0%, 44%, 96%, 100% { opacity: 0; } 55%, 88% { opacity: 0.5; } 48% { opacity: 0.2; } }
+  @keyframes vx-sun {
+    0% { transform: translateY(40px); opacity: 1; }
+    20% { transform: translateY(0); opacity: 1; }
+    44% { transform: translateY(60px); opacity: 1; }
+    50%, 90% { transform: translateY(140px); opacity: 0; }
+    96%, 100% { transform: translateY(40px); opacity: 1; }
+  }
+  @keyframes vx-moon {
+    0%, 48% { transform: translateY(140px); opacity: 0; }
+    56% { transform: translateY(20px); opacity: 1; }
+    86% { transform: translateY(40px); opacity: 1; }
+    94%, 100% { transform: translateY(140px); opacity: 0; }
+  }
+  @keyframes vx-drift { from { transform: translateX(-60px); } to { transform: translateX(80px); } }
+  @keyframes vx-shimmer { from { opacity: 0.2; } to { opacity: 0.75; } }
+  @keyframes vx-pixel { 0%, 100% { opacity: 0; } 30% { opacity: 0.7; } 45% { opacity: 0; } }
+  @keyframes vx-beam { from { opacity: 0.3; } to { opacity: 0.6; } }
+  @keyframes vx-timer { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes vx-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+  @keyframes vx-tick { to { transform: rotate(360deg); } }
+}

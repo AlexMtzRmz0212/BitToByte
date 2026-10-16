@@ -9,6 +9,9 @@ import type { WorldModule } from './types';
 
 const LOADERS: Partial<Record<WorldId, () => Promise<WorldModule>>> = {
   manuscript: () => import('./manuscript').then((m) => m.default),
+  voxel: () => import('./voxel').then((m) => m.default),
+  noir: () => import('./noir').then((m) => m.default),
+  pop: () => import('./pop').then((m) => m.default),
 };
 
 const cache = new Map<PlaceId, WorldModule>([['nexus', hubModule]]);

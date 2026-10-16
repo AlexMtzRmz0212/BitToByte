@@ -220,4 +220,17 @@
   @keyframes vx-timer { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
   @keyframes vx-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
   @keyframes vx-tick { to { transform: rotate(360deg); } }
+
+  /* the secret */
+  .vx-secret { cursor: pointer; }
+  .vx-glint-top { fill: #E8D27A; }
+  .vx-glint-left { fill: #C9AE52; }
+  .vx-glint-right { fill: #A88E3A; }
+  .vx-sparkle { fill: #FFFFFF; opacity: 0; }
+  .vx-byte-label { font-family: 'Pixelify Sans Variable', monospace; font-size: 22px; font-weight: 600; fill: #1F2226; paint-order: stroke; stroke: #FBFFF5; stroke-width: 5px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .vx-sparkle { animation: vx-pixel 1.8s steps(1) infinite; }
+    .vx-bit { animation: vx-click 420ms steps(4, end) both; }
+  }
+  @keyframes vx-click { from { opacity: 0; transform: translateY(-40px); } }
 }

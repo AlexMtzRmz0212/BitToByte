@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LocateFixedIcon, MinusIcon, PlusIcon } from 'lucide-react';
+import { LocateFixedIcon, MinusIcon, PlusIcon, XIcon } from 'lucide-react';
 import { projectBySlug, projectsInWorld } from '../../data/projects';
 import {
   MAPS,
   PLACES,
+  SECRETS,
+  SECRET_IDS,
   WORLDS,
   WORLD_IDS,
   arrivalPoint,
@@ -16,7 +18,7 @@ import type { MapController } from '../../engine/controller';
 import { FogField } from '../../engine/fog';
 import { doorstep, placeProjects } from '../../engine/lots';
 import { useReducedMotion } from '../../engine/motion';
-import { app, discover, markIntroSeen, navigate, saveFog, useProgress, useRoute } from '../../state/app';
+import { app, discover, findSecret, markIntroSeen, navigate, saveFog, useProgress, useRoute } from '../../state/app';
 import type { WorldModule } from '../../worlds/types';
 import IntroCard from '../IntroCard';
 import ProjectCard from '../ProjectCard';
@@ -69,8 +71,18 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   const [aboutOpen, setAboutOpen] = useState(false);
   const [announcement, setAnnouncement] = useState('');
   const [launching, setLaunching] = useState<string | null>(null);
+  const [note, setNote] = useState<{ title: string; text: string } | null>(null);
   const travellingTo = useRef<string | null>(null);
   const settled = useRef(false);
+
+  // Finding the last project in a world earns a small note.
+  const celebrate = useCallback(() => {
+    if (!world) return;
+    const found = app.get().progress.discovered[world]?.length ?? 0;
+    if (found === placed.length) {
+      setNote({ title: `${WORLDS[world].name}: all found`, text: `You found all ${placed.length} projects here. The other worlds are waiting.` });
+    }
+  }, [world, placed.length]);
 
   // Fog of war: restored from storage, cleared around where you arrive and
   // around anything already found. Purely visual; nothing under it is gated.
@@ -102,11 +114,21 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       if (!world || !fog) return;
       for (const { project, at } of placed) {
         if (Math.hypot(at.x - x, at.y - y) > r + 60 || !fog.isClearAt(at.x, at.y)) continue;
-        if (discover(world, project.slug)) setAnnouncement(`You found ${project.name}.`);
+        if (discover(world, project.slug)) {
+          setAnnouncement(`You found ${project.name}.`);
+          celebrate();
+        }
       }
     },
-    [world, fog, placed]
+    [world, fog, placed, celebrate]
   );
+
+  // Notes fade out on their own.
+  useEffect(() => {
+    if (!note) return;
+    const t = setTimeout(() => setNote(null), 7000);
+    return () => clearTimeout(t);
+  }, [note]);
 
   // Landing straight on a project (a deep link) counts as finding it.
   useEffect(() => {
@@ -160,6 +182,7 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       setAnnouncement(
         `Arrived at ${target.project.name}. ${found} of ${placed.length} found in ${WORLDS[world].name}.`
       );
+      if (isNew) celebrate();
     });
     // Travel reacts to the URL and the controller only.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -189,13 +212,23 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       controller.travelTo(layout.spawn, () => setAboutOpen(true));
       return;
     }
+    if (target === 'secret') {
+      const spot = layout.secret;
+      if (!spot || !controller || !world) return;
+      controller.travelTo({ x: spot.x, y: spot.y + 40 }, () => {
+        findSecret(SECRET_IDS[world]);
+        setNote(SECRETS[world]);
+        setAnnouncement(`Secret found: ${SECRETS[world].title}.`);
+      });
+      return;
+    }
     const [kind, id] = target.split(':') as [string, string];
     if (kind === 'gate' && (id === 'nexus' || isWorldId(id))) {
       navigate({ place: id, project: null, view: 'auto' });
     } else if (kind === 'project' && projectBySlug(id)) {
       navigate({ project: id });
     }
-  }, [controller, layout.home, layout.spawn]);
+  }, [controller, layout.home, layout.spawn, layout.secret, world]);
 
   const closeIntro = useCallback(() => {
     markIntroSeen();
@@ -252,6 +285,8 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   const Backdrop = module.Backdrop;
   const Ambient = module.Ambient;
   const Overlay = module.Overlay;
+  const Secret = module.Secret;
+  const secretFound = world ? progress.secrets.includes(SECRET_IDS[world]) : false;
   const Scene = selected ? module.scenes?.[selected.scene] : undefined;
 
   const gates = Object.entries(layout.gates) as [PlaceId, Point][];
@@ -259,6 +294,11 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   const art = (
     <>
       <Terrain layout={layout} />
+      {Secret && layout.secret && (
+        <g data-target="secret" className="secret-art">
+          <Secret at={layout.secret} found={secretFound} />
+        </g>
+      )}
       {gates.map(([to, at]) => (
         <Gate key={to} to={to} at={at} />
       ))}
@@ -289,6 +329,15 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
           />
         );
       })}
+      {Secret && layout.secret && (
+        <button
+          type="button"
+          className="map-secret"
+          style={{ left: layout.secret.x, top: layout.secret.y }}
+          aria-label={secretFound ? SECRETS[world!].title : 'Something curious'}
+          onClick={() => goTo('secret')}
+        />
+      )}
       {layout.home && (
         <MapMarker
           kind="home"
@@ -388,6 +437,15 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       {introOpen && <IntroCard onExplore={closeIntro} />}
       {selected && (
         <ProjectCard project={selected} onClose={closeCard} onLaunch={launch} scene={Scene ? <Scene /> : undefined} />
+      )}
+      {note && (
+        <div className="secret-note chrome" role="status">
+          <p className="secret-note-title type-display">{note.title}</p>
+          <p className="secret-note-text">{note.text}</p>
+          <button type="button" className="card-close" onClick={() => setNote(null)} aria-label="Dismiss">
+            <XIcon className="h-4 w-4" aria-hidden="true" />
+          </button>
+        </div>
       )}
       {launching && (
         <div className="launch-veil" role="status">

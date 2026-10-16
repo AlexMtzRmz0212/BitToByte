@@ -44,4 +44,14 @@
     25%, 80% { transform: scale(1); opacity: 1; }
     100% { transform: scale(0.9); opacity: 0; }
   }
+
+  /* the secret */
+  .pp-secret { cursor: pointer; }
+  .pp-secret-mark { font-family: 'Bangers', Impact, sans-serif; font-size: 22px; fill: #161616; }
+  .pp-bonus-text { font-size: 40px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .pp-secret polygon { transform-box: fill-box; transform-origin: center; animation: pp-twinkle 1.4s ease-in-out infinite alternate; }
+    .pp-bonus { transform-box: fill-box; transform-origin: center; animation: pp-bonus 520ms cubic-bezier(0.3, 1.8, 0.5, 1) both; }
+  }
+  @keyframes pp-bonus { from { transform: scale(0.1) rotate(-20deg); opacity: 0; } }
 }

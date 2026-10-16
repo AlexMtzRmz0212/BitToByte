@@ -5,6 +5,7 @@ import ManuscriptGate from './Gate';
 import ManuscriptLandmark from './Landmarks';
 import ManuscriptTerrain from './Terrain';
 import { ManuscriptDust, ManuscriptLife } from './Life';
+import ManuscriptSecret from './Secret';
 import ManuscriptTraveler from './Traveler';
 import './manuscript.css';
 
@@ -15,6 +16,7 @@ const manuscript: WorldModule = {
   Traveler: ManuscriptTraveler,
   Overlay: ManuscriptLife,
   Ambient: ManuscriptDust,
+  Secret: ManuscriptSecret,
   routeClass: 'route-ink',
   landmarkHeight: 214,
   fog: inkFog,

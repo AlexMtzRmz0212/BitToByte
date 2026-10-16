@@ -215,4 +215,17 @@
   @keyframes nr-clouds { from { transform: translateX(-4%); } to { transform: translateX(4%); } }
   @keyframes nr-signal { from { transform: translate(-6px, 2px) rotate(-2deg); } to { transform: translate(8px, -3px) rotate(2deg); } }
   @keyframes nr-cone { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
+
+  /* the secret */
+  .nr-secret { cursor: pointer; }
+  .nr-roof { fill: #1A2540; stroke: #2B3754; stroke-width: 2; }
+  .nr-roof-text { font-family: 'Antonio Variable', 'Antonio', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: 3px; fill: #FFD89A; opacity: 0.07; }
+  .nr-secret-found .nr-roof-text { opacity: 0.95; filter: drop-shadow(0 0 6px rgba(242, 169, 59, 0.7)); }
+  .nr-roof-sweep { stroke: #FFE7B0; stroke-width: 34; stroke-linecap: round; opacity: 0; mix-blend-mode: screen; }
+  @media (prefers-reduced-motion: no-preference) {
+    .nr-secret:not(.nr-secret-found) .nr-roof-text { animation: nr-reveal 9s ease-in-out infinite; }
+    .nr-secret:not(.nr-secret-found) .nr-roof-sweep { animation: nr-roof-sweep 9s ease-in-out infinite; }
+  }
+  @keyframes nr-reveal { 0%, 38%, 62%, 100% { opacity: 0.07; } 48%, 52% { opacity: 0.85; } }
+  @keyframes nr-roof-sweep { 0%, 38%, 62%, 100% { opacity: 0; } 50% { opacity: 0.14; } }
 }

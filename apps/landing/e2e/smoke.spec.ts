@@ -158,3 +158,16 @@ test.describe('world maps', () => {
     });
   });
 });
+
+test('all four secrets can be found (by keyboard too) and count on the hub', async ({ page }) => {
+  for (const id of WORLD_IDS) {
+    await page.goto(`/?world=${id}`);
+    const spot = page.getByRole('button', { name: 'Something curious' });
+    await spot.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('.secret-note')).toBeVisible({ timeout: 8000 });
+    await page.waitForTimeout(400);
+  }
+  await page.goto('/');
+  await expect(page.getByText('Secrets found: 4 of 4.')).toBeAttached();
+});

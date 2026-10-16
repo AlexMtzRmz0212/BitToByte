@@ -295,6 +295,26 @@ export const SECRET_IDS: Record<WorldId, string> = {
   pop: 'pop:bonus-panel',
 };
 
+/** What each secret says when you find it. TODO(alex): drafts. */
+export const SECRETS: Record<WorldId, { title: string; text: string }> = {
+  manuscript: {
+    title: 'A note in the margin',
+    text: 'You lifted the corner. Most people never read the margins.',
+  },
+  voxel: {
+    title: 'Eight bits, one byte',
+    text: 'Eight little blocks just clicked into one. That is the whole studio name, really.',
+  },
+  noir: {
+    title: 'Writing on the roof',
+    text: 'Someone painted it where only the searchlight reaches: "Still up? So am I."',
+  },
+  pop: {
+    title: 'Bonus panel!',
+    text: 'You found the gutter between the panels. Nobody lives here but you.',
+  },
+};
+
 /** Map layouts. Gates are keyed by destination; worlds form a ring of
  *  neighbours (Manuscript, Voxel, Pop, Noir) and each has a gate home. */
 export const MAPS: Record<PlaceId, MapLayout> = {
@@ -346,7 +366,7 @@ export const MAPS: Record<PlaceId, MapLayout> = {
       manuscript: { x: 280, y: 380 },
       pop: { x: 1930, y: 400 },
     },
-    secret: { x: 1880, y: 1300 },
+    secret: { x: 1600, y: 1180 },
     fog: { kind: 'chunks', cell: 50, radius: 240 },
   },
   noir: {

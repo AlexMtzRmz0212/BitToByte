@@ -140,8 +140,6 @@ export default function ManuscriptTerrain({ layout }: { layout: MapLayout }) {
         <rect width={w} height={h} fill="url(#ms-age)" />
       </g>
       <path d={paper} fill="none" stroke="#7A5A32" strokeOpacity="0.45" strokeWidth="2" />
-
-      <DogEar />
     </>
   );
 }
@@ -367,16 +365,3 @@ function ScaleBar() {
     </g>
   );
 }
-
-/** The bottom-right corner, folded over and sealed. (Curious hands may lift it.) */
-function DogEar() {
-  return (
-    <g className="ms-dogear">
-      <path d="M2176 1356L2176 1476 2056 1476Z" fill={PAPER_DARK} />
-      <path d="M2176 1356L2056 1476 2088 1386Z" fill="#D9C08E" stroke="#7A5A32" strokeWidth="2" strokeLinejoin="round" />
-      <circle cx="2104" cy="1420" r="15" fill={OXBLOOD} stroke="#4E1212" strokeWidth="2" />
-      <polygon points={burst(2104, 1420, 8, 3, 4)} fill="#F6EBD3" opacity="0.8" />
-    </g>
-  );
-}
-

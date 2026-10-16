@@ -833,3 +833,54 @@ html:not(.js) .travel-panel .travel-body {
     pointer-events: none;
   }
 }
+
+@layer components {
+  /* A secret's spot: invisible until focused, so keyboards can find it too. */
+  .map-secret {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    transform-origin: center;
+    transform: scale(var(--inv-z));
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+  }
+  .map-secret:focus-visible {
+    outline: 3px dashed var(--w-focus);
+    outline-offset: 2px;
+  }
+  .secret-art {
+    cursor: pointer;
+  }
+  .secret-note {
+    position: absolute;
+    z-index: 32;
+    left: 50%;
+    top: 5rem;
+    width: min(26rem, calc(100vw - 1.5rem));
+    padding: 1rem 3rem 1rem 1.25rem;
+    transform: translateX(-50%);
+    animation: note-in var(--w-dur-slow) var(--w-ease-pop) both;
+  }
+  .secret-note-title {
+    font-size: 1.25rem;
+    line-height: 1.1;
+  }
+  .secret-note-text {
+    margin-top: 0.35rem;
+    color: var(--w-muted);
+    line-height: 1.45;
+  }
+  .secret-note .card-close {
+    top: 0.4rem;
+    right: 0.4rem;
+  }
+  @keyframes note-in {
+    from { opacity: 0; transform: translate(-50%, -12px) scale(0.96); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .secret-note { animation: none; }
+  }
+}

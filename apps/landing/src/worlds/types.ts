@@ -27,6 +27,8 @@ export interface WorldModule {
   Landmark: ComponentType<LandmarkProps>;
   /** A portal gate to another place: SVG content centred on `at`. */
   Gate: ComponentType<GateProps>;
+  /** The world's hidden secret: SVG content centred on `at`, drawn found or not. */
+  Secret?: ComponentType<{ at: Point; found: boolean }>;
   /** The hub's studio building, if this map has one. */
   Home?: ComponentType<{ at: Point }>;
   /** Drawn inside the traveler element (HTML), centred on its position. */

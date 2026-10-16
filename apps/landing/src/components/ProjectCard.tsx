@@ -17,10 +17,22 @@ interface Props {
 /** What you see on arrival: what it is, what it's built with, and the way in. */
 export default function ProjectCard({ project, onClose, onLaunch, scene }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
+  const card = useRef<HTMLElement>(null);
 
   // Arrival moves focus here, so keyboard and screen-reader users land on it too.
+  // Closing hands focus back to whatever had it (the marker or list entry that
+  // opened the card), or to the map, so nobody loses their place.
   useEffect(() => {
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     heading.current?.focus({ preventScroll: true });
+    const el = card.current;
+    return () => {
+      const lost = document.activeElement === document.body || el?.contains(document.activeElement);
+      if (!lost) return;
+      if (opener?.isConnected && !el?.contains(opener)) opener.focus({ preventScroll: true });
+      // The opener may be gone or hidden (a folded sheet): fall back to the map.
+      if (document.activeElement !== opener) document.getElementById('map-viewport')?.focus({ preventScroll: true });
+    };
   }, [project.slug]);
 
   useEffect(() => {
@@ -35,7 +47,7 @@ export default function ProjectCard({ project, onClose, onLaunch, scene }: Props
   };
 
   return (
-    <section className="project-card chrome" aria-labelledby="card-title" data-slug={project.slug}>
+    <section ref={card} className="project-card chrome" aria-labelledby="card-title" data-slug={project.slug}>
       <button type="button" className="card-close" onClick={onClose} aria-label="Close and keep exploring">
         <XIcon className="h-5 w-5" aria-hidden="true" />
       </button>
@@ -47,17 +59,6 @@ export default function ProjectCard({ project, onClose, onLaunch, scene }: Props
       <h2 id="card-title" ref={heading} tabIndex={-1} className="card-title type-display">
         {project.name}
       </h2>
-      {project.preview && (
-        <img
-          src={project.preview.src}
-          alt={project.preview.alt}
-          width={project.preview.width}
-          height={project.preview.height}
-          loading="lazy"
-          decoding="async"
-          className="card-preview"
-        />
-      )}
       <p className="card-oneliner">{project.oneLiner}</p>
       <p className="card-summary">{project.summary}</p>
       <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Built with">
@@ -88,6 +89,18 @@ export default function ProjectCard({ project, onClose, onLaunch, scene }: Props
           <span className="hidden sm:inline">New tab</span>
         </a>
       </div>
+      {/* Below the actions, so Launch stays in view on short screens. */}
+      {project.preview && (
+        <img
+          src={project.preview.src}
+          alt={project.preview.alt}
+          width={project.preview.width}
+          height={project.preview.height}
+          loading="lazy"
+          decoding="async"
+          className="card-preview"
+        />
+      )}
     </section>
   );
 }

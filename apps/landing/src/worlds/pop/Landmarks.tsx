@@ -2,7 +2,7 @@ import type { JSX } from 'react';
 import { burst } from '../shared/sketch';
 import type { LandmarkProps } from '../types';
 
-// Landmarks of Pop-Panel City: flat colour, heavy ink, halftone shade on the
+// Landmarks of Halftone: flat colour, heavy ink, halftone shade on the
 // side that faces away from the light.
 
 const K = '#161616';

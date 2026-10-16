@@ -1,9 +1,10 @@
 import { projectBySlug } from '../data/projects';
-import { isWorldId, type PlaceId } from '../data/worlds';
+import { WORLDS, worldFromParam, type PlaceId } from '../data/worlds';
 
-// Deep links: /?world=<id>&project=<slug>&view=list|map
-// The URL is the source of truth for where the visitor is. Unknown ids fall back
-// to the Nexus, so an old or mistyped link still lands somewhere useful.
+// Deep links: /?world=<world slug>&project=<project slug>&view=list|map
+// The URL is the source of truth for where the visitor is. A world's old id works
+// too; anything unknown falls back to the hub, so an old or mistyped link still
+// lands somewhere useful.
 //
 // `view` is 'auto' unless the visitor chose: worlds then open as a map, or as the
 // list when reduced motion is on. "Skip the map" sets 'list', "Show the map" sets
@@ -23,8 +24,7 @@ const isView = (value: unknown): value is View => value === 'map' || value === '
 
 export function parseRoute(search: string): Route {
   const params = new URLSearchParams(search);
-  const world = params.get('world');
-  const place: PlaceId = isWorldId(world) ? world : 'nexus';
+  const place: PlaceId = worldFromParam(params.get('world')) ?? 'nexus';
   const rawView = params.get('view');
   let view: View = isView(rawView) ? rawView : 'auto';
   if (place === 'nexus' && view === 'map') view = 'auto';
@@ -36,7 +36,7 @@ export function parseRoute(search: string): Route {
 
 export function routeToSearch(route: Route): string {
   const params = new URLSearchParams();
-  if (route.place !== 'nexus') params.set('world', route.place);
+  if (route.place !== 'nexus') params.set('world', WORLDS[route.place].slug);
   if (route.project) params.set('project', route.project);
   if (route.view !== 'auto' && !(route.place === 'nexus' && route.view === 'map')) {
     params.set('view', route.view);

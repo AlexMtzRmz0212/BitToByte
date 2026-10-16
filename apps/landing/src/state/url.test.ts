@@ -20,6 +20,15 @@ describe('routes and URLs', () => {
     }
   });
 
+  it('writes world slugs and still reads the old ids', () => {
+    expect(routeToSearch({ place: 'noir', project: 'cinetech', view: 'auto' })).toBe(
+      '/?world=lamplight&project=cinetech'
+    );
+    expect(parseRoute('?world=lamplight').place).toBe('noir');
+    expect(parseRoute('?world=noir').place).toBe('noir');
+    expect(parseRoute('?world=inkwell&project=habits')).toEqual({ place: 'manuscript', project: 'habits', view: 'auto' });
+  });
+
   it('ignores unknown ids', () => {
     expect(parseRoute('?world=atlantis&project=nope')).toEqual(NEXUS_ROUTE);
     expect(parseRoute('?world=noir&project=nope')).toEqual({ place: 'noir', project: null, view: 'auto' });

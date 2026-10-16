@@ -9,9 +9,17 @@ import { getModule, hasMap, loadModule, useModule } from './worlds/registry';
 import ListView from './components/ListView';
 import MapScreen from './components/map/MapScreen';
 import RiftTransition, { type Rift } from './components/RiftTransition';
+import RouteLink from './components/RouteLink';
 
 // Server rendering has no layout to measure; skip the layout effect there.
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
+/** How long a covered portal waits for the next map's code before showing its loading screen. */
+const MAP_WAIT_MS = 1500;
+
+/** `promise`'s value, or undefined if it takes longer than `ms`. */
+const within = <T,>(promise: Promise<T>, ms: number) =>
+  Promise.race([promise, new Promise<undefined>((resolve) => setTimeout(resolve, ms))]);
 
 interface Scene {
   /** The map on screen. Lags the URL while the traveler walks to a portal. */
@@ -69,27 +77,36 @@ export default function App() {
     void loadPlaceFonts(departingTo);
   }, [departingTo]);
 
+  // Each rift has an id, so a late step from one trip (say, the arrival rift
+  // still closing when Back is pressed) can never move the next trip's rift.
+  const riftSeq = useRef(0);
+
   // The traveler reached the gate: open the rift there.
   const finishDeparture = useCallback((at: Point | null) => {
     const to = app.get().route.place;
-    setRift({ from: sceneRef.current.place, to, at, phase: 'opening' });
+    riftSeq.current += 1;
+    setRift({ id: riftSeq.current, from: sceneRef.current.place, to, at, phase: 'opening' });
   }, []);
 
-  // Fully covered: wait for the next world's code and fonts, swap, then reveal it.
-  const riftCovered = useCallback(() => {
+  // Fully covered: wait (briefly) for the next world's code and fonts, swap,
+  // then reveal it. A map still downloading after that shows its loading screen
+  // instead, so a slow network never leaves the screen covered.
+  const riftCovered = useCallback((id: number) => {
     const to = app.get().route.place;
-    setRift((r) => r && { ...r, to, phase: 'covered' });
-    void Promise.all([loadModule(to), loadPlaceFonts(to)]).then(([mod]) => {
-      if (!mod && hasMap(to)) setFailed(to);
+    setRift((r) => (r && r.id === id ? { ...r, to, phase: 'covered' } : r));
+    void Promise.all([within(loadModule(to), MAP_WAIT_MS), loadPlaceFonts(to)]).then(([mod]) => {
+      if (riftSeq.current !== id) return;
+      // null: the chunk failed outright (undefined: still on its way).
+      if (mod === null && hasMap(to)) setFailed(to);
       setScene((s) => ({ place: app.get().route.place, from: s.place }));
       // Two frames: the new map mounts and centres its camera before the reveal.
       requestAnimationFrame(() =>
-        requestAnimationFrame(() => setRift((r) => r && { ...r, phase: 'closing' }))
+        requestAnimationFrame(() => setRift((r) => (r && r.id === id ? { ...r, phase: 'closing' } : r)))
       );
     });
   }, []);
 
-  const riftDone = useCallback(() => setRift(null), []);
+  const riftDone = useCallback((id: number) => setRift((r) => (r && r.id === id ? null : r)), []);
 
   useIsoLayoutEffect(() => {
     applyPlace(displayed);
@@ -130,8 +147,13 @@ export default function App() {
     );
   } else {
     content = (
-      <div className="map-loading" role="status">
-        <p className="type-display text-2xl">Opening {PLACES[scene.place].name}…</p>
+      <div className="map-loading">
+        <p className="type-display text-2xl" role="status">
+          Opening {PLACES[scene.place].name}…
+        </p>
+        <RouteLink to={{ ...route, place: scene.place, view: 'list' }} className="btn">
+          Show its projects as a list
+        </RouteLink>
       </div>
     );
   }

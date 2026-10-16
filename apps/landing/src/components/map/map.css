@@ -774,7 +774,11 @@ html.intro-seen .intro-card {
   position: fixed;
   inset: 0;
   display: grid;
-  place-items: center;
+  place-content: center;
+  justify-items: center;
+  gap: 1.25rem;
+  padding: 1rem;
+  text-align: center;
   color: var(--w-muted);
 }
 

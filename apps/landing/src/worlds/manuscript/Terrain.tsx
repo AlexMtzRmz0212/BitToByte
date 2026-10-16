@@ -1,9 +1,9 @@
-import type { MapLayout, Point } from '../../data/worlds';
+import { WORLDS, type MapLayout, type Point } from '../../data/worlds';
 import { blob, burst, seeded, smoothOpen } from '../shared/sketch';
 import Estate from './Estate';
 import { INK, OXBLOOD, GOLD, WATER, MOSS, PAPER, PAPER_DARK, battlements, corridor, hatch, tornRect, wobble } from './ink';
 
-// The Manuscript Realm: an inked survey of a rambling estate, drawn as a floor
+// Inkwell: an inked survey of a rambling estate, drawn as a floor
 // plan on folded, torn parchment. Corridors link the landmarks and gates; the
 // rooms, woods, lake and notes are scenery. Everything is original linework.
 
@@ -340,7 +340,7 @@ function Cartouche() {
         strokeWidth="2.6"
       />
       <text x={x} y={y + 2} textAnchor="middle" className="ms-title">
-        The Manuscript Realm
+        {WORLDS.manuscript.name}
       </text>
       <text x={x} y={y + 34} textAnchor="middle" className="ms-subtitle">
         a faithful survey of works in ink

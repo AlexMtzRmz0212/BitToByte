@@ -1,4 +1,4 @@
-/* Voxel Overworld: block materials, the day/night sky, and moving parts.
+/* Blockport: block materials, the day/night sky, and moving parts.
  * Light comes from the upper left: tops brightest, left faces mid, right darkest. */
 @layer components {
   /* terrain */

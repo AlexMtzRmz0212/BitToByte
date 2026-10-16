@@ -5,8 +5,9 @@ export default defineConfig({
   testDir: 'e2e',
   timeout: 30_000,
   fullyParallel: true,
-  // vite preview on Windows stalls under more parallel browsers than this.
-  workers: 2,
+  // One browser at a time: with several headless browsers running at once the
+  // local preview server can stall for 10-20 s, which reads as a failed test.
+  workers: 1,
   reporter: [['list']],
   use: {
     baseURL: 'http://localhost:4173',

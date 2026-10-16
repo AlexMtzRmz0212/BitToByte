@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
 import type { LandmarkProps } from '../types';
 
-// Landmarks of Noir Metropolis, in the city's oblique view: front faces lit
+// Landmarks of Lamplight, in the city's oblique view: front faces lit
 // by street light, side faces in shadow, one amber accent each.
 
 type Art = (p: { x: number; y: number; name: string }) => JSX.Element;

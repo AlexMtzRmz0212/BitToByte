@@ -75,8 +75,17 @@ export default function Starfield() {
     const start = () => {
       layout();
       canvas.dataset.ready = 'true';
-      if (prefersReducedMotion()) draw(0);
-      else stopLoop = addTick((now) => draw(now));
+      if (prefersReducedMotion()) {
+        draw(0);
+        return;
+      }
+      // Stars drift a few pixels a second: 30 fps looks the same and halves the cost.
+      let last = -Infinity;
+      stopLoop = addTick((now) => {
+        if (now - last < 32) return;
+        last = now;
+        draw(now);
+      });
     };
 
     const cancelIdle = onIdle(start);

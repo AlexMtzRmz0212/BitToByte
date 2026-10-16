@@ -3,6 +3,7 @@ import './rift.css';
 import { PLACES, type PlaceId, type Point } from '../data/worlds';
 
 export interface Rift {
+  id: number;
   from: PlaceId;
   to: PlaceId;
   /** Where it opens (the gate, on screen). Null: the centre. */
@@ -14,9 +15,9 @@ interface Props {
   rift: Rift;
   reducedMotion: boolean;
   /** The screen is fully covered: swap the world now. */
-  onCovered: () => void;
+  onCovered: (id: number) => void;
   /** The new world is showing: remove the overlay. */
-  onDone: () => void;
+  onDone: (id: number) => void;
 }
 
 /**
@@ -37,11 +38,11 @@ export default function RiftTransition({ rift, reducedMotion, onCovered, onDone 
     if (rift.phase === 'covered') return;
     const ms = reducedMotion ? 260 : rift.phase === 'opening' ? 760 : 820;
     const t = setTimeout(() => {
-      if (rift.phase === 'opening') callbacks.current.onCovered();
-      else callbacks.current.onDone();
+      if (rift.phase === 'opening') callbacks.current.onCovered(rift.id);
+      else callbacks.current.onDone(rift.id);
     }, ms);
     return () => clearTimeout(t);
-  }, [rift.phase, reducedMotion]);
+  }, [rift.id, rift.phase, reducedMotion]);
 
   const from = PLACES[rift.from].tokens;
   const to = PLACES[rift.to].tokens;

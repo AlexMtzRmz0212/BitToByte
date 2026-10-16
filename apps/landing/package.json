@@ -11,6 +11,8 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "shots": "node scripts/shots.mjs",
+    "previews": "node scripts/capture-previews.mjs",
+    "og": "node scripts/og-image.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -30,6 +32,7 @@
     "react-dom": "^19.2.6"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@bittobyte/eslint-config": "workspace:*",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "~1.57.0",

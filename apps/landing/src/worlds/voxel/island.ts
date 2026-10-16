@@ -2,7 +2,7 @@ import { MAPS, type Point } from '../../data/worlds';
 import { seeded } from '../shared/sketch';
 import { H, S, W } from '../shared/iso';
 
-// The Voxel Overworld as data: a floating island of blocks, generated once
+// Blockport as data: a floating island of blocks, generated once
 // from a seed. Heights come from smooth value noise; a river and two pools are
 // carved in; the ground is flattened around every landmark, gate and the
 // arrival point so buildings stand level. Rendering (Terrain.tsx) walks this

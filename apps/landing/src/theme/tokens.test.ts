@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { PLACES, TOKEN_NAMES, type PlaceId, type TokenName } from '../data/worlds';
-import { buildThemeCss } from './tokens';
+import { buildThemeCss, colorScheme } from './tokens';
 
 // WCAG 2.x relative luminance and contrast ratio for #RRGGBB colors.
 function luminance(hex: string): number {
@@ -55,5 +55,13 @@ describe('theme tokens', () => {
     for (const id of Object.keys(PLACES)) {
       if (id !== 'nexus') expect(css).toContain(`:root[data-world="${id}"]{`);
     }
+  });
+
+  it('gives dark worlds dark native scrollbars and controls', () => {
+    expect(colorScheme(PLACES.nexus.tokens.bg)).toBe('dark');
+    expect(colorScheme(PLACES.noir.tokens.bg)).toBe('dark');
+    expect(colorScheme(PLACES.manuscript.tokens.bg)).toBe('light');
+    expect(colorScheme(PLACES.voxel.tokens.bg)).toBe('light');
+    expect(colorScheme(PLACES.pop.tokens.bg)).toBe('light');
   });
 });

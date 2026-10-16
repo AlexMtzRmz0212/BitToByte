@@ -16,3 +16,4 @@ export function render(): string {
 export { buildThemeCss } from './theme/tokens';
 export { projects } from './data/projects';
 export { site } from './data/site';
+export { WORLDS as worlds } from './data/worlds';

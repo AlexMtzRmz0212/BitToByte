@@ -1,7 +1,8 @@
-/* Pop-Panel City: ink, flat colour, Ben-Day dots. */
+/* Halftone: ink, flat colour, Ben-Day dots. */
 @layer components {
   .pp-masthead { font-family: 'Bangers', Impact, sans-serif; font-size: 118px; fill: #C8102E; stroke: #161616; stroke-width: 6px; paint-order: stroke; letter-spacing: 3px; }
   .pp-masthead-2 { fill: #1B4FD8; }
+  .pp-masthead-small { font-size: 64px; stroke-width: 5px; }
   .pp-caption { font-family: 'Comic Neue', sans-serif; font-weight: 700; font-style: italic; font-size: 26px; fill: #161616; }
   .pp-balloon-text { font-family: 'Comic Neue', sans-serif; font-weight: 700; font-size: 28px; fill: #161616; }
   .pp-sfx { font-family: 'Bangers', Impact, sans-serif; font-size: 52px; fill: #161616; letter-spacing: 2px; }

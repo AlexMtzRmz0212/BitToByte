@@ -267,7 +267,7 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       const next = placed.filter((p) => !seen.includes(p.project.slug)).sort((a, b) => dist(a.at) - dist(b.at))[0];
       if (next) return { at: next.at, label: next.project.name, go: () => goTo(`project:${next.project.slug}`) };
       const home = layout.gates.nexus;
-      return home ? { at: home, label: 'The Nexus', go: () => goTo('gate:nexus') } : null;
+      return home ? { at: home, label: PLACES.nexus.name, go: () => goTo('gate:nexus') } : null;
     }
     const open = WORLD_IDS.filter((w) => (progress.discovered[w]?.length ?? 0) < projectsInWorld(w).length)
       .map((w) => ({ w, at: layout.gates[w]! }))
@@ -322,9 +322,10 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
             kind="gate"
             at={at}
             lift={-118}
-            label={to === 'nexus' ? 'Back to the Nexus' : isHub ? PLACES[to].name : `To ${PLACES[to].name}`}
+            label={to === 'nexus' ? `Back to ${PLACES.nexus.name}` : isHub ? PLACES[to].name : `To ${PLACES[to].name}`}
             sub={count === null ? undefined : `${found}/${count} found`}
-            ariaLabel={to === 'nexus' ? 'Portal back to the Nexus' : `Portal to ${PLACES[to].name}, ${count} projects, ${found} found`}
+            // The name repeats the visible text (WCAG 2.5.3), so voice users can say what they see.
+            ariaLabel={to === 'nexus' ? `Portal back to ${PLACES.nexus.name}` : `Portal to ${PLACES[to].name}, ${found}/${count} found`}
             onSelect={() => goTo(`gate:${to}`)}
           />
         );

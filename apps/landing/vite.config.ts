@@ -14,5 +14,7 @@ export default defineConfig({
   },
   build: {
     target: 'es2022',
+    // Read by scripts/prerender.mjs to preload a deep-linked world's chunks; deleted after.
+    manifest: true,
   },
 });

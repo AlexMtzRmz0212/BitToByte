@@ -4,7 +4,7 @@ import { prefersReducedMotion } from '../../engine/motion';
 import { burst } from '../shared/sketch';
 import type { GateProps } from '../types';
 
-// Pop-Panel City: the gate, the traveler, and the page's sound effects.
+// Halftone: the gate, the traveler, and the page's sound effects.
 
 const K = '#161616';
 

@@ -1,8 +1,8 @@
 import type { JSX } from 'react';
-import type { MapLayout } from '../../data/worlds';
+import { WORLDS, type MapLayout } from '../../data/worlds';
 import { burst, seeded } from '../shared/sketch';
 
-// Pop-Panel City: the map is a comic page. Nine panels in three tiers, each a
+// Halftone: the map is a comic page. Nine panels in three tiers, each a
 // scene of the city in flat colour with ink outlines and Ben-Day dots; the
 // landmarks and gates sit inside their panels (drawn by the map screen).
 
@@ -146,11 +146,11 @@ export default function PopTerrain({ layout }: { layout: MapLayout }) {
       <g clipPath="url(#pp-clip-0)">
         <SpeedLines cx={p1.x + 400} cy={p1.y + 210} r0={120} r1={520} n={34} color={RED} seed={3} />
         <Skyline p={p1} seed={0} color={BLUE} />
-        <text x={p1.x + 40} y={p1.y + 150} className="pp-masthead">
-          Pop-Panel
+        <text x={p1.x + 44} y={p1.y + 128} className="pp-masthead pp-masthead-2 pp-masthead-small">
+          Welcome to
         </text>
-        <text x={p1.x + 40} y={p1.y + 236} className="pp-masthead pp-masthead-2">
-          City!
+        <text x={p1.x + 40} y={p1.y + 236} className="pp-masthead">
+          {WORLDS.pop.name}!
         </text>
         <Caption x={p1.x} y={p1.y} w={470} text="Meanwhile, somewhere loud..." />
       </g>

@@ -1,4 +1,8 @@
-// Every place a visitor can stand: the Nexus hub plus four map-worlds.
+// Every place a visitor can stand: the hub plus four map-worlds.
+//
+// Ids (nexus, manuscript, voxel, noir, pop) are internal and never change: they
+// name folders, CSS hooks and storage keys. What visitors see is `name`, and the
+// URL uses each world's `slug` (old links with the id still work).
 //
 // This file is data only. It holds each place's copy and its theme tokens, and
 // (for the worlds) the map layout: district lots, portals, fog and the hidden
@@ -64,6 +68,8 @@ export interface Place {
 
 export interface World extends Place {
   id: WorldId;
+  /** In the URL: /?world=<slug>. */
+  slug: string;
 }
 
 /**
@@ -90,8 +96,8 @@ export interface MapLayout {
 
 export const NEXUS: Place = {
   id: 'nexus',
-  name: 'The Nexus',
-  short: 'Nexus',
+  name: 'Base Camp',
+  short: 'Base',
   tagline: 'A hub drifting between dimensions',
   tokens: {
     bg: '#030712',
@@ -129,8 +135,9 @@ export const NEXUS: Place = {
 export const WORLDS: Record<WorldId, World> = {
   manuscript: {
     id: 'manuscript',
-    name: 'Manuscript Realm',
-    short: 'Manuscript',
+    name: 'Inkwell',
+    short: 'Inkwell',
+    slug: 'inkwell',
     tagline: 'Inked corridors that draw themselves',
     tokens: {
       bg: '#E6D5B0',
@@ -166,8 +173,9 @@ export const WORLDS: Record<WorldId, World> = {
   },
   voxel: {
     id: 'voxel',
-    name: 'Voxel Overworld',
-    short: 'Voxel',
+    name: 'Blockport',
+    short: 'Blockport',
+    slug: 'blockport',
     tagline: 'Blocks, rails and a sky that keeps time',
     tokens: {
       bg: '#8FCBEA',
@@ -205,8 +213,9 @@ export const WORLDS: Record<WorldId, World> = {
   },
   noir: {
     id: 'noir',
-    name: 'Noir Metropolis',
-    short: 'Noir',
+    name: 'Lamplight',
+    short: 'Lamplight',
+    slug: 'lamplight',
     tagline: 'Rain, gargoyles and a signal in the sky',
     tokens: {
       bg: '#070B14',
@@ -242,8 +251,9 @@ export const WORLDS: Record<WorldId, World> = {
   },
   pop: {
     id: 'pop',
-    name: 'Pop-Panel City',
-    short: 'Pop',
+    name: 'Halftone',
+    short: 'Halftone',
+    slug: 'halftone',
     tagline: 'Red, blue and loud on every page',
     tokens: {
       bg: '#F2EFE6',
@@ -284,10 +294,14 @@ export const PLACES: Record<PlaceId, Place> = { nexus: NEXUS, ...WORLDS };
 export const isWorldId = (value: unknown): value is WorldId =>
   typeof value === 'string' && (WORLD_IDS as readonly string[]).includes(value);
 
+/** The world a ?world= value names: its slug, or its id from older links. */
+export const worldFromParam = (value: string | null): WorldId | null =>
+  isWorldId(value) ? value : (WORLD_IDS.find((id) => WORLDS[id].slug === value) ?? null);
+
 /** The world the "Explore the map" button opens when there's no history yet. */
 export const DEFAULT_WORLD: WorldId = 'manuscript';
 
-/** One hidden secret per world; finding all four fills the Nexus counter. */
+/** One hidden secret per world; finding all four fills the hub's counter. */
 export const SECRET_IDS: Record<WorldId, string> = {
   manuscript: 'manuscript:margin-note',
   voxel: 'voxel:eight-bits',

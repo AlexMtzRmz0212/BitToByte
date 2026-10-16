@@ -2,7 +2,7 @@ import type { MapLayout } from '../../data/worlds';
 import { seeded } from '../shared/sketch';
 import { AVENUES, AVENUE_W, BUILDINGS, DEPTH, HARBOR_X, HARBOR_Y, STREETS, STREET_W, type Building } from './city';
 
-// Noir Metropolis, drawn: wet streets and a black harbor, then towers back to
+// Lamplight, drawn: wet streets and a black harbor, then towers back to
 // front with their window grids, deco crowns, gothic pinnacles and the odd
 // neon sign. One amber accent in a city of blues.
 

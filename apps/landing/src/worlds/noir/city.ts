@@ -1,7 +1,7 @@
 import { MAPS, type Point } from '../../data/worlds';
 import { seeded } from '../shared/sketch';
 
-// Noir Metropolis as data: a night city seen from above at an angle. Streets
+// Lamplight as data: a night city seen from above at an angle. Streets
 // run east-west, avenues north-south, the harbor fills the south-east. Each
 // block holds rows of towers, drawn back to front; the ground is kept clear
 // around landmarks and gates so they stand on open plazas.

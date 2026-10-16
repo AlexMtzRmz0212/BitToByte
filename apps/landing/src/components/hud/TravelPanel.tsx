@@ -73,17 +73,18 @@ export default function TravelPanel({ place, open, onToggle, onPick }: Props) {
 function TravelItem({ project, found, onPick }: { project: Project; found: boolean; onPick: () => void }) {
   return (
     <li className="travel-item" data-found={found}>
-      <RouteLink
-        to={{ place: project.world, project: project.slug, view: 'auto' }}
-        className="travel-go"
-        aria-label={`Travel to ${project.name}${found ? ', found' : ''}`}
-        onClick={onPick}
-      >
+      {/* Named by its own text (WCAG 2.5.3): "Travel to Habits: Three years of…". */}
+      <RouteLink to={{ place: project.world, project: project.slug, view: 'auto' }} className="travel-go" onClick={onPick}>
         <span className="travel-name">
-          {project.name}
+          <span className="sr-only">Travel to </span>
+          <span>{project.name}</span>
+          <span className="sr-only">: </span>
           {found && <CheckIcon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />}
         </span>
-        <span className="travel-line">{project.oneLiner}</span>
+        <span className="travel-line">
+          {project.oneLiner}
+          {found && <span className="sr-only"> (found)</span>}
+        </span>
       </RouteLink>
       <a href={project.liveUrl} className="travel-launch" aria-label={`Launch ${project.name}`} title="Launch the live project">
         <ArrowUpRightIcon className="h-4 w-4" aria-hidden="true" />

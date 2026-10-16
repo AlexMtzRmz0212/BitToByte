@@ -13,7 +13,7 @@
 //   stack       Tags, most important first.
 //   liveUrl     Where "Launch live project" goes. Confirmed live on 2026-10-15.
 //   repoUrl     GitHub link, or null to hide the button.
-//   preview     Screenshot under /public/previews, or null until one exists.
+//   preview     Screenshot under /public/previews (pnpm previews), or null.
 //   world       Which map it lives on (src/data/worlds.ts).
 //   kind        A small label: client work, product, tool...
 //   district    Its landmark on the map (src/districts/archetypes.ts). If the
@@ -64,7 +64,12 @@ export const projects: Project[] = [
     liveUrl: 'https://fedethics.ca',
     // TODO(alex): the repo (github.com/FedEthics/fedethics.ca) is public. Show it?
     repoUrl: null,
-    preview: null,
+    preview: {
+      src: '/previews/fedethics.webp',
+      alt: 'The FedEthics home page: its headline beside two of the firm’s books',
+      width: 800,
+      height: 500,
+    },
     world: 'manuscript',
     kind: 'client',
     district: 'courthouse',
@@ -80,7 +85,12 @@ export const projects: Project[] = [
     liveUrl: 'https://www.eastcoastev.ca',
     // TODO(alex): the repo (github.com/AlexMtzRmz0212/EastCoastEV.ca) is public. Show it?
     repoUrl: null,
-    preview: null,
+    preview: {
+      src: '/previews/eastcoast-ev.webp',
+      alt: 'The EastCoastEV home page: “Ride electric. Feel free.” in green on black',
+      width: 800,
+      height: 500,
+    },
     world: 'noir',
     kind: 'client',
     district: 'lighthouse',
@@ -98,7 +108,12 @@ export const projects: Project[] = [
     // homepage. Which one is canonical?
     liveUrl: 'https://ee.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/ExpressEntryDrawsAnalysis',
-    preview: null,
+    preview: {
+      src: '/previews/express-entry.webp',
+      alt: 'The Express Entry Draws dashboard, led by the latest draw’s score and invitations',
+      width: 800,
+      height: 500,
+    },
     world: 'manuscript',
     kind: 'product',
     district: 'gate',
@@ -113,7 +128,12 @@ export const projects: Project[] = [
     stack: ['React', 'FastAPI', 'OpenRouter', 'Postgres', 'Notion API'],
     liveUrl: 'https://checklist.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/Daily-Checklist',
-    preview: null,
+    preview: {
+      src: '/previews/ai-task-sorter.webp',
+      alt: 'The AI Task Sorter home page beside a sample list sorted by priority',
+      width: 800,
+      height: 500,
+    },
     world: 'voxel',
     kind: 'product',
     district: 'clocktower',
@@ -128,7 +148,12 @@ export const projects: Project[] = [
     stack: ['React', 'FastAPI', 'Notion API', 'Spotify API'],
     liveUrl: 'https://hell-o-fame.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/Hell-o-Fame',
-    preview: null,
+    preview: {
+      src: '/previews/hell-o-fame.webp',
+      alt: 'Hell o’ Fame’s album of the day above the ranked album library',
+      width: 800,
+      height: 500,
+    },
     world: 'pop',
     kind: 'tool',
     district: 'monument',
@@ -143,7 +168,12 @@ export const projects: Project[] = [
     stack: ['Next.js', 'TypeScript', 'Notion API', 'TMDb API'],
     liveUrl: 'https://cinetech.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/cinetech',
-    preview: null,
+    preview: {
+      src: '/previews/cinetech.webp',
+      alt: 'The Cinetech library: a grid of film posters with search and filters',
+      width: 800,
+      height: 500,
+    },
     world: 'noir',
     kind: 'tool',
     district: 'cinema',
@@ -158,7 +188,12 @@ export const projects: Project[] = [
     stack: ['React', 'FastAPI', 'SQLAlchemy', 'Tailwind'],
     liveUrl: 'https://projects.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/ProjectsTracker',
-    preview: null,
+    preview: {
+      src: '/previews/projects-tracker.webp',
+      alt: 'The ProjectsTracker board, with a running timer on each project card',
+      width: 800,
+      height: 500,
+    },
     world: 'voxel',
     kind: 'tool',
     district: 'tower',
@@ -174,7 +209,12 @@ export const projects: Project[] = [
     stack: ['Next.js', 'Postgres', 'Python', 'pandas'],
     liveUrl: 'https://habits.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/Habits-Tracking',
-    preview: null,
+    preview: {
+      src: '/previews/habits.webp',
+      alt: 'Habits opens on a leather diary cover with a brass clasp',
+      width: 800,
+      height: 500,
+    },
     world: 'manuscript',
     kind: 'data',
     district: 'garden',
@@ -190,7 +230,12 @@ export const projects: Project[] = [
     stack: ['React', 'TypeScript', 'Leaflet', 'Python', 'GitHub Actions'],
     liveUrl: 'https://sports.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/Sports',
-    preview: null,
+    preview: {
+      src: '/previews/sports.webp',
+      alt: 'The Locker Room home page: a chalkboard counting down to the next season',
+      width: 800,
+      height: 500,
+    },
     world: 'pop',
     kind: 'data',
     district: 'stadium',
@@ -206,7 +251,12 @@ export const projects: Project[] = [
     stack: ['React', 'FastAPI', 'TanStack Query', 'TMDb API'],
     liveUrl: 'https://marvel.bittobyte.qzz.io',
     repoUrl: 'https://github.com/AlexMtzRmz0212/MARVEL',
-    preview: null,
+    preview: {
+      src: '/previews/marvel.webp',
+      alt: 'The Marvel watch-order home page with its timeline map and catalogue stats',
+      width: 800,
+      height: 500,
+    },
     world: 'pop',
     kind: 'data',
     district: 'library',
@@ -223,7 +273,12 @@ export const projects: Project[] = [
     liveUrl: 'https://hack-the-hill-iii.bittobyte.qzz.io',
     // TODO(alex): this is a teammate's repo (jasonwong7770). Keep the link?
     repoUrl: 'https://github.com/jasonwong7770/CGI-Hack-the-Hill',
-    preview: null,
+    preview: {
+      src: '/previews/hack-the-hill.webp',
+      alt: 'The hackathon portal’s landing page: one place for every energy and water request',
+      width: 800,
+      height: 500,
+    },
     world: 'voxel',
     kind: 'hackathon',
     district: 'arena',

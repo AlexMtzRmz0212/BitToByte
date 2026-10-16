@@ -45,20 +45,22 @@ const FACES: Record<PlaceId, string[]> = {
 const pending = new Map<PlaceId, Promise<void>>();
 
 /**
- * Load a place's font CSS and wait (up to `timeoutMs`) for the files themselves.
+ * Load a place's font CSS and files, waiting at most `timeoutMs` for both.
  * Never rejects: a slow or failed font falls back to the stack in the tokens.
  */
 export function loadPlaceFonts(id: PlaceId, timeoutMs = 1500): Promise<void> {
   const existing = pending.get(id);
   if (existing) return existing;
-  const job = loaders[id]()
-    .then(() => {
-      if (typeof document === 'undefined' || !document.fonts) return;
-      const files = Promise.all(FACES[id].map((face) => document.fonts.load(face)));
-      const timeout = new Promise((resolve) => setTimeout(resolve, timeoutMs));
-      return Promise.race([files, timeout]).then(() => undefined);
-    })
-    .catch(() => undefined);
+  const fetched = loaders[id]().then(() => {
+    if (typeof document === 'undefined' || !document.fonts) return;
+    return Promise.all(FACES[id].map((face) => document.fonts.load(face)));
+  });
+  // The timeout covers the CSS chunk too: a stalled request must never hold a portal shut.
+  const timeout = new Promise((resolve) => setTimeout(resolve, timeoutMs));
+  const job = Promise.race([fetched, timeout]).then(
+    () => undefined,
+    () => undefined
+  );
   pending.set(id, job);
   return job;
 }

@@ -13,8 +13,15 @@ export const THEME_STYLE_ID = 'world-tokens';
 
 export const cssVar = (name: TokenName) => `--w-${name}`;
 
+/** Native scrollbars and controls follow the page: dark on the dark worlds. */
+export function colorScheme(bg: string): 'dark' | 'light' {
+  const n = parseInt(bg.slice(1, 7), 16);
+  const brightness = 0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255);
+  return brightness < 128 ? 'dark' : 'light';
+}
+
 const declarations = (tokens: Tokens) =>
-  TOKEN_NAMES.map((name) => `${cssVar(name)}:${tokens[name]}`).join(';');
+  TOKEN_NAMES.map((name) => `${cssVar(name)}:${tokens[name]}`).join(';') + `;color-scheme:${colorScheme(tokens.bg)}`;
 
 export function buildThemeCss(): string {
   let css = `:root{${declarations(NEXUS.tokens)}}`;

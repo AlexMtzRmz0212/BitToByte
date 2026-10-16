@@ -9,7 +9,7 @@ export const halftoneFog: FogRenderer = {
   paint(ctx, width, height) {
     ctx.fillStyle = 'rgba(242, 239, 230, 0.92)';
     ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = 'rgba(27, 79, 216, 0.45)';
+    ctx.fillStyle = 'rgba(27, 79, 216, 0.3)';
     const step = 6;
     for (let y = 0; y < height + step; y += step) {
       for (let x = (y / step) % 2 ? step / 2 : 0; x < width + step; x += step) {

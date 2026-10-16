@@ -34,19 +34,22 @@ export function zoomLimits(w: number, h: number, vw: number, vh: number) {
 }
 
 /**
- * Keep the map on screen. The centre of the screen always stays over the map,
- * and you can only pan a little way past an edge (enough to bring a corner out
- * from under a panel), so the map can never be lost off-screen.
+ * Keep the map on screen. A map bigger than the screen can be panned only a
+ * little past its edges; one smaller than the screen can slide around (enough
+ * to clear a panel) but always stays mostly visible.
  */
 export function clampView(view: View, f: Frame): View {
   const z = clamp(view.z, f.minZ, f.maxZ);
   const halfW = f.vw / (2 * z);
   const halfH = f.vh / (2 * z);
   const axis = (value: number, size: number, half: number) => {
-    const reach = Math.max(f.pad, half * 0.45);
-    const lo = Math.max(0, Math.min(half - reach, size / 2));
-    const hi = Math.min(size, Math.max(size - half + reach, size / 2));
-    return clamp(value, lo, hi);
+    if (size >= 2 * half) {
+      const reach = Math.max(20, half * 0.22);
+      return clamp(value, half - reach, size - half + reach);
+    }
+    // At most a quarter of a small map may slide off screen.
+    const give = Math.min(half * 0.3, size * 0.25);
+    return clamp(value, size - half - give, half + give);
   };
   return { x: axis(view.x, f.w, halfW), y: axis(view.y, f.h, halfH), z };
 }

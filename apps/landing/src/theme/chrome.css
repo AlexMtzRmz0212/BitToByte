@@ -1,0 +1,202 @@
+/* Per-world interface chrome. Components are world-agnostic; this sheet only
+ * re-dresses their shared classes (.chrome, .chrome-pill, .map-marker,
+ * .world-dock, .project-card...) for the world on <html data-world>.
+ * Deliberately unlayered, so it wins over utility classes on the same elements. */
+  /* ------------------------------------------------------------- Nexus */
+  :root[data-world='nexus'] .chrome,
+  :root[data-world='nexus'] .chrome-pill {
+    box-shadow: var(--w-shadow-card), inset 0 0 0 1px rgba(142, 224, 75, 0.08);
+  }
+  :root[data-world='nexus'] .map-marker:hover,
+  :root[data-world='nexus'] .map-marker:focus-visible {
+    box-shadow: var(--w-shadow-card), 0 0 18px -4px rgba(142, 224, 75, 0.6);
+  }
+
+  /* -------------------------------------------------------- Manuscript */
+  :root[data-world='manuscript'] .chrome,
+  :root[data-world='manuscript'] .chrome-pill {
+    background: var(--w-raised);
+    border-color: var(--w-ink);
+    box-shadow:
+      inset 0 0 0 4px var(--w-raised),
+      inset 0 0 0 5px rgba(59, 42, 26, 0.4),
+      var(--w-shadow-card);
+    backdrop-filter: none;
+  }
+  /* Labels are ribbons with notched ends. */
+  :root[data-world='manuscript'] .map-marker {
+    padding-inline: 1.35rem;
+    border: 0;
+    border-radius: 0;
+    background: var(--w-raised);
+    box-shadow: none;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 50%, 100% 100%, 0 100%, 10px 50%);
+    font-family: var(--w-font-display);
+    filter: drop-shadow(0 2px 0 rgba(59, 42, 26, 0.35));
+  }
+  :root[data-world='manuscript'] .map-marker[data-state='here'] {
+    background: var(--w-accent);
+    color: var(--w-accent-ink);
+  }
+  :root[data-world='manuscript'] .map-marker[data-state='here'] .marker-sub {
+    color: var(--w-accent-ink);
+  }
+  /* A wax seal on the project card. */
+  :root[data-world='manuscript'] .project-card::after {
+    content: '';
+    position: absolute;
+    right: 1.1rem;
+    bottom: 1rem;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 35%, #a33a3a, #7a1f1f 55%, #4e1212);
+    box-shadow: 0 2px 0 rgba(59, 42, 26, 0.35);
+    pointer-events: none;
+  }
+
+  /* ------------------------------------------------------------- Voxel */
+  :root[data-world='voxel'] .chrome,
+  :root[data-world='voxel'] .chrome-pill {
+    backdrop-filter: none;
+    background: var(--w-surface);
+  }
+  :root[data-world='voxel'] .type-display,
+  :root[data-world='voxel'] .hud-title,
+  :root[data-world='voxel'] .card-title {
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.22);
+  }
+  /* The world dock is a hotbar: square slots, a bright frame on the selected one. */
+  :root[data-world='voxel'] .world-dock {
+    padding: 4px;
+    background: #2b2b2b;
+    border: 3px solid #111;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+  }
+  :root[data-world='voxel'] .world-dock ul {
+    gap: 4px;
+  }
+  :root[data-world='voxel'] .dock-slot-link {
+    width: 3.25rem;
+    height: 3.25rem;
+    padding: 0;
+    background: #8b8b8b;
+    color: #1f2226;
+    box-shadow: inset -3px -3px 0 #555, inset 3px 3px 0 #c6c6c6;
+  }
+  :root[data-world='voxel'] .dock-slot-link[aria-current='page'] {
+    background: #a8a8a8;
+    color: #111;
+    outline: 4px solid #fbfff5;
+    outline-offset: -1px;
+  }
+  :root[data-world='voxel'] .dock-label {
+    display: none;
+  }
+  /* Found count as a green experience bar. */
+  :root[data-world='voxel'] .found-bar {
+    display: block;
+    position: relative;
+    width: 72px;
+    height: 10px;
+    background: #2b2b2b;
+    border: 2px solid #111;
+  }
+  :root[data-world='voxel'] .found-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: #7cfc3a;
+    box-shadow: inset 0 -3px 0 #4caf1f;
+  }
+
+  /* -------------------------------------------------------------- Noir */
+  :root[data-world='noir'] .map-marker {
+    border-left: 3px solid var(--w-accent);
+    font-family: var(--w-font-body);
+    letter-spacing: 0.02em;
+  }
+  :root[data-world='noir'] .project-card {
+    padding-top: 2.4rem;
+  }
+  /* The card is a case file: a tab, and a paper clip. */
+  :root[data-world='noir'] .project-card::before {
+    content: 'Case file';
+    position: absolute;
+    left: 1.5rem;
+    top: 0.7rem;
+    padding: 0.1rem 0.6rem;
+    border: 1px solid var(--w-accent);
+    font-family: var(--w-font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--w-accent-text);
+  }
+  :root[data-world='noir'] .project-card::after {
+    content: '';
+    position: absolute;
+    right: 4.2rem;
+    top: -0.55rem;
+    width: 0.9rem;
+    height: 2.4rem;
+    border: 2px solid #8c9ab3;
+    border-radius: 0.5rem;
+    pointer-events: none;
+  }
+  :root[data-world='noir'] .dock-slot-link[aria-current='page'] {
+    box-shadow: 0 0 16px -2px rgba(242, 169, 59, 0.6);
+  }
+
+  /* --------------------------------------------------------------- Pop */
+  /* Labels are word balloons with a tail. */
+  :root[data-world='pop'] .map-marker {
+    border-width: 3px;
+    border-color: #161616;
+    border-radius: 999px;
+    background: #fffefa;
+    box-shadow: 3px 3px 0 #161616;
+    font-family: var(--w-font-body);
+    font-weight: 700;
+  }
+  :root[data-world='pop'] .map-marker::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -12px;
+    width: 14px;
+    height: 14px;
+    background: #fffefa;
+    border-right: 3px solid #161616;
+    border-bottom: 3px solid #161616;
+    transform: translateX(-50%) skewX(-20deg) rotate(45deg);
+  }
+  :root[data-world='pop'] .marker-gate::after,
+  :root[data-world='pop'] .marker-home::after {
+    top: -12px;
+    bottom: auto;
+    transform: translateX(-50%) skewX(-20deg) rotate(225deg);
+  }
+  :root[data-world='pop'] .map-marker[data-state='here'] {
+    background: var(--w-deco-2);
+  }
+  :root[data-world='pop'] .chrome {
+    border-width: 3px;
+  }
+  /* The card is a panel, set slightly askew. */
+  :root[data-world='pop'] .project-card {
+    rotate: -0.8deg;
+  }
+  :root[data-world='pop'] .card-scene {
+    border: 3px solid #161616;
+    background: #fffefa;
+  }
+  :root[data-world='pop'] .hud-title {
+    font-size: 1.25rem;
+    letter-spacing: 0.06em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root[data-world='pop'] .project-card {
+      rotate: none;
+    }
+  }

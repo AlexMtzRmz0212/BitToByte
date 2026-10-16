@@ -26,7 +26,7 @@ describe('camera math', () => {
     expect(after.y).toBeCloseTo(before.y);
   });
 
-  it('clamps zoom and always keeps the screen centre over the map', () => {
+  it('clamps zoom and always keeps most of the map on screen', () => {
     for (const [vw, vh] of [[390, 844], [1440, 900], [2560, 1440]] as const) {
       const f = frame(vw, vh);
       for (const z of [0.01, f.minZ, 0.8, 50]) {
@@ -34,10 +34,14 @@ describe('camera math', () => {
           const out = clampView({ x, y, z }, f);
           expect(out.z).toBeGreaterThanOrEqual(f.minZ);
           expect(out.z).toBeLessThanOrEqual(f.maxZ);
-          expect(out.x).toBeGreaterThanOrEqual(0);
-          expect(out.x).toBeLessThanOrEqual(f.w);
-          expect(out.y).toBeGreaterThanOrEqual(0);
-          expect(out.y).toBeLessThanOrEqual(f.h);
+          const span = (size: number, centre: number, screen: number) => {
+            const lo = (0 - centre) * out.z + screen / 2;
+            const hi = (size - centre) * out.z + screen / 2;
+            const visible = Math.min(hi, screen) - Math.max(lo, 0);
+            return visible / Math.min(size * out.z, screen);
+          };
+          expect(span(f.w, out.x, vw)).toBeGreaterThanOrEqual(0.4);
+          expect(span(f.h, out.y, vh)).toBeGreaterThanOrEqual(0.4);
         }
       }
     }
@@ -49,7 +53,7 @@ describe('camera math', () => {
     const out = clampView({ x: -9999, y: 750, z }, f);
     const voidPx = (0 - out.x) * z + f.vw / 2; // screen px left of the map's edge
     expect(voidPx).toBeGreaterThan(0);
-    expect(voidPx).toBeLessThan(f.vw * 0.3);
+    expect(voidPx).toBeLessThan(f.vw * 0.15);
   });
 
   it('starts at a readable zoom on phones and desktops', () => {

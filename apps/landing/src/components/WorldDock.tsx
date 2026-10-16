@@ -13,7 +13,7 @@ export default function WorldDock({ current, view }: { current: PlaceId; view: V
   return (
     <nav
       aria-label="Worlds"
-      className="pointer-events-auto mx-auto w-max max-w-[calc(100vw-1.5rem)] rounded-control border-[length:var(--w-bw)] border-line bg-raised/95 p-1 shadow-card backdrop-blur"
+      className="world-dock pointer-events-auto mx-auto w-max max-w-[calc(100vw-1.5rem)] rounded-control border-[length:var(--w-bw)] border-line bg-raised/95 p-1 shadow-card backdrop-blur"
     >
       <ul className="flex items-center gap-0.5">
         {ORDER.map((id) => {
@@ -25,12 +25,12 @@ export default function WorldDock({ current, view }: { current: PlaceId; view: V
                 aria-current={active ? 'page' : undefined}
                 aria-label={PLACES[id].name}
                 title={PLACES[id].name}
-                className={`flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-control px-2.5 text-sm font-semibold transition-colors md:px-3.5 ${
+                className={`dock-slot-link flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-control px-2.5 text-sm font-semibold transition-colors md:px-3.5 ${
                   active ? 'bg-accent text-accent-ink' : 'text-muted hover:text-ink'
                 }`}
               >
                 <PlaceGlyph id={id} />
-                <span className="hidden md:inline" aria-hidden="true">
+                <span className="dock-label hidden md:inline" aria-hidden="true">
                   {PLACES[id].short}
                 </span>
               </RouteLink>

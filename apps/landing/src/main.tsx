@@ -3,6 +3,7 @@ import './theme/index.css';
 import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App';
+import './theme/chrome.css';
 import { initClientRoute } from './state/app';
 import { applyPlace, ensureThemeStyle } from './theme/tokens';
 

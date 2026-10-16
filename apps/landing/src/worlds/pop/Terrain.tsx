@@ -178,7 +178,7 @@ export default function PopTerrain({ layout }: { layout: MapLayout }) {
           </text>
           <path d={`M${p3.x + 180} ${p3.y + 250}h170M${p3.x + 180} ${p3.y + 268}h150M${p3.x + 180} ${p3.y + 286}h160M${p3.x + 380} ${p3.y + 250}h170M${p3.x + 380} ${p3.y + 268}h140M${p3.x + 380} ${p3.y + 286}h160`} stroke={K} strokeWidth="5" opacity="0.4" />
         </g>
-        <Balloon x={p3.x + 470} y={p3.y + 360} w={220} text="Extra! Extra!" tail="left" />
+        <Balloon x={p3.x + 440} y={p3.y + 352} w={270} text="Extra! Extra!" tail="left" />
       </g>
 
       {/* 4-6: landmark panels get a skyline backdrop and a few beats of noise */}
@@ -211,7 +211,7 @@ export default function PopTerrain({ layout }: { layout: MapLayout }) {
         <Skyline p={p8} seed={7} color={BLUE} />
         <Caption x={p8.x} y={p8.y} w={430} text="Later, on the rooftops..." />
         <Sfx x={p8.x + 900} y={p8.y + 110} text="ZIP!" color="#FFFEFA" r={70} rot={-12} />
-        <Balloon x={p8.x + 560} y={p8.y + 120} w={230} text="Nice swing!" tail="right" />
+        <Balloon x={p8.x + 540} y={p8.y + 120} w={280} text="Nice swing!" tail="right" />
       </g>
       <g clipPath="url(#pp-clip-8)">
         <Skyline p={p9} seed={8} color="#141633" />

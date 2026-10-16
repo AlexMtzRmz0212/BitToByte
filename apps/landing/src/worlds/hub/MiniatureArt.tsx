@@ -197,6 +197,12 @@ function NoirMini() {
         </linearGradient>
       </defs>
       <rect width="200" height="200" fill="url(#nm-sky)" />
+      {/* the studio's signal on the clouds */}
+      <path d="M40 200L134 46h22z" fill="#FFE7B0" opacity="0.08" />
+      <ellipse cx="146" cy="40" rx="30" ry="19" fill="#FFE7B0" opacity="0.55" />
+      <g transform="translate(136 30) scale(0.85)" fill="none" stroke="#0B1222" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 4v16M8 4h5.5a4 4 0 0 1 0 8H8M8 12h6a4.2 4.2 0 0 1 0 8H8" />
+      </g>
       <g className="mini-sweep">
         <path d="M70 160L46 0h22z" fill="url(#nm-beam)" />
       </g>

@@ -58,7 +58,7 @@ export default function Compass({ controller, target }: { controller: MapControl
 
   return (
     <>
-      <button type="button" className="compass chrome" onClick={target.go} aria-label={`Travel to ${target.label}`} title={`Next: ${target.label}`}>
+      <button type="button" className="compass chrome" onClick={target.go} aria-label={`Compass: head for ${target.label}`} title={`Next: ${target.label}`}>
         <svg viewBox="-24 -24 48 48" width="40" height="40" aria-hidden="true">
           <circle r="20" className="compass-face" />
           <g ref={needle}>

@@ -1,5 +1,7 @@
 import type { ComponentType } from 'react';
+import type { SceneId } from '../districts/archetypes';
 import type { Project } from '../data/projects';
+import type { FogRenderer } from '../engine/fog';
 import type { MapLayout, PlaceId, Point } from '../data/worlds';
 import type { MapController } from '../engine/controller';
 
@@ -37,4 +39,10 @@ export interface WorldModule {
   Backdrop?: ComponentType;
   /** Optional screen-space effects (particles, rain). Gets the live controller. */
   Ambient?: ComponentType<{ controller: MapController }>;
+  /** Optional world-space layer above the route (footprints, sparks). */
+  Overlay?: ComponentType<{ controller: MapController; layout: MapLayout }>;
+  /** How unexplored ground looks. No fog if omitted. */
+  fog?: FogRenderer;
+  /** Arrival mini-scenes for this world's projects, by scene id. */
+  scenes?: Partial<Record<SceneId, ComponentType>>;
 }

@@ -124,3 +124,37 @@ test('the page works when storage is blocked', async ({ page }) => {
   await expect(page.getByRole('link', { name: /^Launch live project/ }).first()).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test.describe('world maps', () => {
+  test('a deep link opens the project card on its world map', async ({ page }) => {
+    await page.goto('/?world=manuscript&project=habits');
+    await expect(page.locator('html')).toHaveAttribute('data-world', 'manuscript');
+    await expect(page.getByRole('region', { name: 'Map of Manuscript Realm' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Habits', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Launch live project: Habits' })).toHaveAttribute(
+      'href',
+      'https://habits.bittobyte.qzz.io'
+    );
+  });
+
+  test('clicking a landmark travels there and opens its card', async ({ page }) => {
+    await page.goto('/?world=manuscript');
+    await page.getByRole('button', { name: /^Travel to FedEthics/ }).click();
+    await expect(page.getByRole('heading', { name: 'FedEthics', exact: true })).toBeVisible({ timeout: 8000 });
+    await expect(page).toHaveURL(/project=fedethics/);
+    // Closing the card keeps you on the map.
+    await page.getByRole('button', { name: 'Close and keep exploring' }).click();
+    await expect(page.getByRole('heading', { name: 'FedEthics', exact: true })).toHaveCount(0);
+    await expect(page).not.toHaveURL(/project=/);
+  });
+
+  test.describe('with reduced motion', () => {
+    test('worlds open as a list, with the map one click away', async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto('/?world=manuscript');
+      await expect(page.getByRole('heading', { level: 1, name: 'Manuscript Realm, as a list' })).toBeVisible();
+      await page.getByRole('link', { name: 'Show the map' }).click();
+      await expect(page.getByRole('region', { name: 'Map of Manuscript Realm' })).toBeVisible();
+    });
+  });
+});

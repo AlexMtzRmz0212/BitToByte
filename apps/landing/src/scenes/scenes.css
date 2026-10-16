@@ -1,0 +1,74 @@
+/* Arrival scenes. Each plays once when its card opens; with reduced motion
+ * they simply show their final frame. */
+@layer components {
+  .scene {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .sc-digit {
+    font-family: var(--w-font-display);
+    font-size: 30px;
+    fill: var(--w-ink);
+  }
+  .sc-caption {
+    font-family: var(--w-font-body);
+    font-size: 11px;
+    fill: var(--w-muted);
+  }
+
+  /* final frames (also the reduced-motion view) */
+  .sc-roll { transform: translateY(var(--stop)); }
+  .sc-letter { opacity: 0; }
+  .sc-shadow { transform-box: view-box; transform-origin: 100px 64px; transform: rotate(48deg); }
+  .sc-bloom { transform-box: fill-box; transform-origin: center; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sc-beam {
+      transform-box: view-box;
+      transform-origin: 160px 32px;
+      animation: sc-beam 2.4s cubic-bezier(0.3, 1.2, 0.5, 1) both;
+    }
+    .sc-pan {
+      transform-box: view-box;
+      animation: sc-pan 2.4s cubic-bezier(0.3, 1.2, 0.5, 1) both;
+    }
+    .sc-pan-l { transform-origin: 96px 32px; }
+    .sc-pan-r { transform-origin: 224px 32px; }
+    .sc-letter { animation: sc-letter 1.6s ease-in 1.9s both; }
+    .sc-roll { animation: sc-roll 1.6s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+    .sc-shadow { animation: sc-shadow 2.6s ease-in-out both; }
+    .sc-bloom { animation: sc-bloom 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+  }
+
+  @keyframes sc-beam {
+    0% { transform: rotate(-16deg); }
+    40% { transform: rotate(9deg); }
+    70% { transform: rotate(-4deg); }
+    100% { transform: rotate(0deg); }
+  }
+  @keyframes sc-pan {
+    0% { transform: rotate(16deg); }
+    40% { transform: rotate(-9deg); }
+    70% { transform: rotate(4deg); }
+    100% { transform: rotate(0deg); }
+  }
+  @keyframes sc-letter {
+    0% { opacity: 1; transform: translate(-60px, 0) scale(0.6); }
+    30% { opacity: 1; transform: translate(-30px, -20px) scale(0.9); }
+    100% { opacity: 0; transform: translate(20px, -70px) rotate(14deg); }
+  }
+  @keyframes sc-roll {
+    from { transform: translateY(0); }
+    to { transform: translateY(var(--stop)); }
+  }
+  @keyframes sc-shadow {
+    from { transform: rotate(-30deg); }
+    to { transform: rotate(48deg); }
+  }
+  @keyframes sc-bloom {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, type MouseEvent } from 'react';
+import { useEffect, useRef, type MouseEvent, type ReactNode } from 'react';
 import { ExternalLinkIcon, XIcon } from 'lucide-react';
 import { GithubIcon } from '@alex_mtz/bittobyte-ui';
 import { kindLabel, type Project } from '../data/projects';
@@ -10,10 +10,12 @@ interface Props {
   onClose: () => void;
   /** Runs the launch animation, then navigates. Return false to let the link work normally. */
   onLaunch?: (project: Project) => boolean;
+  /** The arrival mini-scene, shown at the top of the card. */
+  scene?: ReactNode;
 }
 
 /** What you see on arrival: what it is, what it's built with, and the way in. */
-export default function ProjectCard({ project, onClose, onLaunch }: Props) {
+export default function ProjectCard({ project, onClose, onLaunch, scene }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
 
   // Arrival moves focus here, so keyboard and screen-reader users land on it too.
@@ -37,6 +39,7 @@ export default function ProjectCard({ project, onClose, onLaunch }: Props) {
       <button type="button" className="card-close" onClick={onClose} aria-label="Close and keep exploring">
         <XIcon className="h-5 w-5" aria-hidden="true" />
       </button>
+      {scene && <div className="card-scene">{scene}</div>}
       <p className="card-kicker">
         <PlaceGlyph id={project.world} className="h-4 w-4" />
         {kindLabel(project.kind)} in {WORLDS[project.world].name}

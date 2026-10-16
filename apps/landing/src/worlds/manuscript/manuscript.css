@@ -1,0 +1,118 @@
+/* Manuscript Realm: lettering, ink motion, the footprint traveler. */
+@layer components {
+  .ms-title {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 52px;
+    fill: var(--w-ink);
+  }
+  .ms-subtitle,
+  .ms-label,
+  .ms-note,
+  .ms-board-title {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-style: italic;
+    fill: var(--w-ink);
+  }
+  .ms-subtitle { font-size: 24px; fill: var(--w-muted); }
+  .ms-label { font-size: 28px; }
+  .ms-label-small { font-size: 22px; }
+  .ms-label-water { fill: var(--w-deco-2); font-size: 26px; }
+  .ms-note { font-size: 24px; fill: var(--w-accent); opacity: 0.8; }
+  .ms-board-title { font-size: 13px; }
+
+  .ms-gate,
+  .ms-landmark,
+  .ms-dogear {
+    cursor: pointer;
+  }
+
+  /* Route: a dashed line in oxblood ink. */
+  .route-ink {
+    stroke-width: 3;
+    stroke-dasharray: 10 9;
+    opacity: 0.85;
+  }
+
+  /* The traveler: last pair of prints plus a name ribbon. */
+  .ms-traveler {
+    position: relative;
+    transform: translate(-50%, -50%);
+  }
+  .ms-stance {
+    display: block;
+    fill: var(--w-ink);
+    transform: rotate(calc(var(--heading, -90deg) + 90deg));
+    transition: transform 200ms ease;
+  }
+  [data-moving='true'] .ms-stance {
+    opacity: 0;
+  }
+  .ms-ribbon {
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    margin-bottom: 4px;
+    transform: translateX(-50%);
+    padding: 1px 12px 2px;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.2;
+    color: var(--w-accent-ink);
+    background: var(--w-accent);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 7px) 50%, 100% 100%, 0 100%, 7px 50%);
+    white-space: nowrap;
+  }
+
+  .ms-print {
+    fill: var(--w-ink);
+    opacity: 0;
+    animation: ms-print 9s ease-out forwards;
+  }
+  .ms-print-npc {
+    fill: var(--w-muted);
+    animation-duration: 6.5s;
+  }
+  .ms-resident text {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-style: italic;
+    font-size: 20px;
+    fill: var(--w-muted);
+    paint-order: stroke;
+    stroke: #efe0ba;
+    stroke-width: 5px;
+  }
+  .ms-birds { opacity: 0.75; }
+  .ms-quill { stroke-dasharray: 1 1; stroke-dashoffset: 0; }
+
+  .map-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ms-swirl { animation: ms-swirl 14s linear infinite; }
+    .ms-gate:hover .ms-swirl { animation-duration: 4s; }
+    .ms-pennant { transform-box: fill-box; transform-origin: left center; animation: ms-wave 2.6s ease-in-out infinite alternate; }
+    .ms-seal { animation: ms-stamp 420ms cubic-bezier(0.3, 1.6, 0.5, 1) both; transform-box: fill-box; transform-origin: center; }
+    .ms-flame { transform-box: fill-box; transform-origin: bottom center; animation: ms-flicker 1.4s ease-in-out infinite alternate; }
+    .ms-birds { animation: ms-fly 46s linear infinite; }
+    .ms-quill { animation: ms-quill 9s ease-in-out infinite; }
+  }
+
+  @keyframes ms-swirl { to { transform: rotate(360deg); } }
+  @keyframes ms-flicker { 0% { transform: scale(1, 1); opacity: 1; } 50% { transform: scale(0.85, 1.12) skewX(4deg); opacity: 0.85; } 100% { transform: scale(1.05, 0.92) skewX(-3deg); opacity: 1; } }
+  @keyframes ms-fly { from { transform: translateX(-120px); } to { transform: translateX(2360px); } }
+  @keyframes ms-quill { 0% { stroke-dashoffset: 1; } 35%, 75% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -1; } }
+  @keyframes ms-wave { from { transform: skewY(-8deg) scaleX(0.9); } to { transform: skewY(6deg); } }
+  @keyframes ms-stamp { from { transform: scale(1.8) rotate(-20deg); opacity: 0; } }
+  @keyframes ms-print {
+    0% { opacity: 0; }
+    6% { opacity: 0.85; }
+    55% { opacity: 0.7; }
+    100% { opacity: 0; }
+  }
+}

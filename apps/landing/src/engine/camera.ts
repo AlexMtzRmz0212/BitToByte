@@ -77,8 +77,8 @@ export const panBy = (v: View, dx: number, dy: number): View => ({
   z: v.z,
 });
 
-/** A comfortable starting zoom: about `span` world units across the narrower screen side. */
-export function readableZoom(f: Frame, span = 900): number {
+/** A comfortable starting zoom: roughly `span` world units across (more on wide screens). */
+export function readableZoom(f: Frame, span = f.vw < 700 ? 900 : 1900): number {
   return clamp(Math.min(f.vw, f.vh * 1.4) / span, f.minZ, Math.min(1.1, f.maxZ));
 }
 

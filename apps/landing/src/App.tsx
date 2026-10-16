@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { PLACES, isWorldId, type PlaceId } from './data/worlds';
+import { PLACES, isWorldId, type PlaceId, type Point } from './data/worlds';
 import { site } from './data/site';
 import { useReducedMotion } from './engine/motion';
 import { app, startProgressSync, useRoute } from './state/app';
@@ -8,6 +8,7 @@ import { applyPlace } from './theme/tokens';
 import { getModule, hasMap, loadModule, useModule } from './worlds/registry';
 import ListView from './components/ListView';
 import MapScreen from './components/map/MapScreen';
+import RiftTransition, { type Rift } from './components/RiftTransition';
 
 // Server rendering has no layout to measure; skip the layout effect there.
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
@@ -24,6 +25,11 @@ export default function App() {
   const reducedMotion = useReducedMotion();
   const [scene, setScene] = useState<Scene>({ place: route.place, from: null });
   const [failed, setFailed] = useState<PlaceId | null>(null);
+  const [rift, setRift] = useState<Rift | null>(null);
+  const sceneRef = useRef(scene);
+  useEffect(() => {
+    sceneRef.current = scene;
+  });
 
   const world = isWorldId(route.place) ? route.place : null;
   const showList =
@@ -63,13 +69,27 @@ export default function App() {
     void loadPlaceFonts(departingTo);
   }, [departingTo]);
 
-  const finishDeparture = useCallback(() => {
+  // The traveler reached the gate: open the rift there.
+  const finishDeparture = useCallback((at: Point | null) => {
     const to = app.get().route.place;
+    setRift({ from: sceneRef.current.place, to, at, phase: 'opening' });
+  }, []);
+
+  // Fully covered: wait for the next world's code and fonts, swap, then reveal it.
+  const riftCovered = useCallback(() => {
+    const to = app.get().route.place;
+    setRift((r) => r && { ...r, to, phase: 'covered' });
     void Promise.all([loadModule(to), loadPlaceFonts(to)]).then(([mod]) => {
       if (!mod && hasMap(to)) setFailed(to);
       setScene((s) => ({ place: app.get().route.place, from: s.place }));
+      // Two frames: the new map mounts and centres its camera before the reveal.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => setRift((r) => r && { ...r, phase: 'closing' }))
+      );
     });
   }, []);
+
+  const riftDone = useCallback(() => setRift(null), []);
 
   useIsoLayoutEffect(() => {
     applyPlace(displayed);
@@ -122,6 +142,9 @@ export default function App() {
         {showList ? 'Skip to content' : 'Skip to the project list'}
       </a>
       {content}
+      {rift && (
+        <RiftTransition rift={rift} reducedMotion={reducedMotion} onCovered={riftCovered} onDone={riftDone} />
+      )}
     </>
   );
 }

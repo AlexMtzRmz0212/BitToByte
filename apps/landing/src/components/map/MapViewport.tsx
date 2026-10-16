@@ -13,8 +13,13 @@ interface Props {
   art: ReactNode;
   /** HTML labels positioned in world units. */
   markers: ReactNode;
+  /** World-space layers under the route (fog) and over it (footprints). */
+  underRoute?: ReactNode;
+  overRoute?: ReactNode;
   traveler: ReactNode;
   routeClass: string;
+  /** Arrived through a portal: the traveler steps out. */
+  arriving?: boolean;
   onReady: (controller: MapController | null) => void;
   /** Clicks on art carrying data-target="gate:<id>" | "project:<slug>" | "home". */
   onTarget: (target: string) => void;
@@ -33,8 +38,11 @@ export default function MapViewport({
   label,
   art,
   markers,
+  underRoute,
+  overRoute,
   traveler,
   routeClass,
+  arriving = false,
   onReady,
   onTarget,
 }: Props) {
@@ -103,6 +111,7 @@ export default function MapViewport({
         <svg className="map-art" width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true" focusable="false">
           {art}
         </svg>
+        {underRoute}
         <svg className="map-route" width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true" focusable="false" data-state="idle">
           <defs>
             <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width={w} height={h}>
@@ -111,11 +120,13 @@ export default function MapViewport({
           </defs>
           <path ref={route} className={`route ${routeClass}`} mask={`url(#${maskId})`} />
         </svg>
+        {overRoute}
         {markers}
         <div
           ref={travelerEl}
           className="traveler"
           data-moving="false"
+          data-arriving={arriving ? 'true' : undefined}
           style={{ transform: `translate3d(${start.x}px, ${start.y}px, 0) scale(var(--inv-z))` }}
         >
           {traveler}

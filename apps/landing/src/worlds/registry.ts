@@ -7,7 +7,9 @@ import type { WorldModule } from './types';
 // is its own chunk, fetched the first time someone heads there. A world with no
 // loader yet opens as the list view.
 
-const LOADERS: Partial<Record<WorldId, () => Promise<WorldModule>>> = {};
+const LOADERS: Partial<Record<WorldId, () => Promise<WorldModule>>> = {
+  manuscript: () => import('./manuscript').then((m) => m.default),
+};
 
 const cache = new Map<PlaceId, WorldModule>([['nexus', hubModule]]);
 const pending = new Map<PlaceId, Promise<WorldModule | null>>();

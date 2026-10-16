@@ -1,0 +1,103 @@
+/* The portal rift. Only transform and opacity animate. */
+@layer components {
+  .rift {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    overflow: hidden;
+    pointer-events: auto;
+    cursor: progress;
+  }
+
+  /* A small disc scaled up: the browser rasterizes it once at 400px and
+   * stretches the texture, which is cheap and reads as motion blur. */
+  .rift-disc {
+    position: absolute;
+    left: calc(var(--rift-x) - 200px);
+    top: calc(var(--rift-y) - 200px);
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    /* The eye is already the destination's ground, so the swap happens on a solid colour. */
+    background: radial-gradient(
+      circle closest-side,
+      var(--rift-eye) 0 60%,
+      color-mix(in oklab, var(--rift-to) 70%, var(--rift-eye)) 70%,
+      var(--rift-to) 78%,
+      var(--rift-from) 90%,
+      color-mix(in oklab, var(--rift-from) 40%, transparent) 97%,
+      transparent 100%
+    );
+    transform: scale(0);
+    will-change: transform;
+  }
+  .rift-swirl {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: repeating-conic-gradient(
+      from 0deg,
+      color-mix(in oklab, var(--rift-glow) 55%, transparent) 0deg 7deg,
+      transparent 7deg 22deg
+    );
+    -webkit-mask: radial-gradient(circle closest-side, transparent 58%, #000 66%, #000 92%, transparent 100%);
+    mask: radial-gradient(circle closest-side, transparent 58%, #000 66%, #000 92%, transparent 100%);
+    animation: rift-spin 1.6s linear infinite;
+  }
+
+  .rift[data-phase='opening'] .rift-disc {
+    animation: rift-open 760ms cubic-bezier(0.55, 0, 0.75, 0.3) forwards;
+  }
+  .rift[data-phase='covered'] .rift-disc {
+    transform: scale(var(--rift-s));
+  }
+  .rift[data-phase='closing'] .rift-disc {
+    animation: rift-close 820ms cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+  }
+
+  /* Reduced motion: a plain cross-fade through the destination's background. */
+  .rift[data-kind='fade'] .rift-disc {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    background: var(--rift-eye);
+    transform: none;
+    opacity: 0;
+    animation: none;
+  }
+  .rift[data-kind='fade'] .rift-swirl {
+    display: none;
+  }
+  .rift[data-kind='fade'][data-phase='opening'] .rift-disc {
+    animation: rift-fade-in 240ms ease-out forwards;
+  }
+  .rift[data-kind='fade'][data-phase='covered'] .rift-disc {
+    opacity: 1;
+  }
+  .rift[data-kind='fade'][data-phase='closing'] .rift-disc {
+    opacity: 1;
+    animation: rift-fade-out 240ms ease-in forwards;
+  }
+
+  @keyframes rift-open {
+    from { transform: scale(0) rotate(0deg); }
+    to { transform: scale(var(--rift-s)) rotate(-200deg); }
+  }
+  @keyframes rift-close {
+    from { transform: scale(var(--rift-s)) rotate(0deg); }
+    to { transform: scale(0) rotate(240deg); }
+  }
+  @keyframes rift-spin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes rift-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes rift-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}

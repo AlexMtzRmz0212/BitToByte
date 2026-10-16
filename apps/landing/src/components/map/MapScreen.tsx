@@ -13,9 +13,10 @@ import {
   type Point,
 } from '../../data/worlds';
 import type { MapController } from '../../engine/controller';
+import { FogField } from '../../engine/fog';
 import { doorstep, placeProjects } from '../../engine/lots';
 import { useReducedMotion } from '../../engine/motion';
-import { discover, markIntroSeen, navigate, useProgress, useRoute } from '../../state/app';
+import { app, discover, markIntroSeen, navigate, saveFog, useProgress, useRoute } from '../../state/app';
 import type { WorldModule } from '../../worlds/types';
 import IntroCard from '../IntroCard';
 import ProjectCard from '../ProjectCard';
@@ -23,6 +24,7 @@ import WorldDock from '../WorldDock';
 import TopHud from '../hud/TopHud';
 import TravelPanel from '../hud/TravelPanel';
 import Compass, { type CompassTarget } from './Compass';
+import FogLayer from './FogLayer';
 import MapMarker from './MapMarker';
 import MapViewport from './MapViewport';
 import './map.css';
@@ -34,7 +36,8 @@ interface Props {
   from: PlaceId | null;
   /** Set when the URL already points elsewhere: walk to the gate, then call onDeparted. */
   departingTo: PlaceId | null;
-  onDeparted: () => void;
+  /** Hands over to the portal, with the gate's position on screen (where the rift opens). */
+  onDeparted: (at: Point | null) => void;
 }
 
 const desktop = () => typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches;
@@ -65,8 +68,59 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   const [panelOpen, setPanelOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [announcement, setAnnouncement] = useState('');
+  const [launching, setLaunching] = useState<string | null>(null);
   const travellingTo = useRef<string | null>(null);
   const settled = useRef(false);
+
+  // Fog of war: restored from storage, cleared around where you arrive and
+  // around anything already found. Purely visual; nothing under it is gated.
+  const fog = useMemo(() => {
+    if (!world || !module.fog || !layout.fog) return null;
+    const field = new FogField(layout.size.w, layout.size.h, layout.fog.cell);
+    const saved = app.get().progress;
+    field.decode(saved.fog[world]);
+    // A generous clearing where you arrive, so a new world never opens on a blank page.
+    field.clearCircle(start.x, start.y, layout.fog.radius * 1.7);
+    for (const p of placed) {
+      if (saved.discovered[world]?.includes(p.project.slug)) field.clearCircle(p.at.x, p.at.y, layout.fog.radius * 0.8);
+    }
+    return field;
+    // One field per mounted map.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [world]);
+
+  const fogSave = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const onFogChange = useCallback(() => {
+    if (!fog || !world) return;
+    clearTimeout(fogSave.current);
+    fogSave.current = setTimeout(() => saveFog(world, fog.encode()), 600);
+  }, [fog, world]);
+
+  // Clearing fog over a landmark counts as finding it.
+  const onFogReveal = useCallback(
+    (x: number, y: number, r: number) => {
+      if (!world || !fog) return;
+      for (const { project, at } of placed) {
+        if (Math.hypot(at.x - x, at.y - y) > r + 60 || !fog.isClearAt(at.x, at.y)) continue;
+        if (discover(world, project.slug)) setAnnouncement(`You found ${project.name}.`);
+      }
+    },
+    [world, fog, placed]
+  );
+
+  // Landing straight on a project (a deep link) counts as finding it.
+  useEffect(() => {
+    if (world && arrived) discover(world, arrived);
+    // Only for the project we started on.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Coming back from a launched project (browser back, page restored from cache): clear the veil.
+  useEffect(() => {
+    const onShow = (e: PageTransitionEvent) => e.persisted && setLaunching(null);
+    window.addEventListener('pageshow', onShow);
+    return () => window.removeEventListener('pageshow', onShow);
+  }, []);
 
   const isHub = place === 'nexus';
   const introOpen = isHub && (!progress.introSeen || aboutOpen);
@@ -115,16 +169,16 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   useEffect(() => {
     if (!departingTo) return;
     if (!controller) {
-      onDeparted();
+      onDeparted(null);
       return;
     }
     const gate = departureGate(place, departingTo);
     if (!gate) {
-      onDeparted();
+      onDeparted(null);
       return;
     }
     travellingTo.current = null;
-    controller.travelTo(gate, onDeparted);
+    controller.travelTo(gate, () => onDeparted(controller.toScreen(gate)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controller, departingTo]);
 
@@ -152,6 +206,19 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   const closeCard = useCallback(() => {
     navigate({ project: null }, 'replace');
   }, []);
+
+  // Launch: the camera pushes into the building, the world fades, then we go.
+  const launch = useCallback(
+    (project: { slug: string; liveUrl: string }) => {
+      if (reducedMotion || !controller) return false;
+      const target = placed.find((p) => p.project.slug === project.slug);
+      if (target) controller.centerOn({ x: target.at.x, y: target.at.y - 80 }, controller.view.z * 2.4, 850);
+      setLaunching(project.slug);
+      window.setTimeout(() => window.location.assign(project.liveUrl), 880);
+      return true;
+    },
+    [reducedMotion, controller, placed]
+  );
 
   const selected = world && route.project && arrived === route.project ? projectBySlug(route.project) : undefined;
 
@@ -184,6 +251,8 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   const Traveler = module.Traveler;
   const Backdrop = module.Backdrop;
   const Ambient = module.Ambient;
+  const Overlay = module.Overlay;
+  const Scene = selected ? module.scenes?.[selected.scene] : undefined;
 
   const gates = Object.entries(layout.gates) as [PlaceId, Point][];
 
@@ -213,7 +282,7 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
             kind="gate"
             at={at}
             lift={-118}
-            label={to === 'nexus' ? 'Back to the Nexus' : PLACES[to].name}
+            label={to === 'nexus' ? 'Back to the Nexus' : isHub ? PLACES[to].name : `To ${PLACES[to].name}`}
             sub={count === null ? undefined : `${found}/${count} found`}
             ariaLabel={to === 'nexus' ? 'Portal back to the Nexus' : `Portal to ${PLACES[to].name}, ${count} projects, ${found} found`}
             onSelect={() => goTo(`gate:${to}`)}
@@ -263,6 +332,21 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
           markers={markers}
           traveler={<Traveler />}
           routeClass={module.routeClass}
+          arriving={from !== null}
+          underRoute={
+            fog && module.fog && layout.fog ? (
+              <FogLayer
+                controller={controller}
+                layout={layout}
+                field={fog}
+                renderer={module.fog}
+                radius={layout.fog.radius}
+                onReveal={onFogReveal}
+                onChange={onFogChange}
+              />
+            ) : null
+          }
+          overRoute={Overlay && controller ? <Overlay controller={controller} layout={layout} /> : null}
           onReady={setController}
           onTarget={goTo}
         />
@@ -302,7 +386,14 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       </div>
 
       {introOpen && <IntroCard onExplore={closeIntro} />}
-      {selected && <ProjectCard project={selected} onClose={closeCard} />}
+      {selected && (
+        <ProjectCard project={selected} onClose={closeCard} onLaunch={launch} scene={Scene ? <Scene /> : undefined} />
+      )}
+      {launching && (
+        <div className="launch-veil" role="status">
+          <p>Opening {projectBySlug(launching)?.name}…</p>
+        </div>
+      )}
 
       <p className="sr-only" role="status" aria-live="polite">
         {announcement}

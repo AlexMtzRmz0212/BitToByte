@@ -1,0 +1,5 @@
+# Build intermediates and local verification output
+.ssr/
+.shots/
+test-results/
+playwright-report/

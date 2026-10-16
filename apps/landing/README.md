@@ -1,16 +1,46 @@
-# React + Vite
+# bittobyte.qzz.io
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The BitToByte studio site: a Nexus hub and four explorable map-worlds, each
+re-theming the whole UI. Every project is also reachable as a plain list
+(`/?view=list`), and the Nexus is prerendered so crawlers and no-JS visitors get
+the full text and every link.
 
-Currently, two official plugins are available:
+## Editing content
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| What | Where |
+|---|---|
+| Project copy, links, stack tags, previews, district and scene | `src/data/projects.ts` |
+| Studio copy (blurb, availability line, contact, capabilities) | `src/data/site.ts` |
+| Worlds: names, theme tokens, map layout | `src/data/worlds.ts` |
 
-## React Compiler
+Adding a project is one object in `projects.ts`. Pick an existing `district`
+and `scene` id from `src/districts/archetypes.ts`; no component changes needed.
+`pnpm test` checks the data (slugs, URLs, ids, contrast of every theme).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Strings marked `TODO(alex)` are drafts or open questions.
 
-## Expanding the ESLint configuration
+## How theming works
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+`src/data/worlds.ts` holds a token set per place (colors, fonts, radii, shadows,
+motion timing). `src/theme/tokens.ts` turns them into one stylesheet of
+`--w-*` custom properties, one rule per world, keyed on `<html data-world>`.
+Tailwind maps the variables to utilities (`bg-surface`, `text-ink`,
+`font-display`, `rounded-card`...), so components never mention a world.
+
+## Deep links
+
+`/?world=<id>&project=<slug>&view=list|map`. The back button walks the history.
+With reduced motion on, worlds open as the list unless `view=map` is set.
+
+## Scripts
+
+```bash
+pnpm dev          # Vite dev server
+pnpm build        # client build, SSR build, then prerender into dist/index.html
+pnpm preview      # serve dist on :4173
+pnpm typecheck    # tsc
+pnpm lint         # eslint
+pnpm test         # vitest: data, tokens contrast, URLs, storage
+pnpm e2e          # playwright against the preview build (run `pnpm build` first)
+pnpm shots        # screenshots at 390 and 1440 into .shots/
+```

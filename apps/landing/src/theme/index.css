@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+/* Generate utilities for the shared UI components (Footer) in this sheet. The
+ * package's own pre-compiled stylesheet is intentionally not imported: it forces
+ * a dark body and an !important animation kill that would fight the worlds. */
+@source "../../../../packages/ui/src";
+
+/* World tokens -> Tailwind utilities. `inline` makes each utility read the
+ * runtime --w-* variable directly, so flipping <html data-world> re-themes
+ * every utility at once (bg-surface, text-ink, font-display, rounded-card...). */
+@theme inline {
+  --color-bg: var(--w-bg);
+  --color-surface: var(--w-surface);
+  --color-raised: var(--w-raised);
+  --color-ink: var(--w-ink);
+  --color-muted: var(--w-muted);
+  --color-accent: var(--w-accent);
+  --color-accent-ink: var(--w-accent-ink);
+  --color-accent-text: var(--w-accent-text);
+  --color-line: var(--w-line);
+  --color-focus: var(--w-focus);
+  --color-route: var(--w-route);
+  --color-deco-1: var(--w-deco-1);
+  --color-deco-2: var(--w-deco-2);
+  --color-deco-3: var(--w-deco-3);
+  --font-display: var(--w-font-display);
+  --font-body: var(--w-font-body);
+  --radius-card: var(--w-r-card);
+  --radius-control: var(--w-r-control);
+  --shadow-card: var(--w-shadow-card);
+  --shadow-pop: var(--w-shadow-pop);
+  --ease-world: var(--w-ease);
+  --ease-pop: var(--w-ease-pop);
+}
+
+@layer base {
+  html {
+    background: var(--w-bg);
+    color: var(--w-ink);
+    font-family: var(--w-font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--w-bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--w-focus);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--w-accent) 35%, transparent);
+  }
+}
+
+@layer components {
+  /* Display type: weight, case and tracking come from the world. */
+  .type-display {
+    font-family: var(--w-font-display);
+    font-weight: var(--w-display-weight);
+    text-transform: var(--w-display-case);
+    letter-spacing: var(--w-display-tracking);
+  }
+
+  /* Buttons. One shape per world (radius, border width and shadow are tokens);
+   * min-height keeps every target at 44px or more. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.625rem 1.25rem;
+    border: var(--w-bw) solid transparent;
+    border-radius: var(--w-r-control);
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      transform var(--w-dur-fast) var(--w-ease),
+      background-color var(--w-dur-fast) var(--w-ease),
+      border-color var(--w-dur-fast) var(--w-ease),
+      box-shadow var(--w-dur-fast) var(--w-ease);
+  }
+  .btn:active {
+    transform: translateY(1px) scale(0.985);
+  }
+  .btn-primary {
+    background: var(--w-accent);
+    color: var(--w-accent-ink);
+    box-shadow: var(--w-shadow-pop);
+  }
+  .btn-primary:hover {
+    background: color-mix(in oklab, var(--w-accent) 88%, var(--w-ink));
+  }
+  .btn-ghost {
+    background: color-mix(in oklab, var(--w-surface) 70%, transparent);
+    color: var(--w-ink);
+    border-color: var(--w-line);
+  }
+  .btn-ghost:hover {
+    border-color: color-mix(in oklab, var(--w-ink) 45%, transparent);
+  }
+  .btn-sm {
+    min-height: 2.75rem;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  /* A square icon button that still meets the 44px target. */
+  .btn-icon {
+    min-width: 2.75rem;
+    padding: 0.5rem;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid var(--w-line);
+    border-radius: var(--w-r-control);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--w-muted);
+    white-space: nowrap;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    border-radius: var(--w-r-control);
+    background: var(--w-accent);
+    color: var(--w-accent-ink);
+    font-weight: 600;
+    transform: translateY(-200%);
+  }
+  .skip-link:focus-visible {
+    transform: none;
+  }
+}
+
+/* z-index scale. Kept in one place so layers never fight:
+ *   0   map and page content
+ *   10  map overlays (route, traveler, fog)
+ *   20  HUD (top bar, compass, dock, fast travel)
+ *   30  cards and bottom sheet
+ *   40  portal rift
+ *   100 skip link */

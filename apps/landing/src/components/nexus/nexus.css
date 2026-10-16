@@ -1,0 +1,206 @@
+/* The Nexus: wordmark, portal rings and their miniatures. */
+
+/* "BitToByte" grows from a light bit to a heavy byte on one variable axis. */
+.wordmark {
+  display: block;
+  font-family: var(--w-font-display);
+  font-size: clamp(3.4rem, 11vw, 6.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-variation-settings: 'opsz' 96;
+}
+.wordmark .w-bit {
+  font-weight: 300;
+}
+.wordmark .w-to {
+  font-weight: 500;
+  color: var(--w-muted);
+}
+.wordmark .w-byte {
+  font-weight: 800;
+}
+
+.availability-dot {
+  position: relative;
+  display: inline-flex;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #34d399;
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.18);
+}
+
+/* ------------------------------------------------------------- Portals */
+
+.portal {
+  --orb: 9.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  color: var(--w-ink);
+  text-decoration: none;
+}
+@media (min-width: 640px) {
+  .portal {
+    --orb: 11rem;
+  }
+}
+@media (min-width: 1024px) {
+  .portal {
+    --orb: 12.5rem;
+  }
+}
+
+.portal-orb {
+  position: relative;
+  display: block;
+  width: var(--orb);
+  height: var(--orb);
+  margin-bottom: 0.65rem;
+  border-radius: 50%;
+  isolation: isolate;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.portal:hover .portal-orb,
+.portal:focus-visible .portal-orb {
+  transform: scale(1.045);
+}
+
+/* The rift's edge: a conic ring in the destination world's colors. */
+.portal-halo {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--w-accent),
+    var(--w-deco-1),
+    var(--w-deco-2),
+    var(--w-deco-3),
+    var(--w-accent)
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+  opacity: 0.85;
+}
+
+.portal-window {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--w-bg);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 0 28px rgba(0, 0, 0, 0.35),
+    0 18px 50px -20px rgba(0, 0, 0, 0.9);
+}
+
+.portal-name {
+  font-weight: 650;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+.portal-tagline {
+  max-width: 14rem;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: var(--w-muted);
+}
+
+/* Desktop constellation: two staggered columns, so every label has room. */
+@media (min-width: 1024px) {
+  .constellation {
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    column-gap: 2.5rem;
+    row-gap: 0.5rem;
+  }
+  .constellation > li:nth-child(even) {
+    transform: translateY(5.5rem);
+  }
+}
+
+/* ---------------------------------------------------------- Miniatures */
+
+.vx-edge path {
+  stroke: color-mix(in oklab, var(--w-ink) 45%, transparent);
+  stroke-width: 0.6;
+}
+.vx-grass .vx-top { fill: var(--w-deco-1); }
+.vx-grass .vx-left { fill: color-mix(in oklab, var(--w-deco-1) 62%, var(--w-ink)); }
+.vx-grass .vx-right { fill: color-mix(in oklab, var(--w-deco-1) 78%, var(--w-ink)); }
+.vx-sand .vx-top { fill: var(--w-deco-2); }
+.vx-sand .vx-left { fill: color-mix(in oklab, var(--w-deco-2) 62%, var(--w-ink)); }
+.vx-sand .vx-right { fill: color-mix(in oklab, var(--w-deco-2) 78%, var(--w-ink)); }
+.vx-water .vx-top { fill: var(--w-deco-3); opacity: 0.85; }
+.vx-water .vx-left { fill: color-mix(in oklab, var(--w-deco-3) 60%, var(--w-ink)); }
+.vx-water .vx-right { fill: color-mix(in oklab, var(--w-deco-3) 75%, var(--w-ink)); }
+
+.mini-dusk,
+.mini-night {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .portal-halo {
+    animation: portal-spin 18s linear infinite;
+  }
+  .portal:hover .portal-halo,
+  .portal:focus-visible .portal-halo {
+    animation-duration: 4s;
+  }
+
+  .mini-drift { animation: mini-drift 9s ease-in-out infinite alternate; }
+  .mini-drift-slow { animation: mini-drift 16s ease-in-out infinite alternate; }
+  .mini-flag { transform-box: fill-box; transform-origin: left center; animation: mini-flag 2.4s ease-in-out infinite alternate; }
+  .mini-bob { animation: mini-bob 3.2s ease-in-out infinite alternate; }
+  .mini-dusk { animation: mini-dusk 24s linear infinite; }
+  .mini-night { animation: mini-night 24s linear infinite; }
+  .mini-sweep { transform-box: view-box; transform-origin: 70px 160px; animation: mini-sweep 7s ease-in-out infinite alternate; }
+  .mini-flicker { animation: mini-flicker 3.1s steps(1) infinite; }
+  .mini-neon { animation: mini-flicker 5.3s steps(1) infinite; }
+  .mini-drive { animation: mini-drive 6s linear infinite; }
+  .mini-rain { animation: mini-rain 0.9s linear infinite; }
+  .mini-pop { transform-box: fill-box; transform-origin: center; animation: mini-pop 2.6s cubic-bezier(0.34, 1.8, 0.64, 1) infinite; }
+  .mini-fly { animation: mini-fly 7s ease-in-out infinite alternate; }
+}
+
+@keyframes portal-spin { to { transform: rotate(360deg); } }
+@keyframes mini-drift { from { transform: translateX(-10px); } to { transform: translateX(12px); } }
+@keyframes mini-flag { from { transform: skewY(-6deg) scaleX(0.92); } to { transform: skewY(5deg) scaleX(1); } }
+@keyframes mini-bob { from { transform: translateY(-3px); } to { transform: translateY(4px); } }
+@keyframes mini-dusk { 0%, 25%, 60%, 100% { opacity: 0; } 38% { opacity: 0.55; } }
+@keyframes mini-night { 0%, 40%, 100% { opacity: 0; } 55%, 80% { opacity: 0.78; } }
+@keyframes mini-sweep { from { transform: rotate(-24deg); } to { transform: rotate(26deg); } }
+@keyframes mini-flicker { 0%, 100% { opacity: 1; } 47% { opacity: 0.2; } 52% { opacity: 1; } 55% { opacity: 0.35; } 58% { opacity: 1; } }
+@keyframes mini-drive { from { transform: translateX(-20px); } to { transform: translateX(220px); } }
+@keyframes mini-rain { from { transform: translate(0, 0); } to { transform: translate(-6px, 20px); } }
+@keyframes mini-pop { 0%, 70%, 100% { transform: scale(1); } 80% { transform: scale(1.14) rotate(6deg); } }
+@keyframes mini-fly { from { transform: translate(-6px, 4px) rotate(-4deg); } to { transform: translate(12px, -8px) rotate(3deg); } }
+
+/* ------------------------------------------------------------ Starfield */
+
+/* No-JS stand-in: a sparse dot field and a faint horizon glow. The canvas
+ * fades in over it once the real stars are drawn. */
+.starfield-fallback {
+  background:
+    radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1px 1px at 72% 12%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 38% 64%, rgba(207, 224, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 86% 48%, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1px 1px at 58% 82%, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(1.5px 1.5px at 22% 88%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(60rem 30rem at 70% 110%, rgba(37, 99, 235, 0.14), transparent 70%);
+}
+.starfield {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.starfield[data-ready='true'] {
+  opacity: 1;
+}

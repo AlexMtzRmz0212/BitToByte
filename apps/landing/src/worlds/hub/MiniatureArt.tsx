@@ -16,6 +16,10 @@ export default function MiniatureArt({ id }: { id: WorldId }) {
       return <NoirMini />;
     case 'pop':
       return <PopMini />;
+    case 'frontier':
+      return <FrontierMini />;
+    case 'sunset':
+      return <SunsetMini />;
   }
 }
 
@@ -283,6 +287,96 @@ function PopMini() {
       {/* paper plane */}
       <g className="mini-fly">
         <path d="M60 98l26-10-10 22-4-8z" className="fill-surface stroke-ink" strokeWidth="2" strokeLinejoin="round" />
+      </g>
+    </g>
+  );
+}
+
+/* --------------------------------------------------------------- Frontier */
+
+function FrontierMini() {
+  return (
+    <g className="mini">
+      <defs>
+        <linearGradient id="fm-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#F2C98A" />
+          <stop offset="0.7" stopColor="#E59A5E" />
+          <stop offset="1" stopColor="#C8693A" />
+        </linearGradient>
+      </defs>
+      <rect width="200" height="200" fill="url(#fm-sky)" />
+      {/* the low sun */}
+      <circle cx="52" cy="118" r="26" fill="#FFE2A0" opacity="0.9" />
+      {/* mesas */}
+      <path d="M0 150V128h18l6-30h44l8 30h20l4-14h30l6 14h64v22Z" fill="#9A4A28" />
+      <path d="M68 128l-8-30h8l8 30Z" fill="#7E3620" opacity="0.6" />
+      {/* plains */}
+      <rect y="150" width="200" height="50" className="fill-bg" />
+      <path d="M0 150h200" className="stroke-ink" strokeWidth="1.2" opacity="0.5" />
+      {/* the train's smoke on the horizon */}
+      <g className="mini-drift-slow" fill="#F7EEDB" opacity="0.7">
+        <circle cx="150" cy="136" r="5" />
+        <circle cx="160" cy="128" r="7" />
+        <circle cx="174" cy="122" r="9" />
+      </g>
+      <rect x="132" y="140" width="22" height="8" className="fill-ink" />
+      <rect x="114" y="142" width="16" height="6" className="fill-ink" opacity="0.8" />
+      {/* rider */}
+      <g className="mini-bob">
+        <g transform="translate(96 168)" className="fill-ink">
+          <path d="M-12 -4c0-6 20-7 22-2l2 6c-6 3-18 3-24 0Z" />
+          <path d="M6 -6l6-9c2-2 5-2 7 0l2 3c-2 1-4 1-6 1l-4 7Z" />
+          <path d="M-9 -1l-2 10M-4 0l1 9M5 0l-1 9M9 -1l3 9" fill="none" className="stroke-ink" strokeWidth="2" strokeLinecap="round" />
+          <path d="M-1 -12l2-10" fill="none" className="stroke-ink" strokeWidth="4" strokeLinecap="round" />
+          <circle cx="1" cy="-25" r="3" />
+          <path d="M-5 -27h12M-2 -27v-3h6v3" fill="none" className="stroke-ink" strokeWidth="1.8" strokeLinecap="round" />
+          <path d="M0 -22l4 1-1 2Z" className="fill-accent" />
+        </g>
+      </g>
+      {/* fence */}
+      <path d="M120 186v-12M140 186v-12M160 186v-12M180 186v-12M200 186v-12M120 177h80M120 182h80" fill="none" className="stroke-ink" strokeWidth="1.6" opacity="0.7" />
+    </g>
+  );
+}
+
+/* ----------------------------------------------------------------- Sunset */
+
+function SunsetMini() {
+  return (
+    <g className="mini">
+      <defs>
+        <linearGradient id="sm-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#3B2A55" />
+          <stop offset="0.55" stopColor="#FF6F91" />
+          <stop offset="1" stopColor="#FFB238" />
+        </linearGradient>
+      </defs>
+      <rect width="200" height="200" fill="url(#sm-sky)" />
+      <circle cx="100" cy="128" r="30" fill="#FFE2A0" opacity="0.9" />
+      {/* hills and the sign */}
+      <path d="M0 120C30 96 60 104 90 94S150 92 200 108V140H0Z" fill="#5A3F6E" />
+      <g fill="#FFFDF8" fontFamily="'Bowlby One', Impact, sans-serif" fontSize="11">
+        <text x="38" y="112">BITTOBYTE</text>
+      </g>
+      {/* the sea, with the sun's road */}
+      <rect y="140" width="200" height="60" fill="#1A4F7A" />
+      <path d="M86 140h28l10 60H76Z" fill="#FFB27A" opacity="0.4" />
+      <path d="M20 160h24M140 172h30M60 184h18" stroke="#BFE6F0" strokeWidth="1.5" opacity="0.6" />
+      {/* palms */}
+      {[
+        [24, 140, 1],
+        [176, 140, -1],
+      ].map(([x, y, s]) => (
+        <g key={x} transform={`translate(${x} ${y}) scale(${s} 1)`} className="fill-bg">
+          <path d="M0 0q-2-22 4-40" fill="none" className="stroke-bg" strokeWidth="3" strokeLinecap="round" />
+          <path d="M4 -40q-12-8-22 2q10-4 22-2ZM4 -40q12-8 22 2q-10-4-22-2ZM4 -40q-4-12-14-14q8 6 14 14ZM4 -40q6-12 16-12q-10 4-16 12Z" />
+        </g>
+      ))}
+      {/* the freeway, with headlights */}
+      <rect y="136" width="200" height="6" className="fill-bg" />
+      <g className="mini-drive">
+        <circle cx="0" cy="139" r="1.6" fill="#FFF3D6" />
+        <circle cx="6" cy="139" r="1.6" fill="#FFF3D6" />
       </g>
     </g>
   );

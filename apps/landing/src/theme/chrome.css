@@ -200,3 +200,110 @@
       rotate: none;
     }
   }
+
+  /* ---------------------------------------------------------- Frontier */
+  /* Labels are painted planks nailed to a post. */
+  :root[data-world='frontier'] .map-marker {
+    border: 2px solid #2b1c12;
+    border-radius: 2px;
+    background: linear-gradient(#7a4e2d, #6b4426);
+    color: #f7eedb;
+    box-shadow: 0 3px 0 rgba(43, 28, 18, 0.45);
+    font-family: var(--w-font-display);
+    letter-spacing: 0.03em;
+  }
+  :root[data-world='frontier'] .map-marker .marker-sub {
+    color: #ead9b8;
+  }
+  :root[data-world='frontier'] .map-marker:hover {
+    background: linear-gradient(#8a5a34, #7a4e2d);
+  }
+  :root[data-world='frontier'] .map-marker[data-state='here'] {
+    background: var(--w-accent);
+    color: var(--w-accent-ink);
+  }
+  :root[data-world='frontier'] .chrome,
+  :root[data-world='frontier'] .chrome-pill {
+    border-color: var(--w-ink);
+    backdrop-filter: none;
+  }
+  /* The card is a notice tacked to a board: a heading and four nails. */
+  :root[data-world='frontier'] .project-card {
+    padding-top: 2.4rem;
+  }
+  :root[data-world='frontier'] .project-card::before {
+    content: 'Notice';
+    position: absolute;
+    left: 50%;
+    top: 0.6rem;
+    translate: -50% 0;
+    font-family: var(--w-font-display);
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--w-accent-text);
+  }
+  :root[data-world='frontier'] .project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0.5rem;
+    background:
+      radial-gradient(circle at 0 0, #5a3f2b 0 3px, transparent 4px) top left / 8px 8px no-repeat,
+      radial-gradient(circle at 100% 0, #5a3f2b 0 3px, transparent 4px) top right / 8px 8px no-repeat,
+      radial-gradient(circle at 0 100%, #5a3f2b 0 3px, transparent 4px) bottom left / 8px 8px no-repeat,
+      radial-gradient(circle at 100% 100%, #5a3f2b 0 3px, transparent 4px) bottom right / 8px 8px no-repeat;
+    pointer-events: none;
+  }
+
+  /* ------------------------------------------------------------ Sunset */
+  /* A heads-up display: dark glass panels with a gold edge. */
+  :root[data-world='sunset'] .chrome,
+  :root[data-world='sunset'] .chrome-pill {
+    background: color-mix(in oklab, var(--w-surface) 86%, transparent);
+    border-color: rgba(244, 241, 250, 0.12);
+    backdrop-filter: blur(10px);
+  }
+  /* Labels are waypoints: a dark pill with a gold blip. */
+  :root[data-world='sunset'] .map-marker {
+    padding-left: 1.6rem;
+    border-color: rgba(244, 241, 250, 0.16);
+    background: color-mix(in oklab, var(--w-bg) 88%, transparent);
+    font-weight: 600;
+  }
+  :root[data-world='sunset'] .map-marker::after {
+    content: '';
+    position: absolute;
+    left: 0.6rem;
+    top: 50%;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--w-accent);
+    translate: 0 -50%;
+    box-shadow: 0 0 8px var(--w-accent);
+  }
+  :root[data-world='sunset'] .map-marker[data-state='here'] {
+    border-color: var(--w-route);
+    box-shadow: 0 0 0 1px var(--w-route), 0 0 18px -4px var(--w-route);
+  }
+  :root[data-world='sunset'] .map-marker[data-state='here']::after {
+    background: var(--w-route);
+    box-shadow: 0 0 8px var(--w-route);
+  }
+  :root[data-world='sunset'] .project-card {
+    padding-top: 2.4rem;
+    border-left: 4px solid var(--w-accent);
+  }
+  :root[data-world='sunset'] .project-card::before {
+    content: 'Waypoint set';
+    position: absolute;
+    left: 1.5rem;
+    top: 0.8rem;
+    font-family: var(--w-font-display);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--w-accent-text);
+  }
+  :root[data-world='sunset'] .dock-slot-link[aria-current='page'] {
+    box-shadow: 0 0 16px -2px rgba(255, 178, 56, 0.6);
+  }

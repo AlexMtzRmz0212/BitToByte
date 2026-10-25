@@ -31,6 +31,18 @@ const loaders: Record<PlaceId, () => Promise<unknown>> = {
       import('@fontsource/comic-neue/latin-400.css'),
       import('@fontsource/comic-neue/latin-700.css'),
     ]),
+  frontier: () =>
+    Promise.all([
+      import('@fontsource/rye/latin-400.css'),
+      import('@fontsource/zilla-slab/latin-400.css'),
+      import('@fontsource/zilla-slab/latin-700.css'),
+    ]),
+  sunset: () =>
+    Promise.all([
+      import('@fontsource/bowlby-one/latin-400.css'),
+      import('@fontsource/barlow/latin-400.css'),
+      import('@fontsource/barlow/latin-600.css'),
+    ]),
 };
 
 // One representative face per family, so document.fonts.load() fetches the files.
@@ -40,6 +52,8 @@ const FACES: Record<PlaceId, string[]> = {
   voxel: ['600 1em "Pixelify Sans Variable"', '400 1em "Atkinson Hyperlegible"'],
   noir: ['600 1em "Antonio Variable"', '400 1em "Courier Prime"'],
   pop: ['400 1em "Bangers"', '400 1em "Comic Neue"'],
+  frontier: ['400 1em "Rye"', '400 1em "Zilla Slab"'],
+  sunset: ['400 1em "Bowlby One"', '400 1em "Barlow"'],
 };
 
 const pending = new Map<PlaceId, Promise<void>>();

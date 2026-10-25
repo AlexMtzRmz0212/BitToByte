@@ -1,0 +1,222 @@
+/* Los Santos: a sunset atlas, stucco and glass, gold and GPS purple. */
+@layer components {
+  /* land and hills */
+  .ls-land { fill: #EAD7BE; }
+  .ls-hill { stroke: #7E7250; stroke-width: 2; }
+  .ls-contour { fill: none; stroke: #7E7250; stroke-width: 1.4; opacity: 0.35; }
+  .ls-scrub { fill: #7F9A5C; opacity: 0.55; }
+  .ls-shadow { fill: #3B2A55; opacity: 0.22; }
+  .ls-white { fill: #F7F1E8; stroke: #5A4E66; stroke-width: 2; }
+  .ls-dome { fill: #4C5566; stroke: #2A2342; stroke-width: 2; }
+  .ls-door { fill: #2A2342; }
+  .ls-sign-leg { stroke: #6B6276; stroke-width: 2; }
+  .ls-sign-letter { font-family: 'Bowlby One', Impact, sans-serif; font-size: 52px; fill: #FFFDF8; stroke: #6B6276; stroke-width: 1.5px; paint-order: stroke; }
+
+  /* streets and blocks */
+  .ls-street-edge { fill: none; stroke: #CDB79C; stroke-width: 16; }
+  .ls-street { fill: none; stroke: #FBF4EA; stroke-width: 11; }
+  .ls-blvd-edge { fill: none; stroke: #C4AB8E; stroke-width: 26; stroke-linecap: round; }
+  .ls-blvd { fill: none; stroke: #FFF8EE; stroke-width: 20; stroke-linecap: round; }
+  .ls-park { fill: #A9C27E; stroke: #7F9A5C; stroke-width: 2; }
+  .ls-tree { fill: #6F8C4E; }
+  .ls-roof-a { fill: #D27A55; }
+  .ls-roof-b { fill: #F2E6D6; }
+  .ls-roof-c { fill: #C9A27A; }
+  .ls-pool { fill: #47C3D9; }
+
+  /* coast */
+  .ls-beach { fill: none; stroke: #F4DFA6; stroke-width: 80; stroke-linecap: round; }
+  .ls-surf { fill: none; stroke: #E8F7FA; stroke-width: 4; opacity: 0.75; stroke-dasharray: 26 12; }
+  .ls-glare { fill: #FFB27A; opacity: 0.24; filter: blur(16px); }
+  .ls-wave { fill: none; stroke: #BFE6F0; stroke-width: 2; opacity: 0.5; stroke-linecap: round; }
+  .ls-dock { fill: none; stroke: #8A7A6A; stroke-width: 5; }
+  .ls-boat { fill: #FFFDF8; stroke: #3B2A55; stroke-width: 1.5; }
+  .ls-wake { stroke: #E8F7FA; stroke-width: 3; opacity: 0.5; stroke-dasharray: 10 8; }
+  .ls-pier { fill: #9C7B5C; stroke: #5A4636; stroke-width: 2; }
+  .ls-plank { stroke: #5A4636; stroke-width: 1; opacity: 0.5; }
+  .ls-wheel-leg { fill: none; stroke: #F4F1FA; stroke-width: 4; }
+  .ls-wheel-rim { fill: none; stroke: #F4F1FA; stroke-width: 3; }
+  .ls-wheel-spoke { stroke: #F4F1FA; stroke-width: 1.2; opacity: 0.8; }
+  .ls-gondola { fill: #FF6F91; stroke: #3B2A55; stroke-width: 1; }
+  .ls-gondola-lit { fill: #FFB238; }
+  .ls-coaster { fill: none; stroke: #FF6F91; stroke-width: 3; }
+
+  /* freeways */
+  .ls-fwy-shadow { fill: none; stroke: #3B2A55; stroke-width: 58; opacity: 0.18; transform: translate(6px, 6px); }
+  .ls-fwy-edge { fill: none; stroke: #4A4458; stroke-width: 52; }
+  .ls-fwy { fill: none; stroke: #6E677D; stroke-width: 46; }
+  .ls-fwy-lanes { fill: none; stroke: #F4F1FA; stroke-width: 1.5; stroke-dasharray: 14 12; opacity: 0.6; }
+  .ls-fwy-median { fill: none; stroke: #FFB238; stroke-width: 2; }
+  .ls-ramp-edge { fill: none; stroke: #4A4458; stroke-width: 22; }
+  .ls-ramp { fill: none; stroke: #7D768C; stroke-width: 16; }
+  .ls-hwy-edge { fill: none; stroke: #4A4458; stroke-width: 26; stroke-linecap: round; }
+  .ls-hwy { fill: none; stroke: #7D768C; stroke-width: 20; stroke-linecap: round; }
+
+  /* downtown and airport */
+  .ls-tower-shadow { fill: #3B2A55; opacity: 0.3; }
+  .ls-tower { stroke: #2A2342; stroke-width: 1.5; }
+  .ls-tower-0 { fill: #9FB6C8; }
+  .ls-tower-1 { fill: #C7BBD4; }
+  .ls-tower-2 { fill: #E6D3B6; }
+  .ls-tower-inner { fill: none; stroke: #FFFFFF; stroke-width: 1.5; opacity: 0.45; }
+  .ls-helipad { fill: #4A4458; stroke: #FFB238; stroke-width: 2; }
+  .ls-helipad-h { fill: none; stroke: #F4F1FA; stroke-width: 2; }
+  .ls-ac { fill: #6E677D; }
+  .ls-tarmac { fill: #8E879A; }
+  .ls-runway { fill: #4A4458; }
+  .ls-runway-line { stroke: #F4F1FA; stroke-width: 3; stroke-dasharray: 22 14; }
+  .ls-terminal { fill: #F7F1E8; stroke: #4A4458; stroke-width: 2; }
+  .ls-plane { fill: none; stroke: #FFFDF8; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+
+  .ls-palm-shadow { stroke: #3B2A55; stroke-width: 10; stroke-linecap: round; opacity: 0.15; }
+  .ls-palm { fill: #3E7B4F; stroke: #24502F; stroke-width: 1; }
+  .ls-palm-core { fill: #7A5A3A; }
+
+  .ls-label { font-family: 'Bowlby One', Impact, sans-serif; font-size: 36px; fill: #5A4E66; opacity: 0.7; letter-spacing: 2px; }
+  .ls-label-sea { font-size: 46px; fill: #E8F7FA; opacity: 0.55; letter-spacing: 10px; }
+  .ls-label-small { font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 20px; fill: #F4F1FA; opacity: 0.85; letter-spacing: 1px; }
+  .ls-sunwash { pointer-events: none; mix-blend-mode: soft-light; }
+
+  /* landmarks */
+  .ls-landmark, .ls-gate { cursor: pointer; }
+  .ls-trunk { fill: none; stroke: #7A5A3A; stroke-width: 6; stroke-linecap: round; }
+  .ls-fronds path { fill: #3E7B4F; stroke: #24502F; stroke-width: 1.2; }
+  .ls-stucco { fill: #F7EBDD; stroke: #3B2A55; stroke-width: 2; }
+  .ls-glass { fill: #5FA9C9; stroke: #2A2342; stroke-width: 2; }
+  .ls-glass-shine { fill: #FFD9A8; opacity: 0.35; }
+  .ls-mullion { fill: none; stroke: #2A2342; stroke-width: 1.5; opacity: 0.7; }
+  .ls-fascia { fill: #1C1631; stroke: #2A2342; stroke-width: 2; }
+  .ls-sign-text { font-family: 'Bowlby One', Impact, sans-serif; font-size: 22px; fill: #FFB238; letter-spacing: 1px; }
+  .ls-sign-small { font-size: 14px; }
+  .ls-bike { fill: none; stroke: #2A2342; stroke-width: 3; stroke-linejoin: round; }
+  .ls-car-body { fill: #FF6F91; stroke: #2A2342; stroke-width: 2; stroke-linejoin: round; }
+  .ls-car-glass { fill: #BFE6F0; stroke: #2A2342; stroke-width: 1.5; }
+  .ls-tyre { fill: #2A2342; }
+  .ls-charger { fill: #F7EBDD; stroke: #2A2342; stroke-width: 2; }
+  .ls-charger-screen { fill: #2EC4B6; }
+  .ls-bolt { fill: #6E677D; }
+  .ls-bolt-on { fill: #7BD45B; filter: drop-shadow(0 0 4px #7BD45B); }
+  .ls-bunting-line { fill: none; stroke: #2A2342; stroke-width: 1.2; }
+  .ls-pennant { stroke: #2A2342; stroke-width: 1; }
+  .ls-pennant-0 { fill: #FF6F91; }
+  .ls-pennant-1 { fill: #FFB238; }
+  .ls-pennant-2 { fill: #2EC4B6; }
+  .ls-arch { fill: none; stroke: #C9A27A; stroke-width: 6; }
+  .ls-stands { fill: #C7BBD4; stroke: #2A2342; stroke-width: 2; }
+  .ls-stands-inner { fill: #8E7FA8; }
+  .ls-pitch { fill: #6FB04E; stroke: #F4F1FA; stroke-width: 2; }
+  .ls-pitch-line { fill: none; stroke: #F4F1FA; stroke-width: 1.5; }
+  .ls-mast { fill: none; stroke: #4A4458; stroke-width: 4; }
+  .ls-lamps { fill: #FFF3D6; stroke: #2A2342; stroke-width: 2; filter: drop-shadow(0 0 8px #FFE7B0); }
+  .ls-floodlight { fill: #FFF3D6; opacity: 0.16; }
+  .ls-board { fill: #1C1631; stroke: #2A2342; stroke-width: 2; }
+  .ls-score { font-family: 'Bowlby One', Impact, sans-serif; font-size: 22px; fill: #FFB238; }
+  .ls-tower-side { fill: #3E6F8C; stroke: #2A2342; stroke-width: 2; }
+  .ls-beacon { fill: #FF5A5A; }
+
+  /* gate */
+  .ls-concrete { fill: #C9C1D2; stroke: #2A2342; stroke-width: 2.5; }
+  .ls-tunnel { fill: #140F24; }
+  .ls-vortex-arm { fill: none; stroke: #FFF3D6; stroke-opacity: 0.6; stroke-width: 3.5; stroke-linecap: round; }
+  .ls-lane-mark { stroke: #FFB238; stroke-width: 3; stroke-linecap: round; }
+  .ls-gantry { fill: none; stroke: #6E677D; stroke-width: 6; stroke-linecap: round; }
+  .ls-exit-sign { fill: #1E7A4C; stroke: #2A2342; stroke-width: 2; }
+  .ls-exit-border { fill: none; stroke: #F4F1FA; stroke-width: 2; }
+  .ls-exit-text { font-family: 'Barlow', ui-sans-serif, sans-serif; font-weight: 600; font-size: 22px; fill: #F4F1FA; letter-spacing: 0.5px; }
+  .ls-exit-arrow { fill: none; stroke: #F4F1FA; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .ls-exit-tab { fill: #FFB238; stroke: #2A2342; stroke-width: 1.5; }
+  .ls-exit-tab-text { font-family: 'Barlow', ui-sans-serif, sans-serif; font-weight: 600; font-size: 12px; fill: #1E1305; }
+
+  /* route: the GPS line */
+  .route-gps {
+    stroke-width: 7;
+    filter: drop-shadow(0 0 1.5px #ffffff) drop-shadow(0 0 1.5px #ffffff);
+  }
+
+  /* the car */
+  .ls-car { transform: translate(-50%, -50%); }
+  .ls-car svg { display: block; overflow: visible; transform: rotate(var(--heading, 0deg)); }
+  .ls-headbeam { fill: #FFF3D6; opacity: 0; }
+  .ls-car-shadow { fill: #140F24; opacity: 0.3; }
+  .ls-car-paint { fill: var(--w-accent); stroke: #140F24; stroke-width: 1.5; }
+  .ls-car-windshield { fill: #2A2342; }
+  .ls-car-roof { fill: #2A2342; opacity: 0.85; }
+  .ls-car-rear { fill: none; stroke: #2A2342; stroke-width: 2; }
+  .ls-car-stripe { fill: none; stroke: #140F24; stroke-width: 1.2; opacity: 0.35; }
+  .ls-car-light { fill: #FFF3D6; }
+  .ls-car-tail { fill: #FF5A5A; }
+  [data-moving='true'] .ls-headbeam { opacity: 0.22; }
+
+  /* traffic */
+  .ls-overlay { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+  .ls-traffic { opacity: 0; }
+  .ls-traffic-car { stroke: #140F24; stroke-width: 1; }
+
+  .ls-fog { filter: blur(1px); }
+
+  /* screen-space sky */
+  .ls-backdrop {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(#3B2A55, #7A3C66 45%, #1A4F7A);
+  }
+  .ls-fx { position: absolute; inset: 0; z-index: 5; overflow: hidden; pointer-events: none; }
+  .ls-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(80% 70% at 0% 100%, rgba(255, 122, 89, 0.22), rgba(255, 122, 89, 0) 70%);
+    mix-blend-mode: soft-light;
+  }
+  .ls-blimp { position: absolute; top: 14%; left: -160px; opacity: 0; }
+  .ls-blimp-body { fill: #F4F1FA; stroke: #2A2342; stroke-width: 2; }
+  .ls-blimp-stripe { stroke: #FF6F91; stroke-width: 4; }
+  .ls-heli { position: absolute; top: 60%; left: -100px; opacity: 0; }
+  .ls-heli-shadow { fill: #140F24; opacity: 0.15; }
+  .ls-heli-tail { stroke: #2A2342; stroke-width: 4; stroke-linecap: round; }
+  .ls-heli-body { fill: #2A2342; }
+  .ls-rotor { stroke: #2A2342; stroke-width: 2; opacity: 0.6; }
+  .ls-gulls { position: absolute; top: 30%; left: 70%; }
+  .ls-gulls path { fill: none; stroke: #2A2342; stroke-width: 2; stroke-linecap: round; opacity: 0.55; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ls-vortex { animation: ls-turn 8s linear infinite; }
+    .ls-wave { animation: ls-wave 4.5s ease-in-out infinite alternate; }
+    .ls-wheel { animation: ls-turn 30s linear infinite; }
+    .ls-yacht { animation: ls-sail 80s linear infinite; }
+    .ls-traffic { opacity: 1; animation-timing-function: linear; animation-iteration-count: infinite; }
+    .ls-east { animation-name: ls-east; }
+    .ls-west { animation-name: ls-west; }
+    .ls-south { animation-name: ls-south; }
+    .ls-north { animation-name: ls-north; }
+    .ls-blimp { opacity: 1; animation: ls-cross 110s linear infinite; }
+    .ls-heli { opacity: 1; animation: ls-cross 34s linear infinite; animation-delay: -12s; }
+    .ls-rotor { transform-box: fill-box; transform-origin: center; animation: ls-turn 0.25s linear infinite; }
+    .ls-gulls { animation: ls-gulls 14s ease-in-out infinite alternate; }
+    .ls-bolt-on { animation: ls-pulse 1.4s ease-in-out infinite alternate; }
+    .ls-beacon { animation: ls-pulse 1.2s steps(1) infinite; }
+    .ls-glint { transform-box: fill-box; transform-origin: center; animation: ls-glint 2.4s ease-in-out infinite; }
+    .ls-found { transform-box: fill-box; transform-origin: center; animation: ls-pop 520ms cubic-bezier(0.34, 1.6, 0.64, 1) both; }
+  }
+  @keyframes ls-turn { to { transform: rotate(360deg); } }
+  @keyframes ls-wave { from { transform: translateX(-8px); opacity: 0.25; } to { transform: translateX(8px); opacity: 0.6; } }
+  @keyframes ls-sail { from { transform: translateX(400px); } to { transform: translateX(-1600px); } }
+  @keyframes ls-east { from { transform: translateX(0); } to { transform: translateX(2080px); } }
+  @keyframes ls-west { from { transform: translateX(30px); } to { transform: translateX(-2060px); } }
+  @keyframes ls-south { from { transform: translateY(0); } to { transform: translateY(1060px); } }
+  @keyframes ls-north { from { transform: translateY(0); } to { transform: translateY(-1060px); } }
+  @keyframes ls-cross { from { transform: translateX(0); } to { transform: translateX(calc(100vw + 320px)); } }
+  @keyframes ls-gulls { from { transform: translate(0, 0); } to { transform: translate(-60px, 20px); } }
+  @keyframes ls-pulse { from { opacity: 1; } 50% { opacity: 0.35; } to { opacity: 1; } }
+  @keyframes ls-glint { 0%, 60%, 100% { transform: scale(0.3) rotate(0deg); opacity: 0.3; } 75% { transform: scale(1.2) rotate(45deg); opacity: 1; } }
+  @keyframes ls-pop { from { transform: scale(0.2); opacity: 0; } }
+
+  /* the secret */
+  .ls-secret { cursor: pointer; }
+  .ls-package { fill: #B58552; stroke: #3B2A1A; stroke-width: 1.5; }
+  .ls-package-top { fill: #CFA06A; stroke: #3B2A1A; stroke-width: 1.5; }
+  .ls-package-side { fill: #8E6438; stroke: #3B2A1A; stroke-width: 1.5; }
+  .ls-tape { fill: none; stroke: #E8DFC6; stroke-width: 3; }
+  .ls-glint { fill: #FFF3D6; filter: drop-shadow(0 0 4px #FFB238); }
+  .ls-note { fill: #FFFDF8; stroke: #3B2A55; stroke-width: 1.2; }
+  .ls-note-ink { stroke: #3B2A55; stroke-width: 1.2; }
+}

@@ -24,7 +24,7 @@ describe('progress persistence', () => {
     const store = memory();
     const progress = {
       ...emptyProgress(),
-      discovered: { manuscript: ['fedethics', 'habits'], noir: ['cinetech'] },
+      discovered: { manuscript: ['fedethics', 'express-entry'], noir: ['cinetech'] },
       introSeen: true,
       secrets: ['noir:rooftop-line'],
       lastWorld: 'noir' as const,
@@ -48,13 +48,13 @@ describe('progress persistence', () => {
 
   it('drops unknown worlds, projects, misplaced projects and bad types', () => {
     const clean = sanitizeProgress({
-      discovered: { manuscript: ['habits', 'habits', 'gone', 7, 'cinetech'], atlantis: ['habits'] },
+      discovered: { manuscript: ['express-entry', 'express-entry', 'gone', 7, 'cinetech'], atlantis: ['habits'] },
       secrets: ['a', 'a', 3],
       lastWorld: 'atlantis',
     });
     expect(clean).toEqual({
       ...emptyProgress(),
-      discovered: { manuscript: ['habits'] },
+      discovered: { manuscript: ['express-entry'] },
       secrets: ['a'],
     });
   });

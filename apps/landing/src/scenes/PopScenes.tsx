@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import './scenes.css';
 
-// Arrival scenes for Halftone: loud, quick, one panel each.
+// Arrival scenes for New York: loud, quick, one panel each.
 
 /** Hell o' Fame: sleeves slide onto the podium and the top spot lights up. */
 export function RankingScene() {

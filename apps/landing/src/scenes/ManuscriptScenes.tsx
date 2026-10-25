@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import './scenes.css';
 
-// Arrival scenes for Inkwell's projects: a few seconds of what
+// Arrival scenes for Hogwarts's projects: a few seconds of what
 // each one does, in the world's ink. Theme tokens only, so they follow the
 // palette; every animation is transform or opacity and runs once.
 

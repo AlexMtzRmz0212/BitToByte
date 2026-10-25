@@ -4,7 +4,7 @@ import { prefersReducedMotion } from '../../engine/motion';
 import { burst } from '../shared/sketch';
 import type { GateProps } from '../types';
 
-// Halftone: the gate, the traveler, and the page's sound effects.
+// New York: the gate, the traveler, and the page's sound effects.
 
 const K = '#161616';
 

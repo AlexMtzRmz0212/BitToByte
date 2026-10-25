@@ -23,6 +23,8 @@ interface Props {
   onReady: (controller: MapController | null) => void;
   /** Clicks on art carrying data-target="gate:<id>" | "project:<slug>" | "home". */
   onTarget: (target: string) => void;
+  /** Clicks (or taps) on open ground, in world units. */
+  onGround?: (at: Point) => void;
 }
 
 /**
@@ -45,6 +47,7 @@ export default function MapViewport({
   arriving = false,
   onReady,
   onTarget,
+  onGround,
 }: Props) {
   const viewport = useRef<HTMLDivElement>(null);
   const world = useRef<HTMLDivElement>(null);
@@ -89,8 +92,17 @@ export default function MapViewport({
   }, [reducedMotion]);
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
-    const el = (event.target as Element).closest?.('[data-target]');
-    if (el && viewport.current?.contains(el)) onTarget(el.getAttribute('data-target')!);
+    const target = event.target as Element;
+    const el = target.closest?.('[data-target]');
+    if (el && viewport.current?.contains(el)) {
+      onTarget(el.getAttribute('data-target')!);
+      return;
+    }
+    // Open ground. Markers handle their own clicks, and a keyboard "click" has no position.
+    if (!onGround || !viewport.current || !controller.current || event.detail === 0) return;
+    if (target.closest?.('button, a')) return;
+    const box = viewport.current.getBoundingClientRect();
+    onGround(controller.current.screenToWorld({ x: event.clientX - box.left, y: event.clientY - box.top }));
   };
 
   const { w, h } = layout.size;

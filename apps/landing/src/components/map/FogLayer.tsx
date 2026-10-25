@@ -18,8 +18,9 @@ interface Props {
 
 /**
  * The fog canvas, inside the zooming layer (so it pans and zooms with the art).
- * It clears around the traveler as it walks, and around wherever you look once
- * the camera settles. Pointer events pass straight through: fog never blocks.
+ * It clears around the traveler as it walks (click open ground to send it there),
+ * and around the middle of wherever you look once the camera settles.
+ * Pointer events pass straight through: fog never blocks.
  */
 export default function FogLayer({ controller, layout, field, renderer, radius, onReveal, onChange }: Props) {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -71,7 +72,7 @@ export default function FogLayer({ controller, layout, field, renderer, radius, 
       timer = setTimeout(() => {
         const rect = controller.visibleRect();
         const centre = controller.screenToWorld({ x: rect.x + rect.w / 2, y: rect.y + rect.h / 2 });
-        reveal(centre.x, centre.y, radius * 0.75);
+        reveal(centre.x, centre.y, radius * 1.3);
       }, 220);
     });
 

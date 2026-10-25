@@ -2,7 +2,7 @@ import type { JSX } from 'react';
 import { H, S, W, faceQuad, facePoint, isoBox, poly } from '../shared/iso';
 import type { LandmarkProps } from '../types';
 
-// Landmarks of Blockport: block buildings on level ground. Every
+// Landmarks of Overworld: block buildings on level ground. Every
 // shape is an isometric box or a patch on a box face, so they sit in the same
 // light as the terrain (top bright, left mid, right dark).
 

@@ -78,10 +78,12 @@ for (const [key, entry] of Object.entries(manifest)) {
     (e.imports ?? []).forEach(walk);
   };
   walk(key);
-  // Keyed by the world's URL slug; links with the old id map through `ids` below.
+  // Keyed by the world's URL slug; links with the old id or a former slug map through `ids` below.
   worldChunks[worlds[world].slug] = { js: [...js], css: [...css] };
 }
-const ids = Object.fromEntries(Object.values(worlds).map((w) => [w.id, w.slug]));
+const ids = Object.fromEntries(
+  Object.values(worlds).flatMap((w) => [w.id, ...(w.formerSlugs ?? [])].map((old) => [old, w.slug]))
+);
 const preload = `<script>(function(){var m=${JSON.stringify(worldChunks)},ids=${JSON.stringify(ids)};var q=new URLSearchParams(location.search),k=q.get('world');var w=m[k]||m[ids[k]];if(!w||q.get('view')==='list')return;function add(r,h,a){var l=document.createElement('link');l.rel=r;l.href=h;if(a)l.as=a;document.head.appendChild(l);}w.js.forEach(function(h){add('modulepreload',h);});w.css.forEach(function(h){add('preload',h,'style');});})();</script>`;
 
 let html = await readFile(distIndex, 'utf8');

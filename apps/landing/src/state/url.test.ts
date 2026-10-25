@@ -20,13 +20,20 @@ describe('routes and URLs', () => {
     }
   });
 
-  it('writes world slugs and still reads the old ids', () => {
-    expect(routeToSearch({ place: 'noir', project: 'cinetech', view: 'auto' })).toBe(
-      '/?world=lamplight&project=cinetech'
-    );
-    expect(parseRoute('?world=lamplight').place).toBe('noir');
+  it('writes world slugs and still reads the ids', () => {
+    expect(routeToSearch({ place: 'noir', project: 'cinetech', view: 'auto' })).toBe('/?world=gotham&project=cinetech');
+    expect(routeToSearch({ place: 'sunset', project: null, view: 'auto' })).toBe('/?world=los-santos');
+    expect(parseRoute('?world=gotham').place).toBe('noir');
     expect(parseRoute('?world=noir').place).toBe('noir');
-    expect(parseRoute('?world=inkwell&project=habits')).toEqual({ place: 'manuscript', project: 'habits', view: 'auto' });
+    expect(parseRoute('?world=blackwater').place).toBe('frontier');
+    expect(parseRoute('?world=hogwarts&project=fedethics')).toEqual({ place: 'manuscript', project: 'fedethics', view: 'auto' });
+  });
+
+  it('still reads the slugs worlds had before they were renamed', () => {
+    expect(parseRoute('?world=inkwell').place).toBe('manuscript');
+    expect(parseRoute('?world=blockport').place).toBe('voxel');
+    expect(parseRoute('?world=lamplight').place).toBe('noir');
+    expect(parseRoute('?world=halftone').place).toBe('pop');
   });
 
   it('ignores unknown ids', () => {

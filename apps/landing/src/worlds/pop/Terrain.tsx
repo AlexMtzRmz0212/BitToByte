@@ -2,7 +2,7 @@ import type { JSX } from 'react';
 import { WORLDS, type MapLayout } from '../../data/worlds';
 import { burst, seeded } from '../shared/sketch';
 
-// Halftone: the map is a comic page. Nine panels in three tiers, each a
+// New York: the map is a comic page. Nine panels in three tiers, each a
 // scene of the city in flat colour with ink outlines and Ben-Day dots; the
 // landmarks and gates sit inside their panels (drawn by the map screen).
 

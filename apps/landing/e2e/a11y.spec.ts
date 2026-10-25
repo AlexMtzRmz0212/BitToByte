@@ -8,9 +8,11 @@ import { WORLD_IDS } from '../src/data/worlds';
 
 const CARD: Record<(typeof WORLD_IDS)[number], string> = {
   manuscript: 'fedethics',
-  voxel: 'hack-the-hill',
+  voxel: 'ai-task-sorter',
   noir: 'cinetech',
   pop: 'marvel',
+  frontier: 'habits',
+  sunset: 'eastcoast-ev',
 };
 
 async function expectNoSeriousIssues(page: Page) {

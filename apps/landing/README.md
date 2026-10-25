@@ -1,9 +1,10 @@
 # bittobyte.qzz.io
 
-The BitToByte studio site: a hub (Base Camp) and four explorable map-worlds
-(Inkwell, Blockport, Lamplight and Halftone), each re-theming the whole UI. Every
-project is also reachable as a plain list (`/?view=list`), and the hub is
-prerendered so crawlers and no-JS visitors get the full text and every link.
+The BitToByte studio site: a hub (The Citadel) and six explorable map-worlds
+(Hogwarts, Overworld, Gotham, New York, Blackwater and Los Santos), each
+re-theming the whole UI. Every project is also reachable as a plain list
+(`/?view=list`), and the hub is prerendered so crawlers and no-JS visitors get
+the full text and every link.
 
 ## Editing content
 

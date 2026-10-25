@@ -3,7 +3,7 @@ import { blob, burst, seeded, smoothOpen } from '../shared/sketch';
 import Estate from './Estate';
 import { INK, OXBLOOD, GOLD, WATER, MOSS, PAPER, PAPER_DARK, battlements, corridor, hatch, tornRect, wobble } from './ink';
 
-// Inkwell: an inked survey of a rambling estate, drawn as a floor
+// Hogwarts: an inked survey of a rambling estate, drawn as a floor
 // plan on folded, torn parchment. Corridors link the landmarks and gates; the
 // rooms, woods, lake and notes are scenery. Everything is original linework.
 
@@ -157,7 +157,7 @@ function Lake() {
       <path d="M1180 1500C1170 1460 1140 1430 1120 1390" fill="none" stroke={WATER} strokeWidth="5" strokeOpacity="0.5" />
       <path d="M1180 1500C1170 1460 1140 1430 1120 1390" fill="none" stroke={INK} strokeWidth="1.4" />
       <text x="980" y="1345" textAnchor="middle" className="ms-label ms-label-water">
-        The Inkwell
+        The Black Lake
       </text>
     </g>
   );

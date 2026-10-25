@@ -1,8 +1,9 @@
-// Every place a visitor can stand: the hub plus four map-worlds.
+// Every place a visitor can stand: the hub plus six map-worlds.
 //
-// Ids (nexus, manuscript, voxel, noir, pop) are internal and never change: they
-// name folders, CSS hooks and storage keys. What visitors see is `name`, and the
-// URL uses each world's `slug` (old links with the id still work).
+// Ids (nexus, manuscript, voxel, noir, pop, frontier, sunset) are internal and
+// never change: they name folders, CSS hooks and storage keys. What visitors see
+// is `name`, and the URL uses each world's `slug` (old links with the id or a
+// former slug still work).
 //
 // This file is data only. It holds each place's copy and its theme tokens, and
 // (for the worlds) the map layout: district lots, portals, fog and the hidden
@@ -13,7 +14,7 @@
 // src/theme/tokens.ts). Components only ever read those variables, so swapping a
 // world is a single attribute change on <html>.
 
-export const WORLD_IDS = ['manuscript', 'voxel', 'noir', 'pop'] as const;
+export const WORLD_IDS = ['manuscript', 'voxel', 'noir', 'pop', 'frontier', 'sunset'] as const;
 export type WorldId = (typeof WORLD_IDS)[number];
 export type PlaceId = 'nexus' | WorldId;
 
@@ -70,6 +71,8 @@ export interface World extends Place {
   id: WorldId;
   /** In the URL: /?world=<slug>. */
   slug: string;
+  /** Slugs this world was shared under before a rename; they still resolve. */
+  formerSlugs?: string[];
 }
 
 /**
@@ -91,13 +94,13 @@ export interface MapLayout {
   overview?: { x: number; y: number; w: number; h: number };
   /** Where this world's secret hides. */
   secret?: Point;
-  fog?: { kind: 'ink' | 'chunks' | 'mist' | 'halftone'; cell: number; radius: number };
+  fog?: { kind: 'ink' | 'chunks' | 'mist' | 'halftone' | 'dust' | 'tiles'; cell: number; radius: number };
 }
 
 export const NEXUS: Place = {
   id: 'nexus',
-  name: 'Base Camp',
-  short: 'Base',
+  name: 'The Citadel',
+  short: 'Citadel',
   tagline: 'A hub drifting between dimensions',
   tokens: {
     bg: '#030712',
@@ -135,9 +138,10 @@ export const NEXUS: Place = {
 export const WORLDS: Record<WorldId, World> = {
   manuscript: {
     id: 'manuscript',
-    name: 'Inkwell',
-    short: 'Inkwell',
-    slug: 'inkwell',
+    name: 'Hogwarts',
+    short: 'Hogwarts',
+    slug: 'hogwarts',
+    formerSlugs: ['inkwell'],
     tagline: 'Inked corridors that draw themselves',
     tokens: {
       bg: '#E6D5B0',
@@ -173,9 +177,10 @@ export const WORLDS: Record<WorldId, World> = {
   },
   voxel: {
     id: 'voxel',
-    name: 'Blockport',
-    short: 'Blockport',
-    slug: 'blockport',
+    name: 'Overworld',
+    short: 'Overworld',
+    slug: 'overworld',
+    formerSlugs: ['blockport'],
     tagline: 'Blocks, rails and a sky that keeps time',
     tokens: {
       bg: '#8FCBEA',
@@ -213,9 +218,10 @@ export const WORLDS: Record<WorldId, World> = {
   },
   noir: {
     id: 'noir',
-    name: 'Lamplight',
-    short: 'Lamplight',
-    slug: 'lamplight',
+    name: 'Gotham',
+    short: 'Gotham',
+    slug: 'gotham',
+    formerSlugs: ['lamplight'],
     tagline: 'Rain, gargoyles and a signal in the sky',
     tokens: {
       bg: '#070B14',
@@ -251,9 +257,10 @@ export const WORLDS: Record<WorldId, World> = {
   },
   pop: {
     id: 'pop',
-    name: 'Halftone',
-    short: 'Halftone',
-    slug: 'halftone',
+    name: 'New York',
+    short: 'New York',
+    slug: 'new-york',
+    formerSlugs: ['halftone'],
     tagline: 'Red, blue and loud on every page',
     tokens: {
       bg: '#F2EFE6',
@@ -287,6 +294,82 @@ export const WORLDS: Record<WorldId, World> = {
       'ease-pop': 'cubic-bezier(0.34, 1.8, 0.64, 1)',
     },
   },
+  frontier: {
+    id: 'frontier',
+    name: 'Blackwater',
+    short: 'Blackwater',
+    slug: 'blackwater',
+    tagline: 'Dust, rails and a lake town at sundown',
+    tokens: {
+      bg: '#E6D2AC',
+      surface: '#F1E4C8',
+      raised: '#F7EEDB',
+      ink: '#2B1C12',
+      muted: '#5A3F2B',
+      accent: '#9A2A1C',
+      'accent-ink': '#F7EEDB',
+      'accent-text': '#8E2619',
+      line: 'rgba(43, 28, 18, 0.3)',
+      focus: '#8E2619',
+      route: '#6B3E1F',
+      fog: '#B08A5A',
+      'deco-1': '#C9862E',
+      'deco-2': '#5E7A6B',
+      'deco-3': '#3F5F7F',
+      'font-display': "'Rye', 'Zilla Slab', Georgia, serif",
+      'font-body': "'Zilla Slab', Georgia, serif",
+      'display-weight': '400',
+      'display-case': 'none',
+      'display-tracking': '0.02em',
+      'r-card': '4px',
+      'r-control': '4px',
+      bw: '2px',
+      'shadow-card': '0 2px 0 rgba(43, 28, 18, 0.15), 0 20px 36px -18px rgba(43, 28, 18, 0.55)',
+      'shadow-pop': '0 6px 18px -6px rgba(154, 42, 28, 0.5)',
+      'dur-fast': '220ms',
+      'dur-slow': '700ms',
+      ease: 'cubic-bezier(0.25, 0.7, 0.3, 1)',
+      'ease-pop': 'cubic-bezier(0.3, 1.3, 0.5, 1)',
+    },
+  },
+  sunset: {
+    id: 'sunset',
+    name: 'Los Santos',
+    short: 'Los Santos',
+    slug: 'los-santos',
+    tagline: 'Palms, freeways and a sign on the hill',
+    tokens: {
+      bg: '#140F24',
+      surface: '#1C1631',
+      raised: '#261E40',
+      ink: '#F4F1FA',
+      muted: '#B5ACCB',
+      accent: '#FFB238',
+      'accent-ink': '#1E1305',
+      'accent-text': '#FFB84A',
+      line: 'rgba(244, 241, 250, 0.14)',
+      focus: '#FFC766',
+      route: '#B66DFF',
+      fog: '#2A2342',
+      'deco-1': '#FF6F91',
+      'deco-2': '#2EC4B6',
+      'deco-3': '#7BD45B',
+      'font-display': "'Bowlby One', Impact, sans-serif",
+      'font-body': "'Barlow', ui-sans-serif, sans-serif",
+      'display-weight': '400',
+      'display-case': 'none',
+      'display-tracking': '0.01em',
+      'r-card': '6px',
+      'r-control': '6px',
+      bw: '1px',
+      'shadow-card': '0 24px 48px -24px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(244, 241, 250, 0.06)',
+      'shadow-pop': '0 10px 30px -10px rgba(255, 178, 56, 0.5)',
+      'dur-fast': '180ms',
+      'dur-slow': '520ms',
+      ease: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+      'ease-pop': 'cubic-bezier(0.34, 1.4, 0.64, 1)',
+    },
+  },
 };
 
 export const PLACES: Record<PlaceId, Place> = { nexus: NEXUS, ...WORLDS };
@@ -294,19 +377,24 @@ export const PLACES: Record<PlaceId, Place> = { nexus: NEXUS, ...WORLDS };
 export const isWorldId = (value: unknown): value is WorldId =>
   typeof value === 'string' && (WORLD_IDS as readonly string[]).includes(value);
 
-/** The world a ?world= value names: its slug, or its id from older links. */
-export const worldFromParam = (value: string | null): WorldId | null =>
-  isWorldId(value) ? value : (WORLD_IDS.find((id) => WORLDS[id].slug === value) ?? null);
+/** The world a ?world= value names: its slug, or its id or a former slug from older links. */
+export function worldFromParam(value: string | null): WorldId | null {
+  if (value === null) return null;
+  if (isWorldId(value)) return value;
+  return WORLD_IDS.find((id) => WORLDS[id].slug === value || WORLDS[id].formerSlugs?.includes(value)) ?? null;
+}
 
 /** The world the "Explore the map" button opens when there's no history yet. */
 export const DEFAULT_WORLD: WorldId = 'manuscript';
 
-/** One hidden secret per world; finding all four fills the hub's counter. */
+/** One hidden secret per world; finding them all fills the hub's counter. */
 export const SECRET_IDS: Record<WorldId, string> = {
   manuscript: 'manuscript:margin-note',
   voxel: 'voxel:eight-bits',
   noir: 'noir:rooftop-line',
   pop: 'pop:bonus-panel',
+  frontier: 'frontier:creek-gold',
+  sunset: 'sunset:hidden-package',
 };
 
 /** What each secret says when you find it. TODO(alex): drafts. */
@@ -327,22 +415,33 @@ export const SECRETS: Record<WorldId, { title: string; text: string }> = {
     title: 'Bonus panel!',
     text: 'You found the gutter between the panels. Nobody lives here but you.',
   },
+  frontier: {
+    title: 'Struck gold',
+    text: 'You panned the creek everyone rides past. One nugget, and nobody saw you take it.',
+  },
+  sunset: {
+    title: 'Hidden package',
+    text: 'Wedged under the pier, taped shut. Inside, a note: "You looked." That is the whole prize.',
+  },
 };
 
 /** Map layouts. Gates are keyed by destination; worlds form a ring of
- *  neighbours (Manuscript, Voxel, Pop, Noir) and each has a gate home. */
+ *  neighbours (Manuscript, Frontier, Voxel, Pop, Sunset, Noir) and each has a
+ *  gate home. The hub's portals sit on a hexagon in the same order. */
 export const MAPS: Record<PlaceId, MapLayout> = {
   nexus: {
     size: { w: 1600, h: 1200 },
     home: { x: 800, y: 590 },
-    spawn: { x: 990, y: 566 },
+    spawn: { x: 960, y: 660 },
     overview: { x: 262, y: 110, w: 1076, h: 1010 },
     lots: [],
     gates: {
       manuscript: { x: 800, y: 228 },
-      voxel: { x: 1222, y: 600 },
+      frontier: { x: 1165, y: 414 },
+      voxel: { x: 1165, y: 786 },
       pop: { x: 800, y: 972 },
-      noir: { x: 378, y: 600 },
+      sunset: { x: 435, y: 786 },
+      noir: { x: 435, y: 414 },
     },
   },
   manuscript: {
@@ -358,7 +457,7 @@ export const MAPS: Record<PlaceId, MapLayout> = {
     ],
     gates: {
       nexus: { x: 330, y: 1250 },
-      voxel: { x: 1930, y: 360 },
+      frontier: { x: 1930, y: 360 },
       noir: { x: 300, y: 330 },
     },
     secret: { x: 2120, y: 1420 },
@@ -377,7 +476,7 @@ export const MAPS: Record<PlaceId, MapLayout> = {
     ],
     gates: {
       nexus: { x: 1100, y: 1330 },
-      manuscript: { x: 280, y: 380 },
+      frontier: { x: 280, y: 380 },
       pop: { x: 1930, y: 400 },
     },
     secret: { x: 1600, y: 1180 },
@@ -396,7 +495,7 @@ export const MAPS: Record<PlaceId, MapLayout> = {
     ],
     gates: {
       nexus: { x: 1020, y: 1380 },
-      pop: { x: 250, y: 1250 },
+      sunset: { x: 250, y: 1250 },
       manuscript: { x: 280, y: 200 },
     },
     secret: { x: 1250, y: 330 },
@@ -416,10 +515,48 @@ export const MAPS: Record<PlaceId, MapLayout> = {
     gates: {
       nexus: { x: 1100, y: 250 },
       voxel: { x: 1910, y: 1290 },
-      noir: { x: 290, y: 1290 },
+      sunset: { x: 290, y: 1290 },
     },
     secret: { x: 1425, y: 455 },
     fog: { kind: 'halftone', cell: 36, radius: 250 },
+  },
+  frontier: {
+    size: { w: 2200, h: 1500 },
+    spawn: { x: 1100, y: 1300 },
+    lots: [
+      { x: 1250, y: 1020 },
+      { x: 720, y: 560 },
+      { x: 1640, y: 830 },
+      { x: 1760, y: 1260 },
+      { x: 420, y: 1260 },
+      { x: 1480, y: 470 },
+    ],
+    gates: {
+      nexus: { x: 1100, y: 1390 },
+      manuscript: { x: 270, y: 340 },
+      voxel: { x: 1940, y: 380 },
+    },
+    secret: { x: 1060, y: 700 },
+    fog: { kind: 'dust', cell: 40, radius: 260 },
+  },
+  sunset: {
+    size: { w: 2200, h: 1500 },
+    spawn: { x: 1120, y: 320 },
+    lots: [
+      { x: 1380, y: 760 },
+      { x: 720, y: 1040 },
+      { x: 1720, y: 1020 },
+      { x: 860, y: 650 },
+      { x: 1820, y: 600 },
+      { x: 1180, y: 1060 },
+    ],
+    gates: {
+      nexus: { x: 1120, y: 240 },
+      pop: { x: 1960, y: 330 },
+      noir: { x: 260, y: 330 },
+    },
+    secret: { x: 470, y: 1330 },
+    fog: { kind: 'tiles', cell: 50, radius: 250 },
   },
 };
 

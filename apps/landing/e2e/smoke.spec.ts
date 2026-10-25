@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { projects } from '../src/data/projects';
-import { WORLDS, WORLD_IDS } from '../src/data/worlds';
+import { SECRETS, WORLDS, WORLD_IDS } from '../src/data/worlds';
 
 const worldTransform = (page: Page) =>
   page.locator('.map-world').evaluate((el) => (el as HTMLElement).style.transform);
@@ -10,7 +10,7 @@ test.describe('without JavaScript', () => {
 
   test('the prerendered hub explains the studio and links every project', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Base Camp');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('The Citadel');
     await expect(page.getByText('Intelligent Systems Hub').first()).toBeVisible();
     await expect(page.getByText('Open to roles and collaborations')).toBeVisible();
     for (const project of projects) {
@@ -27,13 +27,13 @@ test.describe('without JavaScript', () => {
 test('the hub opens on the map with the intro card', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('html')).toHaveAttribute('data-world', 'nexus');
-  await expect(page.getByRole('region', { name: 'Map of Base Camp' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Start exploring' })).toBeVisible();
   await page.getByRole('button', { name: 'Start exploring' }).click();
   await expect(page.getByRole('button', { name: 'Start exploring' })).toHaveCount(0);
   // It stays dismissed on the next visit.
   await page.reload();
-  await expect(page.getByRole('region', { name: 'Map of Base Camp' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Start exploring' })).toHaveCount(0);
 });
 
@@ -44,12 +44,12 @@ test('Skip the map opens the full list, and Back returns to the hub', async ({ p
   await expect(page.getByRole('link', { name: /^Launch live project/ })).toHaveCount(projects.length);
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
-  await expect(page.getByRole('region', { name: 'Map of Base Camp' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
 });
 
 test('every portal leads to its world and re-themes the page', async ({ page }) => {
-  // Four round trips, each a walk to a gate plus a rift: a long journey.
-  test.setTimeout(120_000);
+  // Six round trips, each a walk to a gate plus a rift: a long journey.
+  test.setTimeout(180_000);
   await page.goto('/');
   await page.getByRole('button', { name: 'Start exploring' }).click();
   for (const id of WORLD_IDS) {
@@ -102,7 +102,7 @@ test('dragging pans and the wheel zooms the map', async ({ page, isMobile }) => 
 test('the keyboard can pan and zoom the map', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: 'Start exploring' }).click();
-  const map = page.getByRole('region', { name: 'Map of Base Camp' });
+  const map = page.getByRole('region', { name: 'Map of The Citadel' });
   await map.focus();
   await page.waitForTimeout(700);
   const before = await worldTransform(page);
@@ -131,9 +131,9 @@ test('the page works when storage is blocked', async ({ page }) => {
 
 test.describe('world maps', () => {
   test('a deep link opens the project card on its world map', async ({ page }) => {
-    await page.goto('/?world=manuscript&project=habits');
-    await expect(page.locator('html')).toHaveAttribute('data-world', 'manuscript');
-    await expect(page.getByRole('region', { name: 'Map of Inkwell' })).toBeVisible();
+    await page.goto('/?world=blackwater&project=habits');
+    await expect(page.locator('html')).toHaveAttribute('data-world', 'frontier');
+    await expect(page.getByRole('region', { name: 'Map of Blackwater' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Habits', exact: true })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Launch live project: Habits' })).toHaveAttribute(
       'href',
@@ -166,9 +166,9 @@ test.describe('world maps', () => {
     test('worlds open as a list, with the map one click away', async ({ page }) => {
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.goto('/?world=manuscript');
-      await expect(page.getByRole('heading', { level: 1, name: 'Inkwell, as a list' })).toBeVisible();
+      await expect(page.getByRole('heading', { level: 1, name: 'Hogwarts, as a list' })).toBeVisible();
       await page.getByRole('link', { name: 'Show the map' }).click();
-      await expect(page.getByRole('region', { name: 'Map of Inkwell' })).toBeVisible();
+      await expect(page.getByRole('region', { name: 'Map of Hogwarts' })).toBeVisible();
     });
   });
 });
@@ -185,19 +185,19 @@ test.describe('slow or broken networks', () => {
     });
     await page.goto('/');
     await page.getByRole('button', { name: 'Start exploring' }).click();
-    await page.getByRole('button', { name: /^Portal to Blockport/ }).click();
+    await page.getByRole('button', { name: /^Portal to Overworld/ }).click();
     await expect(page.locator('html')).toHaveAttribute('data-world', 'voxel', { timeout: 15_000 });
-    await expect(page.getByText('Opening Blockport…')).toBeVisible();
+    await expect(page.getByText('Opening Overworld…')).toBeVisible();
     await expect(page.getByRole('link', { name: 'Show its projects as a list' })).toBeVisible();
     release();
-    await expect(page.getByRole('region', { name: 'Map of Blockport' })).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('region', { name: 'Map of Overworld' })).toBeVisible({ timeout: 15_000 });
   });
 
   test('a map that fails to load falls back to the list', async ({ page }) => {
     await page.route(voxelChunk, (route) => route.abort());
     await page.goto('/');
     await page.getByRole('button', { name: 'Start exploring' }).click();
-    await page.getByRole('button', { name: /^Portal to Blockport/ }).click();
+    await page.getByRole('button', { name: /^Portal to Overworld/ }).click();
     await expect(page.getByText('That map didn’t load, so here is everything as a list.')).toBeVisible({
       timeout: 15_000,
     });
@@ -205,16 +205,17 @@ test.describe('slow or broken networks', () => {
   });
 });
 
-test('all four secrets can be found (by keyboard too) and count on the hub', async ({ page }) => {
-  test.setTimeout(120_000);
+test('every secret can be found (by keyboard too) and counts on the hub', async ({ page }) => {
+  test.setTimeout(180_000);
   for (const id of WORLD_IDS) {
     await page.goto(`/?world=${id}`);
     const spot = page.getByRole('button', { name: 'Something curious' });
     await spot.focus();
     await page.keyboard.press('Enter');
-    await expect(page.locator('.secret-note')).toBeVisible({ timeout: 15_000 });
+    // Wait for this secret's own note: on the way there you may finish the world first, which shows a different one.
+    await expect(page.locator('.secret-note').filter({ hasText: SECRETS[id].title })).toBeVisible({ timeout: 15_000 });
     await page.waitForTimeout(400);
   }
   await page.goto('/');
-  await expect(page.getByText('Secrets found: 4 of 4.')).toBeAttached();
+  await expect(page.getByText(`Secrets found: ${WORLD_IDS.length} of ${WORLD_IDS.length}.`)).toBeAttached();
 });

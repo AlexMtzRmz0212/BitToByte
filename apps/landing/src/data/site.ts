@@ -7,9 +7,9 @@ export const site = {
   tagline: 'Intelligent Systems Hub',
   url: 'https://bittobyte.qzz.io',
   description:
-    'BitToByte is the studio of Alejandro Martínez, an AI and automation engineer in Ottawa. Travel four map-worlds to find eleven live projects, or skip straight to the list.',
+    'BitToByte is the studio of Alejandro Martínez, an AI and automation engineer in Ottawa. Travel six map-worlds to find eleven live projects, or skip straight to the list.',
   blurb:
-    'BitToByte is the studio of Alejandro Martínez, an AI and automation engineer in Ottawa. I build data products, LLM tools and client sites, then ship them and keep them running. Eleven are live, spread across four worlds.',
+    'BitToByte is the studio of Alejandro Martínez, an AI and automation engineer in Ottawa. I build data products, LLM tools and client sites, then ship them and keep them running. Eleven are live, spread across six worlds.',
   owner: {
     name: 'Alejandro Martínez',
     role: 'AI & Automation Engineer',
@@ -25,7 +25,7 @@ export const site = {
   howTo: 'Click a portal to travel. Each world keeps a few live projects, and the Travel list has every one of them.',
   index: {
     title: 'Every project, no map required',
-    intro: 'Eleven live builds across four worlds. Launch any of them from here.',
+    intro: 'Eleven live builds across six worlds. Launch any of them from here.',
   },
   capabilities: [
     {

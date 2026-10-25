@@ -12,6 +12,8 @@ const LOADERS: Partial<Record<WorldId, () => Promise<WorldModule>>> = {
   voxel: () => import('./voxel').then((m) => m.default),
   noir: () => import('./noir').then((m) => m.default),
   pop: () => import('./pop').then((m) => m.default),
+  frontier: () => import('./frontier').then((m) => m.default),
+  sunset: () => import('./sunset').then((m) => m.default),
 };
 
 const cache = new Map<PlaceId, WorldModule>([['nexus', hubModule]]);

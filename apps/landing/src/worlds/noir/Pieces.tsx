@@ -4,7 +4,7 @@ import { spiralArm } from '../shared/sketch';
 import Particles, { type ParticleKind } from '../shared/Particles';
 import type { GateProps } from '../types';
 
-// Lamplight: the gate, the traveler, and the sky effects (rain,
+// Gotham: the gate, the traveler, and the sky effects (rain,
 // searchlights, and the studio's own signal on the clouds).
 
 const ARMS = [0, 1, 2].map((i) => spiralArm(0, 0, 52, 1.2, (i * Math.PI * 2) / 3, 30));

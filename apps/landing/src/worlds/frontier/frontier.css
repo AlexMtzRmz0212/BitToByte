@@ -1,0 +1,248 @@
+/* Blackwater: golden hour, dust, weathered wood and one red accent. */
+@layer components {
+  /* ground and water */
+  .fr-patch { fill: #C9B172; opacity: 0.5; }
+  .fr-patch-dark { fill: #A88D58; opacity: 0.35; }
+  .fr-foothill { fill: #9A9467; opacity: 0.55; }
+  .fr-peak { stroke: #4A3F3C; stroke-width: 2; stroke-linejoin: round; }
+  .fr-snow { fill: #F6EFE4; stroke: #4A3F3C; stroke-width: 1.5; stroke-linejoin: round; }
+  .fr-shore { fill: none; stroke: #E2CC98; stroke-width: 26; stroke-linejoin: round; }
+  .fr-lake-edge { fill: none; stroke: #2B1C12; stroke-width: 2; opacity: 0.55; }
+  .fr-glare { fill: #FFD58A; opacity: 0.16; filter: blur(14px); }
+  .fr-ripple { stroke: #D6E6EE; stroke-width: 2.5; stroke-linecap: round; opacity: 0.45; fill: none; }
+  .fr-ripple-gold { stroke: #FFD58A; opacity: 0.7; }
+  .fr-reflect { fill: none; stroke: #2E4A5A; stroke-width: 14; opacity: 0.25; stroke-linecap: round; }
+  .fr-reed { fill: none; stroke: #5E6B3E; stroke-width: 2.5; stroke-linecap: round; }
+  .fr-jetty { stroke: #6B4426; stroke-width: 9; stroke-linecap: round; }
+  .fr-jetty-post { stroke: #4A2E1A; stroke-width: 3; }
+  .fr-boat { fill: #7A4E2D; stroke: #2B1C12; stroke-width: 2; }
+  .fr-oar { stroke: #4A2E1A; stroke-width: 2.5; stroke-linecap: round; }
+  .fr-river-bank { fill: none; stroke: #E2CC98; stroke-width: 40; stroke-linecap: round; }
+  .fr-river { fill: none; stroke: #5D89A0; stroke-width: 24; stroke-linecap: round; }
+  .fr-river-shine { fill: none; stroke: #FFE2A0; stroke-width: 3; stroke-dasharray: 14 30; stroke-linecap: round; opacity: 0.7; }
+
+  /* roads, rail, fences */
+  .fr-road { fill: none; stroke: #E4D0A2; stroke-width: 34; stroke-linecap: round; stroke-linejoin: round; }
+  .fr-rut { fill: none; stroke: #A7875A; stroke-width: 2; stroke-dasharray: 18 10; stroke-linecap: round; opacity: 0.6; }
+  .fr-tie { stroke: #5A3A22; stroke-width: 5; stroke-linecap: round; }
+  .fr-rail { stroke: #3A2C25; stroke-width: 2.5; }
+  .fr-trestle { fill: none; stroke: #5A3A22; stroke-width: 4; stroke-linecap: round; }
+  .fr-trestle-deck { stroke: #4A2E1A; stroke-width: 10; }
+  .fr-pole { fill: none; stroke: #4A2E1A; stroke-width: 4; stroke-linecap: round; }
+  .fr-wire { fill: none; stroke: #2B1C12; stroke-width: 1.2; opacity: 0.6; }
+  .fr-fence-post { stroke: #5A3A22; stroke-width: 4; stroke-linecap: round; }
+  .fr-fence-rail { stroke: #7A5232; stroke-width: 2.5; }
+  .fr-cow { fill: #4A2E1A; }
+  .fr-cow-legs { fill: none; stroke: #4A2E1A; stroke-width: 3; stroke-linecap: round; }
+
+  /* plains, mesas, trees */
+  .fr-shadow { fill: #5A3F2B; opacity: 0.2; }
+  .fr-mesa { stroke: #6E3019; stroke-width: 2; stroke-linejoin: round; }
+  .fr-mesa-shade { fill: #7E3620; opacity: 0.55; }
+  .fr-mesa-top { fill: #D98A55; }
+  .fr-strata { stroke: #8A3B22; stroke-width: 3; opacity: 0.45; }
+  .fr-cactus { fill: none; stroke: #4F6B3A; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+  .fr-rock { fill: #9C8A74; stroke: #5A4A3C; stroke-width: 1.5; }
+  .fr-sage { fill: #8E9567; stroke: #5E6B3E; stroke-width: 1.2; }
+  .fr-trunk { stroke: #4A2E1A; stroke-width: 4; }
+  .fr-pine { fill: #34452F; stroke: #1F2A1C; stroke-width: 1.5; stroke-linejoin: round; }
+  .fr-pine-lit { fill: #5B7046; }
+
+  /* buildings */
+  .fr-front { stroke: #2B1C12; stroke-width: 2; stroke-linejoin: round; }
+  .fr-wood { fill: #8A5A34; }
+  .fr-paint { fill: #B9A27C; }
+  .fr-paint-2 { fill: #9C6B4A; }
+  .fr-brick { fill: #9A4A32; }
+  .fr-white { fill: #EDE4D2; }
+  .fr-side { fill: #5A3A24; stroke: #2B1C12; stroke-width: 2; stroke-linejoin: round; }
+  .fr-roof { fill: #4A2E1A; stroke: #2B1C12; stroke-width: 2; stroke-linejoin: round; }
+  .fr-window { fill: #FFD58A; stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-mullion { stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-door { fill: #2E1D12; stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-awning { fill: #6B4426; stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-post { fill: none; stroke: #4A2E1A; stroke-width: 3.5; stroke-linecap: round; }
+  .fr-balcony { fill: none; stroke: #4A2E1A; stroke-width: 3; }
+  .fr-boardwalk { stroke: #6B4426; stroke-width: 7; stroke-linecap: round; }
+  .fr-signboard { fill: #F1E4C8; stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-sign { font-family: 'Rye', 'Zilla Slab', Georgia, serif; font-size: 11px; fill: #2B1C12; letter-spacing: 0.5px; }
+  .fr-sign-big { font-size: 20px; fill: #9A2A1C; }
+  .fr-cross { fill: none; stroke: #2B1C12; stroke-width: 3; stroke-linecap: round; }
+  .fr-barrel { fill: #7A4E2D; stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-hoop { fill: none; stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-tank { fill: #7A4E2D; stroke: #2B1C12; stroke-width: 2; }
+
+  .fr-label { font-family: 'Rye', 'Zilla Slab', Georgia, serif; font-size: 40px; fill: #5A3F2B; opacity: 0.7; letter-spacing: 3px; }
+  .fr-label-snow { fill: #F6EFE4; opacity: 0.9; paint-order: stroke; stroke: #4A3F3C; stroke-width: 3px; }
+  .fr-label-town { font-size: 52px; fill: #2B1C12; opacity: 0.78; letter-spacing: 8px; }
+  .fr-sunwash { pointer-events: none; mix-blend-mode: soft-light; }
+
+  /* landmarks */
+  .fr-landmark, .fr-gate { cursor: pointer; }
+  .fr-clearing { fill: #B39566; opacity: 0.55; }
+  .fr-canvas { fill: #EBDDBF; stroke: #2B1C12; stroke-width: 2; stroke-linejoin: round; }
+  .fr-canvas-shade { fill: #BFAE8C; stroke: #2B1C12; stroke-width: 2; stroke-linejoin: round; }
+  .fr-tent-door { fill: #3A2A1C; }
+  .fr-rope { fill: none; stroke: #5A3F2B; stroke-width: 1.5; }
+  .fr-wheel { fill: none; stroke: #2B1C12; stroke-width: 3; }
+  .fr-log { fill: #6B4426; stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-crate { fill: #A97A48; stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-crate-side { fill: #7A5232; stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-crate-top { fill: #C29560; stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-crate-slat { fill: none; stroke: #2B1C12; stroke-width: 1; opacity: 0.6; }
+  .fr-journal-cover { fill: #6A2A1E; stroke: #2B1C12; stroke-width: 1.2; }
+  .fr-journal-page { fill: #F7EEDB; stroke: #2B1C12; stroke-width: 0.8; }
+  .fr-journal-ink { fill: none; stroke: #5A3F2B; stroke-width: 0.8; }
+  .fr-fire-glow { fill: #FFB347; opacity: 0.2; filter: blur(10px); }
+  .fr-stone { fill: #8A7B6B; stroke: #2B1C12; stroke-width: 1; }
+  .fr-firewood { stroke: #4A2E1A; stroke-width: 6; stroke-linecap: round; }
+  .fr-flame { fill: #F28C28; }
+  .fr-flame-core { fill: #FFE08A; }
+  .fr-smoke circle { fill: #F1E4C8; opacity: 0.35; }
+  .fr-lantern { fill: #FFD58A; stroke: #2B1C12; stroke-width: 1.5; filter: drop-shadow(0 0 6px #FFB347); }
+  .fr-coat { stroke: #2B1C12; stroke-width: 1.5; }
+  .fr-coat-0 { fill: #5E7A6B; }
+  .fr-coat-1 { fill: #9A2A1C; }
+  .fr-coat-2 { fill: #3F5F7F; }
+  .fr-face { fill: #E6B892; stroke: #2B1C12; stroke-width: 1.2; }
+  .fr-hat { fill: #3A2A1C; stroke: #2B1C12; stroke-width: 2.5; stroke-linecap: round; }
+  .fr-bonnet { fill: #EBDDBF; stroke: #2B1C12; stroke-width: 1.2; }
+  .fr-batwing { fill: #A97A48; stroke: #2B1C12; stroke-width: 1.5; }
+
+  /* gate */
+  .fr-gate-void { fill: #2B1C12; }
+  .fr-vortex-arm { fill: none; stroke: #FFE8B8; stroke-opacity: 0.65; stroke-width: 3.5; stroke-linecap: round; }
+  .fr-gate-post { fill: #6B4426; stroke: #2B1C12; stroke-width: 2.5; }
+  .fr-gate-lit { stroke: #B88355; stroke-width: 3; }
+  .fr-gate-beam { fill: #7A5232; stroke: #2B1C12; stroke-width: 2.5; }
+  .fr-gate-brace { stroke: #6B4426; stroke-width: 7; stroke-linecap: round; }
+  .fr-horseshoe { fill: none; stroke: #8A7B6B; stroke-width: 5; stroke-linecap: round; }
+  .fr-gate-lantern { stroke: #2B1C12; stroke-width: 1.5; filter: drop-shadow(0 0 8px rgba(255, 214, 140, 0.85)); }
+
+  /* route: wagon tracks */
+  .route-wagon {
+    stroke-width: 4;
+    stroke-dasharray: 10 8;
+    opacity: 0.9;
+  }
+
+  /* the rider: faces the way it travels, trots while moving */
+  .fr-rider {
+    transform: translate(-50%, -88%);
+  }
+  .fr-rider svg {
+    display: block;
+    overflow: visible;
+    transform: scaleX(clamp(-1, calc((cos(var(--heading, 0deg)) + 0.0001) * 1000000), 1));
+  }
+  .fr-horse { fill: #3A2418; stroke: #1E120B; stroke-width: 1.5; stroke-linejoin: round; }
+  .fr-mane { stroke: #1E120B; stroke-width: 3; stroke-linecap: round; }
+  .fr-tail { fill: none; stroke: #1E120B; stroke-width: 3.5; stroke-linecap: round; }
+  .fr-leg { fill: none; stroke: #2B1A10; stroke-width: 3.5; stroke-linecap: round; }
+  .fr-rider-leg, .fr-rider-arm { fill: none; stroke: #3A3A44; stroke-width: 3.5; stroke-linecap: round; }
+  .fr-rider-body { stroke: #4A3A2A; stroke-width: 7; stroke-linecap: round; }
+  .fr-rider-head { fill: #E6B892; stroke: #1E120B; stroke-width: 1.2; }
+  .fr-rider-hat { fill: #2B1C12; stroke: #2B1C12; stroke-width: 2.5; stroke-linecap: round; }
+  .fr-bandana { fill: var(--w-accent); }
+  .fr-rider-shadow { fill: #2B1C12; opacity: 0.25; }
+  .fr-rider-dust circle { fill: #E4D0A2; opacity: 0; }
+
+  /* train */
+  .fr-overlay { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+  .fr-train { opacity: 0; }
+  .fr-engine { fill: #2E2A2A; stroke: #151212; stroke-width: 1.5; }
+  .fr-cab { fill: #6A2A1E; stroke: #151212; stroke-width: 1.5; }
+  .fr-cab-roof { fill: #2E2A2A; }
+  .fr-stack { fill: #2E2A2A; stroke: #151212; stroke-width: 2.5; }
+  .fr-cowcatcher { fill: #9A2A1C; }
+  .fr-headlamp { fill: #FFE08A; filter: drop-shadow(0 0 6px #FFD58A); }
+  .fr-train-wheel { fill: #9A2A1C; stroke: #151212; stroke-width: 2; }
+  .fr-tender { fill: #3A3434; stroke: #151212; stroke-width: 1.5; }
+  .fr-car { fill: #5E7A6B; stroke: #151212; stroke-width: 1.5; }
+  .fr-car-red { fill: #8A3A26; }
+  .fr-steam circle { fill: #F7EEDB; opacity: 0.55; }
+
+  .fr-fog { filter: blur(1.5px); }
+
+  /* screen-space sky */
+  .fr-backdrop {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(#F2C98A, #E2A066 55%, #A8673F);
+  }
+  .fr-fx {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .fr-sunlight {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(70% 60% at 0% 10%, rgba(255, 214, 140, 0.28), rgba(255, 214, 140, 0) 70%);
+    mix-blend-mode: soft-light;
+  }
+  .fr-hawk-orbit {
+    position: absolute;
+    left: 68%;
+    top: 22%;
+    width: 0;
+    height: 0;
+  }
+  .fr-hawk {
+    position: absolute;
+    left: 90px;
+    top: -8px;
+    fill: #2B1C12;
+    opacity: 0.7;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-moving='true'] .fr-rider-bob { animation: fr-trot 0.36s ease-in-out infinite alternate; }
+    [data-moving='true'] .fr-leg-a { transform-box: fill-box; transform-origin: top; animation: fr-gallop 0.36s ease-in-out infinite alternate; }
+    [data-moving='true'] .fr-leg-b { transform-box: fill-box; transform-origin: top; animation: fr-gallop 0.36s ease-in-out infinite alternate-reverse; }
+    [data-moving='true'] .fr-rider-dust circle { animation: fr-dust 0.7s ease-out infinite; }
+    [data-moving='true'] .fr-rider-dust circle:nth-child(2) { animation-delay: -0.23s; }
+    [data-moving='true'] .fr-rider-dust circle:nth-child(3) { animation-delay: -0.46s; }
+    .fr-vortex { animation: fr-turn 9s linear infinite; }
+    .fr-flame, .fr-flame-core { transform-box: fill-box; transform-origin: bottom; animation: fr-flicker 0.9s ease-in-out infinite alternate; }
+    .fr-fire-glow { animation: fr-glow 1.6s ease-in-out infinite alternate; }
+    .fr-smoke { animation: fr-smoke 5s ease-out infinite; }
+    .fr-person { animation: fr-shuffle 3s ease-in-out infinite; }
+    .fr-ripple { animation: fr-ripple 5s ease-in-out infinite alternate; }
+    .fr-river-shine { animation: fr-flow 4s linear infinite; }
+    .fr-train { opacity: 1; animation: fr-train 46s linear infinite; }
+    .fr-steam circle { animation: fr-steam 1.8s ease-out infinite; }
+    .fr-steam circle:nth-child(2) { animation-delay: -0.45s; }
+    .fr-steam circle:nth-child(3) { animation-delay: -0.9s; }
+    .fr-steam circle:nth-child(4) { animation-delay: -1.35s; }
+    .fr-hawk-orbit { animation: fr-circle 26s linear infinite; }
+    .fr-glint { transform-box: fill-box; transform-origin: center; animation: fr-glint 2.6s ease-in-out infinite; }
+    .fr-gold { transform-box: fill-box; transform-origin: center; animation: fr-pan 600ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+  }
+  @keyframes fr-trot { from { transform: translateY(0); } to { transform: translateY(-2.5px); } }
+  @keyframes fr-gallop { from { transform: rotate(-18deg); } to { transform: rotate(18deg); } }
+  @keyframes fr-dust { from { opacity: 0.7; transform: translate(0, 0) scale(0.6); } to { opacity: 0; transform: translate(-10px, -6px) scale(1.6); } }
+  @keyframes fr-turn { to { transform: rotate(-360deg); } }
+  @keyframes fr-flicker { from { transform: scale(0.92, 0.9) skewX(-3deg); } to { transform: scale(1.04, 1.1) skewX(3deg); } }
+  @keyframes fr-glow { from { opacity: 0.14; } to { opacity: 0.26; } }
+  @keyframes fr-smoke { from { transform: translateY(8px); opacity: 0; } 30% { opacity: 1; } to { transform: translate(10px, -26px); opacity: 0; } }
+  @keyframes fr-shuffle { 0%, 70%, 100% { transform: translateY(0); } 80% { transform: translateY(-3px); } }
+  @keyframes fr-ripple { from { opacity: 0.2; transform: translateX(-6px); } to { opacity: 0.7; transform: translateX(6px); } }
+  @keyframes fr-flow { to { stroke-dashoffset: -88; } }
+  @keyframes fr-train { from { transform: translate(-520px, 10px); } to { transform: translate(2700px, -54px); } }
+  @keyframes fr-steam { from { transform: translate(0, 6px) scale(0.5); opacity: 0.7; } to { transform: translate(-30px, -16px) scale(1.5); opacity: 0; } }
+  @keyframes fr-circle { to { transform: rotate(360deg); } }
+  @keyframes fr-glint { 0%, 60%, 100% { transform: scale(0.3) rotate(0deg); opacity: 0.3; } 75% { transform: scale(1.2) rotate(45deg); opacity: 1; } }
+  @keyframes fr-pan { from { transform: scale(0.2); opacity: 0; } }
+
+  /* the secret */
+  .fr-secret { cursor: pointer; }
+  .fr-secret-ripple { fill: none; stroke: #FFE2A0; stroke-width: 2; opacity: 0.6; }
+  .fr-glint { fill: #FFE7A3; filter: drop-shadow(0 0 4px #FFD58A); }
+  .fr-pan { fill: #8A8A86; stroke: #2B1C12; stroke-width: 2; }
+  .fr-pan-inside { fill: #6E8C98; stroke: #2B1C12; stroke-width: 1; }
+  .fr-nugget { fill: #E8B23A; stroke: #8A5A14; stroke-width: 1.5; stroke-linejoin: round; }
+  .fr-nugget-shine { stroke: #FFF2C0; stroke-width: 2; stroke-linecap: round; }
+}

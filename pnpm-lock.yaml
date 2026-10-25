@@ -38,6 +38,12 @@ importers:
       '@fontsource/bangers':
         specifier: ^5.3.0
         version: 5.3.0
+      '@fontsource/barlow':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/bowlby-one':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource/comic-neue':
         specifier: ^5.3.0
         version: 5.3.0
@@ -45,6 +51,12 @@ importers:
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource/im-fell-english':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/rye':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/zilla-slab':
         specifier: ^5.3.0
         version: 5.3.0
       '@tailwindcss/vite':
@@ -365,6 +377,12 @@ packages:
   '@fontsource/bangers@5.3.0':
     resolution: {integrity: sha512-tSRpmWwkqrO9PCqo9wjA/99/5sLOIWm5cf51G3ooEHd8qZus8sVSSJoWp/7EvM5rIgZMjKRG6XtY9yeisKxE7g==}
 
+  '@fontsource/barlow@5.3.0':
+    resolution: {integrity: sha512-tGR0y6QObRtKv71MOth44222+mdNFM/ZWFWDV1VLzNbG4oK9PNRlyJzmkck4vHAi9ibHBXgt4SlY51amFP55CA==}
+
+  '@fontsource/bowlby-one@5.3.0':
+    resolution: {integrity: sha512-mjHkM64RbN4I2xFpk+6sQt+aF/k46IHEWP6ul4/RwAYJF5ETDjUmDp1zgU2Tj/w2yYIjMGVyGVifCNNR5ZbyZQ==}
+
   '@fontsource/comic-neue@5.3.0':
     resolution: {integrity: sha512-uZsyUTExw8tCySNhL65dN6rEUhASMPGintSS5Kw/ZkrQTK1vcAgramzOLT/mZKtZ+EXr03MHj0s5osVVJITCow==}
 
@@ -373,6 +391,12 @@ packages:
 
   '@fontsource/im-fell-english@5.3.0':
     resolution: {integrity: sha512-FcgdWfY9WeUM2gQkfmwhn4Ed9LVtlll8LSSZvHfbsUrnHK5tHHnGg6BgwAfHogp52adU3eE89J/3B52qV3b+Vw==}
+
+  '@fontsource/rye@5.3.0':
+    resolution: {integrity: sha512-nKMwMa2/y8LMfhxs7Wm6FnbwXLKsBrJKs6dygYOPrmbpRIvBlf7Kt1mDNm0lzDIuuU+ghluQsisqpQ7peDm7gA==}
+
+  '@fontsource/zilla-slab@5.3.0':
+    resolution: {integrity: sha512-xbdDx5OESJDQqp3GIp4pjBgI+qpcg4AxnHLN15ekfJbG+ZYaOXg3uBjDpYlkuPQpey91afxHBNaqZgzluJ2FWA==}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -1649,11 +1673,19 @@ snapshots:
 
   '@fontsource/bangers@5.3.0': {}
 
+  '@fontsource/barlow@5.3.0': {}
+
+  '@fontsource/bowlby-one@5.3.0': {}
+
   '@fontsource/comic-neue@5.3.0': {}
 
   '@fontsource/courier-prime@5.3.0': {}
 
   '@fontsource/im-fell-english@5.3.0': {}
+
+  '@fontsource/rye@5.3.0': {}
+
+  '@fontsource/zilla-slab@5.3.0': {}
 
   '@humanfs/core@0.19.2':
     dependencies:

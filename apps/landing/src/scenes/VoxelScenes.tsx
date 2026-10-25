@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import './scenes.css';
 
-// Arrival scenes for Blockport's projects. Blocky by design: squares,
+// Arrival scenes for Overworld's projects. Blocky by design: squares,
 // hard edges, stepped motion.
 
 const block = (x: number, y: number, s: number, cls: string, style?: CSSProperties) => (

@@ -1,6 +1,6 @@
 import './scenes.css';
 
-// Arrival scenes for Lamplight: night, one amber light, a flicker.
+// Arrival scenes for Gotham: night, one amber light, a flicker.
 
 /** Cinetech: the projector rolls, posters flip into a grid, a rating fills. */
 export function ProjectorScene() {

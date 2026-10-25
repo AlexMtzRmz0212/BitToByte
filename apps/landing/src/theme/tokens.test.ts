@@ -63,5 +63,7 @@ describe('theme tokens', () => {
     expect(colorScheme(PLACES.manuscript.tokens.bg)).toBe('light');
     expect(colorScheme(PLACES.voxel.tokens.bg)).toBe('light');
     expect(colorScheme(PLACES.pop.tokens.bg)).toBe('light');
+    expect(colorScheme(PLACES.frontier.tokens.bg)).toBe('light');
+    expect(colorScheme(PLACES.sunset.tokens.bg)).toBe('dark');
   });
 });

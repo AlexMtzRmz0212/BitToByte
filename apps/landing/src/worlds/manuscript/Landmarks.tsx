@@ -3,7 +3,7 @@ import type { LandmarkProps } from '../types';
 import { burst } from '../shared/sketch';
 import { GOLD, INK, MOSS, OXBLOOD, PAPER, PAPER_DARK, battlements, hatch } from './ink';
 
-// Landmarks of Inkwell, drawn as small inked elevations standing
+// Landmarks of Hogwarts, drawn as small inked elevations standing
 // on the plan (old maps do this for anything worth a visit). Each sits on its
 // lot with its base at `at`. Found ones get a wax seal.
 

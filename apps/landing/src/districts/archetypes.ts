@@ -17,6 +17,9 @@ export const ARCHETYPES = {
   stadium: { label: 'Stadium' },
   library: { label: 'Comic archive library' },
   arena: { label: 'Hill arena with a beacon' },
+  camp: { label: 'Camp with a journal by the fire' },
+  telegraph: { label: 'Telegraph office with a queue' },
+  showroom: { label: 'EV showroom with charging bays' },
   hall: { label: 'Town hall' },
 } as const;
 

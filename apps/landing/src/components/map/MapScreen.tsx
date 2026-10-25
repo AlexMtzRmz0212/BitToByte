@@ -240,6 +240,24 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
     navigate({ project: null }, 'replace');
   }, []);
 
+  // Clicking open ground sends the traveler there; the fog clears along the way.
+  const walkTo = useCallback(
+    (at: Point) => {
+      if (!controller) return;
+      const margin = 40;
+      const to = {
+        x: Math.min(layout.size.w - margin, Math.max(margin, at.x)),
+        y: Math.min(layout.size.h - margin, Math.max(margin, at.y)),
+      };
+      // An interrupted trip never arrives, so don't let it block picking that project again.
+      travellingTo.current = null;
+      setArrived(null);
+      if (app.get().route.project) navigate({ project: null }, 'replace');
+      controller.travelTo(to, () => {});
+    },
+    [controller, layout.size.w, layout.size.h]
+  );
+
   // Launch: the camera pushes into the building, the world fades, then we go.
   const launch = useCallback(
     (project: { slug: string; liveUrl: string }) => {
@@ -399,6 +417,7 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
           overRoute={Overlay && controller ? <Overlay controller={controller} layout={layout} /> : null}
           onReady={setController}
           onTarget={goTo}
+          onGround={walkTo}
         />
         <p id="map-keys" className="sr-only">
           Drag or use the arrow keys to look around, plus and minus to zoom, and 0 to return to the traveler.

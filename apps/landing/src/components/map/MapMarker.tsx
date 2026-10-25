@@ -30,7 +30,7 @@ export default function MapMarker({ at, lift = 0, label, sub, kind, state = 'idl
       onClick={onSelect}
     >
       <span className="marker-label">{label}</span>
-      {/* A real space, so the text reads "Halftone 1/3 found", not "Halftone1/3". */}
+      {/* A real space, so the text reads "Gotham 1/1 found", not "Gotham1/1". */}
       {sub && ' '}
       {sub && <span className="marker-sub">{sub}</span>}
     </button>

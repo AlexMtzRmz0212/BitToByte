@@ -4,7 +4,7 @@ import { blob, burst, inkLine, smoothClosed, spiralArm, wobblyCircle } from '../
 import type { GateProps } from '../types';
 import MiniatureArt from './MiniatureArt';
 
-// The Nexus: a scrappy workshop on a rock adrift in deep space, with four green
+// The Citadel: a scrappy workshop on a rock adrift in deep space, with six green
 // swirling portals on little rocks of their own. Thick, slightly wobbly cartoon
 // outlines; everything else is the starfield behind (screen space, Starfield.tsx).
 
@@ -104,12 +104,12 @@ export function HubTerrain({ layout }: { layout: MapLayout }) {
 
       {/* drifting debris */}
       {[
-        [560, 380, 22, 1],
-        [1060, 330, 16, 2],
-        [1080, 870, 26, 3],
-        [520, 860, 18, 4],
-        [1350, 760, 12, 5],
-        [250, 520, 14, 6],
+        [610, 250, 22, 1],
+        [1000, 250, 16, 2],
+        [1010, 1010, 26, 3],
+        [600, 1010, 18, 4],
+        [1380, 600, 12, 5],
+        [220, 600, 14, 6],
       ].map(([x, y, r, s]) => (
         <path
           key={s}

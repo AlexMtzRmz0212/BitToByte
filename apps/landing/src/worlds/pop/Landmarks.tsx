@@ -53,60 +53,131 @@ const Monument: Art = ({ x, y }) => (
   </g>
 );
 
-/* --------------------------------------------- The Locker Room: stadium */
+/* ---------------------------- Banda de Guerra: the parade stand and its drum */
 
-const Stadium: Art = ({ x, y }) => (
+const STICK_TIPS = [-1, 1];
+
+const Bandstand: Art = ({ x, y }) => (
   <g>
-    {/* floodlights */}
-    {[-200, 200].map((dx) => (
-      <g key={dx}>
-        <path d={`M${x + dx} ${y - 40}V${y - 250}`} {...ink} />
-        <rect x={x + dx - 26} y={y - 282} width="52" height="34" fill="#FFFEFA" {...ink} />
-        <path d={`M${x + dx - 16} ${y - 270}h32M${x + dx - 16} ${y - 260}h32`} stroke={K} strokeWidth="3" />
+    {/* the stand */}
+    <rect x={x - 150} y={y - 30} width="300" height="30" fill="#FFFEFA" {...ink} />
+    {/* pennants either side */}
+    {STICK_TIPS.map((side) => (
+      <g key={side}>
+        <path d={`M${x + side * 136} ${y - 30}V${y - 200}`} {...ink} />
+        <path d={`M${x + side * 136} ${y - 200}l${side * 44} 18l${-side * 44} 18Z`} fill={side < 0 ? '#1B4FD8' : '#6DBB3B'} {...ink} strokeWidth={4} />
       </g>
     ))}
-    {/* the bowl */}
-    <ellipse cx={x} cy={y - 60} rx="200" ry="86" fill="#C8102E" {...ink} />
-    <path d={`M${x - 200} ${y - 60}v34a200 86 0 0 0 400 0v-34`} fill="#9B0C24" {...ink} />
-    <ellipse cx={x} cy={y - 66} rx="150" ry="56" fill="#FFFEFA" {...ink} />
-    <ellipse cx={x} cy={y - 60} rx="128" ry="44" fill="#6DBB3B" {...ink} />
-    <path d={`M${x} ${y - 104}v88`} stroke="#FFFEFA" strokeWidth="4" />
-    <ellipse cx={x} cy={y - 60} rx="22" ry="9" fill="none" stroke="#FFFEFA" strokeWidth="4" />
-    {/* scoreboard */}
-    <rect x={x - 70} y={y - 210} width="140" height="56" fill={K} />
-    <path d={`M${x - 46} ${y - 154}v20M${x + 46} ${y - 154}v20`} {...ink} />
-    <text x={x - 34} y={y - 168} className="pp-score">
-      3
+    <polygon points={burst(x, y - 216, 74, 40, 10)} fill="#FF8FB1" {...ink} strokeWidth={4} className="pp-sparkle" />
+    {/* the giant snare */}
+    <path d={`M${x - 104} ${y - 176}V${y - 58}a104 26 0 0 0 208 0V${y - 176}Z`} fill="#C8102E" {...ink} />
+    <path
+      d={`M${x - 104} ${y - 60}L${x - 70} ${y - 150}L${x - 36} ${y - 36}L${x} ${y - 150}L${x + 36} ${y - 36}L${x + 70} ${y - 150}L${x + 104} ${y - 60}`}
+      fill="none"
+      stroke="#FFD400"
+      strokeWidth="6"
+      strokeLinejoin="round"
+    />
+    <path d={`M${x - 104} ${y - 72}a104 26 0 0 0 208 0`} fill="none" {...ink} strokeWidth={4} />
+    <ellipse cx={x} cy={y - 176} rx="104" ry="28" fill="#FFFEFA" {...ink} />
+    {/* crossed sticks mid-strike */}
+    {STICK_TIPS.map((side) => (
+      <g key={side}>
+        <path d={`M${x + side * 118} ${y - 296}L${x - side * 18} ${y - 182}`} stroke={K} strokeWidth="18" strokeLinecap="round" />
+        <path d={`M${x + side * 118} ${y - 296}L${x - side * 18} ${y - 182}`} stroke="#FFD400" strokeWidth="9" strokeLinecap="round" />
+      </g>
+    ))}
+    {/* a judge's score card */}
+    <path d={`M${x + 96} ${y - 30}V${y - 66}`} {...ink} strokeWidth={4} />
+    <rect x={x + 62} y={y - 112} width="68" height="48" fill="#FFFEFA" {...ink} strokeWidth={4} />
+    <text x={x + 96} y={y - 80} textAnchor="middle" className="pp-sign">
+      9.5
     </text>
-    <text x={x + 16} y={y - 168} className="pp-score">
-      2
-    </text>
-    <circle cx={x + 120} cy={y - 150} r="12" fill="#FFFEFA" {...ink} strokeWidth={3} className="pp-ball" />
   </g>
 );
 
-/* ---------------------------------------- Marvel: the comic archive */
+/* ------------------------- Marvel: the heroes' tower and its watch order */
 
-const SPINES = ['#C8102E', '#1B4FD8', '#FFD400', '#FF8FB1', '#6DBB3B', '#9AD0FF', '#C8102E', '#FFD400'];
+const WATCH_ORDER = ['#C8102E', '#FFD400', '#6DBB3B', '#FF8FB1', '#9AD0FF'];
 
-const Library: Art = ({ x, y }) => (
+const HeroTower: Art = ({ x, y }) => (
   <g>
+    {/* a signal blazing behind the crown */}
+    <polygon points={burst(x, y - 270, 52, 34, 12)} fill="#FFD400" {...ink} strokeWidth={3.5} className="pp-sparkle" />
     <rect x={x - 140} y={y - 24} width="280" height="24" fill="#FFFEFA" {...ink} />
-    <rect x={x - 130} y={y - 200} width="260" height="176" fill="#F2EFE6" {...ink} />
-    {/* the facade: a shelf of giant comic spines */}
-    {SPINES.map((c, k) => (
-      <g key={k}>
-        <rect x={x - 116 + k * 29} y={y - 186} width="26" height="150" fill={c} {...ink} strokeWidth={3.5} />
-        <path d={`M${x - 112 + k * 29} ${y - 160}h18M${x - 112 + k * 29} ${y - 66}h18`} stroke={K} strokeWidth="3" />
+    {/* the tower */}
+    <path d={`M${x - 72} ${y - 24}L${x - 60} ${y - 250}H${x + 60}L${x + 72} ${y - 24}Z`} fill="#1B4FD8" {...ink} />
+    <path d={`M${x + 34} ${y - 27}L${x + 30} ${y - 247}H${x + 57}L${x + 68} ${y - 27}Z`} fill="#123A9E" />
+    {Array.from({ length: 4 }, (_, r) =>
+      Array.from({ length: 4 }, (_, c) => (
+        <rect
+          key={`${r}-${c}`}
+          x={x - 46 + c * 24}
+          y={y - 236 + r * 22}
+          width="16"
+          height="13"
+          fill={(r + c * 2) % 3 === 0 ? '#FFD400' : '#9AD0FF'}
+          stroke={K}
+          strokeWidth="2.5"
+        />
+      ))
+    )}
+    {/* the crown and its power core */}
+    <path d={`M${x - 60} ${y - 250}L${x - 36} ${y - 292}H${x + 36}L${x + 60} ${y - 250}Z`} fill="#FFFEFA" {...ink} />
+    <circle cx={x} cy={y - 270} r="16" fill="#9AD0FF" {...ink} strokeWidth={4} />
+    <circle cx={x} cy={y - 270} r="7" fill="#FFFEFA" stroke={K} strokeWidth="2.5" />
+    {/* the landing deck, with someone caped keeping watch */}
+    <path d={`M${x + 128} ${y - 174}L${x + 66} ${y - 138}`} {...ink} />
+    <rect x={x + 62} y={y - 186} width="70" height="12" fill="#FFFEFA" {...ink} strokeWidth={4} />
+    <path d={`M${x + 92} ${y - 224}Q${x + 64} ${y - 206} ${x + 70} ${y - 186}L${x + 96} ${y - 198}Z`} fill="#C8102E" {...ink} strokeWidth={3} />
+    <path d={`M${x + 92} ${y - 224}H${x + 108}L${x + 106} ${y - 204}L${x + 108} ${y - 186}H${x + 102}L${x + 100} ${y - 200}L${x + 98} ${y - 186}H${x + 92}L${x + 94} ${y - 204}Z`} fill={K} />
+    <circle cx={x + 100} cy={y - 233} r="9" fill={K} />
+    {/* a sound effect on the other side */}
+    <polygon points={burst(x - 112, y - 196, 48, 30, 10)} fill="#FF8FB1" {...ink} strokeWidth={3.5} />
+    <text x={x - 112} y={y - 187} textAnchor="middle" className="pp-sign">
+      POW!
+    </text>
+    {/* the marquee: the films in order */}
+    <path d={`M${x - 110} ${y - 68}V${y - 24}M${x + 110} ${y - 68}V${y - 24}`} {...ink} />
+    <rect x={x - 26} y={y - 68} width="52" height="44" fill={K} />
+    <rect x={x - 94} y={y - 150} width="188" height="32" fill="#FFFEFA" {...ink} strokeWidth={4} />
+    <text x={x} y={y - 125} textAnchor="middle" className="pp-sign">
+      WATCH ORDER
+    </text>
+    {WATCH_ORDER.map((c, k) => (
+      <g key={c}>
+        <rect x={x - 116 + k * 47} y={y - 112} width="44" height="44" fill={c} {...ink} strokeWidth={4} />
+        <text x={x - 94 + k * 47} y={y - 81} textAnchor="middle" className="pp-sign">
+          {k + 1}
+        </text>
       </g>
     ))}
-    <rect x={x - 26} y={y - 70} width="52" height="46" fill={K} />
-    {/* pediment with the sign */}
-    <path d={`M${x - 150} ${y - 200}L${x} ${y - 270}L${x + 150} ${y - 200}Z`} fill="#FFD400" {...ink} />
-    <rect x={x - 82} y={y - 236} width="164" height="30" fill="#FFFEFA" {...ink} strokeWidth={3.5} />
-    <text x={x} y={y - 213} textAnchor="middle" className="pp-sign">
-      ARCHIVE
-    </text>
+  </g>
+);
+
+/* -------------------------- TikTok Archive: a phone on its filing cabinets */
+
+const DRAWERS = [-140, -46, 48];
+
+const ClipFile: Art = ({ x, y }) => (
+  <g>
+    <polygon points={burst(x - 90, y - 248, 40, 20, 9)} fill="#FF8FB1" {...ink} strokeWidth={3.5} className="pp-sparkle" />
+    {/* the phone, playing */}
+    <rect x={x - 62} y={y - 304} width="124" height="196" rx="16" fill={K} {...ink} />
+    <rect x={x - 50} y={y - 288} width="100" height="162" fill="#1B4FD8" />
+    <path d={`M${x - 20} ${y - 244}V${y - 186}L${x + 28} ${y - 215}Z`} fill="#FFFEFA" {...ink} strokeWidth={4} />
+    <path d={`M${x - 36} ${y - 150}h72M${x - 36} ${y - 136}h48`} stroke="#FFD400" strokeWidth="6" strokeLinecap="round" />
+    {/* the cabinets, a drawer per pile of notes */}
+    <rect x={x - 150} y={y - 112} width="300" height="112" fill="#FFD400" {...ink} />
+    {[0, 1].map((row) =>
+      DRAWERS.map((dx, k) => (
+        <g key={`${row}-${dx}`}>
+          <rect x={x + dx} y={y - 102 + row * 50} width="92" height="42" fill={k === 1 ? '#FF8FB1' : '#FFFEFA'} {...ink} strokeWidth={4} />
+          <rect x={x + dx + 26} y={y - 94 + row * 50} width="40" height="11" fill="#FFFEFA" stroke={K} strokeWidth="2.5" />
+          <path d={`M${x + dx + 34} ${y - 72 + row * 50}h24`} stroke={K} strokeWidth="5" strokeLinecap="round" />
+        </g>
+      ))
+    )}
   </g>
 );
 
@@ -130,6 +201,7 @@ const BrickBlock: Art = ({ x, y }) => (
 
 const ART: Record<string, Art> = {
   monument: Monument,
-  stadium: Stadium,
-  library: Library,
+  bandstand: Bandstand,
+  herotower: HeroTower,
+  clipfile: ClipFile,
 };

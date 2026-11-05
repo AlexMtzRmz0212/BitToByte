@@ -137,6 +137,44 @@ const Stadium: Art = ({ x, y }) => {
   );
 };
 
+/* ------------------------------- Runtime: the running track and its clock */
+
+const Track: Art = ({ x, y }) => {
+  const rx = 150;
+  const ry = 70;
+  const cy = y - 58;
+  return (
+    <g>
+      <ellipse cx={x + 24} cy={cy + 12} rx={rx + 8} ry={ry + 8} className="ls-shadow" />
+      {/* the countdown board behind the back straight */}
+      <g transform={`translate(${x} ${cy - ry - 20})`}>
+        <path d="M-34 30V-30M34 30V-30" className="ls-mast" />
+        <rect x="-74" y="-92" width="148" height="66" className="ls-board" />
+        <text y="-44" textAnchor="middle" className="ls-score">
+          0:42
+        </text>
+      </g>
+      {/* lanes, infield and finish line */}
+      <ellipse cx={x} cy={cy} rx={rx} ry={ry} className="ls-track" />
+      {[12, 24, 36].map((inset) => (
+        <ellipse key={inset} cx={x} cy={cy} rx={rx - inset} ry={ry - inset * 0.72} className="ls-lane" />
+      ))}
+      <ellipse cx={x} cy={cy} rx={rx - 48} ry={ry - 36} className="ls-pitch" />
+      <path d={`M${x} ${cy + ry - 36}V${cy + ry}`} className="ls-finish" />
+      {/* runners on their laps */}
+      <g transform={`translate(${x} ${cy}) scale(1 ${(ry - 16) / (rx - 22)})`}>
+        {[0, -6, -13].map((delay, k) => (
+          <g key={k} className="ls-runner" style={{ animationDelay: `${delay}s` }}>
+            <circle cy={rx - 22 - k * 11} r="9" className={`ls-pennant-${k}`} />
+          </g>
+        ))}
+      </g>
+      <PalmTree x={x - rx - 16} y={y + 4} h={110} />
+      <PalmTree x={x + rx + 18} y={y - 6} h={130} />
+    </g>
+  );
+};
+
 /* ------------------------------ anything else: a glass tower with a helipad */
 
 const GlassTower: Art = ({ x, y, name }) => {
@@ -165,4 +203,5 @@ const GlassTower: Art = ({ x, y, name }) => {
 const ART: Record<string, Art> = {
   showroom: Showroom,
   stadium: Stadium,
+  track: Track,
 };

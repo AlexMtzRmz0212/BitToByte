@@ -66,23 +66,34 @@
   :root[data-world='voxel'] .card-title {
     text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.22);
   }
-  /* The world dock is a hotbar: square slots, a bright frame on the selected one. */
+  /* The world dock is an inventory row: a raised stone panel with recessed slots.
+   * The selected world wears a bright frame and its name; any other slot shows
+   * its name on hover or focus, in a dark item tooltip. */
   :root[data-world='voxel'] .world-dock {
-    padding: 4px;
-    background: #2b2b2b;
+    padding: 6px;
     border: 3px solid #111;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+    border-radius: 0;
+    background: #c6c6c6;
+    box-shadow: inset 3px 3px 0 #fff, inset -3px -3px 0 #555, 0 4px 0 rgba(0, 0, 0, 0.35);
+    backdrop-filter: none;
   }
   :root[data-world='voxel'] .world-dock ul {
-    gap: 4px;
+    gap: 3px;
   }
   :root[data-world='voxel'] .dock-slot-link {
+    position: relative;
     width: 3.25rem;
     height: 3.25rem;
     padding: 0;
+    border-radius: 0;
     background: #8b8b8b;
     color: #1f2226;
-    box-shadow: inset -3px -3px 0 #555, inset 3px 3px 0 #c6c6c6;
+    box-shadow: inset 3px 3px 0 #373737, inset -3px -3px 0 #fff;
+  }
+  :root[data-world='voxel'] .dock-slot-link:hover,
+  :root[data-world='voxel'] .dock-slot-link:focus-visible {
+    background: #b4b4b4;
+    color: #111;
   }
   :root[data-world='voxel'] .dock-slot-link[aria-current='page'] {
     background: #a8a8a8;
@@ -92,6 +103,64 @@
   }
   :root[data-world='voxel'] .dock-label {
     display: none;
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: calc(100% + 12px);
+    transform: translateX(-50%);
+    padding: 3px 8px 4px;
+    border: 2px solid #1a0a2e;
+    background: rgba(18, 6, 28, 0.96);
+    box-shadow: inset 0 0 0 2px #4a1fa8;
+    color: #fff;
+    font-family: var(--w-font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.2;
+    text-shadow: 2px 2px 0 #3a3a3a;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  /* The row's ends stay on screen: their names line up with the slot's outer edge. */
+  :root[data-world='voxel'] .world-dock li:first-child .dock-label {
+    left: 0;
+    transform: none;
+  }
+  :root[data-world='voxel'] .world-dock li:last-child .dock-label {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+  /* The selected world's name shows on arrival, then fades so it can't cover the map. */
+  :root[data-world='voxel'] .dock-slot-link[aria-current='page'] .dock-label {
+    display: block;
+    animation: dock-name-fade 3.5s ease-in forwards;
+  }
+  :root[data-world='voxel'] .dock-slot-link:hover .dock-label,
+  :root[data-world='voxel'] .dock-slot-link:focus-visible .dock-label {
+    display: block;
+    animation: none;
+  }
+  @keyframes dock-name-fade {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  /* One name at a time: pointing at another slot hides the selected world's. */
+  :root[data-world='voxel'] .world-dock ul:has(.dock-slot-link:hover, .dock-slot-link:focus-visible)
+    .dock-slot-link[aria-current='page']:not(:hover, :focus-visible) .dock-label {
+    display: none;
+  }
+  @media (max-width: 479px) {
+    :root[data-world='voxel'] .dock-slot-link {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+    :root[data-world='voxel'] .world-dock {
+      padding: 4px;
+    }
+    :root[data-world='voxel'] .world-dock ul {
+      gap: 1px;
+    }
   }
   /* Found count as a green experience bar. */
   :root[data-world='voxel'] .found-bar {

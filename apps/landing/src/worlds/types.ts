@@ -43,6 +43,8 @@ export interface WorldModule {
   Ambient?: ComponentType<{ controller: MapController }>;
   /** Optional world-space layer above the route (footprints, sparks). */
   Overlay?: ComponentType<{ controller: MapController; layout: MapLayout }>;
+  /** Optional world-space layer under the fog, for things that move across the land (traffic). */
+  UnderFog?: ComponentType<{ controller: MapController; layout: MapLayout }>;
   /** How unexplored ground looks. No fog if omitted. */
   fog?: FogRenderer;
   /** Arrival mini-scenes for this world's projects, by scene id. */

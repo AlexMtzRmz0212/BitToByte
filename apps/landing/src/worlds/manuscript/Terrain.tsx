@@ -18,7 +18,8 @@ const CORRIDORS: Point[][] = [
 ];
 
 const ROOMS = [
-  { x: 470, y: 740, w: 200, h: 130, label: 'The Scriptorium', kind: 'desks' },
+  // Above: the marker for the project below this room covers the usual spot.
+  { x: 470, y: 740, w: 200, h: 130, label: 'The Scriptorium', kind: 'desks', labelAbove: true },
   { x: 590, y: 1236, w: 270, h: 70, label: 'Quill Gallery', kind: 'columns' },
   { x: 1236, y: 730, w: 130, h: 100, label: 'Ink Cellar', kind: 'barrels' },
   { x: 1690, y: 570, w: 150, h: 110, label: 'Seal Room', kind: 'seals' },
@@ -265,7 +266,7 @@ function BellTower() {
   );
 }
 
-function Room({ x, y, w, h, label, kind, seed }: { x: number; y: number; w: number; h: number; label: string; kind: string; seed: number }) {
+function Room({ x, y, w, h, label, labelAbove, kind, seed }: { x: number; y: number; w: number; h: number; label: string; labelAbove?: boolean; kind: string; seed: number }) {
   const rand = seeded(seed);
   return (
     <g fill="none" stroke={INK}>
@@ -288,7 +289,7 @@ function Room({ x, y, w, h, label, kind, seed }: { x: number; y: number; w: numb
         Array.from({ length: 4 }, (_, i) => (
           <circle key={i} cx={x + 32 + i * 30} cy={y + h / 2} r="9" fill={OXBLOOD} fillOpacity="0.55" strokeWidth="1.2" />
         ))}
-      <text x={x + w / 2} y={y + h + 34} textAnchor="middle" className="ms-label ms-label-small" stroke="none">
+      <text x={x + w / 2} y={labelAbove ? y - 14 : y + h + 34} textAnchor="middle" className="ms-label ms-label-small" stroke="none">
         {label}
       </text>
     </g>
@@ -322,31 +323,31 @@ function Cartouche() {
   return (
     <g>
       <path
-        d={`M${x - 300} ${y - 40}Q${x - 316} ${y} ${x - 300} ${y + 40}L${x - 330} ${y + 58}Q${x - 340} ${y + 20} ${x - 330} ${y - 22}Z`}
+        d={`M${x - 300} ${y - 30}Q${x - 316} ${y + 10} ${x - 300} ${y + 50}L${x - 330} ${y + 68}Q${x - 340} ${y + 30} ${x - 330} ${y - 12}Z`}
         fill={PAPER_DARK}
         stroke={INK}
         strokeWidth="2"
       />
       <path
-        d={`M${x + 300} ${y - 40}Q${x + 316} ${y} ${x + 300} ${y + 40}L${x + 330} ${y + 58}Q${x + 340} ${y + 20} ${x + 330} ${y - 22}Z`}
+        d={`M${x + 300} ${y - 30}Q${x + 316} ${y + 10} ${x + 300} ${y + 50}L${x + 330} ${y + 68}Q${x + 340} ${y + 30} ${x + 330} ${y - 12}Z`}
         fill={PAPER_DARK}
         stroke={INK}
         strokeWidth="2"
       />
       <path
-        d={`M${x - 300} ${y - 48}Q${x} ${y - 70} ${x + 300} ${y - 48}V${y + 44}Q${x} ${y + 22} ${x - 300} ${y + 44}Z`}
+        d={`M${x - 300} ${y - 48}Q${x} ${y - 70} ${x + 300} ${y - 48}V${y + 63}Q${x} ${y + 41} ${x - 300} ${y + 63}Z`}
         fill={PAPER}
         stroke={INK}
         strokeWidth="2.6"
       />
-      <text x={x} y={y + 2} textAnchor="middle" className="ms-title">
+      <text x={x} y={y - 4} textAnchor="middle" className="ms-title">
         {WORLDS.manuscript.name}
       </text>
-      <text x={x} y={y + 34} textAnchor="middle" className="ms-subtitle">
+      <text x={x} y={y + 32} textAnchor="middle" className="ms-subtitle">
         a faithful survey of works in ink
       </text>
-      <path d={`M${x - 120} ${y + 70}q60 16 120 0t120 0`} fill="none" stroke={INK} strokeWidth="1.6" />
-      <circle cx={x} cy={y + 76} r="4" fill={OXBLOOD} />
+      <path d={`M${x - 120} ${y + 80}q60 16 120 0t120 0`} fill="none" stroke={INK} strokeWidth="1.6" />
+      <circle cx={x} cy={y + 86} r="4" fill={OXBLOOD} />
     </g>
   );
 }
@@ -359,7 +360,7 @@ function ScaleBar() {
       {Array.from({ length: 5 }, (_, i) => (
         <rect key={i} x={x + i * 50} y={y} width="50" height="10" fill={i % 2 ? PAPER : INK} strokeWidth="1.2" />
       ))}
-      <text x={x} y={y - 12} className="ms-label ms-label-small" stroke="none">
+      <text x={x} y={y + 34} className="ms-label ms-label-small" stroke="none">
         Furlongs, roughly
       </text>
     </g>

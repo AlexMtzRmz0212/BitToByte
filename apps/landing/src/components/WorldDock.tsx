@@ -24,7 +24,8 @@ export default function WorldDock({ current, view }: { current: PlaceId; view: V
                 to={{ place: id, project: null, view: id === 'nexus' ? 'auto' : view }}
                 aria-current={active ? 'page' : undefined}
                 aria-label={PLACES[id].name}
-                title={PLACES[id].name}
+                // Overworld draws its own item tooltips; a native one would stack on top.
+                title={current === 'voxel' ? undefined : PLACES[id].name}
                 className={`dock-slot-link flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-control px-2.5 text-sm font-semibold transition-colors md:px-3.5 ${
                   active ? 'bg-accent text-accent-ink' : 'text-muted hover:text-ink'
                 }`}

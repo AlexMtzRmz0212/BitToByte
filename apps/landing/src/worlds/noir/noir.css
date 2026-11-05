@@ -48,6 +48,7 @@
   .nr-marquee { fill: #1F2A45; stroke: #F2A93B; stroke-width: 2; }
   .nr-bulb { fill: #FFE7B0; }
   .nr-door { fill: #05080F; }
+  .nr-fork { fill: none; stroke: #F2A93B; stroke-width: 6; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(242, 169, 59, 0.6)); }
   .nr-blade { fill: #0B1222; stroke: #F2A93B; stroke-width: 3; filter: drop-shadow(0 0 6px rgba(242, 169, 59, 0.6)); }
   .nr-blade-text { font-family: 'Antonio Variable', 'Antonio', sans-serif; font-weight: 700; font-size: 20px; fill: #FFD89A; }
 

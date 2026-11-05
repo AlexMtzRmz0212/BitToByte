@@ -34,6 +34,46 @@ export function SortScene() {
   );
 }
 
+// One ladder rung and its seal-in branch, in the order power reaches each part.
+const LADDER_STEPS = [
+  { wire: 'M20 38H70' },
+  { block: { x: 70, y: 20, label: 'START' } },
+  { wire: 'M106 38H150' },
+  { block: { x: 150, y: 20, label: 'STOP' } },
+  { wire: 'M186 38H236' },
+  { block: { x: 236, y: 20, label: 'M1', coil: true } },
+  { wire: 'M272 38H300' },
+  { wire: 'M50 38V80H70' },
+  { block: { x: 70, y: 62, label: 'M1' } },
+  { wire: 'M106 80H128V38' },
+];
+
+/** PLC Showcase: START closes, power walks the rung, and the coil seals itself in. */
+export function LadderScene() {
+  return (
+    <svg viewBox="0 0 320 110" className="scene" aria-hidden="true" focusable="false">
+      <path d="M20 6V104M300 6V104" className="sc-ladder-rail" />
+      {LADDER_STEPS.map(({ wire, block: part }, k) => {
+        const style = { animationDelay: `${200 + k * 220}ms` };
+        return wire ? (
+          <g key={k}>
+            <path d={wire} className="sc-grid" />
+            <path d={wire} className="sc-ladder-wire sc-live" style={style} />
+          </g>
+        ) : part ? (
+          <g key={k}>
+            {block(part.x, part.y, 36, 'sc-source')}
+            {block(part.x, part.y, 36, `sc-note ${part.coil ? 'sc-note-a' : 'sc-note-b'} sc-live`, style)}
+            <text x={part.x + 18} y={part.y + 22} textAnchor="middle" className="sc-ladder-tag">
+              {part.label}
+            </text>
+          </g>
+        ) : null;
+      })}
+    </svg>
+  );
+}
+
 /** ProjectsTracker: the timer ring runs while the heatmap fills in. */
 export function TimerScene() {
   return (

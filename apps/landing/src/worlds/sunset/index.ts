@@ -1,5 +1,6 @@
 import { ChargeScene } from '../../scenes/NoirScenes';
 import { BallScene } from '../../scenes/PopScenes';
+import { LapsScene } from '../../scenes/SunsetScenes';
 import type { WorldModule } from '../types';
 import { tilesFog } from './fog';
 import SunsetLandmark from './Landmarks';
@@ -13,7 +14,7 @@ const sunset: WorldModule = {
   Landmark: SunsetLandmark,
   Gate: SunsetGate,
   Traveler: Car,
-  Overlay: SunsetTraffic,
+  UnderFog: SunsetTraffic,
   Backdrop: SunsetBackdrop,
   Ambient: SunsetSkyFx,
   Secret: SunsetSecret,
@@ -23,6 +24,7 @@ const sunset: WorldModule = {
   scenes: {
     charge: ChargeScene,
     ball: BallScene,
+    laps: LapsScene,
   },
 };
 

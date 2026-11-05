@@ -2,7 +2,7 @@ import { PLACES, type MapLayout } from '../../data/worlds';
 import { spiralArm } from '../shared/sketch';
 import Particles, { type ParticleKind } from '../shared/Particles';
 import type { GateProps } from '../types';
-import { RAIL_SLOPE, railY } from './land';
+import { BLUFF_EAST, BLUFF_WEST, RAIL_SLOPE, TUNNEL_EAST, TUNNEL_RX, TUNNEL_RY, TUNNEL_WEST, railY } from './land';
 
 // Blackwater: the gate, the rider, the train, and the dust in the low sun.
 
@@ -81,7 +81,25 @@ export function Rider() {
   );
 }
 
-/** A steam train crossing the map on the line, with its smoke. */
+/**
+ * Where the train may be seen: everywhere but inside the bluffs, plus each tunnel
+ * mouth so it passes through the far side of the opening. Above the mouths the
+ * edge follows the rock, so the smoke goes behind the bluff with the engine.
+ */
+const onFace = (outline: typeof BLUFF_WEST, y: number) => outline.filter((p) => p.y < y);
+const TRAIN_VIEW = [
+  'M-10 -200H2210V462',
+  ...onFace(BLUFF_EAST, TUNNEL_EAST.y - TUNNEL_RY).map((p) => `L${p.x} ${p.y}`),
+  `L${TUNNEL_EAST.x} ${TUNNEL_EAST.y - TUNNEL_RY}`,
+  `A${TUNNEL_RX} ${TUNNEL_RY} 0 0 1 ${TUNNEL_EAST.x} ${TUNNEL_EAST.y + TUNNEL_RY}`,
+  'L2090 1500L110 1500',
+  `L110 ${TUNNEL_WEST.y + TUNNEL_RY}L${TUNNEL_WEST.x} ${TUNNEL_WEST.y + TUNNEL_RY}`,
+  `A${TUNNEL_RX} ${TUNNEL_RY} 0 0 1 ${TUNNEL_WEST.x} ${TUNNEL_WEST.y - TUNNEL_RY}`,
+  ...onFace(BLUFF_WEST, TUNNEL_WEST.y - TUNNEL_RY).reverse().map((p) => `L${p.x} ${p.y}`),
+  'L-10 478Z',
+].join('');
+
+/** A steam train crossing the map on the line, between its tunnels, with its smoke. */
 export function FrontierTrain({ layout }: { layout: MapLayout }) {
   const { w, h } = layout.size;
   const y = railY(0);
@@ -89,6 +107,12 @@ export function FrontierTrain({ layout }: { layout: MapLayout }) {
   const cars = [-150, -240, -330];
   return (
     <svg className="fr-overlay" width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="fr-train-view">
+          <path d={TRAIN_VIEW} />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#fr-train-view)">
       <g className="fr-train">
         <g transform={`translate(0 ${y}) rotate(${angle.toFixed(2)})`}>
           {/* engine */}
@@ -122,6 +146,7 @@ export function FrontierTrain({ layout }: { layout: MapLayout }) {
             <circle cx="-94" cy="-110" r="22" />
           </g>
         </g>
+      </g>
       </g>
     </svg>
   );

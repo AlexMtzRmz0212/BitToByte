@@ -1,4 +1,4 @@
-import { LedgerScene, ScalesScene, SundialScene } from '../../scenes/ManuscriptScenes';
+import { BeadsScene, HauntingScene, LedgerScene, ScalesScene } from '../../scenes/ManuscriptScenes';
 import type { WorldModule } from '../types';
 import { inkFog } from './fog';
 import ManuscriptGate from './Gate';
@@ -23,7 +23,8 @@ const manuscript: WorldModule = {
   scenes: {
     scales: ScalesScene,
     flipboard: LedgerScene,
-    sundial: SundialScene,
+    haunting: HauntingScene,
+    beads: BeadsScene,
   },
 };
 

@@ -198,7 +198,7 @@ export default function PopTerrain({ layout }: { layout: MapLayout }) {
         <Skyline p={{ ...p6, h: p6.h - 150 }} seed={5} color="#7A0A1C" />
         <rect x={p6.x} y={p6.y + p6.h - 150} width={p6.w} height="150" fill={SKY} />
         <path d={`M${p6.x} ${p6.y + p6.h - 150}h${p6.w}`} stroke={K} strokeWidth="5" />
-        <Caption x={p6.x + p6.w - 320} y={p6.y} w={320} text="The stacks, at noon." />
+        <Caption x={p6.x + p6.w - 320} y={p6.y} w={320} text="Meanwhile, at HQ..." />
       </g>
 
       {/* 7-9: the bottom tier: two gates either side of a rooftop chase */}

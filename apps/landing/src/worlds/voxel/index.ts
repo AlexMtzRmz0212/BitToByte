@@ -1,4 +1,4 @@
-import { QueueScene, SortScene, TimerScene } from '../../scenes/VoxelScenes';
+import { LadderScene, QueueScene, SortScene, TimerScene } from '../../scenes/VoxelScenes';
 import type { WorldModule } from '../types';
 import VoxelLandmark from './Landmarks';
 import { Minecart, VoxelGate } from './Pieces';
@@ -24,6 +24,7 @@ const voxel: WorldModule = {
     sort: SortScene,
     timer: TimerScene,
     queue: QueueScene,
+    ladder: LadderScene,
   },
 };
 

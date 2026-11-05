@@ -24,16 +24,28 @@ export const LAKE: Point[] = [
   P(150, 962),
 ];
 
+/** Rises under the big peak's snowline, gathers its rills, then runs to the lake. */
 export const RIVER: Point[] = [
-  P(1262, -20),
-  P(1232, 140),
-  P(1172, 300),
-  P(1102, 450),
-  P(1074, 560),
+  P(1291, 34),
+  P(1270, 84),
+  P(1286, 132),
+  P(1262, 182),
+  P(1272, 232),
+  P(1246, 282),
+  P(1196, 360),
+  P(1122, 446),
+  P(1078, 556),
   P(1062, 650),
   P(1050, 740),
   P(1000, 820),
   P(920, 880),
+  P(850, 930), // out into the lake, where the water fades away
+];
+
+/** Meltwater from the rest of the snowfield, each ending where it joins the river. */
+export const RILLS: Point[][] = [
+  [P(1262, 20), P(1256, 52), P(1270, 84)],
+  [P(1335, 40), P(1322, 82), P(1300, 118), P(1286, 132)],
 ];
 
 /** The rail line is straight: y = RAIL_Y0 + RAIL_SLOPE * x. */
@@ -41,6 +53,14 @@ export const RAIL_Y0 = 668;
 export const RAIL_SLOPE = -0.02;
 export const railY = (x: number) => RAIL_Y0 + RAIL_SLOPE * x;
 export const TRESTLE = { x0: 1000, x1: 1136 };
+
+/** The line runs through a bluff at each map edge; the train only shows between them. */
+export const TUNNEL_RX = 14;
+export const TUNNEL_RY = 40;
+export const TUNNEL_WEST = P(94, railY(94) - 26);
+export const TUNNEL_EAST = P(2106, railY(2106) - 26);
+export const BLUFF_WEST: Point[] = [P(0, 478), P(40, 485), P(72, 500), P(92, 540), P(104, 590), P(108, 690), P(84, 708), P(0, 728)];
+export const BLUFF_EAST: Point[] = [P(2200, 462), P(2150, 470), P(2118, 492), P(2100, 540), P(2090, 585), P(2086, 650), P(2110, 668), P(2200, 690)];
 
 /** Dirt roads: gate to town, town to every lot and onward to the other gates. */
 export const ROADS: Point[][] = [
@@ -127,6 +147,8 @@ const CLEAR: [number, number, number][] = [
   [270, 340, 140],
   [1940, 380, 140],
   [1060, 700, 70],
+  [40, 620, 130],
+  [2170, 590, 130],
 ];
 const clear = (x: number, y: number) => CLEAR.every(([cx, cy, r]) => (x - cx) ** 2 + (y - cy) ** 2 > r * r);
 

@@ -25,6 +25,7 @@ import ProjectCard from '../ProjectCard';
 import WorldDock from '../WorldDock';
 import TopHud from '../hud/TopHud';
 import TravelPanel from '../hud/TravelPanel';
+import { useTravelMinimized } from '../hud/useTravelMinimized';
 import Compass, { type CompassTarget } from './Compass';
 import FogLayer from './FogLayer';
 import MapMarker from './MapMarker';
@@ -147,6 +148,17 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   const isHub = place === 'nexus';
   const introOpen = isHub && (!progress.introSeen || aboutOpen);
 
+  // The travel panel's width only changes where the next centring lands: minimizing
+  // it must not pull the map away from where the visitor has panned.
+  const [travelMinimized] = useTravelMinimized();
+  const travelInset = useRef(380);
+  useEffect(() => {
+    travelInset.current = travelMinimized ? 88 : 380;
+    if (controller && desktop()) {
+      controller.setInsets({ top: 72, right: travelInset.current, bottom: 88, left: introOpen ? 480 : 0 });
+    }
+  }, [controller, introOpen, travelMinimized]);
+
   // Keep the camera's idea of "centre" clear of the panels covering the map.
   useEffect(() => {
     if (!controller) return;
@@ -155,7 +167,7 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       const { vh } = controller.size;
       controller.setInsets(
         wide
-          ? { top: 72, right: 380, bottom: 88, left: introOpen ? 480 : 0 }
+          ? { top: 72, right: travelInset.current, bottom: 88, left: introOpen ? 480 : 0 }
           : { top: 64, right: 0, bottom: introOpen ? Math.round(vh * 0.62) : 150, left: 0 }
       );
     };
@@ -304,6 +316,7 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   const Backdrop = module.Backdrop;
   const Ambient = module.Ambient;
   const Overlay = module.Overlay;
+  const UnderFog = module.UnderFog;
   const Secret = module.Secret;
   const secretFound = world ? progress.secrets.includes(SECRET_IDS[world]) : false;
   const Scene = selected ? module.scenes?.[selected.scene] : undefined;
@@ -403,17 +416,20 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
           routeClass={module.routeClass}
           arriving={from !== null}
           underRoute={
-            fog && module.fog && layout.fog ? (
-              <FogLayer
-                controller={controller}
-                layout={layout}
-                field={fog}
-                renderer={module.fog}
-                radius={layout.fog.radius}
-                onReveal={onFogReveal}
-                onChange={onFogChange}
-              />
-            ) : null
+            <>
+              {UnderFog && controller ? <UnderFog controller={controller} layout={layout} /> : null}
+              {fog && module.fog && layout.fog ? (
+                <FogLayer
+                  controller={controller}
+                  layout={layout}
+                  field={fog}
+                  renderer={module.fog}
+                  radius={layout.fog.radius}
+                  onReveal={onFogReveal}
+                  onChange={onFogChange}
+                />
+              ) : null}
+            </>
           }
           overRoute={Overlay && controller ? <Overlay controller={controller} layout={layout} /> : null}
           onReady={setController}

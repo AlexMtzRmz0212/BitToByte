@@ -262,7 +262,7 @@ export const projects: Project[] = [
     },
     world: 'pop',
     kind: 'data',
-    district: 'library',
+    district: 'herotower',
     scene: 'shelf',
     lot: 2,
   },
@@ -306,7 +306,7 @@ export const projects: Project[] = [
     world: 'manuscript',
     kind: 'tool',
     district: 'garden',
-    scene: 'sundial',
+    scene: 'beads',
   },
   {
     slug: 'ghosts',
@@ -326,7 +326,7 @@ export const projects: Project[] = [
     world: 'manuscript',
     kind: 'data',
     district: 'hall',
-    scene: 'flipboard',
+    scene: 'haunting',
   },
   {
     slug: 'plc',
@@ -346,7 +346,7 @@ export const projects: Project[] = [
     world: 'voxel',
     kind: 'product',
     district: 'arena',
-    scene: 'sort',
+    scene: 'ladder',
   },
   {
     slug: 'runtime',
@@ -363,10 +363,12 @@ export const projects: Project[] = [
       width: 800,
       height: 500,
     },
-    world: 'noir',
+    world: 'sunset',
     kind: 'tool',
-    district: 'cinema',
-    scene: 'projector',
+    district: 'track',
+    scene: 'laps',
+    // Clear of the freeways, so the board behind the track doesn't stand across one.
+    lot: 4,
   },
   {
     slug: 'tono',
@@ -383,10 +385,10 @@ export const projects: Project[] = [
       width: 800,
       height: 500,
     },
-    world: 'sunset',
+    world: 'noir',
     kind: 'tool',
-    district: 'hall',
-    scene: 'charge',
+    district: 'opera',
+    scene: 'tuner',
   },
   {
     slug: 'banda',
@@ -405,8 +407,8 @@ export const projects: Project[] = [
     },
     world: 'pop',
     kind: 'client',
-    district: 'stadium',
-    scene: 'ranking',
+    district: 'bandstand',
+    scene: 'drumline',
   },
   {
     slug: 'tiktok-archive',
@@ -420,8 +422,8 @@ export const projects: Project[] = [
     preview: null,
     world: 'pop',
     kind: 'tool',
-    district: 'library',
-    scene: 'shelf',
+    district: 'clipfile',
+    scene: 'transcribe',
   },
   {
     slug: 'loop-habits',
@@ -436,7 +438,7 @@ export const projects: Project[] = [
     world: 'frontier',
     kind: 'tool',
     district: 'camp',
-    scene: 'sundial',
+    scene: 'sync',
   },
 ];
 

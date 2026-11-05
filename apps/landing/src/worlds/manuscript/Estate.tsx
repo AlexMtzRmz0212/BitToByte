@@ -5,13 +5,17 @@ import { INK, OXBLOOD, GOLD, PAPER } from './ink';
 // passage nobody admits to, candles, birds and a quill that keeps redrawing
 // its own flourish. Scenery only; it gives the eye somewhere to wander.
 
-const WINGS = [
-  { x: 300, y: 890, cols: 4, rows: 2, w: 80, h: 58, label: 'West Wing' },
-  { x: 860, y: 432, cols: 5, rows: 1, w: 68, h: 82, label: 'North Range' },
-  { x: 1990, y: 916, cols: 2, rows: 2, w: 80, h: 60, label: 'East Lodgings' },
-] as const;
+type WingPlan = { x: number; y: number; cols: number; rows: number; w: number; h: number; label: string; labelAbove?: boolean };
 
-function Wing({ x, y, cols, rows, w, h, label, seed }: (typeof WINGS)[number] & { seed: number }) {
+const WINGS: WingPlan[] = [
+  { x: 300, y: 890, cols: 4, rows: 2, w: 80, h: 58, label: 'West Wing' },
+  // Above: FedEthics' marker sits just under this wing and grows as the map zooms out.
+  { x: 860, y: 432, cols: 5, rows: 1, w: 68, h: 82, label: 'North Range', labelAbove: true },
+  // Above: the compass rose sits right below this wing.
+  { x: 1990, y: 916, cols: 2, rows: 2, w: 80, h: 60, label: 'East Lodgings', labelAbove: true },
+];
+
+function Wing({ x, y, cols, rows, w, h, label, labelAbove, seed }: WingPlan & { seed: number }) {
   const rand = seeded(seed);
   return (
     <g fill="none" stroke={INK}>
@@ -38,7 +42,7 @@ function Wing({ x, y, cols, rows, w, h, label, seed }: (typeof WINGS)[number] & 
           </g>
         );
       })}
-      <text x={x + (cols * w) / 2} y={y + rows * h + 30} textAnchor="middle" className="ms-label ms-label-small" stroke="none">
+      <text x={x + (cols * w) / 2} y={labelAbove ? y - 14 : y + rows * h + 30} textAnchor="middle" className="ms-label ms-label-small" stroke="none">
         {label}
       </text>
     </g>

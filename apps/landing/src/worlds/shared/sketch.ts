@@ -53,6 +53,30 @@ export function smoothOpen(points: Point[]): string {
   return d;
 }
 
+/** Points along the same curve smoothOpen draws, for shapes a stroke can't make. */
+export function sampleOpen(points: Point[], perSegment = 10): Point[] {
+  const n = points.length;
+  const at = (i: number) => points[Math.max(0, Math.min(n - 1, i))]!;
+  const out: Point[] = [at(0)];
+  for (let i = 0; i < n - 1; i++) {
+    const p0 = at(i - 1);
+    const p1 = at(i);
+    const p2 = at(i + 1);
+    const p3 = at(i + 2);
+    const c1 = { x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6 };
+    const c2 = { x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6 };
+    for (let s = 1; s <= perSegment; s++) {
+      const t = s / perSegment;
+      const u = 1 - t;
+      out.push({
+        x: u * u * u * p1.x + 3 * u * u * t * c1.x + 3 * u * t * t * c2.x + t * t * t * p2.x,
+        y: u * u * u * p1.y + 3 * u * u * t * c1.y + 3 * u * t * t * c2.y + t * t * t * p2.y,
+      });
+    }
+  }
+  return out;
+}
+
 /** A ring that isn't quite round. `amp` is the wobble as a fraction of the radius. */
 export function wobblyCircle(cx: number, cy: number, r: number, seed = 1, amp = 0.035, points = 16): string {
   const rand = seeded(seed);

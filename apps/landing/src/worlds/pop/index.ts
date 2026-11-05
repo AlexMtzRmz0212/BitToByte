@@ -1,4 +1,4 @@
-import { BallScene, RankingScene, ShelfScene } from '../../scenes/PopScenes';
+import { BallScene, DrumlineScene, RankingScene, ShelfScene, TranscribeScene } from '../../scenes/PopScenes';
 import type { WorldModule } from '../types';
 import { halftoneFog } from './fog';
 import PopLandmark from './Landmarks';
@@ -21,6 +21,8 @@ const pop: WorldModule = {
     ranking: RankingScene,
     ball: BallScene,
     shelf: ShelfScene,
+    drumline: DrumlineScene,
+    transcribe: TranscribeScene,
   },
 };
 

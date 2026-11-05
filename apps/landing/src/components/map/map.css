@@ -449,7 +449,18 @@
 .travel-panel[data-open='true'] .travel-toggle {
   transform: rotate(180deg);
 }
+.travel-full {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.travel-minimize,
+.travel-rail {
+  display: none;
+}
 .travel-body {
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 0.5rem 0.5rem 1rem;
@@ -547,11 +558,136 @@
   .travel-panel {
     top: 4.5rem;
     right: 1rem;
-    bottom: 1rem;
     width: 22rem;
+    height: calc(100% - 5.5rem);
+    transition:
+      width 320ms var(--w-ease),
+      height 320ms var(--w-ease);
   }
   .travel-toggle {
     display: none;
+  }
+  /* The list keeps its full width while the panel closes over it, so nothing reflows. */
+  .travel-full {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 22rem;
+    transition:
+      opacity 320ms var(--w-ease),
+      visibility 0s;
+  }
+  .travel-minimize {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-left: auto;
+    border-radius: var(--w-r-control);
+    color: var(--w-muted);
+    transition: color var(--w-dur-fast) var(--w-ease), background-color var(--w-dur-fast) var(--w-ease);
+  }
+  .travel-minimize:hover {
+    color: var(--w-ink);
+    background: color-mix(in oklab, var(--w-ink) 8%, transparent);
+  }
+  .travel-rail {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    width: 3.5rem;
+    padding: 0.4rem 0;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 320ms var(--w-ease),
+      visibility 0s linear 320ms;
+  }
+  .travel-rail-count {
+    font-size: 0.6875rem;
+    font-weight: 650;
+    line-height: 1;
+    color: var(--w-muted);
+    font-variant-numeric: tabular-nums;
+    padding-bottom: 0.2rem;
+  }
+  .travel-rail-button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    color: var(--w-muted);
+    transition:
+      color var(--w-dur-fast) var(--w-ease),
+      background-color var(--w-dur-fast) var(--w-ease),
+      transform var(--w-dur-fast) var(--w-ease);
+  }
+  .travel-rail-button:hover {
+    color: var(--w-ink);
+    background: color-mix(in oklab, var(--w-ink) 8%, transparent);
+    transform: scale(1.08);
+  }
+  .travel-rail-button[data-here='true'] {
+    color: var(--w-accent-text);
+  }
+  .travel-rail-ring {
+    position: absolute;
+    inset: 0;
+    transform: rotate(-90deg);
+  }
+  .travel-rail-ring circle {
+    fill: none;
+    stroke-width: 2.5;
+  }
+  .travel-rail-track {
+    stroke: var(--w-line);
+  }
+  .travel-rail-progress {
+    stroke: var(--w-accent-text);
+    stroke-linecap: round;
+  }
+
+  /* Minimized: a slim rail, so the list is one click away and the map gets the room. */
+  .travel-panel[data-minimized='true'] {
+    width: 3.5rem;
+    height: 22.75rem;
+  }
+  .travel-panel[data-minimized='true'] .travel-full {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 320ms var(--w-ease),
+      visibility 0s linear 320ms;
+  }
+  .travel-panel[data-minimized='true'] .travel-rail {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 320ms var(--w-ease),
+      visibility 0s;
+  }
+  .travel-panel[data-minimized='true'] ~ .dock-slot {
+    right: 5rem;
+  }
+  .dock-slot {
+    transition: right 320ms var(--w-ease);
+  }
+}
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .travel-panel,
+  .travel-full,
+  .travel-rail,
+  .dock-slot {
+    transition: none;
   }
 }
 
@@ -807,8 +943,14 @@ html:not(.js) .map-marker,
 html:not(.js) .map-tools,
 html:not(.js) .dock-slot,
 html:not(.js) .travel-toggle,
+html:not(.js) .travel-minimize,
+html:not(.js) .travel-rail,
 html:not(.js) .card-close {
   display: none;
+}
+html:not(.js) .travel-full {
+  position: static;
+  width: auto;
 }
 html:not(.js) .travel-panel,
 html:not(.js) .intro-card {

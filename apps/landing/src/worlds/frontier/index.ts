@@ -1,3 +1,4 @@
+import { SyncScene } from '../../scenes/FrontierScenes';
 import { SundialScene } from '../../scenes/ManuscriptScenes';
 import { QueueScene } from '../../scenes/VoxelScenes';
 import type { WorldModule } from '../types';
@@ -13,7 +14,7 @@ const frontier: WorldModule = {
   Landmark: FrontierLandmark,
   Gate: FrontierGate,
   Traveler: Rider,
-  Overlay: FrontierTrain,
+  UnderFog: FrontierTrain,
   Backdrop: FrontierBackdrop,
   Ambient: FrontierSkyFx,
   Secret: FrontierSecret,
@@ -23,6 +24,7 @@ const frontier: WorldModule = {
   scenes: {
     sundial: SundialScene,
     queue: QueueScene,
+    sync: SyncScene,
   },
 };
 

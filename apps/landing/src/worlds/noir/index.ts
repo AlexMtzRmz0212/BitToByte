@@ -1,4 +1,4 @@
-import { ChargeScene, ProjectorScene } from '../../scenes/NoirScenes';
+import { ProjectorScene, TunerScene } from '../../scenes/NoirScenes';
 import type { WorldModule } from '../types';
 import { mistFog } from './fog';
 import NoirLandmark from './Landmarks';
@@ -12,7 +12,7 @@ const noir: WorldModule = {
   Landmark: NoirLandmark,
   Gate: NoirGate,
   Traveler: Beacon,
-  Overlay: NoirTraffic,
+  UnderFog: NoirTraffic,
   Backdrop: NoirBackdrop,
   Ambient: NoirSkyFx,
   Secret: NoirSecret,
@@ -21,7 +21,7 @@ const noir: WorldModule = {
   fog: mistFog,
   scenes: {
     projector: ProjectorScene,
-    charge: ChargeScene,
+    tuner: TunerScene,
   },
 };
 

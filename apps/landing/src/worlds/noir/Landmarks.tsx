@@ -96,6 +96,49 @@ const Cinema: Art = ({ x, y, name }) => {
   );
 };
 
+/* --------------------------------------------- Tono: the opera house */
+
+const COLUMNS = [-105, -63, -21, 21, 63, 105];
+
+const OperaHouse: Art = ({ x, y, name }) => {
+  const L = x - 125;
+  const R = x + 125;
+  const top = y - 150;
+  const peak = top - 45;
+  return (
+    <g>
+      {/* the dome behind, with a tuning fork for a finial */}
+      <path d={`M${x - 66} ${peak + 30}a66 66 0 0 1 132 0Z`} className="nr-front nr-deco" />
+      <path d={`M${x - 66} ${peak + 30}a66 66 0 0 1 132 0M${x - 34} ${peak + 28}q6 -46 34 -64M${x + 34} ${peak + 28}q-6 -46 -34 -64`} className="nr-crown" />
+      <path d={`M${x} ${peak - 36}V${peak - 48}M${x - 11} ${peak - 70}V${peak - 58}a11 10 0 0 0 22 0V${peak - 70}`} className="nr-fork" />
+      {/* the hall */}
+      <path d={`M${R} ${y}V${top}l36 -22V${y - 22}Z`} className="nr-side" />
+      <rect x={L} y={top} width="250" height="150" className="nr-front nr-deco" />
+      {/* lit doors between the columns */}
+      {COLUMNS.slice(0, -1).map((dx, k) => (
+        <path
+          key={dx}
+          d={`M${x + dx + 9} ${y - 18}V${y - 98}a12 12 0 0 1 24 0V${y - 18}Z`}
+          className={k === 2 ? 'nr-door' : 'nr-lit'}
+        />
+      ))}
+      {COLUMNS.map((dx) => (
+        <path key={dx} d={`M${x + dx} ${y - 18}V${top + 30}M${x + dx - 8} ${top + 30}h16M${x + dx - 8} ${y - 18}h16`} className="nr-pilaster" />
+      ))}
+      {/* pediment and name */}
+      <path d={`M${L - 10} ${top}L${x} ${peak}L${R + 10} ${top}Z`} className="nr-front" />
+      <path d={`M${L - 10} ${top}L${x} ${peak}L${R + 10} ${top}Z`} className="nr-crown" />
+      <rect x={L - 6} y={top} width="262" height="28" className="nr-marquee" />
+      <text x={x} y={top + 21} textAnchor="middle" className="nr-blade-text" letterSpacing="4">
+        {name.toUpperCase().slice(0, 12)}
+      </text>
+      {/* the steps */}
+      <rect x={L - 8} y={y - 18} width="266" height="9" className="nr-front" />
+      <rect x={L - 18} y={y - 9} width="286" height="9" className="nr-front" />
+    </g>
+  );
+};
+
 /* ----------------------------------------- anything else: a deco tower */
 
 const DecoTower: Art = ({ x, y }) => (
@@ -122,4 +165,5 @@ const DecoTower: Art = ({ x, y }) => (
 const ART: Record<string, Art> = {
   lighthouse: Lighthouse,
   cinema: Cinema,
+  opera: OperaHouse,
 };

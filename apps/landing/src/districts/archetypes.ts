@@ -15,7 +15,11 @@ export const ARCHETYPES = {
   tower: { label: 'Command tower' },
   garden: { label: 'Walled garden with a sundial' },
   stadium: { label: 'Stadium' },
-  library: { label: 'Comic archive library' },
+  bandstand: { label: 'Parade stand with a giant drum' },
+  opera: { label: 'Opera house with a tuning fork' },
+  track: { label: 'Running track with a countdown board' },
+  clipfile: { label: 'Filing cabinets under a giant phone' },
+  herotower: { label: 'Hero headquarters with a watch-order marquee' },
   arena: { label: 'Hill arena with a beacon' },
   camp: { label: 'Camp with a journal by the fire' },
   telegraph: { label: 'Telegraph office with a queue' },
@@ -42,6 +46,14 @@ export const SCENE_IDS = [
   'ball',
   'shelf',
   'queue',
+  'haunting',
+  'beads',
+  'sync',
+  'ladder',
+  'drumline',
+  'tuner',
+  'laps',
+  'transcribe',
 ] as const;
 
 export type SceneId = (typeof SCENE_IDS)[number];

@@ -1,6 +1,9 @@
 import type { MapLayout } from '../../data/worlds';
-import { blob, smoothClosed, smoothOpen } from '../shared/sketch';
+import type { Point } from '../../data/worlds';
+import { blob, sampleOpen, smoothClosed, smoothOpen } from '../shared/sketch';
 import {
+  BLUFF_EAST,
+  BLUFF_WEST,
   CATTLE,
   CHURCH,
   DEPOT,
@@ -11,11 +14,16 @@ import {
   PEAKS,
   PEAK_BASE,
   PINES,
+  RILLS,
   RIVER,
   ROADS,
   SCRUB,
   SHOPS,
   TRESTLE,
+  TUNNEL_EAST,
+  TUNNEL_RX,
+  TUNNEL_RY,
+  TUNNEL_WEST,
   railY,
   type Mesa,
   type Pine,
@@ -75,6 +83,7 @@ export default function FrontierTerrain({ layout }: { layout: MapLayout }) {
 
       <Mountains />
       <Roads />
+      <RiverBank />
       <Lake />
       <River />
       <Rail />
@@ -88,6 +97,8 @@ export default function FrontierTerrain({ layout }: { layout: MapLayout }) {
       {PINES.map((p, k) => (
         <PineArt key={k} p={p} />
       ))}
+      <Tunnel outline={BLUFF_WEST} mouth={TUNNEL_WEST} side={1} />
+      <Tunnel outline={BLUFF_EAST} mouth={TUNNEL_EAST} side={-1} />
       <Town />
 
       <text x="760" y="168" textAnchor="middle" className="fr-label fr-label-snow">
@@ -187,13 +198,51 @@ function Lake() {
   );
 }
 
+/** A filled band along a line, `width(t)` wide at each point (t runs 0 to 1). */
+function ribbon(line: Point[], width: (t: number) => number) {
+  const left: string[] = [];
+  const right: string[] = [];
+  line.forEach((p, i) => {
+    const a = line[Math.max(0, i - 1)]!;
+    const b = line[Math.min(line.length - 1, i + 1)]!;
+    const len = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+    const half = width(i / (line.length - 1)) / 2;
+    const nx = (-(b.y - a.y) / len) * half;
+    const ny = ((b.x - a.x) / len) * half;
+    left.push(`${f(p.x + nx)} ${f(p.y + ny)}`);
+    right.push(`${f(p.x - nx)} ${f(p.y - ny)}`);
+  });
+  return `M${left.join('L')}L${right.reverse().join('L')}Z`;
+}
+
+const RIVER_LINE = sampleOpen(RIVER);
+/** Reaches full width where it clears the foothills, then holds it until the mouth. */
+const riverGrown = (t: number) => Math.min(1, t / 0.51);
+/** Opens out over the last stretch, so it spreads into the lake like a real mouth. */
+const riverFlare = (t: number) => Math.max(0, (t - 0.85) / 0.15) ** 2;
+
+/** Drawn under the lake, so the sand runs into the shore instead of over the water. */
+function RiverBank() {
+  return <path d={ribbon(RIVER_LINE, (t) => 4 + 36 * riverGrown(t) + 34 * riverFlare(t))} className="fr-river-bank" />;
+}
+
 function River() {
-  const d = smoothOpen(RIVER);
   return (
     <g>
-      <path d={d} className="fr-river-bank" />
-      <path d={d} className="fr-river" />
-      <path d={d} className="fr-river-shine" />
+      <defs>
+        {/* solid down to the shoreline, then fading out over the lake */}
+        <linearGradient id="fr-river-fade" gradientUnits="userSpaceOnUse" x1="936" y1="868" x2="856" y2="926">
+          <stop offset="0" stopColor="#5D89A0" />
+          <stop offset="1" stopColor="#5D89A0" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {RILLS.map((rill, k) => (
+        <path key={k} d={ribbon(sampleOpen(rill), (t) => 2 + 3 * t)} className="fr-river" />
+      ))}
+      <path d={ribbon(RIVER_LINE, (t) => 2 + 22 * riverGrown(t) + 34 * riverFlare(t))} fill="url(#fr-river-fade)" />
+      {/* the shine, finer while the stream is narrow; it stops at the shoreline */}
+      <path d={smoothOpen(RIVER.slice(0, 4))} className="fr-river-shine fr-river-shine-thin" />
+      <path d={smoothOpen(RIVER.slice(3, -1))} className="fr-river-shine" />
     </g>
   );
 }
@@ -218,7 +267,7 @@ function Roads() {
 
 function Rail() {
   const ties: string[] = [];
-  for (let x = -10; x <= 2210; x += 22) {
+  for (let x = 0; x <= 2200; x += 22) {
     if (x > TRESTLE.x0 && x < TRESTLE.x1) continue;
     const y = railY(x);
     ties.push(`M${f(x - 3)} ${f(y - 7)}l6 14`);
@@ -233,7 +282,7 @@ function Rail() {
       <path d={posts.join('')} className="fr-trestle" />
       <path d={`M${TRESTLE.x0} ${f(railY(TRESTLE.x0) + 6)}L${TRESTLE.x1} ${f(railY(TRESTLE.x1) + 6)}`} className="fr-trestle-deck" />
       <path d={ties.join('')} className="fr-tie" />
-      <path d={`M-10 ${f(railY(-10) - 4)}L2210 ${f(railY(2210) - 4)}M-10 ${f(railY(-10) + 4)}L2210 ${f(railY(2210) + 4)}`} className="fr-rail" />
+      <path d={`M0 ${f(railY(0) - 4)}L2200 ${f(railY(2200) - 4)}M0 ${f(railY(0) + 4)}L2200 ${f(railY(2200) + 4)}`} className="fr-rail" />
       <Depot />
       {/* telegraph poles alongside the line */}
       {Array.from({ length: 12 }, (_, k) => {
@@ -243,6 +292,27 @@ function Rail() {
         return <path key={k} d={`M${x} ${y}v-50M${x - 10} ${y - 44}h20`} className="fr-pole" />;
       })}
       <path d={`M80 ${f(railY(90) - 66)}L2200 ${f(railY(2200) - 66)}`} className="fr-wire" />
+    </g>
+  );
+}
+
+/** A bluff at the map's edge with the line running into it. `side` points back along the track. */
+function Tunnel({ outline, mouth, side }: { outline: Point[]; mouth: Point; side: 1 | -1 }) {
+  const rail = railY(mouth.x);
+  const reach = TUNNEL_RX * 0.76; // the mouth's half-width at rail height
+  const inner = mouth.x - side * reach;
+  const outer = mouth.x + side * reach;
+  return (
+    <g>
+      <path d={`M${outline.map((p) => `${p.x} ${p.y}`).join('L')}Z`} className="fr-bluff" />
+      {/* inked on the open sides only: a line down the map's edge would show past the fog */}
+      <path d={`M${outline.map((p) => `${p.x} ${p.y}`).join('L')}`} className="fr-bluff-edge" />
+      {[0.3, 0.5, 0.72].map((t) => {
+        const y = 480 + t * 180;
+        return <path key={t} d={`M${mouth.x - side * 30} ${y}h${-side * 50}`} className="fr-strata" />;
+      })}
+      <ellipse cx={mouth.x} cy={mouth.y} rx={TUNNEL_RX} ry={TUNNEL_RY} className="fr-tunnel" />
+      <path d={`M${inner} ${f(rail - 4)}L${outer} ${f(rail - 4)}M${inner} ${f(rail + 4)}L${outer} ${f(rail + 4)}`} className="fr-rail" />
     </g>
   );
 }

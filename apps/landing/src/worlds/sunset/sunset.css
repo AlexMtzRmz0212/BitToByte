@@ -107,6 +107,14 @@
   .ls-pitch { fill: #6FB04E; stroke: #F4F1FA; stroke-width: 2; }
   .ls-pitch-line { fill: none; stroke: #F4F1FA; stroke-width: 1.5; }
   .ls-mast { fill: none; stroke: #4A4458; stroke-width: 4; }
+  .ls-track { fill: #C8553D; stroke: #2A2342; stroke-width: 2; }
+  .ls-lane { fill: none; stroke: #F4F1FA; stroke-width: 1.5; }
+  .ls-finish { stroke: #F4F1FA; stroke-width: 6; }
+  .ls-runner { transform-origin: 0 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .ls-runner { animation: ls-lap 19s linear infinite; }
+  }
+  @keyframes ls-lap { to { transform: rotate(-360deg); } }
   .ls-lamps { fill: #FFF3D6; stroke: #2A2342; stroke-width: 2; filter: drop-shadow(0 0 8px #FFE7B0); }
   .ls-floodlight { fill: #FFF3D6; opacity: 0.16; }
   .ls-board { fill: #1C1631; stroke: #2A2342; stroke-width: 2; }

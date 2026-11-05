@@ -6,7 +6,7 @@ import './scenes.css';
 export function ProjectorScene() {
   return (
     <svg viewBox="0 0 320 110" className="scene" aria-hidden="true" focusable="false">
-      <path d="M58 52L196 10V100Z" className="sc-beam" />
+      <path d="M58 52L196 10V100Z" className="sc-light" />
       <g className="sc-line">
         <rect x="22" y="44" width="40" height="26" rx="3" className="sc-body" />
         <g className="sc-reel" style={{ transformOrigin: '30px 34px' }}>
@@ -33,12 +33,41 @@ export function ProjectorScene() {
   );
 }
 
+/** Tono: the needle hunts around the pitch, settles dead centre, and the lamp comes on. */
+export function TunerScene() {
+  return (
+    <svg viewBox="0 0 320 110" className="scene" aria-hidden="true" focusable="false">
+      <g className="sc-line">
+        <path d="M26 92a70 70 0 0 1 140 0" />
+        {Array.from({ length: 11 }, (_, k) => {
+          const a = Math.PI + ((k + 0.5) / 11) * Math.PI;
+          return <path key={k} d={`M${96 + Math.cos(a) * 60} ${92 + Math.sin(a) * 60}L${96 + Math.cos(a) * 70} ${92 + Math.sin(a) * 70}`} />;
+        })}
+        <path d="M20 92H172" />
+        <rect x="198" y="14" width="100" height="82" rx="3" className="sc-body" />
+      </g>
+      <path d="M96 22V10" className="sc-tuner-needle" />
+      <g className="sc-needle">
+        <path d="M96 92V30" className="sc-tuner-needle" />
+      </g>
+      <circle cx="96" cy="92" r="6" className="sc-lamp" />
+      <text x="248" y="62" textAnchor="middle" className="sc-digit">
+        A4
+      </text>
+      <text x="248" y="84" textAnchor="middle" className="sc-caption">
+        440 Hz
+      </text>
+      <circle cx="282" cy="30" r="6" className="sc-cell" style={{ animationDelay: '2000ms' }} />
+    </svg>
+  );
+}
+
 /** EastCoastEV: the lighthouse beam turns while a battery charges beside an e-bike. */
 export function ChargeScene() {
   return (
     <svg viewBox="0 0 320 110" className="scene" aria-hidden="true" focusable="false">
       <g className="sc-sweep" style={{ transformOrigin: '52px 24px' }}>
-        <path d="M52 24L180 6V42Z" className="sc-beam" />
+        <path d="M52 24L180 6V42Z" className="sc-light" />
       </g>
       <g className="sc-line">
         <path d="M40 104L46 30H58L64 104Z" className="sc-body" />

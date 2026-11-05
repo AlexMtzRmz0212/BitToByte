@@ -23,8 +23,29 @@
   .sc-letter { opacity: 0; }
   .sc-shadow { transform-box: view-box; transform-origin: 100px 64px; transform: rotate(48deg); }
   .sc-bloom { transform-box: fill-box; transform-origin: center; }
+  .sc-cold { transform-box: fill-box; transform-origin: center; }
+  .sc-sync { opacity: 0; }
+  .sc-ladder-rail { fill: none; stroke: var(--w-ink); stroke-width: 4; }
+  .sc-ladder-wire { fill: none; stroke: var(--w-accent); stroke-width: 4; }
+  .sc-ladder-tag { font-family: var(--w-font-body); font-size: 10px; font-weight: 700; fill: var(--w-ink); }
+  .sc-stick { transform-box: view-box; }
+  .sc-stick-l { transform-origin: 40px 8px; --lift: -16deg; }
+  .sc-stick-r { transform-origin: 122px 8px; --lift: 16deg; }
+  .sc-stick-body { fill: none; stroke: var(--w-ink); stroke-width: 5; stroke-linecap: round; }
+  .sc-tuner-needle { fill: none; stroke: var(--w-accent); stroke-width: 3; stroke-linecap: round; }
+  .sc-needle { transform-box: view-box; transform-origin: 96px 92px; }
 
   @media (prefers-reduced-motion: no-preference) {
+    .sc-needle { animation: sc-needle 2.2s ease-in-out both; }
+    .sc-lap { animation: sc-lap 2.2s ease-in-out both; }
+    .sc-live { animation: sc-fade 160ms steps(2, end) both; }
+    .sc-stick { animation: sc-stick 220ms ease-in 5 alternate both; }
+    .sc-stick-r { animation-delay: 110ms; }
+    .sc-sync { animation: sc-sync 1.3s ease-in-out 0.8s both; }
+    .sc-bead { animation: sc-fade 240ms ease-out both; }
+    .sc-window { animation: sc-window 420ms ease-out both; }
+    .sc-cold { animation: sc-cold 900ms ease-out 1.7s both; }
+    .sc-ghost { animation: sc-ghost 900ms ease-out 2.2s both; }
     .sc-beam {
       transform-box: view-box;
       transform-origin: 160px 32px;
@@ -42,6 +63,41 @@
     .sc-bloom { animation: sc-bloom 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
   }
 
+  @keyframes sc-needle {
+    0% { transform: rotate(-46deg); }
+    30% { transform: rotate(28deg); }
+    55% { transform: rotate(-16deg); }
+    80% { transform: rotate(6deg); }
+    100% { transform: rotate(0deg); }
+  }
+  @keyframes sc-lap {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes sc-stick {
+    from { transform: rotate(var(--lift)); }
+    to { transform: rotate(0deg); }
+  }
+  @keyframes sc-sync {
+    0% { opacity: 0; transform: translateX(80px); }
+    12% { opacity: 1; }
+    88% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(206px); }
+  }
+  @keyframes sc-window {
+    0% { opacity: 0; }
+    50% { opacity: 0.9; }
+    70% { opacity: 0.35; }
+    100% { opacity: 1; }
+  }
+  @keyframes sc-cold {
+    from { opacity: 0; transform: scale(0.3); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes sc-ghost {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
   @keyframes sc-beam {
     0% { transform: rotate(-16deg); }
     40% { transform: rotate(9deg); }
@@ -106,7 +162,7 @@
   /* ---- noir scenes ---- */
   .sc-line { fill: none; stroke: var(--w-ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
   .sc-body { fill: var(--w-surface); }
-  .sc-beam { fill: var(--w-accent); opacity: 0.22; }
+  .sc-light { fill: var(--w-accent); opacity: 0.22; }
   .sc-lamp { fill: var(--w-accent); stroke: none; }
   .sc-poster { fill: var(--w-raised); stroke: var(--w-accent); stroke-width: 2; transform-box: fill-box; transform-origin: center; }
   .sc-star { fill: none; stroke: var(--w-accent); stroke-width: 1.5; }
@@ -115,7 +171,7 @@
   .sc-reel { transform-box: view-box; }
 
   @media (prefers-reduced-motion: no-preference) {
-    .sc-beam { animation: sc-flicker 2.2s steps(1) both; }
+    .sc-light { animation: sc-flicker 2.2s steps(1) both; }
     .sc-reel { animation: sc-spin 1.2s linear 2; }
     .sc-poster { animation: sc-flip 420ms ease-out both; }
     .sc-star-on { animation: sc-fade 240ms ease-out both; }

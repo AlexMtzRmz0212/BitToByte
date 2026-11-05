@@ -8,7 +8,6 @@
   .pp-sfx { font-family: 'Bangers', Impact, sans-serif; font-size: 52px; fill: #161616; letter-spacing: 2px; }
   .pp-paper-title { font-family: 'Bangers', Impact, sans-serif; font-size: 46px; fill: #161616; letter-spacing: 2px; }
   .pp-paper-headline { font-family: 'Comic Neue', sans-serif; font-weight: 700; font-size: 30px; fill: #161616; }
-  .pp-score { font-family: 'Bangers', Impact, sans-serif; font-size: 40px; fill: #FFD400; }
   .pp-sign { font-family: 'Bangers', Impact, sans-serif; font-size: 24px; fill: #161616; letter-spacing: 3px; }
   .pp-landmark, .pp-gate { cursor: pointer; }
   .pp-spider { transform: translate(-50%, -78%); }
@@ -33,12 +32,10 @@
     .pp-gate:hover .pp-eye { animation-duration: 2s; }
     .pp-swing { transform-origin: 0 -70px; animation: pp-swing 2.2s ease-in-out infinite alternate; }
     .pp-sparkle { transform-box: fill-box; transform-origin: center; animation: pp-twinkle 1.8s ease-in-out infinite alternate; }
-    .pp-ball { animation: pp-bounce 1.4s ease-in-out infinite alternate; }
   }
   @keyframes pp-spin { to { transform: rotate(360deg); } }
   @keyframes pp-swing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
   @keyframes pp-twinkle { from { transform: scale(0.8) rotate(0deg); } to { transform: scale(1.15) rotate(20deg); } }
-  @keyframes pp-bounce { from { transform: translateY(0); } to { transform: translateY(-40px); } }
   @keyframes pp-pop {
     0% { transform: scale(0); opacity: 0; }
     15% { transform: scale(1.15); opacity: 1; }

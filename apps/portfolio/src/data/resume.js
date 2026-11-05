@@ -15,7 +15,7 @@ export const profile = {
   title: 'AI & Automation Engineer',
   location: 'Ottawa, ON, Canada',
   summary:
-    'Mechatronics engineer turned applied AI developer. Ten years of moving between the two sides of automation: SCADA and control systems on the plant floor, and LLM, RAG, and data pipeline work on top of them. Comfortable owning a problem end to end, from wiring up the data source to explaining the result to people who do not write code.',
+    'Mechatronics engineer turned applied AI developer, with roles across design and automation engineering, data and AI, plus teaching and running a restaurant. Comfortable owning a problem end to end, from wiring up the data source to explaining the result to people who do not write code.',
   links: [
     { label: 'Email', href: 'mailto:alejandro.martinez.rmz97@gmail.com' },
     { label: 'LinkedIn', href: 'https://linkedin.com/in/alejandro-mtz' },
@@ -93,25 +93,24 @@ export const experience = [
     org: 'Epic Cycles',
     location: 'Ottawa, ON',
     start: 'Aug 2025',
-    end: 'Present',
-    current: true,
+    end: 'Sep 2026',
     bullets: [
-      'Run advanced electrical and mechanical diagnostics, repair, and service on Class 3 e-bikes, performance e-scooters, and electric dirt bikes, including controller tuning, motor calibration, and firmware updates.',
-      'Assemble new electric vehicles and run final quality control before customer delivery.',
-      'Install and configure performance components (custom controllers, braking systems, batteries) and support sales with product demos and consultations.',
-      'Keep service documentation accurate and communicate clearly with customers through the whole repair.',
+      'Ran advanced electrical and mechanical diagnostics, repair, and service on Class 3 e-bikes, performance e-scooters, and electric dirt bikes, including controller tuning, motor calibration, and firmware updates.',
+      'Assembled new electric vehicles and ran final quality control before customer delivery.',
+      'Installed and configured performance components (custom controllers, braking systems, batteries) and supported sales with product demos and consultations.',
+      'Kept service documentation accurate and communicated clearly with customers through the whole repair.',
     ],
     detail: {
       intro:
-        'I own the complete service lifecycle for Class 3 e-bikes, performance e-scooters, and electric dirt bikes, from customer intake to final repair delivery.',
+        'I owned the complete service lifecycle for Class 3 e-bikes, performance e-scooters, and electric dirt bikes, from customer intake to final repair delivery.',
       sections: [
         {
           title: 'Customer intake and diagnosis',
-          body: 'I welcome the customer, listen to their description of the issue, then corroborate it by inspecting the relevant area. I collect usage habits, maintenance history, battery condition, previous repairs, and intermittent symptoms, document the vehicle’s external mechanical and electrical condition, open a work order, and give an upfront assessment fee estimate.',
+          body: 'I welcomed the customer, listened to their description of the issue, then corroborated it by inspecting the relevant area. I collected usage habits, maintenance history, battery condition, previous repairs, and intermittent symptoms, documented the vehicle’s external mechanical and electrical condition, opened a work order, and gave an upfront assessment fee estimate.',
         },
         {
           title: 'Assessment and repair planning',
-          body: 'I run a full system inspection: display error codes, battery charge, throttle response, motor hall sensors, pedal assist, and BMS function. Then I call the customer, explain the verdict, propose solutions with cost and time estimates, and respect their decision to proceed, partially repair, or cancel. Rush jobs get slotted against the existing urgent queue.',
+          body: 'I ran a full system inspection: display error codes, battery charge, throttle response, motor hall sensors, pedal assist, and BMS function. Then I called the customer, explained the verdict, proposed solutions with cost and time estimates, and respected their decision to proceed, partially repair, or cancel. Rush jobs got slotted against the existing urgent queue.',
         },
         {
           title: 'Mechanical and electrical repairs',
@@ -119,11 +118,11 @@ export const experience = [
         },
         {
           title: 'Assembly and quality control',
-          body: 'I assemble new e-bikes and e-dirt bikes from unboxing to ride-ready. The QC checklist covers screw torque, chain tension, gear operation, brake pressure and sensor function, battery charge, throttle response, tire pressure to spec, tire alignment, and caliper centering.',
+          body: 'I assembled new e-bikes and e-dirt bikes from unboxing to ride-ready. The QC checklist covered screw torque, chain tension, gear operation, brake pressure and sensor function, battery charge, throttle response, tire pressure to spec, tire alignment, and caliper centering.',
         },
         {
           title: 'Customer education and documentation',
-          body: 'After a repair I explain what was done and why, and give maintenance guidance on tire pressure, brake pad checks, and tune-up intervals. If a repair runs past the estimate or uncovers something new, I call for approval before continuing rather than after.',
+          body: 'After a repair I explained what was done and why, and gave maintenance guidance on tire pressure, brake pad checks, and tune-up intervals. If a repair ran past the estimate or uncovered something new, I called for approval before continuing rather than after.',
         },
       ],
     },

@@ -15,8 +15,8 @@ const ExperienceStrip = () => (
     </Reveal>
     <Reveal delay={80}>
       <p className="mx-auto mb-12 max-w-xl text-center text-gray-400">
-        Ten years across both sides of automation: control systems on the plant floor, and the data
-        and AI work that sits on top of them.
+        From design and automation engineering to data and AI, with teaching and management along
+        the way.
       </p>
     </Reveal>
 

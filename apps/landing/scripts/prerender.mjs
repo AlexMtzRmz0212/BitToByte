@@ -49,7 +49,7 @@ const jsonLd = {
           '@type': 'CreativeWork',
           name: project.name,
           description: project.oneLiner,
-          url: project.liveUrl,
+          url: project.liveUrl ?? project.repoUrl,
           ...(project.repoUrl ? { codeRepository: project.repoUrl } : {}),
           creator: { '@id': `${site.url}/#person` },
         },

@@ -19,7 +19,8 @@ describe('projects data', () => {
     expect(p.oneLiner.length).toBeLessThanOrEqual(90);
     expect(p.summary.length).toBeGreaterThan(40);
     expect(p.stack.length).toBeGreaterThan(0);
-    expect(p.liveUrl).toMatch(/^https:\/\//);
+    if (p.liveUrl) expect(p.liveUrl).toMatch(/^https:\/\//);
+    else expect(p.repoUrl).not.toBeNull();
     if (p.repoUrl) expect(p.repoUrl).toMatch(/^https:\/\/github\.com\//);
     expect(isArchetypeId(p.district)).toBe(true);
     expect(isSceneId(p.scene)).toBe(true);

@@ -11,8 +11,9 @@
 //   oneLiner    The sentence a recruiter reads first. Aim for under 90 characters.
 //   summary     One or two short sentences for the card and the list view.
 //   stack       Tags, most important first.
-//   liveUrl     Where "Launch live project" goes. Confirmed live on 2026-10-15.
-//   repoUrl     GitHub link, or null to hide the button.
+//   liveUrl     Where "Launch live project" goes. Confirmed live on 2026-11-04.
+//               null for a project with no public site: its card leads with its code.
+//   repoUrl     GitHub link, or null to hide the button. Required when liveUrl is null.
 //   preview     Screenshot under /public/previews (pnpm previews), or null.
 //   world       Which map it lives on (src/data/worlds.ts).
 //   kind        A small label: client work, product, tool...
@@ -35,7 +36,7 @@ export interface Project {
   oneLiner: string;
   summary: string;
   stack: string[];
-  liveUrl: string;
+  liveUrl: string | null;
   repoUrl: string | null;
   preview: { src: string; alt: string; width: number; height: number } | null;
   world: WorldId;
@@ -286,6 +287,156 @@ export const projects: Project[] = [
     kind: 'hackathon',
     district: 'telegraph',
     scene: 'queue',
+  },
+  {
+    slug: 'rosary',
+    name: 'Virtual Rosary',
+    oneLiner: 'A guided rosary in English, Spanish or French that knows today’s mysteries.',
+    summary:
+      'Choose from the four sets of mysteries, with today’s set marked, then begin. It works from the keyboard and runs as a plain static site.',
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://rosary.bittobyte.qzz.io',
+    repoUrl: 'https://github.com/AlexMtzRmz0212/Rosary',
+    preview: {
+      src: '/previews/rosary.webp',
+      alt: 'The Virtual Rosary start page: the four sets of mysteries, with today’s set selected',
+      width: 800,
+      height: 500,
+    },
+    world: 'manuscript',
+    kind: 'tool',
+    district: 'garden',
+    scene: 'sundial',
+  },
+  {
+    slug: 'ghosts',
+    name: 'Woodstone After Dark',
+    oneLiner: 'Every Ghosts intro on CBS, one episode at a time, with no spoilers past where you are.',
+    summary:
+      'A fan-made house you scroll down: each floor is a season and each room one intro. Tap a cold spot to see who is there and how long they have been dead.',
+    stack: ['React', 'TypeScript', 'Vite'],
+    liveUrl: 'https://ghosts.bittobyte.qzz.io',
+    repoUrl: 'https://github.com/AlexMtzRmz0212/Ghosts',
+    preview: {
+      src: '/previews/ghosts.webp',
+      alt: '“Who’s haunting Woodstone?” above the dark outline of the mansion under a crescent moon',
+      width: 800,
+      height: 500,
+    },
+    world: 'manuscript',
+    kind: 'data',
+    district: 'hall',
+    scene: 'flipboard',
+  },
+  {
+    slug: 'plc',
+    name: 'PLC Showcase',
+    oneLiner: 'Four PLC programs running live in your browser, in Allen-Bradley and Siemens style.',
+    summary:
+      'A scan-cycle engine written from scratch drives simulated machines, from a motor starter to a duplex lift station. Press buttons, inject faults and watch the ladder respond.',
+    stack: ['React', 'TypeScript', 'Vite', 'Ladder logic'],
+    liveUrl: 'https://plc.bittobyte.qzz.io',
+    repoUrl: 'https://github.com/AlexMtzRmz0212/PLC',
+    preview: {
+      src: '/previews/plc.webp',
+      alt: 'The PLC Showcase home page beside a live ladder rung with Start and Stop buttons',
+      width: 800,
+      height: 500,
+    },
+    world: 'voxel',
+    kind: 'product',
+    district: 'arena',
+    scene: 'sort',
+  },
+  {
+    slug: 'runtime',
+    name: 'Runtime',
+    oneLiner: 'A TV tracker that shows your next episode and how much time each show has left.',
+    summary:
+      'Notion is the database and TVmaze fills in the episodes. Visitors get a read-only library with filters, and the owner view ticks off episodes and seasons.',
+    stack: ['Next.js', 'TypeScript', 'Notion API', 'TVmaze API'],
+    liveUrl: 'https://runtime.bittobyte.qzz.io',
+    repoUrl: 'https://github.com/AlexMtzRmz0212/Runtime',
+    preview: {
+      src: '/previews/runtime.webp',
+      alt: 'The Runtime library: a Continue watching strip above a filterable grid of shows',
+      width: 800,
+      height: 500,
+    },
+    world: 'noir',
+    kind: 'tool',
+    district: 'cinema',
+    scene: 'projector',
+  },
+  {
+    slug: 'tono',
+    name: 'Tono',
+    oneLiner: 'A chromatic tuner in your browser, with four temperaments to tune against.',
+    summary:
+      'Equal, just, Pythagorean and meantone tuning, with an adjustable A4. Audio is analyzed on your device and never sent to a server. The interface is in Spanish.',
+    stack: ['JavaScript', 'Canvas', 'Microphone input'],
+    liveUrl: 'https://tuner.bittobyte.qzz.io',
+    repoUrl: 'https://github.com/AlexMtzRmz0212/Tuner',
+    preview: {
+      src: '/previews/tono.webp',
+      alt: 'The Tono tuner: a cents dial above the button that turns on the microphone',
+      width: 800,
+      height: 500,
+    },
+    world: 'sunset',
+    kind: 'tool',
+    district: 'hall',
+    scene: 'charge',
+  },
+  {
+    slug: 'banda',
+    name: 'Banda de Guerra Scoring',
+    oneLiner: 'Live scoring for bandas de guerra contests, built to keep working offline.',
+    summary:
+      'Judges score on tablets and totals reach the administrator in real time. Scores save on the device first and sync when the connection returns. The app is in Spanish, behind a login.',
+    stack: ['Next.js', 'TypeScript', 'Supabase', 'IndexedDB'],
+    liveUrl: 'https://banda.bittobyte.qzz.io/login',
+    repoUrl: null,
+    preview: {
+      src: '/previews/banda.webp',
+      alt: 'The Banda de Guerra Scoring login page, in Spanish, with email and password fields',
+      width: 800,
+      height: 500,
+    },
+    world: 'pop',
+    kind: 'client',
+    district: 'stadium',
+    scene: 'ranking',
+  },
+  {
+    slug: 'tiktok-archive',
+    name: 'TikTok Archive',
+    oneLiner: 'About 5,600 saved TikToks, turned into a searchable, categorized notes archive.',
+    summary:
+      'A local Python pipeline transcribes each video, sorts it into 32 categories and writes Obsidian notes. It runs on your own machine and calls no paid API.',
+    stack: ['Python', 'Postgres', 'pgvector', 'faster-whisper'],
+    liveUrl: null,
+    repoUrl: 'https://github.com/AlexMtzRmz0212/Tiktoks',
+    preview: null,
+    world: 'pop',
+    kind: 'tool',
+    district: 'library',
+    scene: 'shelf',
+  },
+  {
+    slug: 'loop-habits',
+    name: 'Loop Habits Fork',
+    oneLiner: 'My fork of Loop Habit Tracker, with cross-device sync and a desktop app.',
+    summary:
+      'Adds time-of-day habits, folder-based sync between devices and a Compose Multiplatform desktop client to iSoron’s open-source Android app.',
+    stack: ['Kotlin', 'Compose Multiplatform', 'SQLite'],
+    liveUrl: null,
+    repoUrl: 'https://github.com/AlexMtzRmz0212/uhabits/tree/mine',
+    preview: null,
+    world: 'frontier',
+    kind: 'tool',
+    district: 'camp',
+    scene: 'sundial',
   },
 ];
 

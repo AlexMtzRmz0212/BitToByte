@@ -79,25 +79,34 @@ function Item({ project, highlighted }: { project: Project; highlighted: boolean
           On the map: {ARCHETYPES[project.district].label.toLowerCase()}
         </p>
         <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
-          <a href={project.liveUrl} className="btn btn-primary" aria-label={`Launch live project: ${project.name}`}>
-            Launch live project
-          </a>
-          {project.repoUrl && (
-            <a href={project.repoUrl} rel="noopener" className="btn btn-ghost" aria-label={`Code for ${project.name}`}>
-              <GithubIcon className="h-4 w-4" />
-              Code
+          {project.liveUrl && (
+            <a href={project.liveUrl} className="btn btn-primary" aria-label={`Launch live project: ${project.name}`}>
+              Launch live project
             </a>
           )}
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener"
-            className="btn btn-ghost btn-icon"
-            aria-label={`Open ${project.name} in a new tab`}
-            title="Open in a new tab"
-          >
-            <ExternalLinkIcon className="h-4 w-4" aria-hidden="true" />
-          </a>
+          {project.repoUrl && (
+            <a
+              href={project.repoUrl}
+              rel="noopener"
+              className={`btn ${project.liveUrl ? 'btn-ghost' : 'btn-primary'}`}
+              aria-label={`${project.liveUrl ? 'Code' : 'View code'} for ${project.name}`}
+            >
+              <GithubIcon className="h-4 w-4" />
+              {project.liveUrl ? 'Code' : 'View code'}
+            </a>
+          )}
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener"
+              className="btn btn-ghost btn-icon"
+              aria-label={`Open ${project.name} in a new tab`}
+              title="Open in a new tab"
+            >
+              <ExternalLinkIcon className="h-4 w-4" aria-hidden="true" />
+            </a>
+          )}
           {hasMap(project.world) && (
             <RouteLink
               to={{ place: project.world, project: project.slug, view: 'map' }}

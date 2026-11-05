@@ -86,9 +86,17 @@ function TravelItem({ project, found, onPick }: { project: Project; found: boole
           {found && <span className="sr-only"> (found)</span>}
         </span>
       </RouteLink>
-      <a href={project.liveUrl} className="travel-launch" aria-label={`Launch ${project.name}`} title="Launch the live project">
-        <ArrowUpRightIcon className="h-4 w-4" aria-hidden="true" />
-      </a>
+      {project.liveUrl ? (
+        <a href={project.liveUrl} className="travel-launch" aria-label={`Launch ${project.name}`} title="Launch the live project">
+          <ArrowUpRightIcon className="h-4 w-4" aria-hidden="true" />
+        </a>
+      ) : (
+        project.repoUrl && (
+          <a href={project.repoUrl} rel="noopener" className="travel-launch" aria-label={`Code for ${project.name}`} title="View the code">
+            <ArrowUpRightIcon className="h-4 w-4" aria-hidden="true" />
+          </a>
+        )
+      )}
     </li>
   );
 }

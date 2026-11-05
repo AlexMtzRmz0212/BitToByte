@@ -260,12 +260,13 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
 
   // Launch: the camera pushes into the building, the world fades, then we go.
   const launch = useCallback(
-    (project: { slug: string; liveUrl: string }) => {
-      if (reducedMotion || !controller) return false;
+    (project: { slug: string; liveUrl: string | null }) => {
+      const { liveUrl } = project;
+      if (!liveUrl || reducedMotion || !controller) return false;
       const target = placed.find((p) => p.project.slug === project.slug);
       if (target) controller.centerOn({ x: target.at.x, y: target.at.y - 80 }, controller.view.z * 2.4, 850);
       setLaunching(project.slug);
-      window.setTimeout(() => window.location.assign(project.liveUrl), 880);
+      window.setTimeout(() => window.location.assign(liveUrl), 880);
       return true;
     },
     [reducedMotion, controller, placed]

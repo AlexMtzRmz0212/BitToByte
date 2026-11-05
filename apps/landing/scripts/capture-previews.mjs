@@ -19,11 +19,14 @@ const OUT_H = 500;
 const QUALITY = 0.8;
 
 // Read slug + liveUrl pairs straight from the data file (no TS loader needed).
+// A project with liveUrl: null has no site to capture, so it is skipped.
 const source = await readFile(`${root}src/data/projects.ts`, 'utf8');
-const pairs = [...source.matchAll(/slug: '([^']+)'[\s\S]*?liveUrl: '([^']+)'/g)].map((m) => ({
-  slug: m[1],
-  url: m[2],
-}));
+const pairs = [...source.matchAll(/slug: '([^']+)'[\s\S]*?liveUrl: (?:'([^']+)'|null)/g)]
+  .filter((m) => m[2])
+  .map((m) => ({
+    slug: m[1],
+    url: m[2],
+  }));
 const only = process.env.ONLY?.split(',').filter(Boolean);
 const targets = only ? pairs.filter((p) => only.includes(p.slug)) : pairs;
 

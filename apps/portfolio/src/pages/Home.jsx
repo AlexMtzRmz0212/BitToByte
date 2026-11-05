@@ -24,11 +24,11 @@ const TECH = [
 
 // Headline capabilities shown as chips.
 const SKILLS = [
-  'SCADA Systems',
   'Machine Learning',
-  'Industrial Automation',
   'Data Pipelines',
   'Full-Stack Apps',
+  'Industrial Automation',
+  'SCADA Systems',
 ];
 
 // Engineer-flavored "about" card styled like a code editor.
@@ -87,8 +87,8 @@ const AboutMe = () => (
       <div className="min-w-0 space-y-4 leading-relaxed text-gray-400">
         <Reveal as="p">
           I&apos;m Alex. Engineer, coder, and genius (still working on the billionaire, playboy,
-          philanthropist part). Basically the guy you call when your automation stops automating. I
-          build <span className="text-[#b5f53c]">SCADA systems</span>, train my AIs like
+          philanthropist part). Basically the guy you call when your automation stops automating.
+          I&apos;ve built <span className="text-[#b5f53c]">SCADA systems</span>, train my AIs like
           they&apos;re my pets, and design tools that make slow work fast. Python, SQL, TensorFlow,
           PLCs. Yeah, I speak fluent machine.
         </Reveal>
@@ -185,7 +185,7 @@ const Projects = () => {
 export default function Home() {
   usePageMeta(
     'Alejandro Martínez | AI & Automation Engineer',
-    'Alejandro Martínez, AI & Automation Engineer. SCADA systems, machine learning, data pipelines, and full-stack apps.'
+    'Alejandro Martínez, AI & Automation Engineer. Machine learning, data pipelines, full-stack apps, and SCADA systems.'
   );
 
   return (

@@ -61,7 +61,7 @@ await card.evaluate(async ({ src, font }) => {
         <div class="tile">B</div>
         <h1>BitToByte</h1>
         <p class="og-tag">Intelligent Systems Hub</p>
-        <p class="line">Eleven live projects across four worlds. Travel the map, or skip straight to the list.</p>
+        <p class="line">Nineteen projects across six worlds. Travel the map, or skip straight to the list.</p>
       </div>
       <div class="map"><img src="${src}" alt=""></div>
     </div>`;

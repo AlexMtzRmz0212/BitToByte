@@ -174,7 +174,7 @@ export default function PopTerrain({ layout }: { layout: MapLayout }) {
             Local engineer ships
           </text>
           <text x={p3.x + 365} y={p3.y + 222} textAnchor="middle" className="pp-paper-headline">
-            eleven live projects!
+            seventeen live projects!
           </text>
           <path d={`M${p3.x + 180} ${p3.y + 250}h170M${p3.x + 180} ${p3.y + 268}h150M${p3.x + 180} ${p3.y + 286}h160M${p3.x + 380} ${p3.y + 250}h170M${p3.x + 380} ${p3.y + 268}h140M${p3.x + 380} ${p3.y + 286}h160`} stroke={K} strokeWidth="5" opacity="0.4" />
         </g>

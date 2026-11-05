@@ -1,6 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
-import { projects } from '../src/data/projects';
+import { projects, type Project } from '../src/data/projects';
 import { SECRETS, WORLDS, WORLD_IDS } from '../src/data/worlds';
+
+const liveProjects = projects.filter((p): p is Project & { liveUrl: string } => p.liveUrl !== null);
+const codeOnlyProjects = projects.filter((p) => p.liveUrl === null);
 
 const worldTransform = (page: Page) =>
   page.locator('.map-world').evaluate((el) => (el as HTMLElement).style.transform);
@@ -16,7 +19,12 @@ test.describe('without JavaScript', () => {
     for (const project of projects) {
       await expect(page.getByText(project.name, { exact: true }).first()).toBeVisible();
       await expect(page.getByText(project.oneLiner)).toBeVisible();
+    }
+    for (const project of liveProjects) {
       await expect(page.getByRole('link', { name: `Launch ${project.name}` })).toHaveAttribute('href', project.liveUrl);
+    }
+    for (const project of codeOnlyProjects) {
+      await expect(page.getByRole('link', { name: `Code for ${project.name}` })).toHaveAttribute('href', project.repoUrl!);
     }
     await expect(page.getByRole('link', { name: /Résumé and profile/ })).toHaveAttribute('href', 'https://alex.bittobyte.qzz.io');
     await expect(page.getByRole('link', { name: /Résumé and profile/ })).toBeVisible();
@@ -41,7 +49,8 @@ test('Skip the map opens the full list, and Back returns to the hub', async ({ p
   await page.goto('/');
   await page.getByRole('link', { name: 'Skip the map', exact: true }).click();
   await expect(page).toHaveURL(/\?view=list$/);
-  await expect(page.getByRole('link', { name: /^Launch live project/ })).toHaveCount(projects.length);
+  await expect(page.getByRole('link', { name: /^Launch live project/ })).toHaveCount(liveProjects.length);
+  await expect(page.getByRole('link', { name: /^View code for/ })).toHaveCount(codeOnlyProjects.length);
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
@@ -67,10 +76,13 @@ test('every project is one click from the travel list, and Launch carries its li
   await page.getByRole('button', { name: 'Start exploring' }).click();
   // On phones the list is a folded sheet: one tap opens it.
   if (isMobile) await page.getByRole('button', { name: 'Open the travel list' }).click();
-  for (const project of projects) {
+  for (const project of liveProjects) {
     await expect(page.getByRole('link', { name: `Launch ${project.name}` })).toHaveAttribute('href', project.liveUrl);
   }
-  const target = projects[0]!;
+  for (const project of codeOnlyProjects) {
+    await expect(page.getByRole('link', { name: `Code for ${project.name}` })).toHaveAttribute('href', project.repoUrl!);
+  }
+  const target = liveProjects[0]!;
   await page.getByRole('link', { name: new RegExp(`^Travel to ${target.name}`) }).click();
   await expect(page.locator('html')).toHaveAttribute('data-world', target.world, { timeout: 15_000 });
   await expect(page).toHaveURL(new RegExp(`project=${target.slug}`));
@@ -139,6 +151,17 @@ test.describe('world maps', () => {
       'href',
       'https://habits.bittobyte.qzz.io'
     );
+  });
+
+  test('a project with no live site leads with its code', async ({ page }) => {
+    await page.goto('/?world=blackwater&project=loop-habits');
+    await expect(page.getByRole('heading', { name: 'Loop Habits Fork', exact: true })).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('link', { name: 'View code for Loop Habits Fork' })).toHaveAttribute(
+      'href',
+      'https://github.com/AlexMtzRmz0212/uhabits/tree/mine'
+    );
+    await expect(page.getByRole('link', { name: 'Launch live project: Loop Habits Fork' })).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'Open Loop Habits Fork in a new tab' })).toHaveCount(0);
   });
 
   test('clicking a landmark travels there and opens its card', async ({ page }) => {

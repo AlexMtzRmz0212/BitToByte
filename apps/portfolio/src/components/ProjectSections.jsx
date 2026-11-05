@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Activity,
@@ -40,29 +39,27 @@ const ICONS = {
 // Bento mosaic: per-project tile spans (md and lg; cards stack cleanly below that).
 //
 // The grid is 3 columns at lg, so a section only tiles flush when its spans sum
-// to a multiple of 3. Featured work holds 5 cards, which tiles as 2+1 / 1+1+1;
-// more projects holds 4, which has to be 2+1 / 2+1. Either way a 2×2 tile is out,
-// because it would cost 4 of the 6 cells and strand a card alone on its own row.
+// to a multiple of 3. Featured work holds 7 cards, which tiles as 2+1 / 1+1+1 / 2+1;
+// more projects holds 12, which tiles as four rows of 1+1+1 with the default span. A
+// 2×2 tile is out, because it costs 4 cells and strands a card alone on its own row.
 // Width here is editorial, not a size ranking: it goes to the cards that need the
-// room (a picker, a longer description).
+// room (a longer description).
 //
-// The one md span exists for the same arithmetic one breakpoint down: 5 cards in
-// a 2-column grid leaves an orphan unless exactly one of them is double-width.
+// The md span exists for the same arithmetic one breakpoint down: an odd card count
+// in a 2-column grid leaves an orphan unless exactly one card is double-width. Featured
+// is odd today, so it has one; more projects is even and needs none.
 //
 // Archive projects are deliberately absent: they render as list rows, not tiles,
 // so adding a case study never has to be paid for in mosaic arithmetic.
 const SPANS = {
-  // Featured work: 2+1 / 1+1+1
+  // Featured work: 2+1 / 1+1+1 / 2+1
   fedethics: 'md:col-span-2 lg:col-span-2',
   'eastcoast-ev': 'lg:col-span-1',
   'express-entry': 'lg:col-span-1',
   'daily-checklist': 'lg:col-span-1',
   'mcu-timeline': 'lg:col-span-1',
-  // More projects: 2+1 / 2+1
-  'bittobyte-hub': 'lg:col-span-2',
-  'sports-hub': 'lg:col-span-1',
-  'sports-maps': 'lg:col-span-2',
-  'habits-analysis': 'lg:col-span-1',
+  plc: 'lg:col-span-2',
+  banda: 'lg:col-span-1',
 };
 
 const linkBtn =
@@ -133,91 +130,11 @@ const ProjectCard = ({ project, titleAs }) => (
   </CardShell>
 );
 
-// Special interactive card for the "Divisions & Leagues Maps" project: pick a
-// sport and jump to that league's live map + repo.
-const SportsMapsCard = ({ project, titleAs }) => {
-  const [sport, setSport] = useState('mlb');
-
-  const sports = {
-    mlb: {
-      icon: 'https://www.mlbstatic.com/team-logos/league-on-dark/1.svg',
-      demo: 'https://alexmtzrmz0212.github.io/MLB/',
-      github: 'https://github.com/AlexMtzRmz0212/MLB',
-      disabled: false,
-    },
-    nfl: {
-      icon: 'https://static.www.nfl.com/image/upload/v1554321393/league/nvfr7ogywskqrfaiu38m.svg',
-      demo: 'https://alexmtzrmz0212.github.io/NFL/',
-      github: 'https://github.com/AlexMtzRmz0212/NFL',
-      disabled: false,
-    },
-    nba: { icon: 'https://cdn.nba.com/logos/leagues/logo-nba.svg', disabled: true },
-    nhl: {
-      icon: 'https://media.d3.nhle.com/image/private/t_q-best/prd/assets/nhl/logos/nhl_shield_wm_on_dark_fqkbph',
-      disabled: true,
-    },
-  };
-
-  const current = sports[sport];
-
-  return (
-    <CardShell project={project} titleAs={titleAs}>
-      <div className="flex flex-wrap items-center gap-3">
-        <label htmlFor="sports-maps-sport" className="text-sm text-gray-400">
-          Sport:
-        </label>
-        <select
-          id="sports-maps-sport"
-          value={sport}
-          onChange={(e) => setSport(e.target.value)}
-          className="rounded-md border border-white/10 bg-gray-900 px-3 py-1.5 text-sm text-gray-300"
-        >
-          <option value="mlb">MLB</option>
-          <option value="nfl">NFL</option>
-          <option value="nba">NBA</option>
-          <option value="nhl">NHL</option>
-        </select>
-        <img
-          src={current.icon}
-          alt={`${sport.toUpperCase()} league logo`}
-          className="h-8 w-auto max-w-[7rem] object-contain"
-        />
-      </div>
-      <div className="mt-auto flex gap-3">
-        {current.disabled ? (
-          <>
-            <span className="rounded-full border border-white/10 px-4 py-1.5 text-sm text-gray-400">
-              Demo (Soon)
-            </span>
-            <span className="rounded-full border border-white/10 px-4 py-1.5 text-sm text-gray-400">
-              GitHub (Soon)
-            </span>
-          </>
-        ) : (
-          <>
-            <a href={current.demo} target="_blank" rel="noreferrer" className={linkBtn}>
-              Live Demo
-            </a>
-            <a href={current.github} target="_blank" rel="noreferrer" className={linkBtn}>
-              GitHub
-            </a>
-          </>
-        )}
-      </div>
-    </CardShell>
-  );
-};
-
-const renderCard = (project, titleAs) =>
-  project.id === 'sports-maps' ? (
-    <SportsMapsCard key={project.id} project={project} titleAs={titleAs} />
-  ) : (
-    <ProjectCard key={project.id} project={project} titleAs={titleAs} />
-  );
-
 export const ProjectGrid = ({ projects: items, titleAs }) => (
   <div className="grid auto-rows-[minmax(200px,1fr)] grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-    {items.map((project) => renderCard(project, titleAs))}
+    {items.map((project) => (
+      <ProjectCard key={project.id} project={project} titleAs={titleAs} />
+    ))}
   </div>
 );
 

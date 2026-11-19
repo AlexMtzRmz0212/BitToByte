@@ -1,4 +1,5 @@
-import { PLACES, type MapLayout } from '../../data/worlds';
+import type { MapLayout } from '../../data/worlds';
+import { placeNow } from '../../state/app';
 import { spiralArm } from '../shared/sketch';
 import type { GateProps } from '../types';
 import { FWY_BOTTOM, FWY_TOP, FWY_WEST, FWY_X, FWY_Y } from './city';
@@ -9,7 +10,7 @@ const ARMS = [0, 1, 2].map((i) => spiralArm(0, 0, 46, 1.2, (i * Math.PI * 2) / 3
 
 /** A freeway exit: a green sign gantry over a tunnel mouth swirling with the destination's colour. */
 export function SunsetGate({ to, at }: GateProps) {
-  const tint = PLACES[to].tokens.accent;
+  const tint = placeNow(to).tokens.accent;
   const id = `ls-tunnel-${to}`;
   return (
     <g transform={`translate(${at.x} ${at.y})`} data-target={`gate:${to}`} className="ls-gate">
@@ -40,7 +41,7 @@ export function SunsetGate({ to, at }: GateProps) {
       <rect x="-88" y="-146" width="176" height="56" rx="6" className="ls-exit-sign" />
       <rect x="-82" y="-140" width="164" height="44" rx="4" className="ls-exit-border" />
       <text x="-62" y="-111" className="ls-exit-text">
-        {PLACES[to].short.toUpperCase().slice(0, 10)}
+        {placeNow(to).short.toUpperCase().slice(0, 10)}
       </text>
       <path d="M58 -128v18l-6 -6M58 -128l6 6" className="ls-exit-arrow" />
       <rect x="-60" y="-166" width="46" height="18" rx="3" className="ls-exit-tab" />

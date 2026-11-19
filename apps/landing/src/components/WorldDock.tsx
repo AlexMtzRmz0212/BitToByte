@@ -1,4 +1,5 @@
-import { PLACES, WORLD_IDS, type PlaceId } from '../data/worlds';
+import { WORLD_IDS, type PlaceId } from '../data/worlds';
+import { usePlaceResolver } from '../state/app';
 import type { View } from '../state/url';
 import PlaceGlyph from './PlaceGlyph';
 import RouteLink from './RouteLink';
@@ -10,6 +11,7 @@ const ORDER: PlaceId[] = ['nexus', ...WORLD_IDS];
  * drops the selection, since each world has its own map.
  */
 export default function WorldDock({ current, view }: { current: PlaceId; view: View }) {
+  const placeOf = usePlaceResolver();
   return (
     <nav
       aria-label="Worlds"
@@ -17,22 +19,24 @@ export default function WorldDock({ current, view }: { current: PlaceId; view: V
     >
       <ul className="flex items-center gap-0.5">
         {ORDER.map((id) => {
-          const active = id === current;
+          // Leonida is part of Vice City's world: standing there lights up Vice City.
+          const active = id === current || (id === 'sunset' && current === 'leonida');
+          const place = placeOf(id);
           return (
             <li key={id}>
               <RouteLink
                 to={{ place: id, project: null, view: id === 'nexus' ? 'auto' : view }}
                 aria-current={active ? 'page' : undefined}
-                aria-label={PLACES[id].name}
+                aria-label={place.name}
                 // Overworld draws its own item tooltips; a native one would stack on top.
-                title={current === 'voxel' ? undefined : PLACES[id].name}
+                title={current === 'voxel' ? undefined : place.name}
                 className={`dock-slot-link flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-control px-2.5 text-sm font-semibold transition-colors md:px-3.5 ${
                   active ? 'bg-accent text-accent-ink' : 'text-muted hover:text-ink'
                 }`}
               >
                 <PlaceGlyph id={id} />
                 <span className="dock-label hidden md:inline" aria-hidden="true">
-                  {PLACES[id].short}
+                  {place.short}
                 </span>
               </RouteLink>
             </li>

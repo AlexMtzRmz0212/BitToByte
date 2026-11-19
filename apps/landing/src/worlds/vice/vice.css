@@ -1,0 +1,275 @@
+/* Vice City: a golden-hour atlas. Peach streets, pink and teal stucco, turquoise
+ * water, neon along Ocean Drive. Outlines are deep plum (#2B1237). */
+@layer components {
+  /* land and shore */
+  .vc-land { fill: #FDEBD5; }
+  .vc-island { fill: #FFE9C9; }
+  .vc-beach { fill: none; stroke: #FFE6B3; stroke-width: 64; stroke-linejoin: round; }
+  .vc-beach-island { stroke-width: 72; }
+  .vc-foam { fill: none; stroke: #E8FFFB; stroke-width: 100; stroke-linejoin: round; opacity: 0.4; }
+  .vc-boardwalk { fill: none; stroke: #C99A6B; stroke-width: 9; stroke-linecap: round; }
+  .vc-wave { fill: none; stroke: #E8FFFB; stroke-width: 2.2; opacity: 0.6; stroke-linecap: round; }
+  .vc-glare { fill: none; stroke: #FFB070; stroke-width: 110; opacity: 0.16; filter: blur(14px); }
+  .vc-shadow { fill: #7A2A6A; opacity: 0.22; }
+  .vc-block-shadow { fill: #7A2A6A; opacity: 0.2; }
+  .vc-swamp { fill: #6DBA8A; }
+  .vc-swamp-deep { fill: #58AE7B; }
+  .vc-channel { fill: none; stroke: #86E3DD; stroke-width: 7; stroke-linecap: round; opacity: 0.85; }
+  .vc-mangrove { fill: #2E8B63; opacity: 0.85; }
+  .vc-beach-islet { fill: #FFE6B3; }
+  .vc-islet { fill: #7ED3A0; }
+
+  /* streets and blocks */
+  .vc-street-edge { fill: none; stroke: #EBCDB2; stroke-width: 15; }
+  .vc-street { fill: none; stroke: #FFF8F0; stroke-width: 10; }
+  .vc-roof { stroke: #2B1237; stroke-width: 1.2; }
+  .vc-roof-0 { fill: #FF8FB1; }
+  .vc-roof-1 { fill: #9FE3C8; }
+  .vc-roof-2 { fill: #FFC58F; }
+  .vc-roof-3 { fill: #FFF3E0; }
+  .vc-roof-4 { fill: #7FD6D9; }
+  .vc-roof-inner { fill: rgba(255, 255, 255, 0.35); }
+  .vc-pool { fill: #3FD0E0; stroke: #2B1237; stroke-width: 1; }
+  .vc-yard { fill: #E7D5C6; stroke: #C9B09B; stroke-width: 2; }
+  .vc-rail-bed { fill: none; stroke: #B9A592; stroke-width: 10; }
+  .vc-rail { fill: none; stroke: #6B5A7B; stroke-width: 3; stroke-dasharray: 2 6; }
+  .vc-warehouse { stroke: #2B1237; stroke-width: 1.5; }
+  .vc-warehouse-0 { fill: #B9A3D6; }
+  .vc-warehouse-1 { fill: #E8B0A0; }
+  .vc-warehouse-2 { fill: #A9CBD6; }
+  .vc-saw { fill: none; stroke: rgba(43, 18, 55, 0.35); stroke-width: 3; }
+  .vc-silo { fill: #F2EEF6; stroke: #2B1237; stroke-width: 1.5; }
+  .vc-silo-top { fill: #C9B7E8; }
+
+  /* roads */
+  .vc-hwy-shadow { fill: none; stroke: #7A2A6A; stroke-width: 52; opacity: 0.22; }
+  .vc-hwy-edge { fill: none; stroke: #4C3A5E; stroke-width: 52; }
+  .vc-hwy { fill: none; stroke: #6B5A7B; stroke-width: 46; }
+  .vc-hwy-lanes { fill: none; stroke: #FFF3E0; stroke-width: 1.5; stroke-dasharray: 14 12; opacity: 0.6; }
+  .vc-hwy-median { fill: none; stroke: #FF7A3D; stroke-width: 2; }
+  .vc-ramp-edge { fill: none; stroke: #4C3A5E; stroke-width: 22; }
+  .vc-ramp { fill: none; stroke: #7D6A8F; stroke-width: 16; }
+  .vc-bridge-shadow { fill: none; stroke: #7A2A6A; stroke-width: 30; opacity: 0.22; transform: translate(6px, 7px); }
+  .vc-bridge-edge { fill: none; stroke: #4C3A5E; stroke-width: 30; stroke-linecap: round; }
+  .vc-bridge { fill: none; stroke: #8A7A9C; stroke-width: 24; stroke-linecap: round; }
+  .vc-bridge-lane { fill: none; stroke: #FFF3E0; stroke-width: 2; stroke-dasharray: 12 12; opacity: 0.7; }
+  .vc-drive-edge { fill: none; stroke: #4C3A5E; stroke-width: 34; }
+  .vc-drive { fill: none; stroke: #6B5A7B; stroke-width: 28; }
+  .vc-drive-neon { fill: none; stroke: #FF2E88; stroke-width: 3; stroke-dasharray: 10 10; filter: drop-shadow(0 0 4px #FF2E88); }
+  .vc-pier { fill: #C99A6B; stroke: #7A5636; stroke-width: 2; }
+  .vc-plank { stroke: #6E4A2C; stroke-width: 1; opacity: 0.5; }
+  .vc-pier-ring { fill: none; stroke: #FF2E88; stroke-width: 3; stroke-dasharray: 6 8; }
+
+  /* airport */
+  .vc-tarmac { fill: #CFC5DC; stroke: #B3A6C6; stroke-width: 2; }
+  .vc-runway { fill: #4C3A5E; }
+  .vc-runway-line { stroke: #FFF3E0; stroke-width: 3; stroke-dasharray: 22 14; }
+  .vc-taxiway { fill: #8A7A9C; }
+  .vc-terminal { fill: #FFF3E0; stroke: #2B1237; stroke-width: 2; }
+  .vc-terminal-roof { fill: #3A1A4A; }
+  .vc-sign-letter {
+    font-family: 'Bungee', Impact, sans-serif;
+    font-size: 26px;
+    fill: #FF2E88;
+    stroke: #FFF3E0;
+    stroke-width: 1.2px;
+    paint-order: stroke;
+    filter: drop-shadow(0 0 6px #FF2E88);
+  }
+  .vc-finger { fill: #D9CFE6; stroke: #2B1237; stroke-width: 1.5; }
+  .vc-dome { fill: #7B3FE4; stroke: #2B1237; stroke-width: 1.5; }
+  .vc-plane { fill: #FFF8F0; stroke: #2B1237; stroke-width: 1.5; stroke-linejoin: round; }
+
+  /* port */
+  .vc-port-land { fill: #D9CFE6; stroke: #B3A6C6; stroke-width: 2; }
+  .vc-container { stroke: #2B1237; stroke-width: 0.8; }
+  .vc-container-0 { fill: #FF5C8A; }
+  .vc-container-1 { fill: #12B8B8; }
+  .vc-container-2 { fill: #FF7A3D; }
+  .vc-container-3 { fill: #7B3FE4; }
+  .vc-container-4 { fill: #FFD25A; }
+  .vc-crane { fill: none; stroke: #2B1237; stroke-width: 3; }
+  .vc-crane-cab { fill: #FF7A3D; stroke: #2B1237; stroke-width: 1.5; }
+  .vc-ship { fill: #FFF8F0; stroke: #2B1237; stroke-width: 2; stroke-linejoin: round; }
+  .vc-ship-shadow { fill: #7A2A6A; opacity: 0.2; }
+  .vc-ship-deck { fill: #FF2E88; }
+
+  /* downtown and Ocean Beach */
+  .vc-tower-shadow { fill: #7A2A6A; opacity: 0.28; }
+  .vc-tower { stroke: #2B1237; stroke-width: 1.5; }
+  .vc-tower-0 { fill: #8FC9DD; }
+  .vc-tower-1 { fill: #CDB9EA; }
+  .vc-tower-2 { fill: #FFC1D4; }
+  .vc-tower-inner { fill: none; stroke: #FFFFFF; stroke-width: 1.5; opacity: 0.45; }
+  .vc-tower-neon { fill: #FF2E88; filter: drop-shadow(0 0 3px #FF2E88); }
+  .vc-hotel { stroke: #2B1237; stroke-width: 1.2; }
+  .vc-hotel-0 { fill: #FFB3CB; }
+  .vc-hotel-1 { fill: #9FE3C8; }
+  .vc-hotel-2 { fill: #FFD49E; }
+  .vc-hotel-3 { fill: #B9E6F0; }
+  .vc-hotel-roof { fill: rgba(255, 255, 255, 0.4); }
+  .vc-neon-pink { fill: #FF2E88; filter: drop-shadow(0 0 3px #FF2E88); }
+  .vc-neon-teal { fill: #12B8B8; filter: drop-shadow(0 0 3px #12B8B8); }
+  .vc-neon-orange { fill: #FF7A3D; filter: drop-shadow(0 0 3px #FF7A3D); }
+
+  /* palms and mangrove docks */
+  .vc-palm-shadow { stroke: #7A2A6A; stroke-width: 7; stroke-linecap: round; opacity: 0.18; }
+  .vc-trunk { fill: none; stroke: #8C6A4A; stroke-width: 5; stroke-linecap: round; }
+  .vc-fronds path { fill: #2FA36B; stroke: #17714A; stroke-width: 1; }
+  .vc-dock { fill: #B8895B; stroke: #6E4A2C; stroke-width: 1.5; }
+  .vc-dock-post { stroke: #6E4A2C; stroke-width: 5; stroke-linecap: round; }
+
+  /* labels */
+  .vc-label { font-family: 'Bungee', Impact, sans-serif; font-size: 34px; fill: #2B1237; opacity: 0.42; letter-spacing: 2px; }
+  .vc-label-sea { font-size: 44px; fill: #E8FFFB; opacity: 0.6; letter-spacing: 10px; }
+  .vc-label-small { font-family: 'Outfit Variable', 'Outfit', sans-serif; font-weight: 700; font-size: 20px; fill: #2B1237; opacity: 0.7; letter-spacing: 1px; }
+  .vc-sunwash { pointer-events: none; mix-blend-mode: soft-light; }
+
+  /* landmarks (the same pieces as every world, in Vice City's paint) */
+  .vc-landmark, .vc-gate { cursor: pointer; }
+  .vc-stucco { fill: #FFD6E4; stroke: #2B1237; stroke-width: 2; }
+  .vc-glass { fill: #7FD6D9; stroke: #2B1237; stroke-width: 2; }
+  .vc-glass-shine { fill: #FFF1D0; opacity: 0.4; }
+  .vc-mullion { fill: none; stroke: #2B1237; stroke-width: 1.5; opacity: 0.6; }
+  .vc-fascia { fill: #3A1A4A; stroke: #2B1237; stroke-width: 2; }
+  .vc-sign-text { font-family: 'Bungee', Impact, sans-serif; font-size: 22px; fill: #FF5FA2; letter-spacing: 1px; filter: drop-shadow(0 0 5px #FF2E88); }
+  .vc-sign-small { font-size: 14px; }
+  .vc-bike { fill: none; stroke: #2B1237; stroke-width: 3; stroke-linejoin: round; }
+  .vc-car-body { fill: #12B8B8; stroke: #2B1237; stroke-width: 2; stroke-linejoin: round; }
+  .vc-car-glass { fill: #E8FFFB; stroke: #2B1237; stroke-width: 1.5; }
+  .vc-tyre { fill: #2B1237; }
+  .vc-charger { fill: #FFF3E0; stroke: #2B1237; stroke-width: 2; }
+  .vc-charger-screen { fill: #12B8B8; }
+  .vc-bolt { fill: #9A7FB0; }
+  .vc-bolt-on { fill: #7BD45B; filter: drop-shadow(0 0 4px #7BD45B); }
+  .vc-bunting-line { fill: none; stroke: #2B1237; stroke-width: 1.2; }
+  .vc-pennant { stroke: #2B1237; stroke-width: 1; }
+  .vc-pennant-0 { fill: #FF2E88; }
+  .vc-pennant-1 { fill: #FF7A3D; }
+  .vc-pennant-2 { fill: #12B8B8; }
+  .vc-arch { fill: #FFD6E4; stroke: #2B1237; stroke-width: 2.5; }
+  .vc-stands { fill: #FFE9C9; stroke: #2B1237; stroke-width: 2; }
+  .vc-stands-inner { fill: #FFB0C8; }
+  .vc-pitch { fill: #6FD18F; stroke: #FFF8F0; stroke-width: 2; }
+  .vc-pitch-line { fill: none; stroke: #FFF8F0; stroke-width: 1.5; }
+  .vc-mast { fill: none; stroke: #6B5A7B; stroke-width: 4; }
+  .vc-track { fill: #F0685A; stroke: #2B1237; stroke-width: 2; }
+  .vc-lane { fill: none; stroke: #FFF8F0; stroke-width: 1.5; }
+  .vc-finish { stroke: #FFF8F0; stroke-width: 6; }
+  .vc-runner { transform-origin: 0 0; }
+  .vc-lamps { fill: #FFF3D6; stroke: #2B1237; stroke-width: 2; filter: drop-shadow(0 0 8px #FFE7B0); }
+  .vc-floodlight { fill: #FFF3D6; opacity: 0.18; }
+  .vc-board { fill: #3A1A4A; stroke: #2B1237; stroke-width: 2; }
+  .vc-score { font-family: 'Bungee', Impact, sans-serif; font-size: 22px; fill: #FF5FA2; }
+  .vc-tower-side { fill: #4FA4B8; stroke: #2B1237; stroke-width: 2; }
+  .vc-beacon { fill: #FF3B6B; }
+  .vc-helipad { fill: #6B5A7B; stroke: #FF2E88; stroke-width: 2; }
+  .vc-helipad-h { fill: none; stroke: #FFF8F0; stroke-width: 2; }
+
+  /* gate: an art-deco arch */
+  .vc-arch-neon { fill: none; stroke: #FF2E88; stroke-width: 5; filter: drop-shadow(0 0 5px #FF2E88); }
+  .vc-portal { fill: #2B1237; }
+  .vc-vortex-arm { fill: none; stroke: #FFF3E0; stroke-opacity: 0.6; stroke-width: 3.5; stroke-linecap: round; }
+  .vc-post { fill: none; stroke: #7A6A8A; stroke-width: 6; stroke-linecap: round; }
+  .vc-plaque { fill: #2B1237; stroke: #2B1237; stroke-width: 2; }
+  .vc-plaque-neon { fill: none; stroke: #12B8B8; stroke-width: 3; filter: drop-shadow(0 0 4px #12B8B8); }
+  .vc-plaque-text { font-family: 'Bungee', Impact, sans-serif; font-size: 22px; fill: #FFF3E0; letter-spacing: 1px; }
+
+  /* route: the GPS line, in the bay's turquoise */
+  .route-vice {
+    stroke-width: 7;
+    filter: drop-shadow(0 0 1.5px #ffffff) drop-shadow(0 0 1.5px #ffffff);
+  }
+
+  /* the convertible */
+  .vc-car { transform: translate(-50%, -50%); }
+  .vc-car svg { display: block; overflow: visible; transform: rotate(var(--heading, 0deg)); }
+  .vc-headbeam { fill: #FFF3D6; opacity: 0; }
+  .vc-car-shadow { fill: #2B1237; opacity: 0.3; }
+  .vc-car-paint { fill: var(--w-accent); stroke: #2B1237; stroke-width: 1.5; }
+  .vc-car-stripe { fill: none; stroke: #FFF3E0; stroke-width: 1.4; opacity: 0.7; }
+  .vc-car-seat { fill: #FFF3E0; stroke: #2B1237; stroke-width: 1; }
+  .vc-car-head { fill: #2B1237; }
+  .vc-car-head-2 { fill: #FF7A3D; }
+  .vc-car-windshield { fill: #7FD6D9; stroke: #2B1237; stroke-width: 1; opacity: 0.9; }
+  .vc-car-light { fill: #FFF3D6; }
+  .vc-car-tail { fill: #FF3B6B; }
+  [data-moving='true'] .vc-headbeam { opacity: 0.24; }
+
+  /* traffic */
+  .vc-overlay { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+  .vc-traffic { opacity: 0; }
+  .vc-traffic-car { stroke: #2B1237; stroke-width: 1; }
+  .vc-boat { opacity: 0; }
+  .vc-boat-hull { fill: #FFF8F0; stroke: #2B1237; stroke-width: 1.5; }
+  .vc-wake { stroke: #E8FFFB; stroke-width: 3; opacity: 0.6; stroke-dasharray: 10 8; }
+
+  .vc-fog { filter: blur(1px); }
+
+  /* screen-space sky */
+  .vc-backdrop { position: absolute; inset: 0; background: linear-gradient(#FF8A5C, #E8456B 30%, #58DAE0 68%, #0E86AA); }
+  .vc-fx { position: absolute; inset: 0; z-index: 5; overflow: hidden; pointer-events: none; }
+  .vc-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(80% 70% at 0% 40%, rgba(255, 122, 61, 0.28), rgba(255, 122, 61, 0) 70%);
+    mix-blend-mode: soft-light;
+  }
+  .vc-flock { position: absolute; top: 12%; left: -180px; opacity: 0; }
+  .vc-flamingo { fill: #FF6FA8; }
+  .vc-flamingo-neck { fill: none; stroke: #FF6FA8; stroke-width: 2.4; stroke-linecap: round; }
+  .vc-flamingo-wing { fill: #FF2E88; }
+  .vc-seaplane { position: absolute; top: 58%; left: -120px; opacity: 0; }
+  .vc-seaplane-shadow { fill: #2B1237; opacity: 0.15; }
+  .vc-seaplane-body { fill: #FFF8F0; stroke: #2B1237; stroke-width: 2; stroke-linejoin: round; }
+  .vc-seaplane-wing { fill: #FF2E88; stroke: #2B1237; stroke-width: 1.5; stroke-linejoin: round; }
+  .vc-seaplane-float { stroke: #2B1237; stroke-width: 3; stroke-linecap: round; }
+  .vc-gulls { position: absolute; top: 30%; left: 70%; }
+  .vc-gulls path { fill: none; stroke: #2B1237; stroke-width: 2; stroke-linecap: round; opacity: 0.5; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .vc-vortex { animation: vc-turn 8s linear infinite; }
+    .vc-wave { animation: vc-wave 4.5s ease-in-out infinite alternate; }
+    .vc-traffic { opacity: 1; animation-timing-function: linear; animation-iteration-count: infinite; }
+    .vc-south { animation-name: vc-south; }
+    .vc-north { animation-name: vc-north; }
+    .vc-south.vc-long { animation-name: vc-south-long; }
+    .vc-north.vc-long { animation-name: vc-north-long; }
+    .vc-east { animation-name: vc-east; }
+    .vc-west { animation-name: vc-west; }
+    .vc-boat { opacity: 1; animation: vc-sail 60s linear infinite; }
+    .vc-flock { opacity: 1; animation: vc-cross 90s linear infinite; }
+    .vc-seaplane { opacity: 1; animation: vc-cross 52s linear infinite; animation-delay: -24s; }
+    .vc-gulls { animation: vc-gulls 14s ease-in-out infinite alternate; }
+    .vc-bolt-on { animation: vc-pulse 1.4s ease-in-out infinite alternate; }
+    .vc-beacon { animation: vc-pulse 1.2s steps(1) infinite; }
+    .vc-runner { animation: vc-lap 19s linear infinite; }
+    .vc-glint { transform-box: fill-box; transform-origin: center; animation: vc-glint 2.4s ease-in-out infinite; }
+    .vc-found { transform-box: fill-box; transform-origin: center; animation: vc-pop 520ms cubic-bezier(0.34, 1.6, 0.64, 1) both; }
+  }
+  @keyframes vc-turn { to { transform: rotate(360deg); } }
+  @keyframes vc-wave { from { transform: translateX(-8px); opacity: 0.25; } to { transform: translateX(8px); opacity: 0.6; } }
+  @keyframes vc-south { to { transform: translateY(930px); } }
+  @keyframes vc-north { to { transform: translateY(-930px); } }
+  @keyframes vc-south-long { to { transform: translateY(1350px); } }
+  @keyframes vc-north-long { to { transform: translateY(-1350px); } }
+  @keyframes vc-east { to { transform: translateX(830px); } }
+  @keyframes vc-west { to { transform: translateX(-830px); } }
+  @keyframes vc-sail { to { transform: translateY(-900px); } }
+  @keyframes vc-cross { from { transform: translateX(0); } to { transform: translateX(calc(100vw + 360px)); } }
+  @keyframes vc-gulls { from { transform: translate(0, 0); } to { transform: translate(-60px, 20px); } }
+  @keyframes vc-pulse { from { opacity: 1; } 50% { opacity: 0.35; } to { opacity: 1; } }
+  @keyframes vc-lap { to { transform: rotate(-360deg); } }
+  @keyframes vc-glint { 0%, 60%, 100% { transform: scale(0.3) rotate(0deg); opacity: 0.3; } 75% { transform: scale(1.2) rotate(45deg); opacity: 1; } }
+  @keyframes vc-pop { from { transform: scale(0.2); opacity: 0; } }
+
+  /* the secret */
+  .vc-secret { cursor: pointer; }
+  .vc-package { fill: #B58552; stroke: #3B2A1A; stroke-width: 1.5; }
+  .vc-package-top { fill: #CFA06A; stroke: #3B2A1A; stroke-width: 1.5; }
+  .vc-package-side { fill: #8E6438; stroke: #3B2A1A; stroke-width: 1.5; }
+  .vc-tape { fill: none; stroke: #E8DFC6; stroke-width: 3; }
+  .vc-glint { fill: #FFF3D6; filter: drop-shadow(0 0 4px #FF2E88); }
+  .vc-note { fill: #FFFDF8; stroke: #2B1237; stroke-width: 1.2; }
+  .vc-note-ink { stroke: #2B1237; stroke-width: 1.2; }
+}

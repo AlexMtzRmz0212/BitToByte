@@ -46,6 +46,23 @@ describe('progress persistence', () => {
     expect(loadProgress(store)).toEqual(emptyProgress());
   });
 
+  it('keeps a themed world\'s chosen theme, and the fog of Leonida', () => {
+    const store = memory();
+    const progress = {
+      ...emptyProgress(),
+      themes: { sunset: 'santos' as const },
+      fog: { sunset: 'abc', vice: 'ghi', leonida: 'def' },
+    };
+    saveProgress(progress, store);
+    expect(loadProgress(store)).toEqual(progress);
+  });
+
+  it('drops themes that are unknown or on worlds that have none', () => {
+    const clean = sanitizeProgress({ themes: { sunset: 'miami', noir: 'santos', atlantis: 'vice' }, fog: { atlantis: 'x' } });
+    expect(clean).toEqual(emptyProgress());
+    expect(sanitizeProgress({ themes: { sunset: 'vice' } }).themes).toEqual({ sunset: 'vice' });
+  });
+
   it('drops unknown worlds, projects, misplaced projects and bad types', () => {
     const clean = sanitizeProgress({
       discovered: { manuscript: ['express-entry', 'express-entry', 'gone', 7, 'cinetech'], atlantis: ['habits'] },

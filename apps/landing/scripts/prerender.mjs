@@ -64,6 +64,15 @@ const safeJson = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
 // Each lazily loaded world: its chunk plus the shared chunks and CSS it pulls in.
 const manifest = JSON.parse(await readFile(new URL('manifest.json', manifestDir), 'utf8'));
 const worldChunks = {};
+// Which deep link each chunk serves. Most folders are a world's id; the sunset
+// world has two themes: `vice` (the default) answers its plain link, `sunset`
+// (Los Santos) answers ?theme=santos, and `leonida` is a place of its own.
+const linkKey = (dir) => {
+  if (dir === 'vice') return worlds.sunset.slug;
+  if (dir === 'sunset') return `${worlds.sunset.slug}:santos`;
+  if (dir === 'leonida') return 'leonida';
+  return worlds[dir]?.slug;
+};
 for (const [key, entry] of Object.entries(manifest)) {
   const world = /^src\/worlds\/(\w+)\/index\.ts$/.exec(key)?.[1];
   if (!world || !entry.isDynamicEntry) continue;
@@ -79,12 +88,13 @@ for (const [key, entry] of Object.entries(manifest)) {
   };
   walk(key);
   // Keyed by the world's URL slug; links with the old id or a former slug map through `ids` below.
-  worldChunks[worlds[world].slug] = { js: [...js], css: [...css] };
+  const link = linkKey(world);
+  if (link) worldChunks[link] = { js: [...js], css: [...css] };
 }
 const ids = Object.fromEntries(
   Object.values(worlds).flatMap((w) => [w.id, ...(w.formerSlugs ?? [])].map((old) => [old, w.slug]))
 );
-const preload = `<script>(function(){var m=${JSON.stringify(worldChunks)},ids=${JSON.stringify(ids)};var q=new URLSearchParams(location.search),k=q.get('world');var w=m[k]||m[ids[k]];if(!w||q.get('view')==='list')return;function add(r,h,a){var l=document.createElement('link');l.rel=r;l.href=h;if(a)l.as=a;document.head.appendChild(l);}w.js.forEach(function(h){add('modulepreload',h);});w.css.forEach(function(h){add('preload',h,'style');});})();</script>`;
+const preload = `<script>(function(){var m=${JSON.stringify(worldChunks)},ids=${JSON.stringify(ids)};var q=new URLSearchParams(location.search),k=q.get('world'),s=m[k]?k:ids[k],t=q.get('theme');var w=(t&&m[s+':'+t])||m[s];if(!w||q.get('view')==='list')return;function add(r,h,a){var l=document.createElement('link');l.rel=r;l.href=h;if(a)l.as=a;document.head.appendChild(l);}w.js.forEach(function(h){add('modulepreload',h);});w.css.forEach(function(h){add('preload',h,'style');});})();</script>`;
 
 let html = await readFile(distIndex, 'utf8');
 const replace = (marker, value) => {

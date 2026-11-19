@@ -1,8 +1,8 @@
 import { ArrowUpRightIcon, CheckIcon, ChevronUpIcon, PanelRightCloseIcon, PanelRightOpenIcon } from 'lucide-react';
 import { useRef } from 'react';
 import { projectsInWorld, type Project } from '../../data/projects';
-import { WORLDS, WORLD_IDS, isWorldId, type PlaceId, type WorldId } from '../../data/worlds';
-import { useProgress } from '../../state/app';
+import { WORLD_IDS, isWorldId, type PlaceId, type WorldId } from '../../data/worlds';
+import { usePlaceResolver, useProgress, useTheme } from '../../state/app';
 import PlaceGlyph from '../PlaceGlyph';
 import RouteLink from '../RouteLink';
 import { useFound } from './useFound';
@@ -27,11 +27,16 @@ interface Props {
 export default function TravelPanel({ place, open, onToggle, onPick }: Props) {
   const { discovered } = useProgress();
   const { found, total } = useFound('nexus');
+  const placeOf = usePlaceResolver();
+  // Leonida, the state beyond Vice City, only exists in Vice City's theme.
+  const leonidaOpen = useTheme('sunset') !== 'santos';
   const [minimized, setMinimized] = useTravelMinimized();
   const body = useRef<HTMLDivElement>(null);
   const minimizeButton = useRef<HTMLButtonElement>(null);
   const expandButton = useRef<HTMLButtonElement>(null);
-  const order: WorldId[] = isWorldId(place) ? [place, ...WORLD_IDS.filter((w) => w !== place)] : [...WORLD_IDS];
+  // Leonida belongs to Vice City's world: its projects are listed first there too.
+  const home: PlaceId = place === 'leonida' ? 'sunset' : place;
+  const order: WorldId[] = isWorldId(home) ? [home, ...WORLD_IDS.filter((w) => w !== home)] : [...WORLD_IDS];
 
   const minimize = () => {
     setMinimized(true);
@@ -89,7 +94,7 @@ export default function TravelPanel({ place, open, onToggle, onPick }: Props) {
               <section key={world} id={`travel-group-${world}`} aria-labelledby={`travel-${world}`} className="travel-group">
                 <h3 id={`travel-${world}`} className="travel-group-title">
                   <PlaceGlyph id={world} className="h-4 w-4 shrink-0" />
-                  <span>{world === place ? `Here in ${WORLDS[world].name}` : WORLDS[world].name}</span>
+                  <span>{world === home ? `Here in ${placeOf(world).name}` : placeOf(world).name}</span>
                   <span className="ml-auto tabular-nums" aria-label={`${seen.length} of ${list.length} found`}>
                     {seen.length}/{list.length}
                   </span>
@@ -98,6 +103,18 @@ export default function TravelPanel({ place, open, onToggle, onPick }: Props) {
                   {list.map((project) => (
                     <TravelItem key={project.slug} project={project} found={seen.includes(project.slug)} onPick={onPick} />
                   ))}
+                  {world === 'sunset' && leonidaOpen && (
+                    <li className="travel-item">
+                      <RouteLink to={{ place: 'leonida', project: null, view: 'auto' }} className="travel-go" onClick={onPick}>
+                        <span className="travel-name">
+                          <span className="sr-only">Travel to </span>
+                          <span>{placeOf('leonida').name}</span>
+                          <span className="sr-only">: </span>
+                        </span>
+                        <span className="travel-line">The state beyond Vice City: swamps, keys and a long highway north.</span>
+                      </RouteLink>
+                    </li>
+                  )}
                 </ul>
               </section>
             );
@@ -122,13 +139,13 @@ export default function TravelPanel({ place, open, onToggle, onPick }: Props) {
         {order.map((world) => {
           const count = projectsInWorld(world).length;
           const seen = discovered[world]?.length ?? 0;
-          const label = `${WORLDS[world].name}, ${seen} of ${count} found`;
+          const label = `${placeOf(world).name}, ${seen} of ${count} found`;
           return (
             <button
               key={world}
               type="button"
               className="travel-rail-button"
-              data-here={world === place}
+              data-here={world === home}
               aria-label={`${label}: open in the travel list`}
               title={label}
               onClick={() => expand(world)}

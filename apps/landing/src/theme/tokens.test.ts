@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PLACES, TOKEN_NAMES, type PlaceId, type TokenName } from '../data/worlds';
+import { PLACES, TOKEN_NAMES, WORLDS, resolvePlace, type PlaceId, type TokenName, type Tokens } from '../data/worlds';
 import { buildThemeCss, colorScheme } from './tokens';
 
 // WCAG 2.x relative luminance and contrast ratio for #RRGGBB colors.
@@ -34,12 +34,19 @@ const PAIRS: [TokenName, TokenName, number][] = [
   ['focus', 'surface', 3],
 ];
 
+// Every look a place can wear: each place, plus each alternate theme of a world.
+const LOOKS: [string, Tokens][] = [
+  ...(Object.keys(PLACES) as PlaceId[]).map((id): [string, Tokens] => [id, PLACES[id].tokens]),
+  ...Object.values(WORLDS).flatMap((world) =>
+    Object.entries(world.themes ?? {}).map(([theme, face]): [string, Tokens] => [`${world.id}/${theme}`, face.tokens])
+  ),
+];
+
 describe('theme tokens', () => {
-  for (const id of Object.keys(PLACES) as PlaceId[]) {
-    const tokens = PLACES[id].tokens;
-    describe(id, () => {
+  for (const [name, tokens] of LOOKS) {
+    describe(name, () => {
       it('defines every token', () => {
-        for (const name of TOKEN_NAMES) expect(tokens[name], name).toBeTruthy();
+        for (const token of TOKEN_NAMES) expect(tokens[token], token).toBeTruthy();
       });
       for (const [fg, bg, min] of PAIRS) {
         it(`${fg} on ${bg} meets ${min}:1`, () => {
@@ -49,12 +56,25 @@ describe('theme tokens', () => {
     });
   }
 
-  it('builds one rule per place', () => {
+  it('builds one rule per place, and one per alternate theme', () => {
     const css = buildThemeCss();
     expect(css.startsWith(':root{--w-bg:#030712')).toBe(true);
     for (const id of Object.keys(PLACES)) {
       if (id !== 'nexus') expect(css).toContain(`:root[data-world="${id}"]{`);
     }
+    expect(css).toContain(':root[data-world="sunset"][data-theme="santos"]{');
+  });
+
+  it('keeps Vice City as the default face and Los Santos as the alternate', () => {
+    expect(PLACES.sunset.name).toBe('Vice City');
+    expect(resolvePlace('sunset').name).toBe('Vice City');
+    expect(resolvePlace('sunset', 'vice').name).toBe('Vice City');
+    expect(resolvePlace('sunset', 'santos').name).toBe('Los Santos');
+    expect(resolvePlace('sunset', 'santos').tokens.bg).not.toBe(PLACES.sunset.tokens.bg);
+    // Leonida is the same state of mind as Vice City.
+    expect(PLACES.leonida.tokens).toBe(PLACES.sunset.tokens);
+    // A theme on a world without one changes nothing.
+    expect(resolvePlace('noir', 'santos')).toBe(PLACES.noir);
   });
 
   it('gives dark worlds dark native scrollbars and controls', () => {
@@ -64,6 +84,8 @@ describe('theme tokens', () => {
     expect(colorScheme(PLACES.voxel.tokens.bg)).toBe('light');
     expect(colorScheme(PLACES.pop.tokens.bg)).toBe('light');
     expect(colorScheme(PLACES.frontier.tokens.bg)).toBe('light');
-    expect(colorScheme(PLACES.sunset.tokens.bg)).toBe('dark');
+    // Vice City is a golden-hour light theme; Los Santos is the dusk one.
+    expect(colorScheme(PLACES.sunset.tokens.bg)).toBe('light');
+    expect(colorScheme(resolvePlace('sunset', 'santos').tokens.bg)).toBe('dark');
   });
 });

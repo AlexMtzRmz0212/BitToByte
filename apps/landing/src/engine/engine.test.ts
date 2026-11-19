@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { projects } from '../data/projects';
-import { MAPS, WORLD_IDS, arrivalPoint, departureGate, type PlaceId } from '../data/worlds';
+import { MAPS, WORLD_IDS, arrivalPoint, departureGate, mapFor, type PlaceId } from '../data/worlds';
 import { clampView, readableZoom, screenToWorld, worldToScreen, zoomAround, zoomLimits, type Frame } from './camera';
 import { placeProjects } from './lots';
 import { buildRoute, travelDuration } from './route';
@@ -104,7 +104,8 @@ describe('world maps', () => {
       expect(MAPS.nexus.gates[id]).toBeDefined();
       const gates = Object.keys(MAPS[id].gates);
       expect(gates).toContain('nexus');
-      expect(gates.length).toBe(3);
+      // Vice City (the default sunset map) has a fourth gate, to Leonida.
+      expect(gates.length).toBe(id === 'sunset' ? 4 : 3);
       for (const key of gates) {
         const to = key as PlaceId;
         expect(departureGate(id, to)).toEqual(MAPS[id].gates[to]);
@@ -112,5 +113,48 @@ describe('world maps', () => {
         expect(arrivalPoint(to, id)).toEqual(MAPS[to].gates[id]);
       }
     }
+  });
+
+  it('keeps Los Santos wired like the other worlds, with no Leonida gate', () => {
+    const santos = mapFor('sunset', 'santos');
+    expect(Object.keys(santos.gates).sort()).toEqual(['nexus', 'noir', 'pop']);
+    expect(santos.lots.length).toBeGreaterThanOrEqual(placeProjects('sunset', 'santos').length);
+    // Neighbours still arrive at its matching gate.
+    expect(arrivalPoint('sunset', 'pop', 'santos')).toEqual(santos.gates.pop);
+    expect(arrivalPoint('sunset', 'noir', 'santos')).toEqual(santos.gates.noir);
+  });
+
+  it('places the sunset projects on both themes, inside the map', () => {
+    for (const theme of ['vice', 'santos'] as const) {
+      const map = mapFor('sunset', theme);
+      const placed = placeProjects('sunset', theme);
+      expect(placed.length).toBe(projects.filter((p) => p.world === 'sunset').length);
+      expect(new Set(placed.map((p) => `${p.at.x},${p.at.y}`)).size).toBe(placed.length);
+      for (const { at } of [...placed, { at: map.spawn }, { at: map.airport ?? map.spawn }, { at: map.secret! }]) {
+        expect(at.x).toBeGreaterThan(0);
+        expect(at.x).toBeLessThan(map.size.w);
+        expect(at.y).toBeGreaterThan(0);
+        expect(at.y).toBeLessThan(map.size.h);
+      }
+    }
+  });
+
+  it('lands a flight (arriving from the same place) at the airport', () => {
+    expect(arrivalPoint('sunset', 'sunset', 'vice')).toEqual(MAPS.sunset.airport);
+    expect(arrivalPoint('sunset', 'sunset', 'santos')).toEqual(mapFor('sunset', 'santos').airport);
+  });
+
+  it('joins Vice City and Leonida with one gate each way, and leaves Leonida through Vice City', () => {
+    expect(MAPS.sunset.gates.leonida).toBeDefined();
+    expect(Object.keys(MAPS.leonida.gates)).toEqual(['sunset']);
+    expect(arrivalPoint('leonida', 'sunset')).toEqual(MAPS.leonida.gates.sunset);
+    expect(arrivalPoint('sunset', 'leonida')).toEqual(MAPS.sunset.gates.leonida);
+    // No hub gate in Leonida: any trip out starts at the Vice City gate.
+    expect(departureGate('leonida', 'nexus')).toEqual(MAPS.leonida.gates.sunset);
+    expect(departureGate('leonida', 'sunset')).toEqual(MAPS.leonida.gates.sunset);
+    expect(departureGate('leonida', 'noir')).toEqual(MAPS.leonida.gates.sunset);
+    // Leonida has no projects and no lots.
+    expect(MAPS.leonida.lots).toEqual([]);
+    expect(MAPS.leonida.spawn.x).toBeLessThan(MAPS.leonida.size.w);
   });
 });

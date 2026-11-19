@@ -326,20 +326,20 @@
 
   /* ------------------------------------------------------------ Sunset */
   /* A heads-up display: dark glass panels with a gold edge. */
-  :root[data-world='sunset'] .chrome,
-  :root[data-world='sunset'] .chrome-pill {
+  :root[data-world='sunset'][data-theme='santos'] .chrome,
+  :root[data-world='sunset'][data-theme='santos'] .chrome-pill {
     background: color-mix(in oklab, var(--w-surface) 86%, transparent);
     border-color: rgba(244, 241, 250, 0.12);
     backdrop-filter: blur(10px);
   }
   /* Labels are waypoints: a dark pill with a gold blip. */
-  :root[data-world='sunset'] .map-marker {
+  :root[data-world='sunset'][data-theme='santos'] .map-marker {
     padding-left: 1.6rem;
     border-color: rgba(244, 241, 250, 0.16);
     background: color-mix(in oklab, var(--w-bg) 88%, transparent);
     font-weight: 600;
   }
-  :root[data-world='sunset'] .map-marker::after {
+  :root[data-world='sunset'][data-theme='santos'] .map-marker::after {
     content: '';
     position: absolute;
     left: 0.6rem;
@@ -351,19 +351,19 @@
     translate: 0 -50%;
     box-shadow: 0 0 8px var(--w-accent);
   }
-  :root[data-world='sunset'] .map-marker[data-state='here'] {
+  :root[data-world='sunset'][data-theme='santos'] .map-marker[data-state='here'] {
     border-color: var(--w-route);
     box-shadow: 0 0 0 1px var(--w-route), 0 0 18px -4px var(--w-route);
   }
-  :root[data-world='sunset'] .map-marker[data-state='here']::after {
+  :root[data-world='sunset'][data-theme='santos'] .map-marker[data-state='here']::after {
     background: var(--w-route);
     box-shadow: 0 0 8px var(--w-route);
   }
-  :root[data-world='sunset'] .project-card {
+  :root[data-world='sunset'][data-theme='santos'] .project-card {
     padding-top: 2.4rem;
     border-left: 4px solid var(--w-accent);
   }
-  :root[data-world='sunset'] .project-card::before {
+  :root[data-world='sunset'][data-theme='santos'] .project-card::before {
     content: 'Waypoint set';
     position: absolute;
     left: 1.5rem;
@@ -373,6 +373,46 @@
     letter-spacing: 0.08em;
     color: var(--w-accent-text);
   }
-  :root[data-world='sunset'] .dock-slot-link[aria-current='page'] {
+  :root[data-world='sunset'][data-theme='santos'] .dock-slot-link[aria-current='page'] {
     box-shadow: 0 0 16px -2px rgba(255, 178, 56, 0.6);
+  }
+
+  /* ------------------------------------------------------------ Vice City */
+  /* Frosted peach glass with neon-pink edges. Vice City is the default theme of
+   * the sunset world, and Leonida (its state map) wears it too. */
+  :root:is([data-world='sunset']:not([data-theme='santos']), [data-world='leonida']) .chrome,
+  :root:is([data-world='sunset']:not([data-theme='santos']), [data-world='leonida']) .chrome-pill {
+    background: color-mix(in oklab, var(--w-surface) 84%, transparent);
+    border-color: color-mix(in oklab, var(--w-accent) 45%, transparent);
+    backdrop-filter: blur(12px) saturate(1.25);
+  }
+  /* Labels are neon signs: a cream pill with a pink tube around it. */
+  :root:is([data-world='sunset']:not([data-theme='santos']), [data-world='leonida']) .map-marker {
+    background: color-mix(in oklab, var(--w-raised) 92%, transparent);
+    border-color: var(--w-accent);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--w-accent) 35%, transparent), 0 0 14px -4px var(--w-accent);
+    font-weight: 700;
+  }
+  :root:is([data-world='sunset']:not([data-theme='santos']), [data-world='leonida']) .map-marker[data-state='here'] {
+    border-color: var(--w-route);
+    box-shadow: 0 0 0 1px var(--w-route), 0 0 18px -4px var(--w-route);
+  }
+  :root:is([data-world='sunset']:not([data-theme='santos']), [data-world='leonida']) .project-card {
+    padding-top: 2.4rem;
+    border-top: 5px solid var(--w-accent);
+    box-shadow: var(--w-shadow-card), 0 -2px 0 var(--w-deco-1);
+  }
+  :root:is([data-world='sunset']:not([data-theme='santos']), [data-world='leonida']) .project-card::before {
+    content: 'Now arriving';
+    position: absolute;
+    left: 1.5rem;
+    top: 0.8rem;
+    font-family: var(--w-font-display);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--w-accent-text);
+  }
+  :root:is([data-world='sunset']:not([data-theme='santos']), [data-world='leonida']) .dock-slot-link[aria-current='page'] {
+    box-shadow: 0 0 16px -2px color-mix(in oklab, var(--w-accent) 65%, transparent);
   }

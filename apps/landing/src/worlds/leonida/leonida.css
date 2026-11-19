@@ -1,0 +1,71 @@
+/* Leonida: the state, as a road-atlas page. It borrows Vice City's paint (the
+ * vc- classes in worlds/vice/vice.css) and adds what only a whole state needs. */
+@layer components {
+  .lo-foam { fill: none; stroke: #e8fffb; stroke-width: 110; stroke-linejoin: round; opacity: 0.38; }
+  .lo-beach { fill: none; stroke: #ffe6b3; stroke-width: 56; stroke-linejoin: round; }
+  .lo-land { fill: #f3e8c6; }
+  .lo-title { font-size: 64px; letter-spacing: 8px; fill: #e8fffb; opacity: 0.55; }
+  .lo-region { font-size: 34px; letter-spacing: 3px; opacity: 0.5; }
+
+  /* Ambrosia */
+  .lo-ambrosia { fill: #d6e6a0; }
+  .lo-cane-0 { fill: #a4d46c; }
+  .lo-cane-1 { fill: #bde084; }
+  .lo-cane-2 { fill: #d9e99c; }
+  .lo-cane-3 { fill: #8fc868; }
+  .lo-lake-beach { fill: #ffe6b3; }
+  .lo-lake { fill: #4fd0e0; }
+  .lo-refinery { fill: #fff3e0; stroke: #2b1237; stroke-width: 1.5; }
+  .lo-stack { fill: #ffd6e4; stroke: #2b1237; stroke-width: 1.5; }
+  .lo-stack-top { fill: #7a2a6a; }
+  .lo-roof { fill: #ff8fb1; stroke: #2b1237; stroke-width: 1; }
+  .lo-smoke { fill: #fff8f0; opacity: 0.8; }
+  .lo-smoke-2 { opacity: 0.55; }
+
+  /* Mount Kalaga */
+  .lo-forest { fill: #5fa87c; opacity: 0.55; }
+  .lo-tree { fill: #2f8b63; opacity: 0.8; }
+  .lo-peak { fill: #a9a2c4; stroke: #2b1237; stroke-width: 1.5; stroke-linejoin: round; }
+  .lo-peak-dark { fill: #7d7498; stroke: #2b1237; stroke-width: 1.5; stroke-linejoin: round; }
+  .lo-snow { fill: #fff8f0; }
+
+  /* Grassrivers */
+  .lo-swamp { fill: #7cc79a; }
+  .lo-swamp-deep { fill: #63b685; }
+  .lo-river { fill: none; stroke: #86e3dd; stroke-width: 8; stroke-linecap: round; opacity: 0.85; }
+  .lo-reed { fill: none; stroke: #2e8b63; stroke-width: 2; stroke-linecap: round; }
+  .lo-gator { fill: #3f7d4f; stroke: #1d4a2d; stroke-width: 1.2; stroke-linejoin: round; }
+  .lo-gator-eye { fill: #ffd25a; }
+
+  /* Port Gellhorn: rust and peeling paint */
+  .lo-town { fill: #e0cdb4; stroke: #b7a187; stroke-width: 2; }
+  .lo-house { stroke: #2b1237; stroke-width: 0.8; }
+  .lo-house-0 { fill: #d9a89a; }
+  .lo-house-1 { fill: #c9c0a9; }
+  .lo-house-2 { fill: #a9c0b9; }
+  .lo-dock { fill: #b3a6c6; stroke: #8a7a9c; stroke-width: 2; }
+  .lo-crate { stroke: #2b1237; stroke-width: 0.8; }
+  .lo-crate-0 { fill: #b8502f; }
+  .lo-crate-1 { fill: #8a7a9c; }
+  .lo-crate-2 { fill: #c98a3d; }
+  .lo-crate-3 { fill: #6e8f8a; }
+
+  /* roads and bridges */
+  .lo-road-edge { fill: none; stroke: #4c3a5e; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; }
+  .lo-road { fill: none; stroke: #8a7a9c; stroke-width: 11; stroke-linecap: round; stroke-linejoin: round; }
+  .lo-road-lane { fill: none; stroke: #fff3e0; stroke-width: 1.5; stroke-dasharray: 10 10; opacity: 0.7; }
+  .lo-bridge-shadow { fill: none; stroke: #7a2a6a; stroke-width: 16; opacity: 0.2; transform: translate(5px, 6px); }
+
+  /* the keys */
+  .lo-key-beach { fill: #ffe6b3; }
+  .lo-key { fill: #7ed3a0; }
+
+  /* Vice City on the coast */
+  .lo-city { fill: #ffd6e4; stroke: #2b1237; stroke-width: 1.5; opacity: 0.9; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lo-smoke { animation: lo-rise 4.6s ease-out infinite; }
+    .lo-smoke-2 { animation-delay: -2.3s; }
+  }
+  @keyframes lo-rise { from { transform: translateY(8px); opacity: 0.8; } to { transform: translateY(-16px); opacity: 0; } }
+}

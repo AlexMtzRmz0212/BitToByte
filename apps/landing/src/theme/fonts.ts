@@ -1,11 +1,18 @@
-import type { PlaceId } from '../data/worlds';
+import type { PlaceId, ThemeId } from '../data/worlds';
 
 // Self-hosted fonts, loaded per place. The Nexus face ships with the main bundle
 // (imported in main.tsx); each world's faces arrive as their own CSS chunk the
 // first time someone heads there. Portal travel awaits loadPlaceFonts() while the
 // screen is covered, so the swap never shows a fallback face reflowing.
+//
+// `sunset` and `leonida` wear Vice City's faces; Los Santos' have their own key.
 
-const loaders: Record<PlaceId, () => Promise<unknown>> = {
+type FontKey = PlaceId | 'santos';
+
+const vice = () =>
+  Promise.all([import('@fontsource/bungee/latin-400.css'), import('@fontsource-variable/outfit/wght.css')]);
+
+const loaders: Record<FontKey, () => Promise<unknown>> = {
   nexus: () => Promise.resolve(),
   manuscript: () =>
     Promise.all([
@@ -37,7 +44,9 @@ const loaders: Record<PlaceId, () => Promise<unknown>> = {
       import('@fontsource/zilla-slab/latin-400.css'),
       import('@fontsource/zilla-slab/latin-700.css'),
     ]),
-  sunset: () =>
+  sunset: vice,
+  leonida: vice,
+  santos: () =>
     Promise.all([
       import('@fontsource/bowlby-one/latin-400.css'),
       import('@fontsource/barlow/latin-400.css'),
@@ -46,23 +55,26 @@ const loaders: Record<PlaceId, () => Promise<unknown>> = {
 };
 
 // One representative face per family, so document.fonts.load() fetches the files.
-const FACES: Record<PlaceId, string[]> = {
+const FACES: Record<FontKey, string[]> = {
   nexus: ['600 1em "Bricolage Grotesque Variable"'],
   manuscript: ['400 1em "IM Fell English"', '400 1em "EB Garamond Variable"'],
   voxel: ['600 1em "Pixelify Sans Variable"', '400 1em "Atkinson Hyperlegible"'],
   noir: ['600 1em "Antonio Variable"', '400 1em "Courier Prime"'],
   pop: ['400 1em "Bangers"', '400 1em "Comic Neue"'],
   frontier: ['400 1em "Rye"', '400 1em "Zilla Slab"'],
-  sunset: ['400 1em "Bowlby One"', '400 1em "Barlow"'],
+  sunset: ['400 1em "Bungee"', '400 1em "Outfit Variable"'],
+  leonida: ['400 1em "Bungee"', '400 1em "Outfit Variable"'],
+  santos: ['400 1em "Bowlby One"', '400 1em "Barlow"'],
 };
 
-const pending = new Map<PlaceId, Promise<void>>();
+const pending = new Map<FontKey, Promise<void>>();
 
 /**
  * Load a place's font CSS and files, waiting at most `timeoutMs` for both.
  * Never rejects: a slow or failed font falls back to the stack in the tokens.
  */
-export function loadPlaceFonts(id: PlaceId, timeoutMs = 1500): Promise<void> {
+export function loadPlaceFonts(place: PlaceId, theme?: ThemeId, timeoutMs = 1500): Promise<void> {
+  const id: FontKey = place === 'sunset' && theme === 'santos' ? 'santos' : place;
   const existing = pending.get(id);
   if (existing) return existing;
   const fetched = loaders[id]().then(() => {

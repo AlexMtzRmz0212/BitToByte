@@ -2,23 +2,36 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LocateFixedIcon, MinusIcon, PlusIcon, XIcon } from 'lucide-react';
 import { projectBySlug, projectsInWorld } from '../../data/projects';
 import {
-  MAPS,
   PLACES,
   SECRETS,
   SECRET_IDS,
-  WORLDS,
   WORLD_IDS,
   arrivalPoint,
   departureGate,
   isWorldId,
+  mapFor,
   type PlaceId,
   type Point,
+  type ThemeId,
+  type WorldId,
 } from '../../data/worlds';
 import type { MapController } from '../../engine/controller';
 import { FogField } from '../../engine/fog';
 import { doorstep, placeProjects } from '../../engine/lots';
 import { useReducedMotion } from '../../engine/motion';
-import { app, discover, findSecret, markIntroSeen, navigate, saveFog, useApp, useProgress, useRoute } from '../../state/app';
+import {
+  app,
+  discover,
+  findSecret,
+  markIntroSeen,
+  navigate,
+  saveFog,
+  useApp,
+  usePlaceResolver,
+  useProgress,
+  useRoute,
+} from '../../state/app';
+import type { FogKey } from '../../state/persist';
 import type { WorldModule } from '../../worlds/types';
 import IntroCard from '../IntroCard';
 import ProjectCard from '../ProjectCard';
@@ -34,6 +47,8 @@ import './map.css';
 
 interface Props {
   place: PlaceId;
+  /** The theme this map is drawn in (a themed world), else undefined. */
+  theme?: ThemeId;
   module: WorldModule;
   /** The place we came from through a portal (null on a fresh load). */
   from: PlaceId | null;
@@ -50,19 +65,26 @@ const desktop = () => typeof window !== 'undefined' && window.matchMedia('(min-w
  * landmark, and turns URL changes into travel: picking a project walks there
  * and opens its card; picking a gate walks there and hands off to the portal.
  */
-export default function MapScreen({ place, module, from, departingTo, onDeparted }: Props) {
+export default function MapScreen({ place, theme, module, from, departingTo, onDeparted }: Props) {
   const route = useRoute();
   const progress = useProgress();
   const reducedMotion = useReducedMotion();
-  const layout = MAPS[place];
+  const placeOf = usePlaceResolver();
+  // Names are read at render time (they depend on the theme), not inside callbacks.
+  const worldName = isWorldId(place) ? placeOf(place).name : '';
+  const cityName = placeOf('sunset').name;
+  const worldNames = Object.fromEntries(WORLD_IDS.map((id) => [id, placeOf(id).name])) as Record<WorldId, string>;
+  const layout = useMemo(() => mapFor(place, theme), [place, theme]);
   const world = isWorldId(place) ? place : null;
-  const placed = useMemo(() => (world ? placeProjects(world) : []), [world]);
+  // Each map keeps its own fog of war: a world, Vice City (sunset's default theme) or Leonida.
+  const fogKey: FogKey | null = place === 'sunset' && theme !== 'santos' ? 'vice' : (world ?? (place === 'leonida' ? place : null));
+  const placed = useMemo(() => (world ? placeProjects(world, theme) : []), [world, theme]);
 
   // Where the traveler appears: at the landmark for a deep link, else at the gate we came through.
   const [start] = useState<Point>(() => {
     const target = world && route.project ? placed.find((p) => p.project.slug === route.project) : null;
     if (target && !from) return doorstep(target.at);
-    return arrivalPoint(place, from);
+    return arrivalPoint(place, from, theme);
   });
   const [arrived, setArrived] = useState<string | null>(() =>
     world && route.project && !from && placed.some((p) => p.project.slug === route.project) ? route.project : null
@@ -81,33 +103,35 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
     if (!world) return;
     const found = app.get().progress.discovered[world]?.length ?? 0;
     if (found === placed.length) {
-      setNote({ title: `${WORLDS[world].name}: all found`, text: `You found all ${placed.length} projects here. The other worlds are waiting.` });
+      setNote({ title: `${worldName}: all found`, text: `You found all ${placed.length} projects here. The other worlds are waiting.` });
     }
-  }, [world, placed.length]);
+  }, [world, placed.length, worldName]);
 
   // Fog of war: restored from storage, cleared around where you arrive and
   // around anything already found. Purely visual; nothing under it is gated.
   const fog = useMemo(() => {
-    if (!world || !module.fog || !layout.fog) return null;
+    if (!fogKey || !module.fog || !layout.fog) return null;
     const field = new FogField(layout.size.w, layout.size.h, layout.fog.cell);
     const saved = app.get().progress;
-    field.decode(saved.fog[world]);
+    field.decode(saved.fog[fogKey]);
     // A generous clearing where you arrive, so a new world never opens on a blank page.
     field.clearCircle(start.x, start.y, layout.fog.radius * 1.7);
     for (const p of placed) {
-      if (saved.discovered[world]?.includes(p.project.slug)) field.clearCircle(p.at.x, p.at.y, layout.fog.radius * 0.8);
+      if (world && saved.discovered[world]?.includes(p.project.slug)) {
+        field.clearCircle(p.at.x, p.at.y, layout.fog.radius * 0.8);
+      }
     }
     return field;
     // One field per mounted map.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [world]);
+  }, [fogKey]);
 
   const fogSave = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const onFogChange = useCallback(() => {
-    if (!fog || !world) return;
+    if (!fog || !fogKey) return;
     clearTimeout(fogSave.current);
-    fogSave.current = setTimeout(() => saveFog(world, fog.encode()), 600);
-  }, [fog, world]);
+    fogSave.current = setTimeout(() => saveFog(fogKey, fog.encode()), 600);
+  }, [fog, fogKey]);
 
   // Clearing fog over a landmark counts as finding it.
   const onFogReveal = useCallback(
@@ -198,7 +222,7 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       const isNew = discover(world, target.project.slug);
       const found = (progress.discovered[world]?.length ?? 0) + (isNew ? 1 : 0);
       setAnnouncement(
-        `Arrived at ${target.project.name}. ${found} of ${placed.length} found in ${WORLDS[world].name}.`
+        `Arrived at ${target.project.name}. ${found} of ${placed.length} found in ${worldName}.`
       );
       if (isNew) celebrate();
     });
@@ -213,7 +237,7 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       onDeparted(null);
       return;
     }
-    const gate = departureGate(place, departingTo);
+    const gate = departureGate(place, departingTo, theme);
     if (!gate) {
       onDeparted(null);
       return;
@@ -241,12 +265,13 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       return;
     }
     const [kind, id] = target.split(':') as [string, string];
-    if (kind === 'gate' && (id === 'nexus' || isWorldId(id))) {
-      navigate({ place: id, project: null, view: 'auto' });
+    if (kind === 'gate' && (id === 'nexus' || id === 'leonida' || isWorldId(id))) {
+      // Leonida is Vice City's state: leaving it for the city means the Vice City theme.
+      navigate({ place: id, project: null, view: 'auto', ...(place === 'leonida' && id === 'sunset' ? { theme: 'vice' as const } : {}) });
     } else if (kind === 'project' && projectBySlug(id)) {
       navigate({ project: id });
     }
-  }, [controller, layout.home, layout.spawn, layout.secret, world]);
+  }, [controller, layout.home, layout.spawn, layout.secret, world, place]);
 
   const closeIntro = useCallback(() => {
     markIntroSeen();
@@ -306,10 +331,16 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
       const home = layout.gates.nexus;
       return home ? { at: home, label: PLACES.nexus.name, go: () => goTo('gate:nexus') } : null;
     }
+    // Leonida has no projects: the compass points back to Vice City.
+    if (place === 'leonida') {
+      const city = layout.gates.sunset;
+      return city ? { at: city, label: cityName, go: () => goTo('gate:sunset') } : null;
+    }
     const open = WORLD_IDS.filter((w) => (progress.discovered[w]?.length ?? 0) < projectsInWorld(w).length)
+      .filter((w) => layout.gates[w])
       .map((w) => ({ w, at: layout.gates[w]! }))
       .sort((a, b) => dist(a.at) - dist(b.at))[0];
-    return open ? { at: open.at, label: WORLDS[open.w].name, go: () => goTo(`gate:${open.w}`) } : null;
+    return open ? { at: open.at, label: worldNames[open.w], go: () => goTo(`gate:${open.w}`) } : null;
     // Recomputed after each arrival (arrived changes), which is when "nearest" can change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controller, world, route.project, progress.discovered, arrived, goTo]);
@@ -352,18 +383,24 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   const markers = (
     <>
       {gates.map(([to, at]) => {
-        const count = to === 'nexus' ? null : projectsInWorld(to).length;
-        const found = to === 'nexus' ? null : (progress.discovered[to]?.length ?? 0);
+        const count = isWorldId(to) ? projectsInWorld(to).length : null;
+        const found = isWorldId(to) ? (progress.discovered[to]?.length ?? 0) : null;
         return (
           <MapMarker
             key={to}
             kind="gate"
             at={at}
             lift={-118}
-            label={to === 'nexus' ? `Back to ${PLACES.nexus.name}` : isHub ? PLACES[to].name : `To ${PLACES[to].name}`}
+            label={to === 'nexus' ? `Back to ${PLACES.nexus.name}` : isHub ? placeOf(to).name : `To ${placeOf(to).name}`}
             sub={count === null ? undefined : `${found}/${count} found`}
             // The name repeats the visible text (WCAG 2.5.3), so voice users can say what they see.
-            ariaLabel={to === 'nexus' ? `Portal back to ${PLACES.nexus.name}` : `Portal to ${PLACES[to].name}, ${found}/${count} found`}
+            ariaLabel={
+              to === 'nexus'
+                ? `Portal back to ${PLACES.nexus.name}`
+                : count === null
+                  ? `Portal to ${placeOf(to).name}`
+                  : `Portal to ${placeOf(to).name}, ${found}/${count} found`
+            }
             onSelect={() => goTo(`gate:${to}`)}
           />
         );
@@ -415,7 +452,7 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
           layout={layout}
           start={start}
           reducedMotion={reducedMotion}
-          label={`Map of ${PLACES[place].name}`}
+          label={`Map of ${placeOf(place).name}`}
           art={art}
           markers={markers}
           traveler={<Traveler />}

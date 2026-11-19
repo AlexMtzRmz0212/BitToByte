@@ -1,4 +1,4 @@
-import { PLACES } from '../../data/worlds';
+import { placeNow } from '../../state/app';
 import { spiralArm } from '../shared/sketch';
 import type { GateProps } from '../types';
 import { INK, PAPER, PAPER_DARK } from './ink';
@@ -11,7 +11,7 @@ const ARMS = [0, 1, 2].map((i) => spiralArm(0, 0, 50, 1.1, (i * Math.PI * 2) / 3
  */
 export default function ManuscriptGate({ to, at }: GateProps) {
   const id = `ms-arch-${to}`;
-  const tint = PLACES[to].tokens.accent;
+  const tint = placeNow(to).tokens.accent;
   return (
     <g transform={`translate(${at.x} ${at.y})`} data-target={`gate:${to}`} className="ms-gate">
       <defs>

@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { ArrowUpRightIcon, FileTextIcon, MapIcon } from 'lucide-react';
-import { PLACES, isWorldId } from '../data/worlds';
+import { isWorldId } from '../data/worlds';
 import { site } from '../data/site';
+import { usePlace } from '../state/app';
 import type { Route } from '../state/url';
 import { hasMap } from '../worlds/registry';
 import BrandLockup from './BrandLockup';
@@ -9,6 +10,7 @@ import ContactLinks from './ContactLinks';
 import ProjectList from './ProjectList';
 import RouteLink from './RouteLink';
 import SiteFooter from './SiteFooter';
+import ThemeSwitch from './ThemeSwitch';
 import WorldDock from './WorldDock';
 
 /**
@@ -18,7 +20,7 @@ import WorldDock from './WorldDock';
  */
 export default function ListView({ route, notice }: { route: Route; notice?: string }) {
   const world = isWorldId(route.place) ? route.place : null;
-  const place = PLACES[route.place];
+  const place = usePlace(route.place);
   const mapAvailable = world ? hasMap(world) : true;
 
   useEffect(() => {
@@ -34,6 +36,7 @@ export default function ListView({ route, notice }: { route: Route; notice?: str
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
           <BrandLockup />
           <div className="flex items-center gap-2">
+            <ThemeSwitch place={route.place} variant="list" />
             {mapAvailable && (
               <RouteLink
                 to={{ place: route.place, project: world ? route.project : null, view: world ? 'map' : 'auto' }}

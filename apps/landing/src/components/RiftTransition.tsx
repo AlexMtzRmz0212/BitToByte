@@ -1,6 +1,7 @@
 import { useEffect, useRef, type CSSProperties } from 'react';
 import './rift.css';
-import { PLACES, type PlaceId, type Point } from '../data/worlds';
+import { type PlaceId, type Point } from '../data/worlds';
+import { placeNow } from '../state/app';
 
 export interface Rift {
   id: number;
@@ -44,8 +45,8 @@ export default function RiftTransition({ rift, reducedMotion, onCovered, onDone 
     return () => clearTimeout(t);
   }, [rift.id, rift.phase, reducedMotion]);
 
-  const from = PLACES[rift.from].tokens;
-  const to = PLACES[rift.to].tokens;
+  const from = placeNow(rift.from).tokens;
+  const to = placeNow(rift.to).tokens;
   const vw = typeof window === 'undefined' ? 1440 : window.innerWidth;
   const vh = typeof window === 'undefined' ? 900 : window.innerHeight;
   const at = rift.phase === 'closing' || !rift.at ? { x: vw / 2, y: vh / 2 } : rift.at;

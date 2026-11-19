@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PLACES } from '../../data/worlds';
+import { placeNow } from '../../state/app';
 import { prefersReducedMotion } from '../../engine/motion';
 import { burst } from '../shared/sketch';
 import type { GateProps } from '../types';
@@ -10,7 +10,7 @@ const K = '#161616';
 
 /** A comic starburst door; its eye spins with speed rings in the destination's colour. */
 export function PopGate({ to, at }: GateProps) {
-  const tint = PLACES[to].tokens.accent;
+  const tint = placeNow(to).tokens.accent;
   return (
     <g transform={`translate(${at.x} ${at.y})`} data-target={`gate:${to}`} className="pp-gate">
       <polygon points={burst(0, 0, 130, 92, 16)} fill="#FFD400" stroke={K} strokeWidth="7" strokeLinejoin="round" />

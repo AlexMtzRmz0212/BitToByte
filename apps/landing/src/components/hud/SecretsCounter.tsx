@@ -1,14 +1,15 @@
-import { SECRET_IDS, WORLD_IDS, WORLDS } from '../../data/worlds';
-import { useProgress } from '../../state/app';
+import { SECRET_IDS, WORLD_IDS } from '../../data/worlds';
+import { usePlaceResolver, useProgress } from '../../state/app';
 import PlaceGlyph from '../PlaceGlyph';
 
 /** "Secrets n/4": one slot per world, lit when that world's secret is found. */
 export default function SecretsCounter() {
   const { secrets } = useProgress();
+  const placeOf = usePlaceResolver();
   const found = WORLD_IDS.filter((id) => secrets.includes(SECRET_IDS[id]));
   const label = `Secrets found: ${found.length} of ${WORLD_IDS.length}.`;
   const hint = found.length
-    ? ` Found in ${found.map((id) => WORLDS[id].name).join(', ')}.`
+    ? ` Found in ${found.map((id) => placeOf(id).name).join(', ')}.`
     : ' One hides in each world.';
   return (
     <p className="flex min-h-11 items-center gap-2 rounded-control px-2 text-sm text-muted" title={label + hint}>

@@ -1,5 +1,5 @@
 import { projectsInWorld, type Project } from '../data/projects';
-import { MAPS, type Point, type WorldId } from '../data/worlds';
+import { mapFor, type Point, type ThemeId, type WorldId } from '../data/worlds';
 
 export interface Placed {
   project: Project;
@@ -12,8 +12,8 @@ export interface Placed {
  * has more projects than lots, the extras are spread on a ring around the map's
  * centre, so adding a project can never break a map.
  */
-export function placeProjects(world: WorldId): Placed[] {
-  const map = MAPS[world];
+export function placeProjects(world: WorldId, theme?: ThemeId): Placed[] {
+  const map = mapFor(world, theme);
   const projects = projectsInWorld(world);
   const taken = new Set<number>();
   const assigned = new Map<string, Point>();

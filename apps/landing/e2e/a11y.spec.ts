@@ -62,3 +62,24 @@ for (const id of WORLD_IDS) {
     await expectNoSeriousIssues(page);
   });
 }
+
+// The sunset world's other theme, and the state map beyond Vice City.
+test('Los Santos (the alternate theme): map, list and a project card', async ({ page }) => {
+  test.setTimeout(60_000);
+  await page.goto('/?world=los-santos&theme=santos&view=map');
+  await expect(page.locator('.map-screen[data-place="sunset"]')).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'santos');
+  await expectNoSeriousIssues(page);
+  await page.goto('/?world=los-santos&theme=santos&view=list');
+  await expectNoSeriousIssues(page);
+  await page.goto(`/?world=los-santos&theme=santos&project=${CARD.sunset}`);
+  await expect(page.locator('#card-title')).toBeVisible({ timeout: 15_000 });
+  await expectNoSeriousIssues(page);
+});
+
+test('Leonida: the state map', async ({ page }) => {
+  test.setTimeout(60_000);
+  await page.goto('/?world=leonida');
+  await expect(page.locator('.map-screen[data-place="leonida"]')).toBeVisible({ timeout: 15_000 });
+  await expectNoSeriousIssues(page);
+});

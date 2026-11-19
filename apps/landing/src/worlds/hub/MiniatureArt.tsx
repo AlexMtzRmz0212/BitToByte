@@ -1,4 +1,4 @@
-import type { WorldId } from '../../data/worlds';
+import type { ThemeId, WorldId } from '../../data/worlds';
 
 // Live miniatures of each world, seen through the hub's portals. They draw on a
 // 200x200 grid with the usual theme classes; the portal scopes the destination
@@ -6,7 +6,7 @@ import type { WorldId } from '../../data/worlds';
 // small loop each, transform and opacity only, stopped under reduced motion
 // (hub.css).
 
-export default function MiniatureArt({ id }: { id: WorldId }) {
+export default function MiniatureArt({ id, theme }: { id: WorldId; theme?: ThemeId }) {
   switch (id) {
     case 'manuscript':
       return <ManuscriptMini />;
@@ -19,7 +19,7 @@ export default function MiniatureArt({ id }: { id: WorldId }) {
     case 'frontier':
       return <FrontierMini />;
     case 'sunset':
-      return <SunsetMini />;
+      return theme === 'santos' ? <SunsetMini /> : <ViceMini />;
   }
 }
 
@@ -335,6 +335,54 @@ function FrontierMini() {
       </g>
       {/* fence */}
       <path d="M120 186v-12M140 186v-12M160 186v-12M180 186v-12M200 186v-12M120 177h80M120 182h80" fill="none" className="stroke-ink" strokeWidth="1.6" opacity="0.7" />
+    </g>
+  );
+}
+
+/* -------------------------------------------------------------- Vice City */
+
+function ViceMini() {
+  return (
+    <g className="mini">
+      <defs>
+        <linearGradient id="vm-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#2B1237" />
+          <stop offset="0.45" stopColor="#CC1465" />
+          <stop offset="0.8" stopColor="#FF7A3D" />
+          <stop offset="1" stopColor="#FFD08A" />
+        </linearGradient>
+      </defs>
+      <rect width="200" height="200" fill="url(#vm-sky)" />
+      {/* the sun, sliced by stripes */}
+      <circle cx="100" cy="112" r="38" fill="#FFE2A0" />
+      <path d="M60 118h80M62 128h76M66 138h68" stroke="#E8456B" strokeWidth="3" opacity="0.8" />
+      {/* an art-deco skyline */}
+      <g fill="#2B1237">
+        <path d="M14 148V116h14v-8h6v8h8v32ZM56 148V98l8-10 8 10v50ZM80 148V122h16v26ZM104 148V104h6v-10h4v10h6v44ZM126 148V118h18v30ZM148 148V108l8-8 8 8v40ZM170 148V124h20v24Z" />
+      </g>
+      <g fill="#FFD08A" opacity="0.9">
+        <path d="M60 110h8v4h-8ZM60 120h8v4h-8ZM152 116h8v4h-8ZM108 112h4v4h-4ZM108 122h4v4h-4ZM18 124h6v4h-6ZM132 126h8v4h-8Z" />
+      </g>
+      {/* the bay, with the sun's road */}
+      <rect y="148" width="200" height="52" fill="#0E9FA0" />
+      <path d="M88 148h24l10 52H78Z" fill="#FFD08A" opacity="0.45" />
+      <path d="M18 164h26M146 176h30M64 188h20" stroke="#BFF3F0" strokeWidth="1.5" opacity="0.7" />
+      {/* palms */}
+      {[
+        [22, 150, 1],
+        [178, 150, -1],
+      ].map(([x, y, s]) => (
+        <g key={x} transform={`translate(${x} ${y}) scale(${s} 1)`} fill="#2B1237">
+          <path d="M0 0q-2-24 5-44" fill="none" stroke="#2B1237" strokeWidth="3" strokeLinecap="round" />
+          <path d="M5 -44q-12-8-22 2q10-4 22-2ZM5 -44q12-8 22 2q-10-4-22-2ZM5 -44q-4-12-14-14q8 6 14 14ZM5 -44q6-12 16-12q-10 4-16 12Z" />
+        </g>
+      ))}
+      {/* the causeway, with headlights */}
+      <rect y="146" width="200" height="5" fill="#2B1237" />
+      <g className="mini-drive">
+        <circle cx="0" cy="148.5" r="1.6" fill="#FFF3D6" />
+        <circle cx="6" cy="148.5" r="1.6" fill="#FFF3D6" />
+      </g>
     </g>
   );
 }

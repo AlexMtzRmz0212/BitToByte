@@ -29,6 +29,9 @@ importers:
       '@fontsource-variable/eb-garamond':
         specifier: ^5.3.0
         version: 5.3.0
+      '@fontsource-variable/outfit':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource-variable/pixelify-sans':
         specifier: ^5.3.0
         version: 5.3.0
@@ -42,6 +45,9 @@ importers:
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource/bowlby-one':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/bungee':
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource/comic-neue':
@@ -368,6 +374,9 @@ packages:
   '@fontsource-variable/eb-garamond@5.3.0':
     resolution: {integrity: sha512-656OJsA9Vv24yhqRZFEzXnzS2AYgKdEILLgHJYLzzXndgcWFKfSXFqzbRI5/6Yk1Yt7UfWrUeppE5nRQPQMwlQ==}
 
+  '@fontsource-variable/outfit@5.3.0':
+    resolution: {integrity: sha512-fPb5XnYK0k7SbR++HEmm4+ZqDszmLKQ+sPRUr8oQ/KNC0vy6r6hazJFe8iYozv4cqlHbvJ/JECkJWrfDodUMVQ==}
+
   '@fontsource-variable/pixelify-sans@5.3.0':
     resolution: {integrity: sha512-rOF07QCyHg9xb4UZF3lpXOM4UO+zo3y8tXvO7T+vy40GVt/GU8HL+/YWE029CMsbhOwk4plRDY9G8BU5cWs1ig==}
 
@@ -382,6 +391,9 @@ packages:
 
   '@fontsource/bowlby-one@5.3.0':
     resolution: {integrity: sha512-mjHkM64RbN4I2xFpk+6sQt+aF/k46IHEWP6ul4/RwAYJF5ETDjUmDp1zgU2Tj/w2yYIjMGVyGVifCNNR5ZbyZQ==}
+
+  '@fontsource/bungee@5.3.0':
+    resolution: {integrity: sha512-vKwbDE7yMrqfGxgFan+diPLwgWp9j4FGYaLm+OhUoqYO6Pr02QIi/p0KiTW0E/7uiXqfTd6cMj+/E4h2sc3Ocg==}
 
   '@fontsource/comic-neue@5.3.0':
     resolution: {integrity: sha512-uZsyUTExw8tCySNhL65dN6rEUhASMPGintSS5Kw/ZkrQTK1vcAgramzOLT/mZKtZ+EXr03MHj0s5osVVJITCow==}
@@ -1667,6 +1679,8 @@ snapshots:
 
   '@fontsource-variable/eb-garamond@5.3.0': {}
 
+  '@fontsource-variable/outfit@5.3.0': {}
+
   '@fontsource-variable/pixelify-sans@5.3.0': {}
 
   '@fontsource/atkinson-hyperlegible@5.3.0': {}
@@ -1676,6 +1690,8 @@ snapshots:
   '@fontsource/barlow@5.3.0': {}
 
   '@fontsource/bowlby-one@5.3.0': {}
+
+  '@fontsource/bungee@5.3.0': {}
 
   '@fontsource/comic-neue@5.3.0': {}
 

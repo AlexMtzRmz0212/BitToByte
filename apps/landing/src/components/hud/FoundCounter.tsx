@@ -1,9 +1,13 @@
-import { WORLDS, isWorldId, type PlaceId } from '../../data/worlds';
+import { isWorldId, type PlaceId } from '../../data/worlds';
+import { usePlaceResolver } from '../../state/app';
 import { useFound } from './useFound';
 
 export default function FoundCounter({ place }: { place: PlaceId }) {
-  const { found, total } = useFound(place);
-  const where = isWorldId(place) ? `in ${WORLDS[place].name}` : 'across all worlds';
+  // Leonida is part of Vice City's world: it counts Vice City's projects.
+  const scope: PlaceId = place === 'leonida' ? 'sunset' : place;
+  const { found, total } = useFound(scope);
+  const placeOf = usePlaceResolver();
+  const where = isWorldId(scope) ? `in ${placeOf(scope).name}` : 'across all worlds';
   const pct = total ? Math.round((found / total) * 100) : 0;
   return (
     <p className="found-counter chrome-pill" title={`${found} of ${total} projects found ${where}`}>

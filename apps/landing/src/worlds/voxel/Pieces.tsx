@@ -1,4 +1,4 @@
-import { PLACES } from '../../data/worlds';
+import { placeNow } from '../../state/app';
 import { faceQuad, isoBox } from '../shared/iso';
 import type { GateProps } from '../types';
 
@@ -6,7 +6,7 @@ import type { GateProps } from '../types';
 
 /** A stone frame whose pane glows in the destination's colour, shimmering in pixels. */
 export function VoxelGate({ to, at }: GateProps) {
-  const tint = PLACES[to].tokens.accent;
+  const tint = placeNow(to).tokens.accent;
   const frame = isoBox(at.x, at.y + 30, 0.5, 2.8, 3.6);
   const pixels = Array.from({ length: 12 }, (_, k) => ({
     u0: 0.2 + (k % 4) * 0.16,

@@ -318,3 +318,62 @@ test('every secret can be found (by keyboard too) and counts on the hub', async 
   await page.goto('/');
   await expect(page.getByText(`Secrets found: ${WORLD_IDS.length} of ${WORLD_IDS.length}.`)).toBeAttached();
 });
+
+test.describe('Vice City, Los Santos and Leonida', () => {
+  test('opens as Vice City, flies to Los Santos and back, and remembers the choice', async ({ page }) => {
+    test.setTimeout(90_000);
+    await page.goto('/?world=los-santos&view=map');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'vice');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Vice City');
+
+    await page.getByRole('button', { name: 'Fly to Los Santos' }).click();
+    await expect(page.locator('.flight')).toBeVisible();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'santos', { timeout: 15_000 });
+    await expect(page.locator('.flight')).toHaveCount(0, { timeout: 15_000 });
+    await expect(page).toHaveURL(/theme=santos/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Los Santos');
+
+    // The choice is remembered: the plain link opens Los Santos now.
+    await page.goto('/?world=los-santos&view=map');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'santos');
+    await page.getByRole('button', { name: 'Fly to Vice City' }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'vice', { timeout: 15_000 });
+    await expect(page.locator('.flight')).toHaveCount(0, { timeout: 15_000 });
+  });
+
+  test('a theme named in the link wins over the default', async ({ page }) => {
+    await page.goto('/?world=los-santos&theme=santos&view=map');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'santos');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Los Santos');
+  });
+
+  test('the travel list leads to Leonida, and its gate back to Vice City', async ({ page, isMobile }) => {
+    test.setTimeout(90_000);
+    await page.goto('/?world=los-santos&view=map');
+    if (isMobile) await page.getByRole('button', { name: 'Open the travel list' }).click();
+    await page.getByRole('link', { name: /^Travel to Leonida/ }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-world', 'leonida', { timeout: 20_000 });
+    await expect(page).toHaveURL(/world=leonida/);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Leonida');
+    await page.getByRole('button', { name: /^Portal to Vice City/ }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-world', 'sunset', { timeout: 20_000 });
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'vice');
+  });
+
+  test('the highway gate on the map leads to Leonida too', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'the gate is off screen on a phone: the travel list is the way there');
+    test.setTimeout(90_000);
+    await page.goto('/?world=los-santos&view=map');
+    await page.getByRole('button', { name: /^Portal to Leonida/ }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-world', 'leonida', { timeout: 20_000 });
+  });
+
+  test('with reduced motion the switch still works (a quick fade, no plane)', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/?world=los-santos&view=list');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'vice');
+    await page.getByRole('button', { name: 'Fly to Los Santos' }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'santos', { timeout: 10_000 });
+    await expect(page.locator('.flight')).toHaveCount(0, { timeout: 10_000 });
+  });
+});

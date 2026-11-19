@@ -2,7 +2,7 @@ import { useEffect, useRef, type MouseEvent, type ReactNode } from 'react';
 import { ExternalLinkIcon, XIcon } from 'lucide-react';
 import { GithubIcon } from '@alex_mtz/bittobyte-ui';
 import { kindLabel, type Project } from '../data/projects';
-import { WORLDS } from '../data/worlds';
+import { usePlace } from '../state/app';
 import PlaceGlyph from './PlaceGlyph';
 
 interface Props {
@@ -18,6 +18,7 @@ interface Props {
 export default function ProjectCard({ project, onClose, onLaunch, scene }: Props) {
   const heading = useRef<HTMLHeadingElement>(null);
   const card = useRef<HTMLElement>(null);
+  const world = usePlace(project.world);
 
   // Arrival moves focus here, so keyboard and screen-reader users land on it too.
   // Closing hands focus back to whatever had it (the marker or list entry that
@@ -54,7 +55,7 @@ export default function ProjectCard({ project, onClose, onLaunch, scene }: Props
       {scene && <div className="card-scene">{scene}</div>}
       <p className="card-kicker">
         <PlaceGlyph id={project.world} className="h-4 w-4" />
-        {kindLabel(project.kind)} in {WORLDS[project.world].name}
+        {kindLabel(project.kind)} in {world.name}
       </p>
       <h2 id="card-title" ref={heading} tabIndex={-1} className="card-title type-display">
         {project.name}

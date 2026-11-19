@@ -1,5 +1,5 @@
 import { BitToByteMark } from '@alex_mtz/bittobyte-ui';
-import { PLACES } from '../../data/worlds';
+import { placeNow } from '../../state/app';
 import { spiralArm } from '../shared/sketch';
 import Particles, { type ParticleKind } from '../shared/Particles';
 import type { GateProps } from '../types';
@@ -11,7 +11,7 @@ const ARMS = [0, 1, 2].map((i) => spiralArm(0, 0, 52, 1.2, (i * Math.PI * 2) / 3
 
 /** An art-deco archway full of turning mist, with the destination's colour at its eye. */
 export function NoirGate({ to, at }: GateProps) {
-  const tint = PLACES[to].tokens.accent;
+  const tint = placeNow(to).tokens.accent;
   const id = `nr-arch-${to}`;
   return (
     <g transform={`translate(${at.x} ${at.y})`} data-target={`gate:${to}`} className="nr-gate">

@@ -17,6 +17,8 @@ const PATHS: Record<PlaceId, string> = {
     'M7.5 20.5H4.6C3.6 18 3 15.4 3 12.6a9 9 0 0 1 18 0c0 2.8-.6 5.4-1.6 7.9h-2.9c.9-2.5 1.4-5 1.4-7.9a5.9 5.9 0 0 0-11.8 0c0 2.9.5 5.4 1.4 7.9zM5.6 10.5h.01M18.4 10.5h.01M8.3 6h.01M15.7 6h.01',
   // A palm tree on the shore.
   sunset: 'M5 21h14M13 21c0-4 .4-7.6 1.6-10.6M14.6 10.4C13 7.6 9.4 7 6.3 8.4M14.6 10.4c.8-2.8 3.6-4.6 6.6-4.2M14.6 10.4c-2.8-.2-5.4 1.4-6.6 4.2M14.6 10.4c2.8.2 5 2.2 5.8 5M14.6 10.4c.2-2.8-1.2-5.4-3.6-6.8',
+  // The state of Leonida: a peninsula with its key chain trailing off the south end.
+  leonida: 'M4 5h9v3l4 1 1.6 6.4-2 3.2H14l-1.2-3-2 .6L9 11H4zM13 20.5h1.4M16.6 20.9h1.4M20 21.3h1.4',
 };
 
 export default function PlaceGlyph({ id, className = 'h-5 w-5' }: { id: PlaceId; className?: string }) {

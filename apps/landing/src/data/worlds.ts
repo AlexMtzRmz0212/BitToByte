@@ -5,6 +5,13 @@
 // is `name`, and the URL uses each world's `slug` (old links with the id or a
 // former slug still work).
 //
+// One world has two themes. `sunset` (slug los-santos) opens as Vice City, the
+// default, and can fly to Los Santos and back (`themes`, `?theme=`). Each theme
+// has its own tokens, map layout and art. `leonida` is a place that is not a
+// world, like the hub: the state map beyond Vice City, reached through a gate.
+// `WORLDS.sunset` itself is the default (Vice City) face, so any code that
+// ignores themes shows the default; `resolvePlace` picks a themed face.
+//
 // This file is data only. It holds each place's copy and its theme tokens, and
 // (for the worlds) the map layout: district lots, portals, fog and the hidden
 // secret. The drawing code for a world lives in src/worlds/<id>/ and is loaded
@@ -16,7 +23,11 @@
 
 export const WORLD_IDS = ['manuscript', 'voxel', 'noir', 'pop', 'frontier', 'sunset'] as const;
 export type WorldId = (typeof WORLD_IDS)[number];
-export type PlaceId = 'nexus' | WorldId;
+export type PlaceId = 'nexus' | WorldId | 'leonida';
+
+export const THEME_IDS = ['vice', 'santos'] as const;
+export type ThemeId = (typeof THEME_IDS)[number];
+export const isThemeId = (value: unknown): value is ThemeId => value === 'vice' || value === 'santos';
 
 export const TOKEN_NAMES = [
   'bg', // page background
@@ -67,12 +78,17 @@ export interface Place {
   tokens: Tokens;
 }
 
+/** What a theme changes about a place: its copy and its tokens. */
+export type ThemeFace = Pick<Place, 'name' | 'short' | 'tagline' | 'tokens'>;
+
 export interface World extends Place {
   id: WorldId;
   /** In the URL: /?world=<slug>. */
   slug: string;
   /** Slugs this world was shared under before a rename; they still resolve. */
   formerSlugs?: string[];
+  /** Alternate faces. The world's own fields are the default theme. */
+  themes?: Partial<Record<ThemeId, ThemeFace>>;
 }
 
 /**
@@ -85,6 +101,8 @@ export interface MapLayout {
   size: { w: number; h: number };
   /** Where the traveler starts when arriving without a gate (a deep link). */
   spawn: Point;
+  /** Where a flight (a theme switch) lands. Falls back to `spawn`. */
+  airport?: Point;
   lots: Point[];
   /** Portal gates, keyed by the place they lead to. */
   gates: Partial<Record<PlaceId, Point>>;
@@ -332,47 +350,113 @@ export const WORLDS: Record<WorldId, World> = {
       'ease-pop': 'cubic-bezier(0.3, 1.3, 0.5, 1)',
     },
   },
+  // Vice City is this world's default face; Los Santos is `themes.santos`.
   sunset: {
     id: 'sunset',
-    name: 'Los Santos',
-    short: 'Los Santos',
+    name: 'Vice City',
+    short: 'Vice City',
     slug: 'los-santos',
-    tagline: 'Palms, freeways and a sign on the hill',
+    tagline: 'Neon, palms and a bay at golden hour',
     tokens: {
-      bg: '#140F24',
-      surface: '#1C1631',
-      raised: '#261E40',
-      ink: '#F4F1FA',
-      muted: '#B5ACCB',
-      accent: '#FFB238',
-      'accent-ink': '#1E1305',
-      'accent-text': '#FFB84A',
-      line: 'rgba(244, 241, 250, 0.14)',
-      focus: '#FFC766',
-      route: '#B66DFF',
-      fog: '#2A2342',
-      'deco-1': '#FF6F91',
-      'deco-2': '#2EC4B6',
-      'deco-3': '#7BD45B',
-      'font-display': "'Bowlby One', Impact, sans-serif",
-      'font-body': "'Barlow', ui-sans-serif, sans-serif",
+      bg: '#FFE4D0',
+      surface: '#FFF3E6',
+      raised: '#FFFFFF',
+      ink: '#2B1237',
+      muted: '#6B4A78',
+      accent: '#CC1465',
+      'accent-ink': '#FFF7F0',
+      'accent-text': '#B0105A',
+      line: 'rgba(43, 18, 55, 0.22)',
+      focus: '#2B1237',
+      route: '#0E9FA0',
+      fog: '#F4B48C',
+      'deco-1': '#FF7A3D',
+      'deco-2': '#12B8B8',
+      'deco-3': '#7B3FE4',
+      'font-display': "'Bungee', 'Bowlby One', Impact, sans-serif",
+      'font-body': "'Outfit Variable', 'Outfit', ui-sans-serif, sans-serif",
       'display-weight': '400',
       'display-case': 'none',
       'display-tracking': '0.01em',
-      'r-card': '6px',
-      'r-control': '6px',
-      bw: '1px',
-      'shadow-card': '0 24px 48px -24px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(244, 241, 250, 0.06)',
-      'shadow-pop': '0 10px 30px -10px rgba(255, 178, 56, 0.5)',
+      'r-card': '14px',
+      'r-control': '9999px',
+      bw: '1.5px',
+      'shadow-card': '0 2px 0 rgba(43, 18, 55, 0.1), 0 22px 40px -22px rgba(204, 20, 101, 0.45)',
+      'shadow-pop': '0 8px 22px -8px rgba(204, 20, 101, 0.55)',
       'dur-fast': '180ms',
-      'dur-slow': '520ms',
+      'dur-slow': '560ms',
       ease: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
-      'ease-pop': 'cubic-bezier(0.34, 1.4, 0.64, 1)',
+      'ease-pop': 'cubic-bezier(0.34, 1.5, 0.64, 1)',
+    },
+    themes: {
+      santos: {
+        name: 'Los Santos',
+        short: 'Los Santos',
+        tagline: 'Palms, freeways and a sign on the hill',
+        tokens: {
+          bg: '#140F24',
+          surface: '#1C1631',
+          raised: '#261E40',
+          ink: '#F4F1FA',
+          muted: '#B5ACCB',
+          accent: '#FFB238',
+          'accent-ink': '#1E1305',
+          'accent-text': '#FFB84A',
+          line: 'rgba(244, 241, 250, 0.14)',
+          focus: '#FFC766',
+          route: '#B66DFF',
+          fog: '#2A2342',
+          'deco-1': '#FF6F91',
+          'deco-2': '#2EC4B6',
+          'deco-3': '#7BD45B',
+          'font-display': "'Bowlby One', Impact, sans-serif",
+          'font-body': "'Barlow', ui-sans-serif, sans-serif",
+          'display-weight': '400',
+          'display-case': 'none',
+          'display-tracking': '0.01em',
+          'r-card': '6px',
+          'r-control': '6px',
+          bw: '1px',
+          'shadow-card': '0 24px 48px -24px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(244, 241, 250, 0.06)',
+          'shadow-pop': '0 10px 30px -10px rgba(255, 178, 56, 0.5)',
+          'dur-fast': '180ms',
+          'dur-slow': '520ms',
+          ease: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+          'ease-pop': 'cubic-bezier(0.34, 1.4, 0.64, 1)',
+        },
+      },
     },
   },
 };
 
-export const PLACES: Record<PlaceId, Place> = { nexus: NEXUS, ...WORLDS };
+/** The state map beyond Vice City. A place, not a world: no hub portal, projects or secret. */
+export const LEONIDA: Place & { slug: string } = {
+  id: 'leonida',
+  name: 'Leonida',
+  short: 'Leonida',
+  slug: 'leonida',
+  tagline: 'A whole state, from swamp to skyline',
+  tokens: WORLDS.sunset.tokens,
+};
+
+export const PLACES: Record<PlaceId, Place> = { nexus: NEXUS, ...WORLDS, leonida: LEONIDA };
+
+/** Worlds that have more than one theme. */
+export const hasThemes = (id: PlaceId): boolean => id === 'sunset';
+
+/** The theme a place opens in until the visitor picks another. */
+export const defaultTheme = (id: PlaceId): ThemeId | undefined =>
+  id === 'sunset' || id === 'leonida' ? 'vice' : undefined;
+
+/** A place as it looks in a theme (its own fields for the default theme and for unthemed places). */
+export function resolvePlace(id: PlaceId, theme?: ThemeId): Place {
+  const place = PLACES[id];
+  const face = id === 'sunset' && theme ? WORLDS.sunset.themes?.[theme] : undefined;
+  return face ? { ...place, ...face } : place;
+}
+
+/** The URL slug of a place that can be in a URL (the hub has none). */
+export const slugOf = (id: Exclude<PlaceId, 'nexus'>): string => (id === 'leonida' ? LEONIDA.slug : WORLDS[id].slug);
 
 export const isWorldId = (value: unknown): value is WorldId =>
   typeof value === 'string' && (WORLD_IDS as readonly string[]).includes(value);
@@ -382,6 +466,11 @@ export function worldFromParam(value: string | null): WorldId | null {
   if (value === null) return null;
   if (isWorldId(value)) return value;
   return WORLD_IDS.find((id) => WORLDS[id].slug === value || WORLDS[id].formerSlugs?.includes(value)) ?? null;
+}
+
+/** Like worldFromParam, but also knows the places that are not worlds (Leonida). */
+export function placeFromParam(value: string | null): Exclude<PlaceId, 'nexus'> | null {
+  return value === LEONIDA.slug ? 'leonida' : worldFromParam(value);
 }
 
 /** The world the "Explore the map" button opens when there's no history yet. */
@@ -421,7 +510,7 @@ export const SECRETS: Record<WorldId, { title: string; text: string }> = {
   },
   sunset: {
     title: 'Hidden package',
-    text: 'Wedged under the pier, taped shut. Inside, a note: "You looked." That is the whole prize.',
+    text: 'Wedged under the boards by the water, taped shut. Inside, a note: "You looked." That is the whole prize.',
   },
 };
 
@@ -539,36 +628,86 @@ export const MAPS: Record<PlaceId, MapLayout> = {
     secret: { x: 1060, y: 700 },
     fog: { kind: 'dust', cell: 40, radius: 260 },
   },
+  // Vice City (the default theme). North is up: the airport and the highway out
+  // to Leonida at the top, downtown in the middle, a bay and the Ocean Beach
+  // island to the east, the port and Little Cuba to the south, mangroves in the
+  // far south-west.
   sunset: {
     size: { w: 2200, h: 1500 },
-    spawn: { x: 1120, y: 320 },
+    spawn: { x: 1120, y: 470 },
+    airport: { x: 1000, y: 400 },
     lots: [
-      { x: 1380, y: 760 },
-      { x: 720, y: 1040 },
-      { x: 1720, y: 1020 },
-      { x: 860, y: 650 },
-      { x: 1820, y: 600 },
-      { x: 1180, y: 1060 },
+      { x: 1250, y: 790 },
+      { x: 760, y: 650 },
+      { x: 1620, y: 960 },
+      { x: 1000, y: 1110 },
+      { x: 440, y: 760 },
+      { x: 1280, y: 1190 },
     ],
     gates: {
       nexus: { x: 1120, y: 240 },
       pop: { x: 1960, y: 330 },
       noir: { x: 260, y: 330 },
+      leonida: { x: 560, y: 190 },
     },
-    secret: { x: 470, y: 1330 },
+    secret: { x: 430, y: 1235 },
     fog: { kind: 'tiles', cell: 50, radius: 250 },
+  },
+  // Leonida: a Florida-like state. Vice City is on the south-east coast, and its
+  // gate is the only way out (it leads back to Vice City).
+  leonida: {
+    size: { w: 2200, h: 1500 },
+    spawn: { x: 1330, y: 1010 },
+    lots: [],
+    gates: {
+      sunset: { x: 1440, y: 1000 },
+    },
+    fog: { kind: 'tiles', cell: 50, radius: 260 },
   },
 };
 
-/** Where you step out when travelling from `from` to `to`. */
-export function arrivalPoint(to: PlaceId, from: PlaceId | null): Point {
-  const map = MAPS[to];
+/** Layouts that differ from MAPS in a non-default theme. */
+export const THEME_MAPS: Partial<Record<PlaceId, Partial<Record<ThemeId, MapLayout>>>> = {
+  sunset: {
+    santos: {
+      size: { w: 2200, h: 1500 },
+      spawn: { x: 1120, y: 320 },
+      airport: { x: 1850, y: 1250 },
+      lots: [
+        { x: 1380, y: 760 },
+        { x: 720, y: 1040 },
+        { x: 1720, y: 1020 },
+        { x: 860, y: 650 },
+        { x: 1820, y: 600 },
+        { x: 1180, y: 1060 },
+      ],
+      gates: {
+        nexus: { x: 1120, y: 240 },
+        pop: { x: 1960, y: 330 },
+        noir: { x: 260, y: 330 },
+      },
+      secret: { x: 470, y: 1330 },
+      fog: { kind: 'tiles', cell: 50, radius: 250 },
+    },
+  },
+};
+
+/** A place's map in a theme (the default layout unless the theme has its own). */
+export const mapFor = (place: PlaceId, theme?: ThemeId): MapLayout => (theme && THEME_MAPS[place]?.[theme]) || MAPS[place];
+
+/** Where you step out when travelling from `from` to `to`; arriving from the same place is a flight. */
+export function arrivalPoint(to: PlaceId, from: PlaceId | null, theme?: ThemeId): Point {
+  const map = mapFor(to, theme);
+  if (from === to) return map.airport ?? map.spawn;
   const gate = (from && map.gates[from]) ?? map.gates.nexus;
   return gate ?? map.spawn;
 }
 
-/** The gate to walk to when leaving `from` for `to`: a direct gate if there is one, else the way home. */
-export function departureGate(from: PlaceId, to: PlaceId): Point | null {
-  const gates = MAPS[from].gates;
-  return gates[to] ?? gates.nexus ?? null;
+/**
+ * The gate to walk to when leaving `from` for `to`: a direct gate if there is
+ * one, else the way home (the hub, or for Leonida, which has no hub gate, Vice City).
+ */
+export function departureGate(from: PlaceId, to: PlaceId, theme?: ThemeId): Point | null {
+  const gates = mapFor(from, theme).gates;
+  return gates[to] ?? gates.nexus ?? gates.sunset ?? null;
 }

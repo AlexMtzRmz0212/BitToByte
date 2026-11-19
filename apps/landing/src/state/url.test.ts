@@ -49,6 +49,38 @@ describe('routes and URLs', () => {
     expect(parseRoute('?welcome')).toEqual(NEXUS_ROUTE);
   });
 
+  it('reads and writes the theme of a themed world', () => {
+    expect(routeToSearch({ place: 'sunset', project: null, view: 'auto', theme: 'santos' })).toBe(
+      '/?world=los-santos&theme=santos'
+    );
+    expect(parseRoute('?world=los-santos&theme=santos')).toEqual({
+      place: 'sunset',
+      project: null,
+      view: 'auto',
+      theme: 'santos',
+    });
+    expect(parseRoute('?world=los-santos&theme=vice&view=map').theme).toBe('vice');
+    // No theme in the URL means "the remembered or default one": the route says nothing.
+    expect(parseRoute('?world=los-santos')).toEqual({ place: 'sunset', project: null, view: 'auto' });
+    // Unknown themes, and themes on worlds that have none, are ignored.
+    expect(parseRoute('?world=los-santos&theme=miami').theme).toBeUndefined();
+    expect(parseRoute('?world=gotham&theme=santos')).toEqual({ place: 'noir', project: null, view: 'auto' });
+    expect(routeToSearch({ place: 'noir', project: null, view: 'auto', theme: 'santos' })).toBe('/?world=gotham');
+  });
+
+  it('knows Leonida, which has no projects and no list of its own', () => {
+    expect(parseRoute('?world=leonida')).toEqual({ place: 'leonida', project: null, view: 'auto' });
+    expect(routeToSearch({ place: 'leonida', project: null, view: 'map' })).toBe('/?world=leonida&view=map');
+    expect(parseRoute('?world=leonida&project=sports').project).toBeNull();
+    // Its list view is Vice City's.
+    expect(parseRoute('?world=leonida&view=list')).toEqual({
+      place: 'sunset',
+      project: null,
+      view: 'list',
+      theme: 'vice',
+    });
+  });
+
   it('drops a selection on the Nexus map', () => {
     expect(normalizeRoute({ place: 'nexus', project: 'cinetech', view: 'auto' })).toEqual(NEXUS_ROUTE);
     expect(normalizeRoute({ place: 'nexus', project: null, view: 'map' })).toEqual(NEXUS_ROUTE);

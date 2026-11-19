@@ -2,7 +2,8 @@ import { ExternalLinkIcon, MapPinIcon } from 'lucide-react';
 import { GithubIcon } from '@alex_mtz/bittobyte-ui';
 import { ARCHETYPES } from '../districts/archetypes';
 import { kindLabel, projectsInWorld, type Project } from '../data/projects';
-import { WORLDS, WORLD_IDS, isWorldId, type PlaceId, type WorldId } from '../data/worlds';
+import { WORLD_IDS, isWorldId, type PlaceId, type WorldId } from '../data/worlds';
+import { usePlaceResolver } from '../state/app';
 import { hasMap } from '../worlds/registry';
 import PlaceGlyph from './PlaceGlyph';
 import RouteLink from './RouteLink';
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export default function ProjectList({ place, focus = null }: Props) {
+  const placeOf = usePlaceResolver();
   const order: WorldId[] = isWorldId(place) ? [place, ...WORLD_IDS.filter((w) => w !== place)] : [...WORLD_IDS];
   return (
     <div className="flex flex-col gap-16">
@@ -25,9 +27,9 @@ export default function ProjectList({ place, focus = null }: Props) {
         <section key={world} aria-labelledby={`world-${world}`}>
           <h2 id={`world-${world}`} className="flex items-center gap-2.5 type-display text-2xl text-ink sm:text-3xl">
             <PlaceGlyph id={world} className="h-6 w-6 shrink-0 text-accent-text" />
-            {world === place ? `Here in ${WORLDS[world].name}` : WORLDS[world].name}
+            {world === place ? `Here in ${placeOf(world).name}` : placeOf(world).name}
           </h2>
-          <p className="mt-1.5 text-muted">{WORLDS[world].tagline}</p>
+          <p className="mt-1.5 text-muted">{placeOf(world).tagline}</p>
           <ul className="mt-6 grid gap-6 lg:grid-cols-2">
             {projectsInWorld(world).map((project) => (
               <Item key={project.slug} project={project} highlighted={focus === project.slug} />

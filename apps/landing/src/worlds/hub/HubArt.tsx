@@ -1,4 +1,5 @@
-import { WORLDS, isWorldId, type MapLayout, type Point } from '../../data/worlds';
+import { isWorldId, resolvePlace, type MapLayout, type Point, type WorldId } from '../../data/worlds';
+import { useTheme } from '../../state/app';
 import { tokenStyle } from '../../theme/tokens';
 import { blob, burst, inkLine, smoothClosed, spiralArm, wobblyCircle } from '../shared/sketch';
 import type { GateProps } from '../types';
@@ -274,7 +275,8 @@ const ARMS = [0, 1, 2, 3].map((i) => spiralArm(0, 0, PORTAL_R - 8, 0.85, (i * Ma
 
 /** A green swirling portal with a glimpse of the world beyond in its eye. */
 export function HubGate({ to, at }: GateProps) {
-  const world = isWorldId(to) ? WORLDS[to] : null;
+  const theme = useTheme(to);
+  const world = isWorldId(to) ? resolvePlace(to, theme) : null;
   const seed = to.length * 7;
   return (
     <g transform={`translate(${at.x} ${at.y})`} className="hub-gate" data-target={`gate:${to}`}>
@@ -298,7 +300,7 @@ export function HubGate({ to, at }: GateProps) {
           </clipPath>
           <g clipPath={`url(#hub-window-${to})`}>
             <svg x="-58" y="-58" width="116" height="116" viewBox="0 0 200 200" overflow="hidden">
-              <MiniatureArt id={world.id} />
+              <MiniatureArt id={to as WorldId} theme={theme} />
             </svg>
           </g>
           <circle r="58" fill="url(#hub-window-shine)" />

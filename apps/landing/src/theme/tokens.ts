@@ -1,13 +1,25 @@
 import type { CSSProperties } from 'react';
-import { NEXUS, PLACES, TOKEN_NAMES, WORLD_IDS, type PlaceId, type TokenName, type Tokens } from '../data/worlds';
+import {
+  NEXUS,
+  PLACES,
+  TOKEN_NAMES,
+  WORLDS,
+  WORLD_IDS,
+  resolvePlace,
+  type PlaceId,
+  type ThemeId,
+  type TokenName,
+  type Tokens,
+} from '../data/worlds';
 
 // Theme tokens -> CSS custom properties.
 //
 // One <style id="world-tokens"> holds a rule per place: the Nexus on :root, and
-// each world on :root[data-world="<id>"]. Switching worlds only flips the
-// data-world attribute, so the swap is atomic and costs one style recalc. The
-// prerender step inlines the same stylesheet into index.html, so the first paint
-// is already themed.
+// each world on :root[data-world="<id>"] (Leonida too). Switching worlds only
+// flips the data-world attribute, so the swap is atomic and costs one style
+// recalc. A world's own rule is its default theme; its other themes override it
+// on :root[data-world="<id>"][data-theme="<theme>"]. The prerender step inlines
+// the same stylesheet into index.html, so the first paint is already themed.
 
 export const THEME_STYLE_ID = 'world-tokens';
 
@@ -25,8 +37,13 @@ const declarations = (tokens: Tokens) =>
 
 export function buildThemeCss(): string {
   let css = `:root{${declarations(NEXUS.tokens)}}`;
-  for (const id of WORLD_IDS) {
+  for (const id of [...WORLD_IDS, 'leonida'] as const) {
     css += `:root[data-world="${id}"]{${declarations(PLACES[id].tokens)}}`;
+  }
+  for (const id of WORLD_IDS) {
+    for (const [theme, face] of Object.entries(WORLDS[id].themes ?? {})) {
+      css += `:root[data-world="${id}"][data-theme="${theme}"]{${declarations(face.tokens)}}`;
+    }
   }
   return css;
 }
@@ -46,12 +63,14 @@ export function ensureThemeStyle(): void {
   document.head.appendChild(style);
 }
 
-/** Re-theme the whole document. Called at the midpoint of a portal transition. */
-export function applyPlace(id: PlaceId): void {
+/** Re-theme the whole document. Called at the midpoint of a portal or flight transition. */
+export function applyPlace(id: PlaceId, theme?: ThemeId): void {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
-  if (root.dataset.world === id) return;
+  if (root.dataset.world === id && (root.dataset.theme ?? '') === (theme ?? '')) return;
   root.dataset.world = id;
+  if (theme) root.dataset.theme = theme;
+  else delete root.dataset.theme;
   const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
-  if (meta) meta.content = PLACES[id].tokens.bg;
+  if (meta) meta.content = resolvePlace(id, theme).tokens.bg;
 }

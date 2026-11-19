@@ -1,5 +1,5 @@
 import { projectBySlug } from '../data/projects';
-import { isWorldId, WORLD_IDS, type WorldId } from '../data/worlds';
+import { hasThemes, isThemeId, isWorldId, WORLD_IDS, type ThemeId, type WorldId } from '../data/worlds';
 
 // Exploration progress, kept in one versioned localStorage key. Storage can be
 // missing, blocked or full (private mode, previews, strict settings), so every
@@ -11,15 +11,21 @@ export const STORAGE_KEY = 'bittobyte-multiverse-v1';
 export interface Progress {
   /** Discovered project slugs, per world. */
   discovered: Partial<Record<WorldId, string[]>>;
-  /** Cleared fog cells, per world, as an opaque encoded bitset. */
-  fog: Partial<Record<WorldId, string>>;
+  /** Cleared fog cells, per map (a world, or Leonida), as an opaque encoded bitset. */
+  fog: Partial<Record<FogKey, string>>;
   /** Easter-egg ids found anywhere. */
   secrets: string[];
   /** The last world visited. */
   lastWorld: WorldId | null;
   /** The welcome (once the intro card) has been seen; returning visitors land on the map. */
   introSeen: boolean;
+  /** The theme the visitor picked, for worlds that have more than one. */
+  themes: Partial<Record<WorldId, ThemeId>>;
 }
+
+/** The maps that keep a fog of war: each world (Los Santos under `sunset`), Vice City and Leonida. */
+export type FogKey = WorldId | 'leonida' | 'vice';
+const FOG_KEYS: readonly FogKey[] = [...WORLD_IDS, 'leonida', 'vice'];
 
 export const emptyProgress = (): Progress => ({
   discovered: {},
@@ -27,6 +33,7 @@ export const emptyProgress = (): Progress => ({
   secrets: [],
   lastWorld: null,
   introSeen: false,
+  themes: {},
 });
 
 type StorageLike = Pick<Storage, 'getItem' | 'setItem'>;
@@ -49,9 +56,13 @@ export function sanitizeProgress(value: unknown): Progress {
   const data = value as Record<string, unknown>;
   const discovered = (data.discovered ?? {}) as Record<string, unknown>;
   const fog = (data.fog ?? {}) as Record<string, unknown>;
+  const themes = (data.themes ?? {}) as Record<string, unknown>;
   for (const id of WORLD_IDS) {
     const slugs = [...new Set(stringList(discovered[id]))].filter((s) => projectBySlug(s)?.world === id);
     if (slugs.length) out.discovered[id] = slugs;
+    if (hasThemes(id) && isThemeId(themes[id])) out.themes[id] = themes[id];
+  }
+  for (const id of FOG_KEYS) {
     if (typeof fog[id] === 'string') out.fog[id] = fog[id];
   }
   out.secrets = [...new Set(stringList(data.secrets))];

@@ -1,8 +1,10 @@
 import { ArrowUpRightIcon, InfoIcon, ListIcon } from 'lucide-react';
-import { PLACES, type PlaceId } from '../../data/worlds';
+import type { PlaceId } from '../../data/worlds';
 import { site } from '../../data/site';
+import { usePlace } from '../../state/app';
 import BrandLockup from '../BrandLockup';
 import RouteLink from '../RouteLink';
+import ThemeSwitch from '../ThemeSwitch';
 import FoundCounter from './FoundCounter';
 import SecretsCounter from './SecretsCounter';
 
@@ -13,13 +15,14 @@ interface Props {
 }
 
 export default function TopHud({ place, onAbout }: Props) {
+  const { name } = usePlace(place);
   return (
     <header className="hud-top">
       <div className="hud-group chrome-pill">
         <BrandLockup showName={false} />
         <h1 className="hud-title type-display">
           <span className="sr-only">BitToByte: </span>
-          {PLACES[place].name}
+          {name}
         </h1>
       </div>
       <div className="hud-group">
@@ -27,6 +30,7 @@ export default function TopHud({ place, onAbout }: Props) {
         <div className="chrome-pill hidden sm:flex">
           <SecretsCounter />
         </div>
+        <ThemeSwitch place={place} />
         {onAbout && (
           <button type="button" className="hud-button chrome-pill" onClick={onAbout} aria-label="About BitToByte" title="About BitToByte">
             <InfoIcon className="h-4 w-4" aria-hidden="true" />

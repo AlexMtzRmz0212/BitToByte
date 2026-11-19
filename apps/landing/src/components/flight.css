@@ -1,0 +1,201 @@
+/* The flight between Vice City and Los Santos. Only transform, opacity and
+ * stroke-dashoffset animate. */
+@layer components {
+  .flight {
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    overflow: hidden;
+    pointer-events: auto;
+    cursor: progress;
+    --flight-cruise: 1300ms;
+  }
+
+  /* The sky sweeps across in the direction of travel (--flight-dir: -1 west, 1 east). */
+  .flight-sky {
+    position: absolute;
+    inset: 0;
+    background: var(--flight-sky);
+    transform: translate3d(calc(var(--flight-dir) * -100%), 0, 0);
+    will-change: transform;
+    color: #fff;
+  }
+  .flight[data-phase='opening'] .flight-sky {
+    animation: flight-in 800ms cubic-bezier(0.5, 0, 0.2, 1) forwards;
+  }
+  .flight[data-phase='covered'] .flight-sky {
+    transform: none;
+  }
+  .flight[data-phase='closing'] .flight-sky {
+    animation: flight-out 700ms cubic-bezier(0.6, 0, 0.3, 1) forwards;
+  }
+
+  /* A 960 x 520 stage, scaled to fit, so the plane's path and the map share one coordinate system. */
+  .flight-stage {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    width: 960px;
+    height: 520px;
+    translate: -50% -50%;
+    scale: var(--flight-scale, 1);
+  }
+  .flight-stage svg {
+    display: block;
+    overflow: visible;
+  }
+  .flight-land {
+    fill: rgba(255, 255, 255, 0.12);
+    stroke: rgba(255, 255, 255, 0.5);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .flight-route {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.45);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 2 11;
+  }
+  .flight-trail {
+    fill: none;
+    stroke: #ffe3a8;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  .flight[data-phase='covered'] .flight-trail {
+    animation: flight-trail var(--flight-cruise) cubic-bezier(0.45, 0, 0.35, 1) forwards;
+  }
+  .flight[data-phase='closing'] .flight-trail {
+    stroke-dashoffset: 0;
+  }
+
+  .flight-dot {
+    fill: #fff;
+  }
+  .flight-ping {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 3;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .flight-ping[data-active='true'] {
+    animation: flight-ping 1.4s ease-out infinite;
+  }
+  .flight-city {
+    fill: #fff;
+    font-family: var(--w-font-display);
+    font-size: 24px;
+    letter-spacing: 0.04em;
+    opacity: 0.6;
+    paint-order: stroke;
+    stroke: rgba(0, 0, 0, 0.35);
+    stroke-width: 4px;
+  }
+  .flight-city[data-active='true'] {
+    opacity: 1;
+  }
+
+  .flight-plane {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 52px;
+    height: 42px;
+    offset-path: var(--flight-route);
+    offset-distance: 0%;
+    offset-rotate: auto;
+    offset-anchor: 50% 50%;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+  }
+  .flight-plane svg {
+    display: block;
+    fill: #fff;
+  }
+  .flight[data-phase='covered'] .flight-plane {
+    animation: flight-fly var(--flight-cruise) cubic-bezier(0.45, 0, 0.35, 1) forwards;
+  }
+  .flight[data-phase='closing'] .flight-plane {
+    offset-distance: 100%;
+  }
+
+  .flight-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 13vh;
+    margin: 0;
+    padding: 0 1rem;
+    text-align: center;
+    font-size: clamp(1.1rem, 3.4vw, 1.9rem);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+  }
+  .flight-hint {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 7vh;
+    margin: 0;
+    text-align: center;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* Reduced motion: no plane, no sweep; the sky fades in and out. */
+  .flight[data-kind='fade'] .flight-sky {
+    transform: none;
+    opacity: 0;
+    animation: none;
+  }
+  .flight[data-kind='fade'][data-phase='opening'] .flight-sky {
+    animation: flight-fade-in 240ms ease-out forwards;
+  }
+  .flight[data-kind='fade'][data-phase='covered'] .flight-sky {
+    opacity: 1;
+  }
+  .flight[data-kind='fade'][data-phase='closing'] .flight-sky {
+    opacity: 1;
+    animation: flight-fade-out 240ms ease-in forwards;
+  }
+  .flight[data-kind='fade'] .flight-caption {
+    bottom: 50%;
+  }
+  .flight[data-kind='fade'] .flight-hint {
+    display: none;
+  }
+
+  @keyframes flight-in {
+    from { transform: translate3d(calc(var(--flight-dir) * -100%), 0, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+  @keyframes flight-out {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(calc(var(--flight-dir) * 100%), 0, 0); }
+  }
+  @keyframes flight-fly {
+    from { offset-distance: 0%; }
+    to { offset-distance: 100%; }
+  }
+  @keyframes flight-trail {
+    from { stroke-dashoffset: 1; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes flight-ping {
+    from { transform: scale(1); opacity: 0.9; }
+    to { transform: scale(3.2); opacity: 0; }
+  }
+  @keyframes flight-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes flight-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}

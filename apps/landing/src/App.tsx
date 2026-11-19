@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { PLACES, isWorldId, type PlaceId, type Point } from './data/worlds';
 import { site } from './data/site';
 import { useReducedMotion } from './engine/motion';
-import { app, startProgressSync, useRoute } from './state/app';
+import { app, startProgressSync, useApp, useRoute } from './state/app';
 import { loadPlaceFonts } from './theme/fonts';
 import { applyPlace } from './theme/tokens';
 import { getModule, hasMap, loadModule, useModule } from './worlds/registry';
@@ -10,6 +10,7 @@ import ListView from './components/ListView';
 import MapScreen from './components/map/MapScreen';
 import RiftTransition, { type Rift } from './components/RiftTransition';
 import RouteLink from './components/RouteLink';
+import Welcome from './components/Welcome';
 
 // Server rendering has no layout to measure; skip the layout effect there.
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
@@ -38,6 +39,17 @@ export default function App() {
   useEffect(() => {
     sceneRef.current = scene;
   });
+
+  // The welcome sits over the hub for a first-time visitor (the prerendered HTML
+  // includes it; the client starts with nothing seen, so hydration matches) or
+  // when the URL is /?welcome. Deep links into a world or the list never get it.
+  const introSeen = useApp((s) => s.progress.introSeen);
+  const welcomeForced = useApp((s) => s.welcomeForced);
+  const welcomeOpen = route.place === 'nexus' && route.view === 'auto' && (!introSeen || welcomeForced);
+  // Everything behind the welcome is out of reach until a door is picked. Only
+  // once the client has taken over: the prerendered document has to stay usable
+  // without JavaScript.
+  const ready = useApp((s) => s.ready);
 
   const world = isWorldId(route.place) ? route.place : null;
   const showList =
@@ -160,13 +172,16 @@ export default function App() {
 
   return (
     <>
-      <a className="skip-link" href={showList ? '#main' : '#travel'}>
-        {showList ? 'Skip to content' : 'Skip to the project list'}
-      </a>
-      {content}
-      {rift && (
-        <RiftTransition rift={rift} reducedMotion={reducedMotion} onCovered={riftCovered} onDone={riftDone} />
-      )}
+      {welcomeOpen && <Welcome />}
+      <div className="app-behind" inert={ready && welcomeOpen}>
+        <a className="skip-link" href={showList ? '#main' : '#travel'}>
+          {showList ? 'Skip to content' : 'Skip to the project list'}
+        </a>
+        {content}
+        {rift && (
+          <RiftTransition rift={rift} reducedMotion={reducedMotion} onCovered={riftCovered} onDone={riftDone} />
+        )}
+      </div>
     </>
   );
 }

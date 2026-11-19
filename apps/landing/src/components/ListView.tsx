@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { MapIcon } from 'lucide-react';
+import { ArrowUpRightIcon, FileTextIcon, MapIcon } from 'lucide-react';
 import { PLACES, isWorldId } from '../data/worlds';
 import { site } from '../data/site';
 import type { Route } from '../state/url';
@@ -53,6 +53,14 @@ export default function ListView({ route, notice }: { route: Route; notice?: str
           {world ? `${place.name}, as a list` : site.index.title}
         </h1>
         <p className="mt-3 max-w-[60ch] text-lg text-muted">{site.index.intro}</p>
+        <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
+          {site.welcome.resume.lead}
+          <a href={site.profileUrl} className="btn btn-ghost btn-sm">
+            <FileTextIcon className="h-4 w-4" aria-hidden="true" />
+            Résumé
+            <ArrowUpRightIcon className="h-4 w-4 text-accent-text" aria-hidden="true" />
+          </a>
+        </p>
         {notice && (
           <p
             role="status"

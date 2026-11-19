@@ -17,7 +17,7 @@ export interface Progress {
   secrets: string[];
   /** The last world visited. */
   lastWorld: WorldId | null;
-  /** The intro card has been dismissed once; returning visitors land on the map. */
+  /** The welcome (once the intro card) has been seen; returning visitors land on the map. */
   introSeen: boolean;
 }
 

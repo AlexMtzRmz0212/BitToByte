@@ -33,6 +33,15 @@ Tailwind maps the variables to utilities (`bg-surface`, `text-ink`,
 `/?world=<id>&project=<slug>&view=list|map`. The back button walks the history.
 With reduced motion on, worlds open as the list unless `view=map` is set.
 
+## The welcome
+
+A first visit to `/` opens a full-screen welcome (`src/components/Welcome.tsx`, copy in
+`site.welcome`) with three doors: the Citadel map, the plain project list, and the résumé.
+Picking any door sets `introSeen` in localStorage, so it shows once; later visits to `/`
+open the Citadel. It is prerendered and hidden before first paint for returning visitors
+(`index.html`), is skipped by every deep link, and is absent without JavaScript.
+`/?welcome` always shows it, which is the link to share and the way to test it.
+
 ## Scripts
 
 ```bash

@@ -1,6 +1,7 @@
 import { AxeBuilder } from '@axe-core/playwright';
-import { expect, test, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
 import { WORLD_IDS } from '../src/data/worlds';
+import { expect, firstVisit, test } from './fixtures';
 
 // axe on every kind of screen, in every world's theme. Serious and critical
 // issues fail the run. (The shared footer from packages/ui has two unnamed
@@ -27,10 +28,19 @@ async function expectNoSeriousIssues(page: Page) {
   expect(serious).toEqual([]);
 }
 
+firstVisit('the welcome, then the hub', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#welcome')).toBeVisible();
+  await expectNoSeriousIssues(page);
+  await page.getByRole('button', { name: /^Enter the Citadel/ }).click();
+  await expectNoSeriousIssues(page);
+});
+
 test('the hub, with and without the intro card', async ({ page }) => {
   await page.goto('/');
   await expectNoSeriousIssues(page);
-  await page.getByRole('button', { name: 'Start exploring' }).click();
+  await page.getByRole('button', { name: 'About BitToByte' }).click();
+  await expect(page.getByRole('button', { name: 'Start exploring' })).toBeVisible();
   await expectNoSeriousIssues(page);
 });
 

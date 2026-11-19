@@ -57,6 +57,11 @@
   ::selection {
     background: color-mix(in oklab, var(--w-accent) 35%, transparent);
   }
+
+  /* Wraps the app so it can be made inert behind the welcome; it adds no box. */
+  .app-behind {
+    display: contents;
+  }
 }
 
 @layer components {
@@ -156,4 +161,5 @@
  *   20  HUD (top bar, compass, dock, fast travel)
  *   30  cards and bottom sheet
  *   40  portal rift
+ *   50  first-visit welcome (covers everything, including the HUD)
  *   100 skip link */

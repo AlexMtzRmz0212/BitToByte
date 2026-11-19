@@ -35,12 +35,13 @@ export default function TopHud({ place, onAbout }: Props) {
         )}
         <RouteLink
           to={{ place, project: null, view: 'list' }}
-          className="hud-button chrome-pill"
-          aria-label="Skip the map: show every project as a list"
-          title="Skip the map"
+          className="hud-button hud-cta chrome-pill"
+          title="Show every project as a plain list, no map"
         >
           <ListIcon className="h-4 w-4" aria-hidden="true" />
-          <span className="hidden md:inline">List</span>
+          {/* Shorter on phones, where the top-right corner is tight. */}
+          <span className="sm:hidden">List</span>
+          <span className="hidden sm:inline">Show the list</span>
         </RouteLink>
         <a href={site.profileUrl} className="hud-button chrome-pill hidden lg:inline-flex">
           Résumé

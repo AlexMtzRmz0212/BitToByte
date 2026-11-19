@@ -42,7 +42,7 @@ export default function IntroCard({ onExplore }: Props) {
         </button>
         <RouteLink to={{ place: 'nexus', project: null, view: 'list' }} className="btn btn-ghost">
           <ListIcon className="h-4 w-4" aria-hidden="true" />
-          Skip the map
+          Show the list
         </RouteLink>
       </div>
 

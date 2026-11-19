@@ -45,6 +45,9 @@ export function routeToSearch(route: Route): string {
   return query ? `/?${query}` : '/';
 }
 
+/** `/?welcome` asks for the welcome even if this visitor has seen it. It is not part of the route. */
+export const wantsWelcome = (search: string) => new URLSearchParams(search).has('welcome');
+
 /** Normalize a route the same way parseRoute would, so links and state agree. */
 export const normalizeRoute = (route: Route): Route => parseRoute(routeToSearch(route).slice(1));
 

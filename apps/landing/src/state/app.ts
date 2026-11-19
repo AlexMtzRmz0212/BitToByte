@@ -1,7 +1,7 @@
 import { isWorldId, type WorldId } from '../data/worlds';
 import { createStore, useStore } from './store';
 import { emptyProgress, loadProgress, saveProgress, type Progress } from './persist';
-import { NEXUS_ROUTE, normalizeRoute, parseRoute, routeToSearch, sameRoute, type Route } from './url';
+import { NEXUS_ROUTE, normalizeRoute, parseRoute, routeToSearch, sameRoute, wantsWelcome, type Route } from './url';
 
 export interface AppState {
   /** Where the URL says the visitor is. */
@@ -9,12 +9,15 @@ export interface AppState {
   progress: Progress;
   /** True once the client has read stored progress (always false while prerendering). */
   ready: boolean;
+  /** The URL is `/?welcome`: show the welcome even to a visitor who has seen it. */
+  welcomeForced: boolean;
 }
 
 export const app = createStore<AppState>({
   route: NEXUS_ROUTE,
   progress: emptyProgress(),
   ready: false,
+  welcomeForced: false,
 });
 
 export const useApp = <U,>(selector: (state: AppState) => U) => useStore(app, selector);
@@ -24,9 +27,10 @@ export const useProgress = () => useApp((s) => s.progress);
 /** Read the URL into the store before the first client render, and follow back/forward. */
 export function initClientRoute(): Route {
   const route = parseRoute(window.location.search);
-  app.set({ route });
+  app.set({ route, welcomeForced: wantsWelcome(window.location.search) });
   window.addEventListener('popstate', () => {
-    app.set({ route: parseRoute(window.location.search) });
+    const { search } = window.location;
+    app.set({ route: parseRoute(search), welcomeForced: wantsWelcome(search) });
   });
   return route;
 }
@@ -67,7 +71,8 @@ export function navigate(patch: Partial<Route>, mode: NavMode = 'push'): void {
   const url = routeToSearch(route);
   if (mode === 'push') window.history.pushState(null, '', url);
   else window.history.replaceState(null, '', url);
-  app.set({ route });
+  // The new URL never carries `?welcome`.
+  app.set({ route, welcomeForced: false });
   if (isWorldId(route.place)) rememberWorld(route.place);
 }
 
@@ -98,6 +103,14 @@ export function saveFog(world: WorldId, encoded: string): void {
 
 export function markIntroSeen(): void {
   updateProgress((p) => (p.introSeen ? null : { ...p, introSeen: true }));
+}
+
+/** Close the welcome and open the Citadel: remember it was seen, and drop a `?welcome` from the URL. */
+export function dismissWelcome(): void {
+  markIntroSeen();
+  if (!app.get().welcomeForced) return;
+  window.history.replaceState(null, '', routeToSearch(app.get().route));
+  app.set({ welcomeForced: false });
 }
 
 /** Record an easter egg. Returns true the first time. */

@@ -287,6 +287,13 @@
 .hud-button:hover {
   background: var(--w-raised);
 }
+/* The switch to the list: always labelled, with an accent icon, like "Show the map" in the list. */
+.hud-cta {
+  color: var(--w-ink);
+}
+.hud-cta svg {
+  color: var(--w-accent-text);
+}
 @media (max-width: 380px) {
   .hud-title {
     font-size: 0.95rem;

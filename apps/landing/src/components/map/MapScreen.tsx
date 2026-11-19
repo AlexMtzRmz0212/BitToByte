@@ -18,7 +18,7 @@ import type { MapController } from '../../engine/controller';
 import { FogField } from '../../engine/fog';
 import { doorstep, placeProjects } from '../../engine/lots';
 import { useReducedMotion } from '../../engine/motion';
-import { app, discover, findSecret, markIntroSeen, navigate, saveFog, useProgress, useRoute } from '../../state/app';
+import { app, discover, findSecret, markIntroSeen, navigate, saveFog, useApp, useProgress, useRoute } from '../../state/app';
 import type { WorldModule } from '../../worlds/types';
 import IntroCard from '../IntroCard';
 import ProjectCard from '../ProjectCard';
@@ -146,7 +146,13 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
   }, []);
 
   const isHub = place === 'nexus';
-  const introOpen = isHub && (!progress.introSeen || aboutOpen);
+  // The camera makes room for the card only when the visitor asks for it (About):
+  // a first visit gets the welcome instead (components/Welcome.tsx).
+  const introOpen = isHub && aboutOpen;
+  // The prerendered hub still carries the card so the no-JS page reads as one
+  // document; it is gone as soon as the client takes over.
+  const ready = useApp((s) => s.ready);
+  const introVisible = introOpen || (isHub && !ready);
 
   // The travel panel's width only changes where the next centring lands: minimizing
   // it must not pull the map away from where the visitor has panned.
@@ -471,7 +477,7 @@ export default function MapScreen({ place, module, from, departingTo, onDeparted
         <WorldDock current={place} view="auto" />
       </div>
 
-      {introOpen && <IntroCard onExplore={closeIntro} />}
+      {introVisible && <IntroCard onExplore={closeIntro} />}
       {selected && (
         <ProjectCard project={selected} onClose={closeCard} onLaunch={launch} scene={Scene ? <Scene /> : undefined} />
       )}

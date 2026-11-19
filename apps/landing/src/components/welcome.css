@@ -1,0 +1,302 @@
+/* The first-visit welcome: a full-screen layer over the hub with three doors.
+ * Colors, type, radii and shadows come from the Nexus world tokens. */
+
+@layer components {
+  .welcome {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: max(1rem, env(safe-area-inset-top)) 1.25rem max(1rem, env(safe-area-inset-bottom));
+    color: var(--w-ink);
+    /* The hub shows through, dimmed: a hint of what the first door opens. */
+    background:
+      radial-gradient(60rem 34rem at 12% -8%, color-mix(in oklab, var(--w-accent) 13%, transparent), transparent 70%),
+      radial-gradient(48rem 30rem at 100% 108%, color-mix(in oklab, var(--w-deco-2) 18%, transparent), transparent 70%),
+      color-mix(in oklab, var(--w-bg) 95%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .welcome:focus {
+    outline: none;
+  }
+
+  /* margin:auto centres this when it fits and lets the layer scroll when it doesn't. */
+  .welcome-inner {
+    width: min(100%, 62rem);
+    margin: auto;
+    padding-block: 1rem;
+  }
+
+  .welcome .availability.welcome-availability {
+    margin-right: 0;
+  }
+  .welcome .wordmark {
+    font-size: clamp(3.2rem, 14vw, 7rem);
+    margin-top: 1.1rem;
+  }
+  .welcome .intro-tagline {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+  }
+  .welcome-blurb {
+    max-width: 38rem;
+    margin-top: 1.1rem;
+    font-size: clamp(0.975rem, 2.4vw, 1.125rem);
+    line-height: 1.6;
+  }
+
+  .welcome-prompt {
+    margin-top: 1.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--w-muted);
+  }
+  .welcome-doors {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    padding: 0;
+    list-style: none;
+  }
+  /* Two equal doors: the same projects, two views. Roomier than a link row. */
+  @media (min-width: 768px) {
+    .welcome-doors {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .door {
+      gap: 0.45rem;
+      padding: 1.5rem 1.6rem 1.6rem;
+    }
+    .door-icon {
+      width: 3rem;
+      height: 3rem;
+    }
+    .door-title {
+      margin-top: 0.75rem;
+      font-size: 1.65rem;
+    }
+    .door-body {
+      font-size: 1.025rem;
+      max-width: 28rem;
+    }
+    .door-meta {
+      padding-top: 0.9rem;
+    }
+  }
+
+  .door {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    width: 100%;
+    height: 100%;
+    padding: 1.1rem 1.2rem 1.15rem;
+    text-align: left;
+    text-decoration: none;
+    color: var(--w-ink);
+    cursor: pointer;
+    background: color-mix(in oklab, var(--w-raised) 82%, transparent);
+    border: var(--w-bw) solid var(--w-line);
+    border-radius: var(--w-r-card);
+    box-shadow: var(--w-shadow-card);
+    transition:
+      transform var(--w-dur-fast) var(--w-ease),
+      border-color var(--w-dur-fast) var(--w-ease),
+      background-color var(--w-dur-fast) var(--w-ease);
+  }
+  .door:hover {
+    border-color: color-mix(in oklab, var(--w-accent) 60%, var(--w-line));
+    background: color-mix(in oklab, var(--w-raised) 94%, var(--w-accent));
+  }
+  .door:active {
+    transform: scale(0.985);
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .door:hover {
+      transform: translateY(-2px);
+    }
+    .door:hover .door-arrow {
+      transform: translateX(3px);
+    }
+  }
+  .door-primary {
+    border-color: color-mix(in oklab, var(--w-accent) 55%, var(--w-line));
+    background: linear-gradient(
+      165deg,
+      color-mix(in oklab, var(--w-accent) 14%, var(--w-raised)),
+      color-mix(in oklab, var(--w-raised) 92%, transparent)
+    );
+  }
+
+  .door-icon {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--w-r-control);
+    background: color-mix(in oklab, var(--w-accent) 16%, transparent);
+    color: var(--w-accent-text);
+  }
+  .door-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.55rem;
+    font-family: var(--w-font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+  .door-arrow {
+    flex: none;
+    color: var(--w-accent-text);
+    transition: transform var(--w-dur-fast) var(--w-ease);
+  }
+  .door-body {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--w-muted);
+  }
+  .door-meta {
+    margin-top: auto;
+    padding-top: 0.6rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--w-accent-text);
+  }
+
+  /* The extra: quieter than the doors, below a rule. Résumé on the left, contact icons on the right. */
+  .welcome-extra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    margin-top: 1.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--w-line);
+  }
+  .welcome-extra-lead {
+    flex-basis: 100%;
+    font-size: 0.8125rem;
+    color: var(--w-muted);
+  }
+  .extra-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    padding: 0.4rem 0.95rem;
+    text-decoration: none;
+    color: var(--w-ink);
+    border: 1px solid var(--w-line);
+    border-radius: var(--w-r-control);
+    background: color-mix(in oklab, var(--w-raised) 55%, transparent);
+    transition:
+      border-color var(--w-dur-fast) var(--w-ease),
+      background-color var(--w-dur-fast) var(--w-ease);
+  }
+  .extra-link:hover {
+    border-color: color-mix(in oklab, var(--w-ink) 45%, transparent);
+    background: color-mix(in oklab, var(--w-raised) 85%, transparent);
+  }
+  .extra-title {
+    font-weight: 650;
+  }
+  .extra-body {
+    font-size: 0.9rem;
+    color: var(--w-muted);
+  }
+  .extra-host {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--w-accent-text);
+  }
+  .extra-arrow {
+    color: var(--w-accent-text);
+  }
+  .welcome-contact {
+    margin-left: auto;
+  }
+
+  /* Phones: keep the three doors in reach without scrolling. */
+  @media (max-width: 639px) {
+    .welcome {
+      padding-inline: 1rem;
+    }
+    .welcome-inner {
+      padding-block: 0.5rem;
+    }
+    .welcome-blurb {
+      margin-top: 0.8rem;
+    }
+    .welcome-prompt {
+      margin-top: 1.25rem;
+    }
+    .door {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: 0.85rem;
+      row-gap: 0.15rem;
+      padding: 0.9rem 1rem;
+    }
+    .door-icon {
+      grid-row: 1 / span 3;
+      align-self: start;
+    }
+    .door-title {
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+    .door-body {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    .door-meta {
+      padding-top: 0.15rem;
+    }
+    .welcome-extra {
+      margin-top: 1.25rem;
+    }
+    .extra-body {
+      display: none;
+    }
+    .welcome-contact {
+      margin-left: -0.625rem;
+    }
+  }
+
+  /* A gentle staggered entrance. The layer is prerendered, so it plays on first paint. */
+  @media (prefers-reduced-motion: no-preference) {
+    .welcome-inner > * {
+      animation: welcome-in 560ms var(--w-ease) both;
+    }
+    .welcome-inner > :nth-child(2) { animation-delay: 60ms; }
+    .welcome-inner > :nth-child(3) { animation-delay: 110ms; }
+    .welcome-inner > :nth-child(4) { animation-delay: 160ms; }
+    .welcome-inner > :nth-child(5) { animation-delay: 220ms; }
+    .welcome-inner > :nth-child(6) { animation-delay: 300ms; }
+    .welcome-inner > :nth-child(7) { animation-delay: 360ms; }
+  }
+  @keyframes welcome-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  /* Returning visitors: hidden before hydration by a pre-paint class (index.html).
+   * Without JavaScript there is nothing to choose between: the page is the hub document. */
+  html.intro-seen .welcome,
+  html:not(.js) .welcome {
+    display: none;
+  }
+}

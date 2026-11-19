@@ -23,6 +23,26 @@ export const site = {
   },
   profileUrl: 'https://alex.bittobyte.qzz.io',
   howTo: 'Click a portal to travel. Each world keeps a few live projects, and the Travel list has every one of them.',
+  // The first-visit welcome: three ways in. Shown once, then reachable at /?welcome.
+  welcome: {
+    // The two doors show the same nineteen projects; the résumé is an extra beneath them.
+    prompt: 'Nineteen projects, two ways to see them',
+    citadel: {
+      title: 'Enter the Citadel',
+      body: 'Explore them on a map. Click a portal to travel between six worlds and find each project as you go.',
+      meta: 'Interactive, six worlds',
+    },
+    list: {
+      title: 'Just the projects',
+      body: 'Skip the map. Every project in one plain list, with live links and code.',
+      meta: 'Everything at a glance',
+    },
+    resume: {
+      lead: 'Looking for the person behind them?',
+      title: 'Résumé',
+      body: 'Experience, skills and project case studies.',
+    },
+  },
   index: {
     title: 'Every project, no map required',
     intro: 'Nineteen builds across six worlds, seventeen of them live. Launch them or read the code from here.',

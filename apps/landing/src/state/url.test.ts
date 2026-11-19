@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { NEXUS_ROUTE, normalizeRoute, parseRoute, routeToSearch, type Route } from './url';
+import { NEXUS_ROUTE, normalizeRoute, parseRoute, routeToSearch, wantsWelcome, type Route } from './url';
 
 describe('routes and URLs', () => {
   it('defaults to the Nexus', () => {
@@ -39,6 +39,14 @@ describe('routes and URLs', () => {
   it('ignores unknown ids', () => {
     expect(parseRoute('?world=atlantis&project=nope')).toEqual(NEXUS_ROUTE);
     expect(parseRoute('?world=noir&project=nope')).toEqual({ place: 'noir', project: null, view: 'auto' });
+  });
+
+  it('treats /?welcome as a request for the welcome, not a route', () => {
+    expect(wantsWelcome('?welcome')).toBe(true);
+    expect(wantsWelcome('?welcome=1')).toBe(true);
+    expect(wantsWelcome('')).toBe(false);
+    expect(wantsWelcome('?world=gotham')).toBe(false);
+    expect(parseRoute('?welcome')).toEqual(NEXUS_ROUTE);
   });
 
   it('drops a selection on the Nexus map', () => {

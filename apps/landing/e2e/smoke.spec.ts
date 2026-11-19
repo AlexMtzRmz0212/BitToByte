@@ -1,6 +1,7 @@
-import { expect, test, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
 import { projects, type Project } from '../src/data/projects';
 import { SECRETS, WORLDS, WORLD_IDS } from '../src/data/worlds';
+import { expect, firstVisit, test } from './fixtures';
 
 const liveProjects = projects.filter((p): p is Project & { liveUrl: string } => p.liveUrl !== null);
 const codeOnlyProjects = projects.filter((p) => p.liveUrl === null);
@@ -14,8 +15,11 @@ test.describe('without JavaScript', () => {
   test('the prerendered hub explains the studio and links every project', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toContainText('The Citadel');
-    await expect(page.getByText('Intelligent Systems Hub').first()).toBeVisible();
-    await expect(page.getByText('Open to roles and collaborations')).toBeVisible();
+    // The prerender also carries the (hidden without JS) welcome, which repeats this copy.
+    const intro = page.locator('.intro-card');
+    await expect(intro.getByText('Intelligent Systems Hub')).toBeVisible();
+    await expect(intro.getByText('Open to roles and collaborations')).toBeVisible();
+    await expect(page.locator('#welcome')).toBeHidden();
     for (const project of projects) {
       await expect(page.getByText(project.name, { exact: true }).first()).toBeVisible();
       await expect(page.getByText(project.oneLiner)).toBeVisible();
@@ -32,23 +36,23 @@ test.describe('without JavaScript', () => {
   });
 });
 
-test('the hub opens on the map with the intro card', async ({ page }) => {
+test('a returning visitor opens straight on the map, and About brings the intro card back', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('html')).toHaveAttribute('data-world', 'nexus');
   await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
+  await expect(page.locator('#welcome')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Start exploring' })).toHaveCount(0);
+  await page.getByRole('button', { name: 'About BitToByte' }).click();
   await expect(page.getByRole('button', { name: 'Start exploring' })).toBeVisible();
   await page.getByRole('button', { name: 'Start exploring' }).click();
   await expect(page.getByRole('button', { name: 'Start exploring' })).toHaveCount(0);
-  // It stays dismissed on the next visit.
-  await page.reload();
-  await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Start exploring' })).toHaveCount(0);
 });
 
-test('Skip the map opens the full list, and Back returns to the hub', async ({ page }) => {
+test('Show the list opens the full list, with a résumé link, and Back returns to the hub', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'Skip the map', exact: true }).click();
+  await page.getByRole('link', { name: /^(Show the )?list$/i }).click();
   await expect(page).toHaveURL(/\?view=list$/);
+  await expect(page.getByRole('main').getByRole('link', { name: /Résumé/ })).toHaveAttribute('href', 'https://alex.bittobyte.qzz.io');
   await expect(page.getByRole('link', { name: /^Launch live project/ })).toHaveCount(liveProjects.length);
   await expect(page.getByRole('link', { name: /^View code for/ })).toHaveCount(codeOnlyProjects.length);
   await page.goBack();
@@ -56,11 +60,86 @@ test('Skip the map opens the full list, and Back returns to the hub', async ({ p
   await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
 });
 
+firstVisit.describe('the welcome', () => {
+  const welcome = (page: Page) => page.locator('#welcome');
+
+  firstVisit('greets a first visit with two ways to see the projects and a résumé extra, over the Citadel', async ({ page }) => {
+    await page.goto('/');
+    await expect(welcome(page)).toBeVisible();
+    await expect(welcome(page).locator('.welcome-doors > li')).toHaveCount(2);
+    await expect(page.getByRole('heading', { level: 1, name: 'BitToByte', exact: true })).toBeVisible();
+    await expect(welcome(page).getByRole('button', { name: /^Enter the Citadel/ })).toBeVisible();
+    await expect(welcome(page).getByRole('link', { name: /^Just the projects/ })).toHaveAttribute('href', '/?view=list');
+    await expect(welcome(page).getByRole('link', { name: /^Résumé/ })).toHaveAttribute('href', 'https://alex.bittobyte.qzz.io');
+    // Nothing behind it can be reached until a door is picked.
+    await expect(page.locator('.app-behind')).toHaveJSProperty('inert', true);
+  });
+
+  firstVisit('the Citadel door opens the map, and the welcome stays gone on the next visit', async ({ page }) => {
+    await page.goto('/');
+    await welcome(page).getByRole('button', { name: /^Enter the Citadel/ }).click();
+    await expect(welcome(page)).toHaveCount(0);
+    await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
+    await expect(page.locator('.app-behind')).toHaveJSProperty('inert', false);
+    await page.reload();
+    await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
+    await expect(welcome(page)).toHaveCount(0);
+  });
+
+  firstVisit('the projects door opens the list, and Back does not bring the welcome back', async ({ page }) => {
+    await page.goto('/');
+    await welcome(page).getByRole('link', { name: /^Just the projects/ }).click();
+    await expect(page).toHaveURL(/\?view=list$/);
+    await expect(page.getByRole('link', { name: /^Launch live project/ })).toHaveCount(liveProjects.length);
+    await page.goBack();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
+    await expect(welcome(page)).toHaveCount(0);
+  });
+
+  firstVisit('the résumé link counts as welcomed too', async ({ page }) => {
+    await page.goto('/');
+    // The résumé is another site: stand in a blank page for it.
+    await page.route('https://alex.bittobyte.qzz.io/**', (route) =>
+      route.fulfill({ contentType: 'text/html', body: '<title>résumé</title>' })
+    );
+    await welcome(page).getByRole('link', { name: /^Résumé/ }).click();
+    await page.goto('/');
+    await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
+    await expect(welcome(page)).toHaveCount(0);
+  });
+
+  firstVisit('deep links skip it', async ({ page }) => {
+    await page.goto('/?world=gotham');
+    await expect(page.locator('html')).toHaveAttribute('data-world', 'noir');
+    await expect(welcome(page)).toHaveCount(0);
+    await page.goto('/?view=list');
+    await expect(page.getByRole('link', { name: /^Launch live project/ }).first()).toBeVisible();
+    await expect(welcome(page)).toHaveCount(0);
+  });
+
+  test('/?welcome shows it even to a visitor who has seen it, and picking a door cleans the URL', async ({ page }) => {
+    await page.goto('/?welcome');
+    await expect(welcome(page)).toBeVisible();
+    await welcome(page).getByRole('button', { name: /^Enter the Citadel/ }).click();
+    await expect(welcome(page)).toHaveCount(0);
+    await expect(page).toHaveURL(/\/$/);
+  });
+
+  firstVisit('works on a phone without sideways scrolling', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 780 });
+    await page.goto('/');
+    await expect(welcome(page)).toBeVisible();
+    await expect(welcome(page).getByRole('button', { name: /^Enter the Citadel/ })).toBeInViewport();
+    const overflow = await welcome(page).evaluate((el) => el.scrollWidth - el.clientWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
+  });
+});
+
 test('every portal leads to its world and re-themes the page', async ({ page }) => {
   // Six round trips, each a walk to a gate plus a rift: a long journey.
   test.setTimeout(180_000);
   await page.goto('/');
-  await page.getByRole('button', { name: 'Start exploring' }).click();
   for (const id of WORLD_IDS) {
     await page.getByRole('button', { name: new RegExp(`^Portal to ${WORLDS[id].name}`) }).click();
     await expect(page.locator('html')).toHaveAttribute('data-world', id, { timeout: 15_000 });
@@ -73,7 +152,6 @@ test('every portal leads to its world and re-themes the page', async ({ page }) 
 test('every project is one click from the travel list, and Launch carries its live URL', async ({ page, isMobile }) => {
   test.setTimeout(60_000);
   await page.goto('/');
-  await page.getByRole('button', { name: 'Start exploring' }).click();
   // On phones the list is a folded sheet: one tap opens it.
   if (isMobile) await page.getByRole('button', { name: 'Open the travel list' }).click();
   for (const project of liveProjects) {
@@ -96,7 +174,6 @@ test('every project is one click from the travel list, and Launch carries its li
 test('dragging pans and the wheel zooms the map', async ({ page, isMobile }) => {
   test.skip(isMobile, 'mouse gestures');
   await page.goto('/');
-  await page.getByRole('button', { name: 'Start exploring' }).click();
   await page.waitForTimeout(700);
   const before = await worldTransform(page);
   await page.mouse.move(700, 450);
@@ -113,7 +190,6 @@ test('dragging pans and the wheel zooms the map', async ({ page, isMobile }) => 
 
 test('the keyboard can pan and zoom the map', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: 'Start exploring' }).click();
   const map = page.getByRole('region', { name: 'Map of The Citadel' });
   await map.focus();
   await page.waitForTimeout(700);
@@ -124,7 +200,7 @@ test('the keyboard can pan and zoom the map', async ({ page }) => {
   expect(await worldTransform(page)).not.toBe(before);
 });
 
-test('the page works when storage is blocked', async ({ page }) => {
+firstVisit('the page works when storage is blocked', async ({ page }) => {
   await page.addInitScript(() => {
     Object.defineProperty(window, 'localStorage', {
       get() {
@@ -135,8 +211,10 @@ test('the page works when storage is blocked', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/');
-  await page.getByRole('button', { name: 'Start exploring' }).click();
-  await page.getByRole('link', { name: /Skip the map/ }).first().click();
+  // With nothing remembered, every visit starts at the welcome.
+  await page.getByRole('button', { name: /^Enter the Citadel/ }).click();
+  await expect(page.getByRole('region', { name: 'Map of The Citadel' })).toBeVisible();
+  await page.getByRole('link', { name: /^(Show the )?list$/i }).click();
   await expect(page.getByRole('link', { name: /^Launch live project/ }).first()).toBeVisible();
   expect(errors).toEqual([]);
 });
@@ -207,7 +285,6 @@ test.describe('slow or broken networks', () => {
       await route.continue();
     });
     await page.goto('/');
-    await page.getByRole('button', { name: 'Start exploring' }).click();
     await page.getByRole('button', { name: /^Portal to Overworld/ }).click();
     await expect(page.locator('html')).toHaveAttribute('data-world', 'voxel', { timeout: 15_000 });
     await expect(page.getByText('Opening Overworld…')).toBeVisible();
@@ -219,7 +296,6 @@ test.describe('slow or broken networks', () => {
   test('a map that fails to load falls back to the list', async ({ page }) => {
     await page.route(voxelChunk, (route) => route.abort());
     await page.goto('/');
-    await page.getByRole('button', { name: 'Start exploring' }).click();
     await page.getByRole('button', { name: /^Portal to Overworld/ }).click();
     await expect(page.getByText('That map didn’t load, so here is everything as a list.')).toBeVisible({
       timeout: 15_000,

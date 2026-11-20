@@ -17,7 +17,8 @@ export const profile = {
   summary:
     'Mechatronics engineer turned applied AI developer, with roles across design and automation engineering, data and AI, plus teaching and running a restaurant. Comfortable owning a problem end to end, from wiring up the data source to explaining the result to people who do not write code.',
   links: [
-    { label: 'Email', href: 'mailto:alejandro.martinez.rmz97@gmail.com' },
+    // "+bit" is a Gmail plus-address: same inbox, but the tag shows it came from the BitToByte sites.
+    { label: 'Email', href: 'mailto:alejandro.martinez.rmz97+bit@gmail.com' },
     { label: 'LinkedIn', href: 'https://linkedin.com/in/alejandro-mtz' },
     { label: 'GitHub', href: 'https://github.com/AlexMtzRmz0212' },
   ],

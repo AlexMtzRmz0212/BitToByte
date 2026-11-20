@@ -1,43 +1,43 @@
-import {
-  Reveal,
-  GithubIcon,
-  LinkedinIcon,
-  InstagramIcon,
-  FacebookIcon,
-} from '@alex_mtz/bittobyte-ui';
-import { ArrowUpRight, Mail } from 'lucide-react';
+import { Reveal, GithubIcon, LinkedinIcon } from '@alex_mtz/bittobyte-ui';
+import { ArrowUpRight, Mail, Phone } from 'lucide-react';
 
 const ACCENT = '#b5f53c';
 
-const EMAIL = 'alejandro.martinez.rmz97@gmail.com';
+// "+bit" is a Gmail plus-address: it lands in the same inbox, but the tag
+// shows that whoever wrote took the address from the BitToByte sites.
+const EMAIL = 'alejandro.martinez.rmz97+bit@gmail.com';
 
-// Everything below email is a profile, so each card shows the handle rather than
-// repeating the network name in the subtitle. The handle is the useful part: it
-// tells you where you are about to land before you click.
+// Everything below email is a profile or a number, so each card shows the handle
+// rather than repeating the network name in the subtitle. The handle is the useful
+// part: it tells you where you are about to land before you click.
 const SOCIALS = [
   {
     label: 'GitHub',
     handle: '@AlexMtzRmz0212',
     href: 'https://github.com/AlexMtzRmz0212',
     Icon: GithubIcon,
+    external: true,
   },
   {
     label: 'LinkedIn',
     handle: '/in/alejandro-mtz',
     href: 'https://linkedin.com/in/alejandro-mtz',
     Icon: LinkedinIcon,
+    external: true,
   },
   {
-    label: 'Instagram',
-    handle: '@alexmtzrmz',
-    href: 'https://www.instagram.com/alexmtzrmz/',
-    Icon: InstagramIcon,
+    label: 'Call · Canada',
+    handle: '+1 613 805 6388',
+    href: 'tel:+16138056388',
+    Icon: Phone,
+    external: false,
   },
   {
-    label: 'Facebook',
-    handle: 'Alejandro.Martinez',
-    href: 'https://www.facebook.com/Alejandro.Martinez.1997',
-    Icon: FacebookIcon,
+    label: 'Call · Mexico',
+    handle: '+52 444 302 1651',
+    href: 'tel:+524443021651',
+    Icon: Phone,
+    external: false,
   },
 ];
 
@@ -93,12 +93,11 @@ const Contact = () => (
     </Reveal>
 
     <ul className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
-      {SOCIALS.map(({ label, handle, href, Icon }, i) => (
+      {SOCIALS.map(({ label, handle, href, Icon, external }, i) => (
         <Reveal as="li" key={label} delay={100 + i * 70}>
           <a
             href={href}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             className={`${cardBase} flex h-full flex-col p-5`}
           >
             <HoverGlow />

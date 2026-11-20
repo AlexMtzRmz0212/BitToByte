@@ -427,6 +427,26 @@
   }
 }
 
+/* The map has no footer, so the legal pages sit at the foot of the travel panel. */
+.travel-legal {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  padding: 0.65rem 1rem;
+  border-top: var(--w-bw) solid var(--w-line);
+  font-size: 0.75rem;
+  color: var(--w-muted);
+}
+.travel-legal a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+.travel-legal a:hover {
+  color: var(--w-ink);
+  text-decoration: underline;
+}
+
 /* ----------------------------------------------------------- travel panel */
 
 .travel-panel {
@@ -552,7 +572,8 @@
     transform: none;
   }
   /* Folded away: the list leaves the tab order until the sheet opens. */
-  .travel-panel[data-open='false'] .travel-body {
+  .travel-panel[data-open='false'] .travel-body,
+  .travel-panel[data-open='false'] .travel-legal {
     visibility: hidden;
     transition: visibility 0s linear var(--w-dur-slow);
   }

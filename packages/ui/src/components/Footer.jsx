@@ -1,15 +1,11 @@
 import { Code2, Cpu } from 'lucide-react';
-import { InstagramIcon, FacebookIcon, XIcon } from './BrandIcons';
+import { BitToByteIcon, InstagramIcon, FacebookIcon, XIcon } from './BrandIcons';
 import { openConsentSettings } from './consent';
 
-// The BitToByte family, rendered on every property so all four subdomains
-// cross-link to one another. Override via the `familyLinks` prop if needed.
-const DEFAULT_FAMILY_LINKS = [
-  { label: 'BitToByte', href: 'https://bittobyte.qzz.io' },
-  { label: 'Alex · Portfolio', href: 'https://alex.bittobyte.qzz.io' },
-  { label: 'Express Entry', href: 'https://EE.bittobyte.qzz.io' },
-  { label: 'AI Checklist', href: 'https://checklist.bittobyte.qzz.io' },
-];
+// Cross-links to sibling sites, shown under a "The Network" heading. Empty by
+// default: BitToByte now has many more projects than the old four-site set, so a
+// fixed list no longer fits. Pass `familyLinks` to show a row on a given site.
+const DEFAULT_FAMILY_LINKS = [];
 
 // Legal links, canonical to the main domain so every subdomain points at one policy.
 const DEFAULT_LEGAL_LINKS = [
@@ -19,7 +15,9 @@ const DEFAULT_LEGAL_LINKS = [
 
 // Default "personal" socials. Pass a `socials` prop to override, e.g. the landing
 // page passes professional profiles (GitHub / LinkedIn). Each item: { label, href, Icon }.
+// The first entry is the BitToByte "B", the way back to the studio.
 const DEFAULT_SOCIALS = [
+  { label: 'BitToByte', href: 'https://bittobyte.qzz.io', Icon: BitToByteIcon },
   { label: 'Instagram', href: 'https://www.instagram.com/alexmtzrmz/', Icon: InstagramIcon },
   {
     label: 'Facebook',
@@ -60,19 +58,23 @@ const Footer = ({
         </div>
 
         <div className="flex flex-col items-center gap-3 md:items-end">
-          <p className="text-xs uppercase tracking-widest text-gray-400">The Network</p>
+          {familyLinks.length > 0 && (
+            <>
+              <p className="text-xs uppercase tracking-widest text-gray-400">The Network</p>
 
-          <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 md:justify-end">
-            {familyLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-gray-400 transition-colors hover:text-white"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
+              <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 md:justify-end">
+                {familyLinks.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="text-sm text-gray-400 transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+            </>
+          )}
 
           <div className="mt-1 flex items-center justify-center gap-4">
             {socials.map(({ label, href, Icon }) => (

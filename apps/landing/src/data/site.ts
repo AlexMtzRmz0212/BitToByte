@@ -17,7 +17,8 @@ export const site = {
   },
   availability: 'Open to roles and collaborations',
   contact: {
-    email: 'alejandro.martinez.rmz97@gmail.com',
+    // "+bit" is a Gmail plus-address: same inbox, but the tag shows the address came from the BitToByte sites.
+    email: 'alejandro.martinez.rmz97+bit@gmail.com',
     linkedin: 'https://www.linkedin.com/in/alejandro-mtz/',
     github: 'https://github.com/AlexMtzRmz0212',
   },

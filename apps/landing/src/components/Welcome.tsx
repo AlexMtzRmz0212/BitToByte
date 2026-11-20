@@ -3,6 +3,7 @@ import { ArrowRightIcon, ArrowUpRightIcon, CompassIcon, FileTextIcon, ListIcon }
 import { mailto, site } from '../data/site';
 import { dismissWelcome, markIntroSeen } from '../state/app';
 import ContactLinks from './ContactLinks';
+import LegalNav from './LegalNav';
 import RouteLink from './RouteLink';
 import './welcome.css';
 
@@ -91,6 +92,7 @@ export default function Welcome() {
           </a>
           <ContactLinks className="welcome-contact" />
         </div>
+        <LegalNav className="welcome-legal" />
       </div>
     </section>
   );

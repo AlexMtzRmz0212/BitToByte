@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#030712" />
+    <meta name="robots" content="noindex" />
+    <meta name="description" content="This page does not exist on BitToByte." />
+    <title>404 · Lost in space · BitToByte</title>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/bricolage-grotesque-latin-wght.woff2" crossorigin />
+    <style>
+      /* Self-hosted: the site's CSP only allows fonts from its own origin. */
+      @font-face {
+        font-family: 'Bricolage Grotesque Variable';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 200 800;
+        src: url(/fonts/bricolage-grotesque-latin-wght.woff2) format('woff2-variations'), url(/fonts/bricolage-grotesque-latin-wght.woff2) format('woff2');
+      }
+      @font-face {
+        font-family: 'Pixelify Sans Variable';
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400 700;
+        src: url(/fonts/pixelify-sans-latin-wght.woff2) format('woff2-variations'), url(/fonts/pixelify-sans-latin-wght.woff2) format('woff2');
+      }
+      /* 0 = the portfolio case is shut, 1 = open. Registered so it can ease between the two. */
+      @property --o { syntax: '<number>'; inherits: true; initial-value: 0; }
+      :root {
+        color-scheme: dark;
+        --display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+        --pixel: 'Pixelify Sans Variable', 'Pixelify Sans', ui-monospace, Menlo, Consolas, monospace;
+      }
+      * { box-sizing: border-box; }
+      html { background: #030712; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        min-height: 100svh;
+        overflow-x: hidden;
+        background:
+          radial-gradient(48rem 30rem at 82% 8%, rgba(124, 58, 237, 0.2), transparent 70%),
+          radial-gradient(44rem 28rem at 12% 92%, rgba(37, 99, 235, 0.2), transparent 70%),
+          radial-gradient(30rem 20rem at 50% 45%, rgba(190, 24, 93, 0.07), transparent 70%),
+          #030712;
+        color: #e5e7eb;
+        font-family: var(--display);
+        line-height: 1.6;
+        display: grid;
+        place-items: center;
+      }
+
+      /* ---- sky ---- */
+      .sky { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+      .stars { position: absolute; top: 0; left: 0; border-radius: 50%; background: transparent; }
+      .stars.s1 { width: 1px; height: 1px; box-shadow: 11vw 51vh 0 0 #fff, 66vw 11vh 0 0 #93c5fd, 76vw 12vh 0 0 #cbd5e1, 17vw 50vh 0 0 #fff, 2vw 83vh 0 0 #93c5fd, 61vw 11vh 0 0 #93c5fd, 0vw 22vh 0 0 #93c5fd, 74vw 95vh 0 0 #93c5fd, 23vw 24vh 0 0 #fff, 64vw 93vh 0 0 #fff, 38vw 52vh 0 0 #93c5fd, 34vw 71vh 0 0 #fff, 35vw 43vh 0 0 #93c5fd, 75vw 26vh 0 0 #fff, 6vw 34vh 0 0 #fff, 54vw 56vh 0 0 #cbd5e1, 77vw 20vh 0 0 #93c5fd, 49vw 14vh 0 0 #93c5fd, 99vw 27vh 0 0 #93c5fd, 37vw 3vh 0 0 #93c5fd, 66vw 41vh 0 0 #cbd5e1, 84vw 32vh 0 0 #93c5fd, 25vw 53vh 0 0 #fff, 59vw 30vh 0 0 #cbd5e1, 33vw 32vh 0 0 #93c5fd, 39vw 25vh 0 0 #93c5fd, 5vw 18vh 0 0 #cbd5e1, 9vw 58vh 0 0 #fff, 61vw 55vh 0 0 #fff, 13vw 65vh 0 0 #cbd5e1, 75vw 5vh 0 0 #93c5fd, 86vw 34vh 0 0 #93c5fd, 37vw 72vh 0 0 #cbd5e1, 36vw 83vh 0 0 #fff, 59vw 2vh 0 0 #93c5fd, 87vw 23vh 0 0 #93c5fd, 10vw 79vh 0 0 #93c5fd, 11vw 33vh 0 0 #cbd5e1, 12vw 32vh 0 0 #fff, 52vw 16vh 0 0 #fff, 20vw 52vh 0 0 #93c5fd, 25vw 32vh 0 0 #cbd5e1, 86vw 26vh 0 0 #cbd5e1, 8vw 12vh 0 0 #fff, 17vw 89vh 0 0 #cbd5e1, 17vw 97vh 0 0 #93c5fd, 74vw 55vh 0 0 #fff, 58vw 65vh 0 0 #fff, 95vw 72vh 0 0 #cbd5e1, 87vw 86vh 0 0 #93c5fd, 60vw 61vh 0 0 #93c5fd, 49vw 26vh 0 0 #93c5fd, 85vw 61vh 0 0 #cbd5e1, 35vw 46vh 0 0 #fff, 57vw 46vh 0 0 #cbd5e1, 64vw 13vh 0 0 #fff, 54vw 75vh 0 0 #cbd5e1, 65vw 4vh 0 0 #fff, 74vw 5vh 0 0 #93c5fd, 62vw 1vh 0 0 #fff, 39vw 90vh 0 0 #93c5fd, 74vw 1vh 0 0 #fff, 67vw 74vh 0 0 #fff, 18vw 0vh 0 0 #fff, 13vw 80vh 0 0 #fff, 42vw 4vh 0 0 #fff, 80vw 62vh 0 0 #cbd5e1, 93vw 63vh 0 0 #fff, 0vw 88vh 0 0 #fff, 98vw 63vh 0 0 #93c5fd, 1vw 58vh 0 0 #93c5fd, 26vw 28vh 0 0 #cbd5e1, 72vw 50vh 0 0 #fff, 33vw 18vh 0 0 #93c5fd, 92vw 61vh 0 0 #93c5fd, 89vw 98vh 0 0 #cbd5e1, 10vw 87vh 0 0 #cbd5e1, 68vw 73vh 0 0 #93c5fd, 44vw 47vh 0 0 #cbd5e1, 61vw 86vh 0 0 #93c5fd, 55vw 65vh 0 0 #cbd5e1, 52vw 4vh 0 0 #cbd5e1, 17vw 57vh 0 0 #93c5fd, 23vw 79vh 0 0 #cbd5e1, 96vw 56vh 0 0 #cbd5e1, 20vw 89vh 0 0 #93c5fd, 52vw 75vh 0 0 #93c5fd, 59vw 20vh 0 0 #cbd5e1, 18vw 75vh 0 0 #93c5fd, 35vw 93vh 0 0 #fff, 62vw 76vh 0 0 #fff, 28vw 51vh 0 0 #93c5fd, 34vw 2vh 0 0 #fff, 61vw 25vh 0 0 #cbd5e1, 77vw 19vh 0 0 #93c5fd, 19vw 1vh 0 0 #fff, 79vw 62vh 0 0 #fff, 64vw 39vh 0 0 #fff, 19vw 13vh 0 0 #93c5fd, 71vw 69vh 0 0 #fff, 51vw 34vh 0 0 #93c5fd, 1vw 86vh 0 0 #cbd5e1, 26vw 88vh 0 0 #93c5fd, 39vw 68vh 0 0 #fff, 68vw 15vh 0 0 #93c5fd, 43vw 62vh 0 0 #93c5fd, 71vw 54vh 0 0 #fff, 83vw 40vh 0 0 #93c5fd, 37vw 49vh 0 0 #cbd5e1, 70vw 34vh 0 0 #fff; opacity: 0.8; }
+      .stars.s2 { width: 2px; height: 2px; box-shadow: 18vw 100vh 0 0 #ddd6fe, 79vw 39vh 0 0 #ddd6fe, 41vw 60vh 0 0 #fff, 15vw 49vh 0 0 #fff, 82vw 51vh 0 0 #fff, 87vw 19vh 0 0 #fff, 90vw 95vh 0 0 #ddd6fe, 79vw 92vh 0 0 #bfdbfe, 65vw 70vh 0 0 #bfdbfe, 65vw 13vh 0 0 #bfdbfe, 73vw 41vh 0 0 #ddd6fe, 93vw 92vh 0 0 #fff, 94vw 87vh 0 0 #bfdbfe, 30vw 36vh 0 0 #fff, 82vw 1vh 0 0 #fff, 63vw 48vh 0 0 #fff, 86vw 82vh 0 0 #fff, 14vw 8vh 0 0 #ddd6fe, 41vw 45vh 0 0 #fff, 12vw 100vh 0 0 #bfdbfe, 49vw 68vh 0 0 #ddd6fe, 77vw 9vh 0 0 #bfdbfe, 84vw 45vh 0 0 #fff, 70vw 57vh 0 0 #bfdbfe, 17vw 75vh 0 0 #bfdbfe, 97vw 27vh 0 0 #ddd6fe, 1vw 38vh 0 0 #fff, 83vw 35vh 0 0 #bfdbfe, 58vw 31vh 0 0 #bfdbfe, 11vw 97vh 0 0 #bfdbfe, 31vw 21vh 0 0 #fff, 71vw 4vh 0 0 #ddd6fe, 71vw 54vh 0 0 #fff, 43vw 47vh 0 0 #ddd6fe; animation: twinkle 4s ease-in-out infinite; }
+      .stars.s3 { width: 2px; height: 2px; box-shadow: 1vw 11vh 0 0 #fff, 48vw 9vh 0 0 #bfdbfe, 48vw 60vh 0 0 #fde68a, 64vw 7vh 0 0 #fde68a, 19vw 97vh 0 0 #fff, 50vw 80vh 0 0 #fde68a, 43vw 48vh 0 0 #fde68a, 13vw 60vh 0 0 #fde68a, 76vw 68vh 0 0 #fff, 84vw 27vh 0 0 #fde68a, 13vw 84vh 0 0 #fff, 37vw 95vh 0 0 #bfdbfe, 63vw 51vh 0 0 #bfdbfe, 41vw 80vh 0 0 #bfdbfe, 44vw 23vh 0 0 #fde68a, 25vw 21vh 0 0 #bfdbfe, 53vw 25vh 0 0 #fde68a, 15vw 56vh 0 0 #fff, 9vw 52vh 0 0 #fde68a, 9vw 1vh 0 0 #fff, 61vw 78vh 0 0 #fde68a, 61vw 12vh 0 0 #fde68a, 63vw 2vh 0 0 #bfdbfe, 75vw 58vh 0 0 #fff, 91vw 59vh 0 0 #bfdbfe, 90vw 71vh 0 0 #bfdbfe; animation: twinkle 6s ease-in-out -2s infinite; }
+      .shooting {
+        position: absolute;
+        top: 12vh;
+        left: 72vw;
+        width: 8rem;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff);
+        border-radius: 2px;
+        opacity: 0;
+        animation: shoot 10s ease-in 1.5s infinite;
+      }
+      .shooting.b { top: 58vh; left: 30vw; width: 5rem; animation-duration: 15s; animation-delay: 6s; }
+      @keyframes twinkle { 50% { opacity: 0.25; } }
+      @keyframes shoot {
+        0% { opacity: 0; transform: translate(0, 0) rotate(205deg); }
+        2% { opacity: 1; }
+        9% { opacity: 0; transform: translate(-32vw, 15vh) rotate(205deg); }
+        100% { opacity: 0; transform: translate(-32vw, 15vh) rotate(205deg); }
+      }
+
+      /* ---- layout ---- */
+      main {
+        position: relative;
+        width: 100%;
+        max-width: 70rem;
+        padding: 1rem 1rem 1.5rem;
+        text-align: center;
+      }
+      .hud {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        margin: 0 0 0.5rem;
+        font-family: var(--pixel);
+        font-size: 0.9rem;
+        line-height: 1.35;
+        letter-spacing: 0.06em;
+        color: #64748b;
+        text-align: left;
+      }
+      .hud b { font-weight: 500; color: #cbd5e1; }
+      .hud .bad { color: #f87171; }
+      .cursor { display: inline-block; width: 0.5em; height: 0.95em; vertical-align: -0.12em; margin-left: 0.3em; background: #60a5fa; animation: beep 1s steps(1, end) infinite; }
+      @media (min-width: 48rem) {
+        .hud { position: absolute; top: 1.25rem; left: 1.25rem; margin: 0; z-index: 1; }
+        .scene { max-height: 62vh; max-height: 62svh; }
+      }
+      .scene { display: block; width: 100%; height: auto; overflow: visible; }
+      .eyebrow {
+        margin: 0.25rem 0 0.2rem;
+        font-family: var(--pixel);
+        font-size: 0.95rem;
+        letter-spacing: 0.28em;
+        color: #60a5fa;
+      }
+      h1 {
+        margin: 0 0 0.45rem;
+        font-size: clamp(2.2rem, 7vw, 3.6rem);
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        color: #f9fafb;
+      }
+      p.copy { margin: 0 auto; max-width: 38rem; font-size: 1.05rem; color: #9ca3af; }
+      p.fan { margin: 1.1rem auto 0; max-width: 40rem; font-family: var(--pixel); font-size: 0.8rem; letter-spacing: 0.04em; color: #64748b; }
+      p.fan a { color: #94a3b8; text-underline-offset: 3px; }
+      p.fan a:hover { color: #e2e8f0; }
+
+      /* ---- buttons: only shown on phones. On larger screens the planet and the case are the buttons. ---- */
+      .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem; margin-top: 1.4rem; }
+      @media (min-width: 40rem) { .actions { display: none; } }
+      .btn {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.6rem;
+        border-radius: 9999px;
+        font-family: var(--display);
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        text-decoration: none;
+        color: #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.04);
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, color 0.2s, border-color 0.2s;
+      }
+      .btn svg { flex: none; width: 1.1em; height: 1.1em; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+      .btn:active { transform: scale(0.96); transition-duration: 0.08s; }
+      .btn:focus-visible { outline: 2px solid #93c5fd; outline-offset: 4px; }
+      .btn.primary {
+        color: #fff;
+        border-color: transparent;
+        background: linear-gradient(110deg, #1d4ed8, #3b82f6 30%, #38bdf8 50%, #3b82f6 70%, #1d4ed8);
+        background-size: 250% 100%;
+        box-shadow: 0 10px 28px -10px rgba(59, 130, 246, 0.8);
+        animation: gradshift 7s linear infinite;
+      }
+      .btn.ghost { border-color: rgba(181, 245, 60, 0.5); color: #ecfccb; }
+      @keyframes gradshift { to { background-position: -250% 0; } }
+
+      /* ---- scene ---- */
+      .scene g, .scene ellipse, .scene circle, .scene path, .scene rect, .scene polygon, .scene text { transform-box: fill-box; transform-origin: center; }
+      .mono { font-family: var(--pixel); }
+      .tag { font-family: var(--pixel); font-size: 12px; letter-spacing: 0.1em; }
+      .scene a { cursor: pointer; text-decoration: none; outline: none; }
+
+      /* The ship tumbles slowly, like nobody is flying it. */
+      .ship { animation: adrift 14s ease-in-out infinite; }
+      @keyframes adrift {
+        0%, 100% { transform: translate(0, 0) rotate(-3deg); }
+        33% { transform: translate(8px, -10px) rotate(3deg); }
+        66% { transform: translate(-6px, 8px) rotate(-5deg); }
+      }
+
+      /* Loose objects: --dx/--dy set how far one wanders, --t how long a lap takes,
+         --s how fast it spins, --dl desynchronises the lot. */
+      .drift { animation: wander var(--t, 12s) ease-in-out var(--dl, 0s) infinite; }
+      .spin { animation: spin var(--s, 30s) linear var(--dl, 0s) infinite; }
+      .spin.rev { animation-direction: reverse; }
+      @keyframes wander {
+        0%, 100% { transform: translate(0, 0); }
+        25% { transform: translate(var(--dx, 14px), calc(var(--dy, 10px) * -1)); }
+        50% { transform: translate(calc(var(--dx, 14px) * 0.3), var(--dy, 10px)); }
+        75% { transform: translate(calc(var(--dx, 14px) * -1), calc(var(--dy, 10px) * 0.4)); }
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      .route-plan { animation: march 3.5s linear infinite; }
+      @keyframes march { to { stroke-dashoffset: -28; } }
+      .trail { animation: march 4.5s linear infinite reverse; }
+      .sputter { animation: sputter 6s steps(1, end) infinite; opacity: 0; }
+      @keyframes sputter {
+        0%, 62% { opacity: 0; }
+        64% { opacity: 1; }
+        67% { opacity: 0; }
+        70% { opacity: 0.8; }
+        73%, 100% { opacity: 0; }
+      }
+      .beacon-core { animation: beep 2s steps(1, end) infinite; }
+      @keyframes beep { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+      .beacon-ring { animation: ping 2s ease-out infinite; opacity: 0; }
+      @keyframes ping { 0% { transform: scale(0.4); opacity: 0.9; } 100% { transform: scale(3.4); opacity: 0; } }
+      .screen-text { animation: flicker 4s steps(1, end) infinite; }
+      @keyframes flicker { 0%, 88%, 94%, 100% { opacity: 1; } 90%, 96% { opacity: 0.2; } }
+      .blink { animation: beep 3s steps(1, end) infinite; }
+      .glint { animation: twinkle 3.5s ease-in-out infinite; }
+      .ghost { animation: ghost 7s ease-in-out infinite; }
+      @keyframes ghost { 50% { opacity: 0.3; } }
+
+      /* Home's searchlight: the beam sweeps across the dark, the signal at its end breathes. */
+      .scene .sweep { transform-box: view-box; transform-origin: 0 0; animation: sweep 11s ease-in-out infinite alternate; }
+      @keyframes sweep { from { transform: rotate(-63deg); } to { transform: rotate(-45deg); } }
+      .scene .halo { animation: breathe 4.5s ease-in-out infinite; }
+      @keyframes breathe { 50% { opacity: 0.35; transform: scale(1.25); } }
+      .lamp { animation: lamp 2.4s ease-in-out infinite alternate; }
+      @keyframes lamp { from { opacity: 0.7; } to { opacity: 1; } }
+
+      /* ---- the planet is the "back home" button ---- */
+      .home-link .planet-body { transition: filter 0.35s; }
+      .home-link .planet-glow { opacity: 0; transition: opacity 0.35s; }
+      .home-link .cta { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+      .home-link .rocket-s { transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+      .home-link .focus-ring { opacity: 0; }
+      .home-link:hover .planet-body, .home-link:focus-visible .planet-body { filter: brightness(1.22) saturate(1.15); }
+      .home-link:hover .planet-glow, .home-link:focus-visible .planet-glow { opacity: 1; }
+      .home-link:hover .cta, .home-link:focus-visible .cta { transform: scale(1.07); }
+      .home-link:hover .rocket-s, .home-link:focus-visible .rocket-s { transform: translate(7px, -7px) rotate(10deg) scale(1.12); }
+      .home-link:focus-visible .focus-ring { opacity: 1; }
+      .home-link .flame-s { opacity: 0.25; transform-origin: 50% 0; animation: puff 0.5s ease-in-out infinite alternate; }
+      .home-link:hover .flame-s { opacity: 1; }
+      @keyframes puff { from { transform: scaleY(0.7); } to { transform: scaleY(1.3); } }
+      .atmo-ping { animation: atmo 4s ease-out infinite; opacity: 0; }
+      @keyframes atmo { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.12); opacity: 0; } }
+
+      /* ---- the portfolio case: shut says ALEX, open shows a resume ---- */
+      .folio { animation: autoopen 18s ease-in-out infinite; transition: --o 0.6s ease; }
+      @keyframes autoopen {
+        0%, 50% { --o: 0; }
+        58%, 74% { --o: 1; }
+        82%, 100% { --o: 0; }
+      }
+      .scene .lid { transform-origin: 50% 0%; transform: scaleY(calc(1 - var(--o) * 0.64)); }
+      .lid-text { opacity: calc(1 - var(--o) * 2.2); }
+      .sheet { transform: translateY(calc((1 - var(--o)) * 36px)); }
+      .folio-link .folio-wrap { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+      .folio-link:hover .folio-wrap, .folio-link:focus-visible .folio-wrap { transform: scale(1.1) rotate(2deg); }
+      .folio-link:hover .folio, .folio-link:focus-visible .folio { animation: none; --o: 1; }
+      .folio-link .focus-ring { opacity: 0; }
+      .folio-link:focus-visible .focus-ring { opacity: 1; }
+      .folio-glow { animation: breathe 3.8s ease-in-out infinite; }
+      .spark { animation: twinkle 2.6s ease-in-out infinite; }
+
+      /* Little world easter eggs. Hover any of them for a name. */
+      .wing { animation: flap 0.32s ease-in-out infinite alternate; }
+      .scene .wing.l { transform-origin: 100% 50%; }
+      .scene .wing.r { transform-origin: 0% 50%; animation-direction: alternate-reverse; }
+      @keyframes flap { from { transform: rotate(-24deg); } to { transform: rotate(24deg); } }
+      .hiss { animation: hiss 6s steps(1, end) infinite; opacity: 0; }
+      @keyframes hiss {
+        0%, 78% { opacity: 0; } 80% { opacity: 0.95; } 84% { opacity: 0; }
+        88% { opacity: 0.95; } 92% { opacity: 0; } 94%, 100% { opacity: 0; }
+      }
+      .scene .flick { transform-origin: 50% 100%; animation: flick 0.7s ease-in-out infinite alternate; }
+      @keyframes flick { from { transform: scale(1, 1); } to { transform: scale(0.9, 1.12); } }
+      .scene title { pointer-events: none; }
+
+      /* ---- the cowboy ----
+         One 26s clock drives everything so it stays in step. The hat sits on the helmet while
+         the astronaut winks and salutes (about two seconds), then it lifts off and takes a long
+         lazy lap through the dark before coming back for the next salute. It never disappears. */
+      .cowboy { --c: 26s; }
+      .tilt { animation: tilt 12s ease-in-out infinite alternate; }
+      @keyframes tilt { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+
+      /* The arm is two fixed-length segments that bend, so it never changes size. */
+      .scene .shoulder { transform-box: view-box; transform-origin: 8px -3px; animation: shoulder var(--c) ease-in-out infinite; }
+      .scene .elbow { transform-box: view-box; transform-origin: 17px -3px; animation: elbow var(--c) ease-in-out infinite; }
+      @keyframes shoulder {
+        0%, 9% { transform: rotate(-55deg); }
+        18%, 88% { transform: rotate(40deg); }
+        97%, 100% { transform: rotate(-55deg); }
+      }
+      @keyframes elbow {
+        0%, 9% { transform: rotate(-51deg); }
+        18%, 88% { transform: rotate(-20deg); }
+        97%, 100% { transform: rotate(-51deg); }
+      }
+      .eye-open { animation: eyeopen var(--c) linear infinite; }
+      .eye-wink { animation: eyewink var(--c) linear infinite; opacity: 0; }
+      @keyframes eyeopen { 0%, 1.5%, 8.5%, 100% { opacity: 1; } 2%, 8% { opacity: 0; } }
+      @keyframes eyewink { 0%, 1.5%, 8.5%, 100% { opacity: 0; } 2%, 8% { opacity: 1; } }
+      .wink-star { animation: winkstar var(--c) linear infinite; opacity: 0; }
+      @keyframes winkstar { 0%, 2%, 9%, 100% { opacity: 0; transform: scale(0.3); } 4%, 7% { opacity: 1; transform: scale(1); } }
+
+      .hatpath { transform: translate(0, -26px); }
+      @supports (offset-path: path('M0 0 L1 1')) {
+        .hatpath {
+          transform: none;
+          offset-path: path('M0 -26 C 10 -50, 50 -68, 66 -98 C 82 -130, 40 -166, -10 -158 C -60 -150, -92 -112, -72 -72 C -58 -48, -26 -38, 0 -26');
+          offset-rotate: 0deg;
+          animation: hatmove var(--c) cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+        }
+      }
+      @keyframes hatmove { 0%, 9% { offset-distance: 0%; } 100% { offset-distance: 100%; } }
+      .hatspin { animation: hatspin var(--c) cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite; }
+      @keyframes hatspin { 0%, 9% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition: none !important; }
+        .beacon-ring { opacity: 0.4; transform: scale(1.8); }
+        .scene .sweep { transform: rotate(-54deg); }
+        .shoulder { transform: rotate(-55deg); }
+        .elbow { transform: rotate(-51deg); }
+        .hatpath { offset-distance: 0%; }
+        .folio { --o: 0; }
+        .btn:active { transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sky" aria-hidden="true">
+      <div class="stars s1"></div>
+      <div class="stars s2"></div>
+      <div class="stars s3"></div>
+      <div class="shooting"></div>
+      <div class="shooting b"></div>
+    </div>
+
+    <main>
+      <div class="hud" aria-hidden="true">
+        <span>&gt; NAV COMPUTER</span>
+        <span>&gt; ROUTE <b id="route">/unknown</b></span>
+        <span>&gt; LAST PORT <b>THE CITADEL</b></span>
+        <span class="bad">&gt; STATUS: OFF COURSE</span>
+        <span>&gt; SIGNAL: 0%<i class="cursor"></i></span>
+      </div>
+
+      <svg class="scene" viewBox="0 0 1000 520" role="group" aria-label="A spaceship lost in deep space, far off its planned route. Home, a planet at the bottom left, shoots a bat signal into the dark to find it, and is also the link back to BitToByte. Inside the cabin float a flamingo, a spider, a torch, a creeper and a golden snitch. Outside, a cowboy hat drifts over to an astronaut who winks and salutes before it floats away again, a portfolio case opens and closes, and a Hogwarts ticket, a wanted poster, a portal gun, a palm tree and a few more things from BitToByte's worlds drift among the asteroids.">
+        <defs>
+          <clipPath id="cabin">
+            <path d="M122 118 H392 C452 118 500 154 516 180 C500 206 452 242 392 242 H122 Q104 242 104 226 V134 Q104 118 122 118 Z" />
+          </clipPath>
+          <clipPath id="above"><rect x="-60" y="-70" width="120" height="100" /></clipPath>
+          <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#16213a" />
+            <stop offset="1" stop-color="#0a1020" />
+          </linearGradient>
+          <linearGradient id="hull" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#475569" />
+            <stop offset="1" stop-color="#1e293b" />
+          </linearGradient>
+          <linearGradient id="flame" x1="1" y1="0" x2="0" y2="0">
+            <stop offset="0" stop-color="#fde68a" />
+            <stop offset="0.5" stop-color="#fb923c" />
+            <stop offset="1" stop-color="#ef4444" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#fef3c7" stop-opacity="0.8" />
+            <stop offset="0.7" stop-color="#fbbf24" stop-opacity="0.2" />
+            <stop offset="1" stop-color="#fbbf24" stop-opacity="0.28" />
+          </linearGradient>
+          <radialGradient id="deep" cx="0.4" cy="0.4" r="0.8">
+            <stop offset="0" stop-color="#1e3a8a" />
+            <stop offset="1" stop-color="#020617" />
+          </radialGradient>
+          <radialGradient id="home" cx="0.66" cy="0.18" r="0.9">
+            <stop offset="0" stop-color="#7dd3fc" />
+            <stop offset="0.42" stop-color="#2563eb" />
+            <stop offset="1" stop-color="#0b1b4d" />
+          </radialGradient>
+          <radialGradient id="lime" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#b5f53c" stop-opacity="0.55" />
+            <stop offset="1" stop-color="#b5f53c" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <!-- HOME: half a planet in the corner, and the way back to BitToByte -->
+        <a class="home-link" href="/" aria-label="Fly back to BitToByte">
+          <title>Fly back to BitToByte</title>
+          <circle class="atmo-ping" cx="55" cy="480" r="182" fill="none" stroke="#60a5fa" stroke-width="3" />
+          <circle class="planet-glow" cx="55" cy="480" r="186" fill="none" stroke="#7dd3fc" stroke-width="10" stroke-opacity="0.55" />
+          <circle cx="55" cy="480" r="184" fill="none" stroke="#60a5fa" stroke-opacity="0.2" stroke-width="10" />
+          <g class="planet-body">
+            <circle cx="55" cy="480" r="175" fill="url(#home)" />
+            <g fill="#e0f2fe" opacity="0.12">
+              <ellipse cx="150" cy="372" rx="70" ry="9" /><ellipse cx="190" cy="430" rx="60" ry="7" /><ellipse cx="120" cy="500" rx="80" ry="8" />
+            </g>
+            <g fill="#fde68a" opacity="0.85">
+              <circle cx="104" cy="352" r="1.6" /><circle cx="118" cy="360" r="1.2" /><circle cx="76" cy="346" r="1.2" />
+              <circle cx="206" cy="402" r="1.2" /><circle cx="150" cy="366" r="1" /><circle cx="222" cy="470" r="1.2" />
+            </g>
+          </g>
+          <circle class="focus-ring" cx="55" cy="480" r="192" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="6 6" />
+          <text class="tag" x="118" y="384" fill="#e0f2fe" text-anchor="middle" opacity="0.85">HOME</text>
+          <g class="rocket-s" transform="translate(104 392) scale(1.15)">
+            <path d="M12 2c3.2 2.2 4.8 5.4 4.8 9.2 0 1.7-.4 3.2-1 4.6H8.2c-.6-1.4-1-2.9-1-4.6C7.2 7.4 8.8 4.2 12 2z" fill="#fff" />
+            <circle cx="12" cy="9.2" r="1.9" fill="#1d4ed8" />
+            <path d="M7.4 12.4 4.2 15.8l.6 3.4 3.6-1.8zM16.6 12.4l3.2 3.4-.6 3.4-3.6-1.8z" fill="#bfdbfe" />
+            <path class="flame-s" d="M10 17.6h4L12 23z" fill="#fde68a" />
+          </g>
+          <g class="cta">
+            <text x="118" y="446" font-size="21" font-weight="800" fill="#fff" text-anchor="middle" letter-spacing="-0.5">Fly back</text>
+            <text x="118" y="468" font-size="21" font-weight="800" fill="#fff" text-anchor="middle" letter-spacing="-0.5">to BitToByte</text>
+          </g>
+        </a>
+
+        <!-- the signal: home is shooting a bat signal into space, looking for us -->
+        <g transform="translate(167 346)" style="pointer-events: none">
+          <g class="sweep">
+            <path d="M0 -3 L300 -30 L300 30 L0 3 Z" fill="url(#beam)" />
+            <g transform="translate(300 0) rotate(54)">
+              <ellipse class="halo" rx="38" ry="26" fill="#fbbf24" opacity="0.3" />
+              <ellipse rx="30" ry="20" fill="#fbbf24" stroke="#fde68a" stroke-width="2" />
+              <path d="M0 -9 l4 4 l9.5 -5.5 l-3 8.5 l8.5 4 l-9.5 1.2 l-4 8.5 l-5.5 -5.5 l-5.5 5.5 l-4 -8.5 l-9.5 -1.2 l8.5 -4 l-3 -8.5 l9.5 5.5 z" fill="#0b0b14" />
+              <text class="tag" x="0" y="46" fill="#fde68a" text-anchor="middle" opacity="0.9">WHERE ARE YOU?</text>
+            </g>
+          </g>
+          <g transform="rotate(-54)">
+            <rect x="-12" y="-5" width="16" height="10" rx="2" fill="#334155" stroke="#64748b" />
+            <circle class="lamp" cx="5" cy="0" r="5.5" fill="#fef3c7" />
+          </g>
+        </g>
+
+        <!-- the page you wanted: out there somewhere -->
+        <g class="ghost">
+          <circle cx="900" cy="95" r="34" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 5" opacity="0.7" />
+          <text x="900" y="109" font-size="38" font-weight="700" fill="#94a3b8" text-anchor="middle" opacity="0.7" class="mono">?</text>
+          <text class="tag" x="900" y="152" fill="#94a3b8" text-anchor="middle" opacity="0.8">THE PAGE YOU WANTED</text>
+        </g>
+
+        <!-- planned route (steady) and the actual path (lost) -->
+        <path class="route-plan" d="M224 426 C340 380 470 350 600 318 S820 214 868 122" fill="none" stroke="#3b82f6" stroke-opacity="0.55" stroke-width="2" stroke-dasharray="6 8" stroke-linecap="round" />
+        <path class="trail" d="M331 389 C300 340 360 270 420 280 C480 290 440 200 500 205 C540 209 520 248 556 240" fill="none" stroke="#f87171" stroke-opacity="0.75" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round" />
+        <g>
+          <circle cx="331" cy="389" r="8" fill="#030712" stroke="#f87171" stroke-width="2" />
+          <path d="M327 385 l8 8 M335 385 l-8 8" stroke="#f87171" stroke-width="2" stroke-linecap="round" />
+          <text class="tag" x="331" y="414" fill="#f87171" text-anchor="middle">WRONG TURN</text>
+        </g>
+
+        <!-- things drifting in open space -->
+        <g transform="translate(410 48) scale(1.2)"><g class="drift" style="--dx:34px;--dy:20px;--t:13s;--dl:-1s"><title>A wand, lost · Hogwarts</title><g class="spin rev" style="--s:34s;--dl:-1s"><path d="M-16 9 L13 -8" stroke="#78350f" stroke-width="3.2" stroke-linecap="round" />
+<path d="M-16 9 L-11 6" stroke="#fde68a" stroke-width="3.6" stroke-linecap="round" />
+<polygon class="glint" points="0.0,-7.0 1.6,-1.6 7.0,0.0 1.6,1.6 0.0,7.0 -1.6,1.6 -7.0,0.0 -1.6,-1.6" transform="translate(16 -10)" fill="#fde68a" /></g></g></g>
+        <g transform="translate(650 58) scale(1.25)"><g class="drift" style="--dx:14px;--dy:10px;--t:16s;--dl:-3s"><title>Rick's portal gun</title><g transform="rotate(-10)">
+<path d="M-12 9 L-18 25 Q-18.5 28 -15 28 H-8 Q-5 28 -5 25 L-2 9 Z" fill="#6b7280" stroke="#374151" stroke-width="1" />
+<path d="M-14.5 15 H-4 M-15.5 20 H-5" stroke="#4b5563" stroke-width="1" />
+<path d="M-25 -7 Q-25 -12 -19 -12 H9 Q13 -12 15 -9 L17 -6 H34 V6 H17 L15 9 Q13 11 9 11 H-19 Q-25 11 -25 5 Z" fill="#e8e4cf" stroke="#8a866b" stroke-width="1.2" stroke-linejoin="round" />
+<path d="M-24 4.5 H15" stroke="#cfcab0" stroke-width="3" />
+<rect x="-21" y="-7" width="12" height="8" rx="1.5" fill="#14532d" stroke="#8a866b" stroke-width="0.8" />
+<g fill="#4ade80"><rect x="-19" y="-5.5" width="3" height="1.5" /><rect x="-14.5" y="-5.5" width="3" height="1.5" /><rect x="-19" y="-2.6" width="8" height="1" /></g>
+<circle cx="-3" cy="-1" r="3" fill="#9ca3af" stroke="#6b7280" stroke-width="0.8" /><path d="M-3 -1 L-1.2 -2.6" stroke="#374151" stroke-width="1" />
+<circle class="halo" cx="3" cy="-21" r="11" fill="#86efac" opacity="0.22" />
+<rect x="-6" y="-29" width="18" height="17" rx="4.5" fill="#bbf7d0" fill-opacity="0.45" stroke="#8a866b" stroke-width="1.2" />
+<rect x="-4" y="-22" width="14" height="9" rx="3" fill="#4ade80" /><rect x="-4" y="-22" width="14" height="2" rx="1" fill="#bbf7d0" />
+<circle cx="0" cy="-17" r="1.1" fill="#dcfce7" /><circle cx="6" cy="-15" r="0.9" fill="#dcfce7" />
+<rect x="-7" y="-31" width="20" height="4" rx="2" fill="#9ca3af" stroke="#6b7280" stroke-width="0.8" />
+<rect x="32" y="-8" width="6" height="16" rx="2.5" fill="#cfcab0" stroke="#8a866b" stroke-width="1" />
+<ellipse cx="38" cy="0" rx="2.8" ry="6" fill="#4ade80" />
+<ellipse cx="53" cy="0" rx="13" ry="19" fill="#4ade80" opacity="0.18" />
+<ellipse cx="53" cy="0" rx="9.5" ry="15" fill="#052e16" stroke="#86efac" stroke-width="2.4" />
+<g transform="translate(53 0) scale(0.7 1.1)"><g class="spin" style="--s:8s"><path d="M0 -10 Q9 -6 5 1 Q0 7 -6 3" fill="none" stroke="#bbf7d0" stroke-width="1.6" stroke-linecap="round" /><path d="M0 10 Q-9 6 -5 -1 Q0 -7 6 -3" fill="none" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" /></g></g>
+</g></g></g>
+        <g transform="translate(118 200) scale(2.0)"><g class="drift" style="--dx:14px;--dy:12px;--t:15s;--dl:-8s"><title>Platform 9¾ · Hogwarts</title><g class="spin rev" style="--s:60s;--dl:-8s"><rect x="-24" y="-14" width="48" height="28" rx="3" fill="#fef3c7" stroke="#b8892e" stroke-width="1.4" />
+<rect x="-24" y="-14" width="14" height="28" rx="3" fill="#7a1f1f" />
+<circle cx="-17" cy="0" r="4.2" fill="#fde68a" /><text class="mono" x="-17" y="2.2" font-size="6" font-weight="700" fill="#7a1f1f" text-anchor="middle">H</text>
+<path d="M-10 -14 v28" stroke="#b8892e" stroke-width="1" stroke-dasharray="2 2" />
+<text class="mono" x="7" y="-6.2" font-size="4" font-weight="700" fill="#7a1f1f" text-anchor="middle">HOGWARTS EXPRESS</text>
+<text class="mono" x="7" y="-1.2" font-size="4" fill="#5e4630" text-anchor="middle">PLATFORM</text>
+<text class="mono" x="7" y="10" font-size="14.5" font-weight="700" fill="#7a1f1f" text-anchor="middle">9¾</text></g></g></g>
+        <g transform="translate(108 288) scale(1.1)"><g class="drift" style="--dx:12px;--dy:12px;--t:14s;--dl:-2s"><title>Diamonds! · Overworld</title><g class="spin" style="--s:40s;--dl:-2s"><polygon points="0,-12 10,-4 0,12 -10,-4" fill="#67e8f9" stroke="#0e7490" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M-10 -4 H10 M-4 -4 L0 12 M4 -4 L0 12 M-4 -4 L0 -12 M4 -4 L0 -12" stroke="#ecfeff" stroke-width="1" fill="none" opacity="0.8" /></g></g></g>
+        <g transform="translate(478 445) scale(1.9)"><g class="drift" style="--dx:14px;--dy:12px;--t:15s;--dl:-8s"><title>WANTED: this page · Blackwater</title><g class="spin rev" style="--s:70s;--dl:-8s"><rect x="-21" y="-28" width="42" height="56" fill="#e7d4a8" stroke="#7a5a32" stroke-width="1.6" />
+<rect x="-18" y="-25" width="36" height="50" fill="none" stroke="#b09360" stroke-width="0.8" />
+<text class="mono" x="0" y="-15.5" font-size="10.5" font-weight="700" fill="#7a1f1f" text-anchor="middle">WANTED</text>
+<rect x="-13" y="-11" width="26" height="22" fill="#c9b27c" stroke="#7a5a32" stroke-width="0.8" />
+<text class="mono" x="0" y="6.5" font-size="20" font-weight="700" fill="#5e4630" text-anchor="middle">?</text>
+<text class="mono" x="0" y="17" font-size="5" fill="#5e4630" text-anchor="middle">THIS PAGE</text>
+<text class="mono" x="0" y="23.2" font-size="7.2" font-weight="700" fill="#7a1f1f" text-anchor="middle">$404</text></g></g></g>
+        <g transform="translate(612 418) scale(1.2)"><g class="drift" style="--dx:12px;--dy:10px;--t:12s;--dl:-3s"><title>Gold in the pan · Blackwater</title><g class="spin" style="--s:40s;--dl:-3s"><path d="M-8 2 l5 -9 10 -2 8 7 -4 8 -14 2 z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2" stroke-linejoin="round" />
+<path d="M-3 -4 l5 -1" stroke="#fffbeb" stroke-width="1.6" stroke-linecap="round" /></g></g></g>
+        <g transform="translate(962 405) scale(1.1)"><g class="drift" style="--dx:12px;--dy:10px;--t:17s;--dl:-4s"><title>Ocean Drive · Vice City</title><g class="spin" style="--s:90s;--dl:-4s"><path d="M-2 22 Q5 4 0 -8" stroke="#92400e" stroke-width="4" fill="none" stroke-linecap="round" />
+<g stroke="#22c55e" stroke-width="3.5" fill="none" stroke-linecap="round">
+<path d="M0 -8 Q-12 -17 -23 -6" /><path d="M0 -8 Q-6 -23 -16 -21" /><path d="M0 -8 Q8 -23 18 -19" /><path d="M0 -8 Q14 -15 23 -4" /></g>
+<circle cx="-2" cy="-6" r="2.4" fill="#78350f" /><circle cx="3" cy="-5" r="2.4" fill="#78350f" /></g></g></g>
+        <g transform="translate(335 468) scale(1.1)"><g class="drift" style="--dx:14px;--dy:10px;--t:18s;--dl:-7s"><title>The sign on the hill · Los Santos</title><g class="spin rev" style="--s:80s;--dl:-7s"><g transform="rotate(-5)">
+<path d="M-26 5 v10 M26 5 v10" stroke="#94a3b8" stroke-width="2" />
+<text x="0" y="3" font-size="15" font-weight="800" letter-spacing="1.5" fill="#f8fafc" stroke="#94a3b8" stroke-width="0.4" text-anchor="middle">SANTOS</text></g></g></g></g>
+        <g transform="translate(655 498) scale(0.8)"><g class="drift" style="--dx:16px;--dy:6px;--t:20s;--dl:-9s"><title>Swamp to skyline · Leonida</title><g class="spin" style="--s:100s;--dl:-9s"><path d="M-20 -1 Q-34 -8 -44 3 Q-32 3 -20 5 Z" fill="#166534" />
+<ellipse cx="0" cy="1" rx="22" ry="7" fill="#166534" /><path d="M-14 -5 l3 -3 l3 3 M-4 -6 l3 -3 l3 3 M6 -6 l3 -3 l3 3" fill="#14532d" />
+<path d="M19 -4 L38 -2 L38 4 L19 5 Z" fill="#166534" /><circle cx="24" cy="-4.5" r="1.8" fill="#fde68a" />
+<path d="M27 4 l2 3 l2 -3 l2 3 l2 -3" stroke="#fff" stroke-width="1" fill="none" />
+<ellipse cx="-8" cy="8" rx="4" ry="2.4" fill="#14532d" /><ellipse cx="10" cy="8" rx="4" ry="2.4" fill="#14532d" /></g></g></g>
+        <g transform="translate(20 250) scale(1.2)"><g class="drift" style="--dx:10px;--dy:8px;--t:26s;--dl:-2s"><g class="spin" style="--s:110s;--dl:-2s"><polygon points="-10,-4 -3,-11 8,-8 12,2 4,10 -7,8" fill="#475569" stroke="#64748b" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="-2" cy="-1" r="2.2" fill="#334155" /><circle cx="5" cy="3" r="1.4" fill="#334155" /></g></g></g>
+        <g transform="translate(535 30) scale(1.0)"><g class="drift" style="--dx:12px;--dy:8px;--t:24s;--dl:-7s"><g class="spin rev" style="--s:100s;--dl:-7s"><polygon points="-10,-4 -3,-11 8,-8 12,2 4,10 -7,8" fill="#475569" stroke="#64748b" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="-2" cy="-1" r="2.2" fill="#334155" /><circle cx="5" cy="3" r="1.4" fill="#334155" /></g></g></g>
+        <g transform="translate(975 300) scale(1.3)"><g class="drift" style="--dx:10px;--dy:8px;--t:24s;--dl:-4s"><g class="spin" style="--s:100s;--dl:-4s"><polygon points="-10,-4 -3,-11 8,-8 12,2 4,10 -7,8" fill="#475569" stroke="#64748b" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="-2" cy="-1" r="2.2" fill="#334155" /><circle cx="5" cy="3" r="1.4" fill="#334155" /></g></g></g>
+        <g transform="translate(985 485) scale(1.0)"><g class="drift" style="--dx:12px;--dy:8px;--t:26s;--dl:-9s"><g class="spin rev" style="--s:130s;--dl:-9s"><polygon points="-10,-4 -3,-11 8,-8 12,2 4,10 -7,8" fill="#475569" stroke="#64748b" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="-2" cy="-1" r="2.2" fill="#334155" /><circle cx="5" cy="3" r="1.4" fill="#334155" /></g></g></g>
+
+        <!-- the portfolio case: floating, glowing, opens and closes -->
+        <a class="folio-link" href="https://alex.bittobyte.qzz.io" aria-label="Alex's portfolio">
+          <title>Alex's portfolio</title>
+          <g transform="translate(778 436) scale(1.5)">
+            <g class="drift" style="--dx:10px;--dy:8px;--t:14s;--dl:-5s">
+              <g class="folio-wrap">
+                <rect x="-60" y="-52" width="120" height="116" fill="transparent" />
+                <circle class="folio-glow" cx="0" cy="-4" r="62" fill="url(#lime)" />
+                <ellipse class="focus-ring" cx="0" cy="-4" rx="58" ry="52" fill="none" stroke="#b5f53c" stroke-width="1.5" stroke-dasharray="4 4" />
+                <g class="folio" transform="rotate(-5)">
+                  <path d="M-14 -33 v-6 q0 -4 4 -4 h20 q4 0 4 4 v6" fill="none" stroke="#4b5563" stroke-width="3.5" stroke-linecap="round" />
+                  <rect x="-38" y="-31" width="76" height="26" rx="4" fill="#0b1220" />
+                  <g class="lid">
+                    <rect x="-40" y="-32" width="80" height="27" rx="6" fill="#273244" stroke="#3b475c" stroke-width="1.2" />
+                    <path d="M-34 -28 H34" stroke="#3b475c" stroke-width="1" />
+                    <text class="mono lid-text" x="0" y="-13" font-size="15" font-weight="700" letter-spacing="4" fill="#b5f53c" text-anchor="middle">ALEX</text>
+                  </g>
+                  <g clip-path="url(#above)">
+                    <g class="sheet">
+                      <rect x="-25" y="-34" width="50" height="50" rx="2" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.8" />
+                      <text x="0" y="-23" font-size="9.5" font-weight="800" fill="#111827" text-anchor="middle" letter-spacing="0.4">RESUME</text>
+                      <text class="mono" x="0" y="-17" font-size="4.4" fill="#6b7280" text-anchor="middle">Alejandro Martínez</text>
+                      <rect x="-19" y="-13" width="14" height="2.2" fill="#84cc16" />
+                      <rect x="-19" y="-8.5" width="38" height="1.5" fill="#cbd5e1" /><rect x="-19" y="-5" width="32" height="1.5" fill="#cbd5e1" />
+                      <rect x="-19" y="-1.5" width="36" height="1.5" fill="#cbd5e1" />
+                      <rect x="-19" y="4" width="14" height="2.2" fill="#84cc16" />
+                      <rect x="-19" y="8.5" width="34" height="1.5" fill="#cbd5e1" /><rect x="-19" y="12" width="26" height="1.5" fill="#cbd5e1" />
+                    </g>
+                  </g>
+                  <rect x="-40" y="-5" width="80" height="36" rx="6" fill="#1f2937" stroke="#3b475c" stroke-width="1.2" />
+                  <rect x="-35" y="0" width="70" height="26" rx="4" fill="none" stroke="#4b5563" stroke-width="1" stroke-dasharray="3 3" />
+                  <rect x="-6" y="-9" width="12" height="11" rx="2.5" fill="#b5f53c" />
+                  <circle cx="0" cy="-3.5" r="1.8" fill="#1f2937" />
+                </g>
+                <text class="tag" x="0" y="50" font-size="13" fill="#b5f53c" text-anchor="middle">ALEX'S PORTFOLIO ↗</text>
+                <g fill="#ecfccb">
+                  <polygon class="spark" points="0,-4 1.2,-1.2 4,0 1.2,1.2 0,4 -1.2,1.2 -4,0 -1.2,-1.2" transform="translate(-52 -30)" />
+                  <polygon class="spark" style="animation-delay:-1s" points="0,-4 1.2,-1.2 4,0 1.2,1.2 0,4 -1.2,1.2 -4,0 -1.2,-1.2" transform="translate(54 -18) scale(0.8)" />
+                  <polygon class="spark" style="animation-delay:-1.8s" points="0,-4 1.2,-1.2 4,0 1.2,1.2 0,4 -1.2,1.2 -4,0 -1.2,-1.2" transform="translate(44 40) scale(0.7)" />
+                </g>
+              </g>
+            </g>
+          </g>
+        </a>
+
+        <!-- the cowboy hat, the astronaut, the wink and the salute -->
+        <g class="cowboy" transform="translate(872 282) scale(1.7)" style="pointer-events: none">
+          <g class="drift" style="--dx:8px;--dy:6px;--t:22s;--dl:-3s">
+            <title>Also lost</title>
+            <g class="tilt">
+              <path d="M-8 -3 L-14 5 L-18 13" stroke="#e2e8f0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              <path d="M-4 10 l-6 13 M4 10 l8 10" stroke="#e2e8f0" stroke-width="5" stroke-linecap="round" fill="none" />
+              <g class="shoulder">
+                <path d="M8 -3 H17" stroke="#e2e8f0" stroke-width="5" stroke-linecap="round" fill="none" />
+                <g class="elbow">
+                  <path d="M17 -3 H26" stroke="#e2e8f0" stroke-width="5" stroke-linecap="round" fill="none" />
+                  <circle cx="26.5" cy="-3" r="3.1" fill="#94a3b8" />
+                </g>
+              </g>
+              <rect x="-11" y="-7" width="6" height="14" rx="2" fill="#94a3b8" />
+              <rect x="-8" y="-8" width="16" height="19" rx="5" fill="#e2e8f0" />
+              <circle cx="0" cy="3" r="2" fill="#f87171" />
+              <circle cx="0" cy="-15" r="9.5" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.8" />
+              <ellipse cx="0" cy="-15" rx="7.4" ry="6.6" fill="#f2c9a5" />
+              <ellipse cx="-2.7" cy="-16" rx="0.9" ry="1.25" fill="#1f2937" />
+              <ellipse class="eye-open" cx="2.7" cy="-16" rx="0.9" ry="1.25" fill="#1f2937" />
+              <path class="eye-wink" d="M1.5 -15.8 Q2.7 -17.3 3.9 -15.8" stroke="#1f2937" stroke-width="0.9" fill="none" stroke-linecap="round" />
+              <circle cx="-4.7" cy="-13.2" r="1.1" fill="#f9a8a8" opacity="0.6" /><circle cx="4.7" cy="-13.2" r="1.1" fill="#f9a8a8" opacity="0.6" />
+              <path d="M-2.4 -12.4 Q0 -10.6 2.8 -12.7" stroke="#7c2d12" stroke-width="0.8" fill="none" stroke-linecap="round" />
+              <ellipse cx="0" cy="-15" rx="7.4" ry="6.6" fill="#bae6fd" opacity="0.16" />
+              <path d="M-6 -18.4 Q-3.5 -21.6 1.5 -21" stroke="#fff" stroke-width="1.1" opacity="0.7" fill="none" stroke-linecap="round" />
+              <polygon class="wink-star" points="0,-3 0.9,-0.9 3,0 0.9,0.9 0,3 -0.9,0.9 -3,0 -0.9,-0.9" transform="translate(9.5 -19)" fill="#fde68a" />
+            </g>
+            <g class="hatpath"><g class="hatspin"><g transform="scale(0.5)"><path d="M-29 -3 Q-27 9 -13 6 Q0 9 13 6 Q27 9 29 -3 Q23 -5 14 0 H-14 Q-23 -5 -29 -3 Z" fill="#78350f" stroke="#451a03" stroke-width="0.8" stroke-linejoin="round" />
+<path d="M-12 2 L-13.5 -9 Q-12.5 -16 -6 -15 Q-2 -12.5 0 -12.5 Q2 -12.5 6 -15 Q12.5 -16 13.5 -9 L12 2 Q0 5 -12 2 Z" fill="#b45309" stroke="#78350f" stroke-width="0.8" stroke-linejoin="round" />
+<path d="M-6 -14.5 Q0 -9.5 6 -14.5" fill="none" stroke="#7c2d12" stroke-width="1.3" stroke-linecap="round" />
+<path d="M-12.6 -3.5 Q0 0 12.6 -3.5 V1.2 Q0 4.6 -12.6 1.2 Z" fill="#451a03" />
+<polygon points="0.0,-3.3 0.9,-1.2 3.1,-1.0 1.4,0.5 1.9,2.7 0.0,1.5 -1.9,2.7 -1.4,0.5 -3.1,-1.0 -0.9,-1.2" transform="translate(0 0.4)" fill="#fbbf24" /></g></g></g>
+          </g>
+        </g>
+
+        <!-- the ship, far from where it should be -->
+        <g transform="translate(299 80) scale(0.86)" style="pointer-events: none">
+          <g class="ship">
+            <path d="M90 142 L56 124 Q50 124 50 130 V230 Q50 236 56 236 L90 218 Z" fill="#334155" stroke="#64748b" stroke-width="3" stroke-linejoin="round" />
+            <path d="M50 150 V210" stroke="#0f172a" stroke-width="5" stroke-linecap="round" />
+            <g class="sputter"><path d="M48 160 Q8 180 48 200 Q36 180 48 160 Z" fill="url(#flame)" /></g>
+
+            <path d="M150 104 L196 50 L246 104 Z" fill="#475569" stroke="#64748b" stroke-width="3" stroke-linejoin="round" />
+            <path d="M150 256 L196 310 L246 256 Z" fill="#475569" stroke="#64748b" stroke-width="3" stroke-linejoin="round" />
+            <path d="M214 76 l-9 11 l7 4 l-8 10" stroke="#0f172a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+
+            <g>
+              <circle class="beacon-ring" cx="196" cy="50" r="6" fill="none" stroke="#f87171" stroke-width="2" />
+              <circle class="beacon-core" cx="196" cy="50" r="4" fill="#ef4444" />
+            </g>
+
+            <path d="M112 100 H396 C470 100 540 150 556 180 C540 210 470 260 396 260 H112 Q86 260 86 234 V126 Q86 100 112 100 Z" fill="url(#hull)" stroke="#64748b" stroke-width="4" stroke-linejoin="round" />
+            <path d="M106 108 H394" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" opacity="0.35" />
+            <text class="mono" x="198" y="276" font-size="12" letter-spacing="2" fill="#94a3b8" text-anchor="middle" opacity="0.85">S.S. NOT FOUND</text>
+
+            <path d="M122 118 H392 C452 118 500 154 516 180 C500 206 452 242 392 242 H122 Q104 242 104 226 V134 Q104 118 122 118 Z" fill="url(#wall)" />
+            <g clip-path="url(#cabin)">
+              <g stroke="#1e2a47" stroke-width="2" opacity="0.9"><path d="M160 118 V242 M240 118 V242 M320 118 V242 M400 118 V242" /></g>
+              <rect x="128" y="124" width="64" height="38" rx="4" fill="#020617" stroke="#334155" stroke-width="2" />
+              <text class="mono screen-text" x="160" y="151" font-size="22" font-weight="700" fill="#4ade80" text-anchor="middle">404</text>
+              <circle class="blink" cx="136" cy="232" r="3" fill="#f87171" />
+              <circle class="blink" cx="148" cy="232" r="3" fill="#fbbf24" style="animation-delay: -0.8s" />
+              <circle class="blink" cx="160" cy="232" r="3" fill="#4ade80" style="animation-delay: -1.6s" />
+
+              <ellipse cx="482" cy="180" rx="24" ry="34" fill="url(#deep)" stroke="#64748b" stroke-width="3" />
+              <circle cx="478" cy="166" r="1.4" fill="#fff" class="glint" />
+              <circle cx="488" cy="190" r="1.1" fill="#fff" class="glint" style="animation-delay: -1s" />
+              <circle cx="474" cy="196" r="1" fill="#bfdbfe" class="glint" style="animation-delay: -2s" />
+
+              <g transform="translate(178 192) scale(0.85)"><g class="drift" style="--dx:10px;--dy:8px;--t:14s;--dl:-5s"><title>Flamingo · Vice City</title><g class="spin" style="--s:60s;--dl:-5s"><path d="M-2 7 L-3 23 M3 7 L5 23" stroke="#f472b6" stroke-width="1.6" stroke-linecap="round" fill="none" />
+<ellipse cx="0" cy="0" rx="11" ry="8" fill="#f472b6" /><ellipse cx="-3" cy="0" rx="6" ry="4" fill="#ec4899" />
+<path d="M8 -3 C17 -10 5 -22 12 -26" stroke="#f472b6" stroke-width="3.2" fill="none" stroke-linecap="round" />
+<circle cx="12" cy="-26" r="3.6" fill="#f472b6" /><path d="M14 -28 l8 3.5 l-8 1.5 z" fill="#1f2937" /><circle cx="13" cy="-27" r="0.9" fill="#fff" /></g></g></g>
+              <g transform="translate(238 148) scale(1.0)"><g class="drift" style="--dx:8px;--dy:12px;--t:11s;--dl:-6s"><title>Friendly neighbourhood · New York</title><path d="M0 -70 V-8" stroke="#e5e7eb" stroke-width="1" opacity="0.5" />
+<path d="M-5 -2 L-15 -9 M-6 1 L-17 1 M-5 4 L-14 11 M-3 6 L-8 15 M5 -2 L15 -9 M6 1 L17 1 M5 4 L14 11 M3 6 L8 15" stroke="#e5e7eb" stroke-width="1.6" stroke-linecap="round" fill="none" />
+<ellipse cx="0" cy="2" rx="6.5" ry="7" fill="#c8102e" /><circle cx="0" cy="-7" r="4" fill="#161616" />
+<path d="M-2 3 l2 3 l2 -3 z" fill="#161616" /></g></g>
+              <g transform="translate(306 190) scale(0.8)"><g class="drift" style="--dx:10px;--dy:6px;--t:15s;--dl:-2s"><title>Lady Liberty's torch · New York</title><g class="spin rev" style="--s:50s;--dl:-2s"><path d="M-5 24 L-3.5 8 H3.5 L5 24 Z" fill="#5eb89a" stroke="#2f7f68" stroke-width="1" />
+<rect x="-5.5" y="3" width="11" height="6" rx="2" fill="#4fa88a" stroke="#2f7f68" stroke-width="1" />
+<rect x="-11" y="-5" width="22" height="3.5" rx="1" fill="#5eb89a" stroke="#2f7f68" stroke-width="1" />
+<path d="M-8 -1.5 H8 L5.5 3 H-5.5 Z" fill="#4fa88a" stroke="#2f7f68" stroke-width="1" stroke-linejoin="round" />
+<g class="flick"><path d="M0 -31 Q-10 -17 -5.5 -9 Q0 -5.5 5.5 -9 Q10 -17 0 -31 Z" fill="#fb923c" />
+<path d="M0 -22 Q-4.5 -14 -2.5 -9.5 Q0 -8 2.5 -9.5 Q4.5 -14 0 -22 Z" fill="#fde68a" /></g></g></g></g>
+              <g transform="translate(372 158) scale(0.95)"><g class="drift" style="--dx:12px;--dy:9px;--t:17s;--dl:-3s"><title>Ssssss… · Overworld</title><g class="spin" style="--s:60s;--dl:-3s"><rect x="-14" y="-14" width="28" height="28" fill="#4ade80" />
+<rect x="-14" y="-14" width="8" height="8" fill="#22c55e" /><rect x="6" y="2" width="8" height="8" fill="#22c55e" /><rect x="-4" y="8" width="8" height="6" fill="#22c55e" />
+<g fill="#052e16"><rect x="-9" y="-9" width="6" height="6" /><rect x="3" y="-9" width="6" height="6" /><rect x="-3" y="-1" width="6" height="6" /><rect x="-6" y="5" width="3" height="7" /><rect x="3" y="5" width="3" height="7" /></g>
+<rect class="hiss" x="-14" y="-14" width="28" height="28" fill="#fff" /></g></g></g>
+              <g transform="translate(424 208) scale(0.95)"><g class="drift" style="--dx:22px;--dy:10px;--t:6.5s;--dl:-1s"><title>Golden Snitch · Hogwarts</title><g class="wing l"><ellipse cx="-13" cy="-1" rx="12" ry="3.6" fill="#fde68a" opacity="0.85" /></g>
+<g class="wing r"><ellipse cx="13" cy="-1" rx="12" ry="3.6" fill="#fde68a" opacity="0.85" /></g>
+<circle r="6.5" fill="#fbbf24" stroke="#b45309" stroke-width="1.2" />
+<path d="M-3 -3 q3 -3 6 0" fill="none" stroke="#fffbeb" stroke-width="1.4" stroke-linecap="round" /></g></g>
+            </g>
+            <path d="M122 118 H392 C452 118 500 154 516 180 C500 206 452 242 392 242 H122 Q104 242 104 226 V134 Q104 118 122 118 Z" fill="none" stroke="#334155" stroke-width="3" />
+          </g>
+        </g>
+      </svg>
+
+      <p class="eyebrow">ERROR 404</p>
+      <h1>Wrong turn.</h1>
+      <p class="copy">Whatever was at this address is gone, or never was. Follow the signal back to the planet, or open the case and see what Alex has been building.</p>
+      <div class="actions">
+        <a class="btn primary" href="/">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2c3.2 2.2 4.8 5.4 4.8 9.2 0 1.7-.4 3.2-1 4.6H8.2c-.6-1.4-1-2.9-1-4.6C7.2 7.4 8.8 4.2 12 2z" fill="#fff" />
+            <circle cx="12" cy="9.2" r="1.9" fill="#1d4ed8" />
+            <path d="M10 17.6h4L12 23z" fill="#fde68a" />
+          </svg>
+          <span>Fly back to BitToByte</span>
+        </a>
+        <a class="btn ghost" href="https://alex.bittobyte.qzz.io"><span>Alex's portfolio</span></a>
+      </div>
+      <p class="fan">Fan art, not affiliated with any of the works it nods to. <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a></p>
+    </main>
+    <script src="/404.js"></script>
+  </body>
+</html>

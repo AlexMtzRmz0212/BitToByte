@@ -226,6 +226,22 @@
   .welcome-contact {
     margin-left: auto;
   }
+  .welcome-legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--w-muted);
+  }
+  .welcome-legal a {
+    color: inherit;
+    text-underline-offset: 3px;
+  }
+  .welcome-legal a:hover {
+    color: var(--w-ink);
+    text-decoration: underline;
+  }
 
   /* Phones: keep the three doors in reach without scrolling. */
   @media (max-width: 639px) {

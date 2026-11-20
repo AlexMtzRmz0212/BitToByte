@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { projectsInWorld, type Project } from '../../data/projects';
 import { WORLD_IDS, isWorldId, type PlaceId, type WorldId } from '../../data/worlds';
 import { usePlaceResolver, useProgress, useTheme } from '../../state/app';
+import LegalNav from '../LegalNav';
 import PlaceGlyph from '../PlaceGlyph';
 import RouteLink from '../RouteLink';
 import { useFound } from './useFound';
@@ -120,6 +121,7 @@ export default function TravelPanel({ place, open, onToggle, onPick }: Props) {
             );
           })}
         </div>
+        <LegalNav className="travel-legal" />
       </div>
 
       <div className="travel-rail">

@@ -519,55 +519,6 @@ export const caseStudies = {
       { label: 'GitHub', href: 'https://github.com/AlexMtzRmz0212/RAG_Resume_Creator_Chatbot' },
     ],
   },
-
-  'notion-automation': {
-    headline: 'Two years of making a Notion workspace behave like a database',
-    meta: {
-      role: 'Personal project',
-      dates: 'Jan 2023 to Sep 2024, extended since',
-      status: 'Personal tooling, not hosted',
-    },
-    context:
-      'Notion is a good place to keep things and a bad place to compute over them. Once a workspace holds a few hundred items across related databases, the useful questions all become queries the UI will not run.',
-    problem:
-      'A task tree where parents are categories and leaves are real tasks has no useful order. Sorting by due date ignores importance, sorting by status ignores urgency, and a manual priority column goes stale within a week of being filled in.',
-    approach: [
-      {
-        title: 'Treat the API as the interface',
-        body: 'Python against the Notion API, handling pagination, extracting the properties that matter (title, parent relation, status, due date, tags, description, done flag), and rebuilding the parent-child hierarchy in memory as a tree.',
-      },
-      {
-        title: 'Let buttons in Notion feed the model',
-        body: 'Buttons in the workspace write metadata the automation later reads. Done today increments a counter, stamps the last-done date, and pushes the next to-do date out by the task frequency. Not today pushes the date and increments the frequency. That history is what tells the model which items are habits, which are being avoided, and which the user has explicitly pulled forward.',
-      },
-      {
-        title: 'Two numbers, written back',
-        body: 'The model reads each leaf task with its full context and returns a hierarchy from 1 to 5 plus a priority rank within that level, as strict JSON. Both are written back into Notion as number columns, so the ranking is visible in Notion itself rather than trapped in the script.',
-      },
-      {
-        title: 'Cache, and refresh on a timer',
-        body: 'Workspace data is cached and refreshed every five minutes, so browsing the tree, filtering by status or tag, and searching do not each cost a round of API calls.',
-      },
-      {
-        title: 'The same pattern, other datasets',
-        body: 'The approach generalised. Separate automations sync an album catalog and a Letterboxd film history into their own Notion databases on the same fetch, normalise, and write-back loop.',
-      },
-    ],
-    stack: [
-      { group: 'Core', items: ['Python', 'Notion API', 'requests'] },
-      { group: 'Interface', items: ['Streamlit'] },
-      { group: 'Model', items: ['OpenAI GPT-3.5 / GPT-4'] },
-      { group: 'Config', items: ['python-dotenv'] },
-    ],
-    outcome: [
-      'A task tree that ranks itself and writes the ranking back where the work actually lives.',
-      'Filtering by status, tag, and free text, plus status changes pushed straight back to Notion from the app.',
-      'The same fetch, normalise, and write-back pattern reused across three separate workspaces.',
-    ],
-    diagram: 'notion',
-    links: [{ label: 'GitHub', href: 'https://github.com/AlexMtzRmz0212/Notion_Albums' }],
-    note: 'The task-tree repository is private; the album sync is public and shows the same pattern.',
-  },
 };
 
 export const hasCaseStudy = (id) => Object.prototype.hasOwnProperty.call(caseStudies, id);

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alex.bittobyte.qzz.io/sitemap.xml

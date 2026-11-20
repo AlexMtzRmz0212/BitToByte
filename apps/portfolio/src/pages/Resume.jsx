@@ -10,6 +10,7 @@ import {
   profile,
   skills,
 } from '../data/resume';
+import { resumeMeta } from '../data/pageMeta';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 const ACCENT = '#b5f53c';
@@ -96,10 +97,7 @@ const Role = ({ role }) => (
 );
 
 export default function Resume() {
-  usePageMeta(
-    `Resume · ${profile.name}`,
-    `Curriculum vitae for ${profile.name}, ${profile.title}: experience, education, and skills.`
-  );
+  usePageMeta(resumeMeta());
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-20">

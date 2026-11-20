@@ -286,7 +286,6 @@ export default function App() {
 
   return (
     <>
-      {welcomeOpen && <Welcome />}
       <div className="app-behind" inert={ready && welcomeOpen}>
         <a className="skip-link" href={showList ? '#main' : '#travel'}>
           {showList ? 'Skip to content' : 'Skip to the project list'}
@@ -305,6 +304,9 @@ export default function App() {
           />
         )}
       </div>
+      {/* After the app in the document so the page's one h1 (the HUD title) comes first; it is
+          position: fixed over everything either way (see welcome.css). */}
+      {welcomeOpen && <Welcome />}
     </>
   );
 }

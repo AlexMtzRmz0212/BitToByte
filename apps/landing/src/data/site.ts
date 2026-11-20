@@ -66,8 +66,8 @@ export const site = {
     },
   ],
   legal: [
-    { label: 'Terms of Service', href: '/terms.html' },
-    { label: 'Privacy Policy', href: '/privacy.html' },
+    { label: 'Terms of Service', href: '/terms' },
+    { label: 'Privacy Policy', href: '/privacy' },
   ],
 } as const;
 

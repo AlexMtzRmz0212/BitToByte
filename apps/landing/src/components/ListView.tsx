@@ -63,6 +63,10 @@ export default function ListView({ route, notice }: { route: Route; notice?: str
             Résumé
             <ArrowUpRightIcon className="h-4 w-4 text-accent-text" aria-hidden="true" />
           </a>
+          <a href={`${site.profileUrl}/work`} className="btn btn-ghost btn-sm">
+            Case studies
+            <ArrowUpRightIcon className="h-4 w-4 text-accent-text" aria-hidden="true" />
+          </a>
         </p>
         {notice && (
           <p

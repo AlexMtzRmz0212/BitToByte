@@ -34,6 +34,13 @@ test.describe('without JavaScript', () => {
     await expect(page.getByRole('link', { name: /Résumé and profile/ })).toBeVisible();
     await expect(page.locator('script[type="application/ld+json"]')).toBeAttached();
   });
+
+  test('the prerendered document has exactly one h1, a canonical link and no noindex', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('h1')).toHaveCount(1);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://bittobyte.qzz.io/');
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+  });
 });
 
 test('a returning visitor opens straight on the map, and About brings the intro card back', async ({ page }) => {
@@ -67,7 +74,7 @@ firstVisit.describe('the welcome', () => {
     await page.goto('/');
     await expect(welcome(page)).toBeVisible();
     await expect(welcome(page).locator('.welcome-doors > li')).toHaveCount(2);
-    await expect(page.getByRole('heading', { level: 1, name: 'BitToByte', exact: true })).toBeVisible();
+    await expect(welcome(page).getByRole('heading', { level: 2, name: 'BitToByte', exact: true })).toBeVisible();
     await expect(welcome(page).getByRole('button', { name: /^Enter the Citadel/ })).toBeVisible();
     await expect(welcome(page).getByRole('link', { name: /^Just the projects/ })).toHaveAttribute('href', '/?view=list');
     await expect(welcome(page).getByRole('link', { name: /^Résumé/ })).toHaveAttribute('href', 'https://alex.bittobyte.qzz.io');

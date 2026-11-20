@@ -127,23 +127,6 @@ const PIPELINES = {
       },
     ],
   },
-
-  notion: {
-    caption: 'The loop that keeps Notion itself the source of truth.',
-    stages: [
-      { label: 'Fetch', items: ['Notion API', 'paginated, cached 5 minutes'] },
-      { label: 'Build', items: ['parent-child tree', 'leaves are the real tasks'] },
-      {
-        label: 'Rank',
-        items: ['LLM reads full task context', 'strict JSON: hierarchy + priority'],
-      },
-      { label: 'Write back', items: ['number columns in Notion', 'visible in the workspace'] },
-    ],
-    branch: {
-      label: 'User signal, fed back in',
-      items: ['Done today · Not today · To do today', 'counters, frequency, last-done date'],
-    },
-  },
 };
 
 const Chip = ({ children, accent }) => (

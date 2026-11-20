@@ -13,8 +13,8 @@ const DEFAULT_FAMILY_LINKS = [
 
 // Legal links, canonical to the main domain so every subdomain points at one policy.
 const DEFAULT_LEGAL_LINKS = [
-  { label: 'Terms of Service', href: 'https://bittobyte.qzz.io/terms.html' },
-  { label: 'Privacy Policy', href: 'https://bittobyte.qzz.io/privacy.html' },
+  { label: 'Terms of Service', href: 'https://bittobyte.qzz.io/terms' },
+  { label: 'Privacy Policy', href: 'https://bittobyte.qzz.io/privacy' },
 ];
 
 // Default "personal" socials. Pass a `socials` prop to override, e.g. the landing

@@ -29,7 +29,30 @@ const jsonLd = {
       name: site.name,
       url: `${site.url}/`,
       slogan: site.tagline,
+      logo: `${site.url}/favicon.svg`,
+      image: `${site.url}/og.png`,
       founder: { '@id': `${site.url}/#person` },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${site.url}/#website`,
+      name: site.name,
+      alternateName: `${site.name} · ${site.tagline}`,
+      url: `${site.url}/`,
+      description: site.description,
+      inLanguage: 'en',
+      publisher: { '@id': `${site.url}/#org` },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${site.url}/#webpage`,
+      url: `${site.url}/`,
+      name: `${site.name} · ${site.tagline}`,
+      description: site.description,
+      inLanguage: 'en',
+      isPartOf: { '@id': `${site.url}/#website` },
+      about: { '@id': `${site.url}/#org` },
+      primaryImageOfPage: { '@type': 'ImageObject', url: `${site.url}/og.png`, width: 1200, height: 630 },
     },
     {
       '@type': 'Person',
@@ -106,6 +129,17 @@ replace('<!--world-tokens-->', `<style id="world-tokens">${buildThemeCss()}</sty
 replace('<!--head-extra-->', `${preload}<script type="application/ld+json">${safeJson}</script>`);
 
 await writeFile(distIndex, html);
+
+// The sitemap is written here, not kept by hand, so its dates are the build date.
+// Pages are listed by their canonical (clean) URL; /terms.html redirects to /terms.
+const today = new Date().toISOString().slice(0, 10);
+const sitemapPaths = ['/', '/terms', '/privacy'];
+const sitemap =
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+  sitemapPaths.map((p) => `  <url>\n    <loc>${site.url}${p}</loc>\n    <lastmod>${today}</lastmod>\n  </url>\n`).join('') +
+  `</urlset>\n`;
+await writeFile(new URL('dist/sitemap.xml', root), sitemap);
+
 await rm(new URL('.ssr/', root), { recursive: true, force: true });
 await rm(manifestDir, { recursive: true, force: true });
 

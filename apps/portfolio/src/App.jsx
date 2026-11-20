@@ -105,7 +105,7 @@ export default function App() {
           setAnalyticsAllowed(value === 'accepted');
           setConsentPending(value === null);
         }}
-        privacyHref="https://bittobyte.qzz.io/privacy.html"
+        privacyHref="https://bittobyte.qzz.io/privacy"
         acceptClassName="bg-[#b5f53c] text-gray-950 hover:brightness-105"
       />
       {!consentPending && <ThemeSlider level={level} onChange={setLevel} />}

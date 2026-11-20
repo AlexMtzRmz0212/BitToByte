@@ -34,11 +34,13 @@ export default function Welcome() {
           </a>
         </p>
 
-        <h1 id="welcome-title" className="wordmark">
+        {/* An h2 on purpose: the page's one h1 is the HUD title (TopHud), which sits in the
+            same prerendered HTML behind this welcome. */}
+        <h2 id="welcome-title" className="wordmark">
           <span className="w-bit">Bit</span>
           <span className="w-to">To</span>
           <span className="w-byte">Byte</span>
-        </h1>
+        </h2>
         <p className="intro-tagline">{site.tagline}</p>
         <p className="welcome-blurb">{site.blurb}</p>
 

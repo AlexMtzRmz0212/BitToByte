@@ -14,7 +14,7 @@ import { STORAGE_KEY, getStoredConsent, CONSENT_REOPEN_EVENT } from './consent';
  */
 const CookieConsent = ({
   onConsentChange,
-  privacyHref = 'https://bittobyte.qzz.io/privacy.html',
+  privacyHref = 'https://bittobyte.qzz.io/privacy',
   acceptClassName = 'bg-blue-600 text-white hover:brightness-110',
 }) => {
   // Only prompt visitors who haven't decided yet. Computed lazily on mount so the

@@ -1,9 +1,10 @@
 import { Link, useParams } from 'react-router-dom';
 import { Reveal } from '@alex_mtz/bittobyte-ui';
 import { ArrowLeft, ExternalLink, Info } from 'lucide-react';
-import { projectBySlug } from '@bittobyte/content';
-import { caseStudies } from '../data/caseStudies';
+import { projectBySlug, projects } from '@bittobyte/content';
+import { caseStudies, hasCaseStudy } from '../data/caseStudies';
 import PipelineDiagram from '../components/PipelineDiagram';
+import { caseStudyMeta, notFoundMeta } from '../data/pageMeta';
 import { usePageMeta } from '../hooks/usePageMeta';
 import NotFound from './NotFound';
 
@@ -24,13 +25,19 @@ export default function CaseStudy() {
   const project = projectBySlug(slug);
   const study = project ? caseStudies[project.id] : null;
 
-  usePageMeta(study ? `${project.name} · Case study` : 'Not found', study?.headline ?? undefined);
+  usePageMeta((study && caseStudyMeta(slug)) || notFoundMeta());
 
   // An unknown or writeup-less slug is a dead link either way, so it gets the
   // same 404 rather than an empty shell that looks like a loading failure.
   if (!study) return <NotFound />;
 
   const accent = project.accent;
+
+  // The next few written case studies after this one in catalog order (wrapping), so every
+  // case study links to others and none is a dead end.
+  const written = projects.filter((p) => hasCaseStudy(p.id));
+  const at = written.findIndex((p) => p.id === project.id);
+  const related = [1, 2, 3].map((step) => written[(at + step) % written.length]).filter((p) => p.id !== project.id);
 
   return (
     <article className="mx-auto max-w-3xl px-6 py-20">
@@ -171,7 +178,28 @@ export default function CaseStudy() {
         </p>
       )}
 
-      <nav className="mt-16 border-t border-white/10 pt-8">
+      {related.length > 0 && (
+        <section className="mt-16 border-t border-white/10 pt-8" aria-labelledby="more-case-studies">
+          <h2
+            id="more-case-studies"
+            className="mb-4 text-sm font-semibold uppercase tracking-widest text-gray-200"
+          >
+            More case studies
+          </h2>
+          <ul className="space-y-2">
+            {related.map((other) => (
+              <li key={other.id}>
+                <Link to={`/work/${other.slug}`} className="text-gray-300 underline-offset-4 transition-colors hover:text-white hover:underline">
+                  {other.name}
+                </Link>
+                <span className="text-gray-400">: {caseStudies[other.id].headline}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <nav className="mt-10 border-t border-white/10 pt-8">
         <Link
           to="/work"
           className="group inline-flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-white"

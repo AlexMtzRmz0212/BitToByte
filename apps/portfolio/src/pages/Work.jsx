@@ -2,13 +2,11 @@ import { Reveal } from '@alex_mtz/bittobyte-ui';
 import { ArchiveList, ProjectGrid } from '../components/ProjectSections';
 import { groupedProjects } from '../lib/projectGroups';
 import { coursework } from '../data/resume';
+import { workMeta } from '../data/pageMeta';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function Work() {
-  usePageMeta(
-    'Work · Alejandro Martínez',
-    'Every project: live products, data experiments, and written case studies of hackathon and coursework builds.'
-  );
+  usePageMeta(workMeta());
 
   const { featured, more, archive } = groupedProjects();
 

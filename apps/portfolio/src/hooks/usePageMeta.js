@@ -1,27 +1,50 @@
 import { useEffect } from 'react';
-
-const DESCRIPTION_SELECTOR = 'meta[name="description"]';
+import { SITE_URL } from '../data/pageMeta';
 
 /**
- * Set the document title and meta description for a route.
+ * Keep the document head in step with the route while a visitor navigates.
  *
- * The site is a client-rendered SPA, so index.html ships one static title for
- * every page. Without this, a case study shared as a link would preview as
- * "Alex | Portfolio" no matter which one it is. Both values are restored on
- * unmount so leaving a route never leaves its title behind.
+ * Each route is prerendered with its own head (scripts/prerender.mjs), so a
+ * crawler or a pasted link gets the right title and tags from the HTML itself.
+ * This hook covers the other case: client-side navigation, where the HTML on
+ * screen is the one the visitor landed on. It updates the title, description,
+ * canonical URL and the Open Graph / Twitter text, and restores every value on
+ * unmount so leaving a route never leaves its metadata behind. A tag that is
+ * not in the document (dev server, where only the static ones exist) is skipped.
+ *
+ * `path` is the route's canonical path ('/work'); omit it for pages that must
+ * not claim a canonical URL, such as the 404.
  */
-export function usePageMeta(title, description) {
+export function usePageMeta({ title, description, path } = {}) {
   useEffect(() => {
-    const previousTitle = document.title;
-    const tag = document.querySelector(DESCRIPTION_SELECTOR);
-    const previousDescription = tag?.getAttribute('content');
+    const restores = [];
 
-    if (title) document.title = title;
-    if (description && tag) tag.setAttribute('content', description);
-
-    return () => {
-      document.title = previousTitle;
-      if (previousDescription != null && tag) tag.setAttribute('content', previousDescription);
+    const patch = (selector, attribute, value) => {
+      if (value == null) return;
+      const element = document.querySelector(selector);
+      if (!element) return;
+      const previous = element.getAttribute(attribute);
+      element.setAttribute(attribute, value);
+      restores.push(() => (previous == null ? element.removeAttribute(attribute) : element.setAttribute(attribute, previous)));
     };
-  }, [title, description]);
+
+    const previousTitle = document.title;
+    if (title) document.title = title;
+    restores.push(() => {
+      document.title = previousTitle;
+    });
+
+    patch('meta[name="description"]', 'content', description);
+    patch('meta[property="og:title"]', 'content', title);
+    patch('meta[property="og:description"]', 'content', description);
+    patch('meta[name="twitter:title"]', 'content', title);
+    patch('meta[name="twitter:description"]', 'content', description);
+    if (path != null) {
+      const url = `${SITE_URL}${path}`;
+      patch('link[rel="canonical"]', 'href', url);
+      patch('meta[property="og:url"]', 'content', url);
+    }
+
+    return () => restores.forEach((restore) => restore());
+  }, [title, description, path]);
 }

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+import { notFoundMeta } from '../data/pageMeta';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function NotFound() {
-  usePageMeta('Not found · Alejandro Martínez', 'That page does not exist.');
+  usePageMeta(notFoundMeta());
 
   return (
     <div className="mx-auto flex min-h-[60svh] max-w-2xl flex-col items-center justify-center px-6 text-center">

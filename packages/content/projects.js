@@ -389,21 +389,6 @@ export const projects = [
     featured: false,
     group: 'archive',
   },
-  {
-    id: 'notion-automation',
-    slug: 'notion-automation',
-    name: 'Notion API Automation',
-    tagline: 'Two years of turning a workspace into a database',
-    description:
-      'A family of Python automations against the Notion API: syncing external catalogs into databases, and an AI pass that reads a task tree, assigns each leaf a hierarchy and priority, and writes the numbers back so Notion itself stays the source of truth.',
-    liveUrl: null,
-    repoUrl: 'https://github.com/AlexMtzRmz0212/Notion_Albums',
-    tags: ['Python', 'Notion API', 'Streamlit', 'Automation'],
-    icon: 'workflow',
-    accent: '#eab308',
-    featured: false,
-    group: 'archive',
-  },
 ];
 
 // Convenience selectors

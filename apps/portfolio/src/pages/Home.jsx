@@ -4,6 +4,7 @@ import Contact from '../components/Contact';
 import ExperienceStrip from '../components/ExperienceStrip';
 import { ArchiveList, ProjectGrid } from '../components/ProjectSections';
 import { groupedProjects } from '../lib/projectGroups';
+import { homeMeta } from '../data/pageMeta';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 // Looping ribbon of the stack; duplicated inline for a seamless marquee.
@@ -183,10 +184,7 @@ const Projects = () => {
 };
 
 export default function Home() {
-  usePageMeta(
-    'Alejandro Martínez | AI & Automation Engineer',
-    'Alejandro Martínez, AI & Automation Engineer. Machine learning, data pipelines, full-stack apps, and SCADA systems.'
-  );
+  usePageMeta(homeMeta());
 
   return (
     <>

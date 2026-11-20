@@ -13,7 +13,7 @@
     "seo:audit": "node scripts/seo-audit.mjs apps/landing/dist https://bittobyte.qzz.io && node scripts/seo-audit.mjs apps/portfolio/dist https://alex.bittobyte.qzz.io"
   },
   "devDependencies": {
-    "prettier": "^3.4.2",
-    "turbo": "^2.5.0"
+    "prettier": "^3.10.1",
+    "turbo": "^2.11.13"
   }
 }

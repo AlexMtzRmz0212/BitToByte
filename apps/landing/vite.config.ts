@@ -14,6 +14,8 @@ export default defineConfig({
   },
   build: {
     target: 'es2022',
+    // No source maps in production: they would publish the original source.
+    sourcemap: false,
     // Read by scripts/prerender.mjs to preload a deep-linked world's chunks; deleted after.
     manifest: true,
   },

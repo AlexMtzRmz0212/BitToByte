@@ -117,7 +117,10 @@ for (const [key, entry] of Object.entries(manifest)) {
 const ids = Object.fromEntries(
   Object.values(worlds).flatMap((w) => [w.id, ...(w.formerSlugs ?? [])].map((old) => [old, w.slug]))
 );
-const preload = `<script>(function(){var m=${JSON.stringify(worldChunks)},ids=${JSON.stringify(ids)};var q=new URLSearchParams(location.search),k=q.get('world'),s=m[k]?k:ids[k],t=q.get('theme');var w=(t&&m[s+':'+t])||m[s];if(!w||q.get('view')==='list')return;function add(r,h,a){var l=document.createElement('link');l.rel=r;l.href=h;if(a)l.as=a;document.head.appendChild(l);}w.js.forEach(function(h){add('modulepreload',h);});w.css.forEach(function(h){add('preload',h,'style');});})();</script>`;
+// A file, not an inline script, so the site's CSP can forbid inline scripts.
+const preloadJs = `(function(){var m=${JSON.stringify(worldChunks)},ids=${JSON.stringify(ids)};var q=new URLSearchParams(location.search),k=q.get('world'),s=m[k]?k:ids[k],t=q.get('theme');var w=(t&&m[s+':'+t])||m[s];if(!w||q.get('view')==='list')return;function add(r,h,a){var l=document.createElement('link');l.rel=r;l.href=h;if(a)l.as=a;document.head.appendChild(l);}w.js.forEach(function(h){add('modulepreload',h);});w.css.forEach(function(h){add('preload',h,'style');});})();\n`;
+await writeFile(new URL('dist/world-preload.js', root), preloadJs);
+const preload = `<script src="/world-preload.js"></script>`;
 
 let html = await readFile(distIndex, 'utf8');
 const replace = (marker, value) => {

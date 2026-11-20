@@ -27,3 +27,11 @@ pnpm-debug.log*
 
 # Vercel
 .vercel
+
+# Secrets: never commit env files or keys (a template named .env.example is fine)
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx

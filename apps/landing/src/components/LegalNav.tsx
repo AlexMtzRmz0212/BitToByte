@@ -7,6 +7,7 @@ import { site } from '../data/site';
 export default function LegalNav({ className = '' }: { className?: string }) {
   return (
     <nav aria-label="Legal" className={className}>
+      <span style={{ flexBasis: '100%' }}>{site.fanNotice}</span>
       {site.legal.map((link) => (
         <a key={link.href} href={link.href}>
           {link.label}

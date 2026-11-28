@@ -66,6 +66,7 @@ export const site = {
       body: 'Trained in PLC and HMI programming, building the hands-on practice to back it up.',
     },
   ],
+  fanNotice: 'Fan art and tributes, not affiliated with the works they reference.',
   legal: [
     { label: 'Terms of Service', href: '/terms' },
     { label: 'Privacy Policy', href: '/privacy' },

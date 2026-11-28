@@ -35,3 +35,6 @@ pnpm-debug.log*
 *.key
 *.p12
 *.pfx
+
+# Generated brag video output
+brag-output/

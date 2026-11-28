@@ -93,7 +93,9 @@ export default function ListView({ route, notice }: { route: Route; notice?: str
 function LegalLine() {
   return (
     <footer className="mx-auto mt-20 flex max-w-6xl flex-wrap items-center justify-between gap-4 border-t-[length:var(--w-bw)] border-line px-4 pt-6 text-sm text-muted sm:px-6">
-      <p>© {new Date().getFullYear()} BitToByte</p>
+      <p>
+        © {new Date().getFullYear()} BitToByte. {site.fanNotice}
+      </p>
       <nav aria-label="Legal" className="flex gap-4">
         {site.legal.map((link) => (
           <a key={link.href} href={link.href} className="inline-flex min-h-11 items-center hover:text-ink">

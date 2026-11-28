@@ -99,6 +99,16 @@ export default function App() {
         markIconClassName="text-gray-950"
       />
 
+      <p className="px-4 pb-6 text-center text-xs text-gray-500">
+        Some projects are fan-made tributes and are not affiliated with the works they reference.{' '}
+        <a
+          href="https://bittobyte.qzz.io/terms"
+          className="underline underline-offset-2 hover:text-gray-300"
+        >
+          Terms
+        </a>
+      </p>
+
       {analyticsAllowed && <Analytics />}
       <CookieConsent
         onConsentChange={(value) => {
